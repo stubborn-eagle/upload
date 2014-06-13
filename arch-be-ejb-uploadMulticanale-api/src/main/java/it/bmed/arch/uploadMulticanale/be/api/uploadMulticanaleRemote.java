@@ -22,10 +22,18 @@ public interface uploadMulticanaleRemote extends Remote {
 
 		@WebMethod(operationName = "InsertMedia")
 		@WebResult(name = "response")
-		//MediaDTO InsertMedia(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
-		// MediaResponse contiene un MediaDTO che no e richiesto 
-		MediaResponse InsertMedia(@WebParam(name = "request") MediaRequest request) throws  SystemFault,RemoteException, Exception;
+		MediaResponse InsertMedia(@WebParam(name = "request") MediaRequest request) throws  SystemFault, RemoteException, Exception;
 		
+		
+		@WebMethod(operationName = "ListMedia")
+		@WebResult(name = "response")
+		MediaResponse ListMedia(@WebParam(name = "request")  MediaRequest request) throws SystemFault, RemoteException, Exception;
+	
+			
+		@WebMethod(operationName = "UpdateMedia")
+		@WebResult(name = "response")
+		boolean UpdateMedia(@WebParam(name = "request") UpdateMediaRequest request) throws SystemFault, RemoteException, Exception;
+	
 	
 	/*	
 		@WebMethod(operationName = "uploadListFile")
@@ -34,11 +42,7 @@ public interface uploadMulticanaleRemote extends Remote {
 	*/
 		
 		
-		@WebMethod(operationName = "ListMedia")
-		@WebResult(name = "response")
-		MediaResponse ListMedia(@WebParam(name = "request")  MediaRequest request) throws SystemFault,RemoteException, Exception;
 	
-		
 		/*
 		@WebMethod(operationName = "moveFile")
 		@WebResult(name = "response")

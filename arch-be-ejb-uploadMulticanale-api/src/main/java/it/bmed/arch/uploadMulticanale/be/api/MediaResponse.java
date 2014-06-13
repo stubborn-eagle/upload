@@ -12,8 +12,11 @@ public class MediaResponse extends BaseBeResponse<MediaDTO> {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	private MediaDTO result;
 	private MediaDTO[] results;
+	//private boolean Response;
+	
 
 	@Override
 	public MediaDTO getResult() {
@@ -45,8 +48,20 @@ public class MediaResponse extends BaseBeResponse<MediaDTO> {
 			this.results = lista;
 		}else{			
 			results = null;
-		}
-	
+		}	
 	}
+
+/*	public boolean getResponse() {
+		return Response;
+	}
+
+	public void setResponse(boolean response) {
+		Response = response;
+	}
+*/
+	
+	
+	
+	
 
 }

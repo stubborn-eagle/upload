@@ -15,15 +15,7 @@ public class MediaRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 1L;
 	
 	private RequestMetaData requestMetaData = null;
-	
-/*  non sono richiesti per    InsertMedia()
-	
-	private List<MediaParam> params;
-	private MediaParam param;	
-	
-*/	
-	
-	//   oblig   S
+
 	private MediaDTO mediaDTO;
 
 	public MediaDTO getMediaDTO() {
@@ -32,10 +24,6 @@ public class MediaRequest extends BaseBeRequest {
 	public void setMediaDTO(MediaDTO mediaDTO) {
 		this.mediaDTO = mediaDTO;
 	}
-	
-	
-	
-	
 	
 
 	@Override

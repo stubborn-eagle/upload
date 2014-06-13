@@ -7,22 +7,7 @@ public class MediaDTO implements Serializable {
 
 	private static final long	serialVersionUID	= 1227450135455809188L;
 	
-/*obblig. 
- * 	S
-	N
-	S
-	N
-	N
-	S
-	S
-	S
-	S
-	N
-	N
-	S
-	S
-	S */
-
+	
 	private String Canale;
 	private String ContainerType;
 	private Date DataInserimento;
@@ -123,6 +108,8 @@ public class MediaDTO implements Serializable {
 	public void setDominio(String dominio) {
 		this.dominio = dominio;
 	}
+	
+	
 	
 
 }

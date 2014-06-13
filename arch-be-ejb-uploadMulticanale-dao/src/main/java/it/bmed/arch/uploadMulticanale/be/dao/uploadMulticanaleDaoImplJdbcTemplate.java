@@ -1,27 +1,13 @@
 package it.bmed.arch.uploadMulticanale.be.dao;
 
 import it.bmed.arch.uploadMulticanale.be.api.*;
-
-import it.bmed.asia.dao.util.AsiaSqlBuilder;
 import it.bmed.asia.api.*;
 import it.bmed.asia.exception.*;
-import it.bmed.asia.exception.jaxws.SystemFault;
-import it.bmed.asia.dao.*;
 import it.bmed.asia.log.*;
-import it.bmed.asia.utility.*;
-
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-
 import javax.sql.DataSource;
-
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -51,77 +37,15 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 	public void afterPropertiesSet() throws Exception
 	{
 	}	
-	
-	
-	@Override
-	public MediaResponse uploadListFile(MediaRequest parameters) throws AsiaException, Exception {
 		
-		MediaResponse response = new MediaResponse();
-		
-		/*   commentata perche usa  MediaDTO
-		 *   
-		 * 
-		
-		List<MediaDTO> ret = new ArrayList<MediaDTO>();
-		List<MediaParam> params = parameters.getParams();
-		RequestMetaData metaData = parameters.getMetadata();
-		for (MediaParam mediaParam : params) {
-			// *********************************************************************************
-			// Preparo la insert
-			// *********************************************************************************
-			String id = mediaParam.getIdFile();
-			java.sql.Timestamp date = new java.sql.Timestamp(System.currentTimeMillis());
-			MediaDTO tmp = new MediaDTO();
-			
-			
-			int result = getJdbcTemplate()
-					.update(" INSERT INTO qpush_be.ECM_FILE (ID_FILE, ECM_TYPE, ID_FILE_ECM, SORGENTE_PATH, DESTINAZIONE_PATH, NOME_APP, CONTAINER_TYPE, CANALE, ID_UTENTE, TIPO_UTENTE, DATA_INSERIMENTO, STATO, TIPO_FILE, NOME_FILE) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ",
-							new Object[] {id, mediaParam.getEcmType(), id, mediaParam.getSorgente_path(), mediaParam.getDestinazione_path(), mediaParam.getNomeApp(), mediaParam.getContainerType(), mediaParam.getCanale(), metaData.getUserId(), mediaParam.getTipoUtente(), date, "INSERT", mediaParam.getTipo(), mediaParam.getNomeFile() });
-
-			tmp.setIdFile(id);
-			tmp.setDataInserimento(date.getTime());
-			tmp.setCanale(mediaParam.getCanale());
-			tmp.setContainerType(mediaParam.getContainerType());
-			tmp.setDataInserimento(mediaParam.getDataInserimento());
-			tmp.setDestinazione_path(mediaParam.getDestinazione_path());
-			tmp.setIdECMFile(mediaParam.getIdECMFile());
-			tmp.setIdUtente(mediaParam.getIdUtente());
-			tmp.setNomeApp(mediaParam.getNomeApp());
-			tmp.setNomeFile(mediaParam.getNomeFile());
-			tmp.setSorgente_path(mediaParam.getSorgente_path());
-			tmp.setStato(mediaParam.getStato());
-			tmp.setTipo(mediaParam.getTipo());
-			tmp.setTipoUtente(mediaParam.getTipoUtente());			
-			ret.add(tmp);
-		}
-		log.debug("OUTPUT DAO {}", CommonUtils.bean2string(response));
-		response.setListResults(ret);
-		return response;
-		
-		*/
-		return response;
-	}	
-	
 	
 	@Override
-	public MediaResponse InsertMedia(MediaRequest parameters) throws TechnicalException, Exception {
+	public MediaResponse InsertMedia(MediaRequest parameters) throws ApplicationException, Exception {
 			
-		MediaDTO dto = parameters.getMediaDTO();
-		
-		//java.sql.Date dat  =  new java.sql.Date(dto.getDataInserimento().getTime())  ;
-		//java.sql.Timestamp ts    =  new Timestamp(dto.getDataInserimento().getTime()); 
-		//long dataInserimento = dto.getDataInserimento().getTime();
-				
+		MediaDTO dto = parameters.getMediaDTO();		
 		int result = 0;
 	
-		try {
-			/*
-			result = getJdbcTemplate()
-					.update("insert into qpush_be.PROVA (prova) " +
-							" values ("+ dto.getDataInserimento().getTime() +") "  
-				);
-			 */
-			
+		try {			
 			result = getJdbcTemplate()
 					.update("insert into qpush_be.ECM_FILE (ID_FILE, ECM_TYPE, ID_FILE_ECM, SORGENTE_PATH, DESTINAZIONE_PATH, " +
 							"NOME_APP, CONTAINER_TYPE, CANALE, ID_UTENTE, TIPO_UTENTE, DATA_INSERIMENTO, DATA_AGGIORNAMENTO, " +
@@ -135,7 +59,7 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 							);
 
 			if (result == 0) {				
-				log.debug("Errore DAO InsertMedia: parametri non corretti ");
+				log.debug("Errore DAO updateMedia: query fallita ");
 				TechnicalException  e = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));				
 				throw e;							
 			}	
@@ -150,10 +74,7 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 		{				
 			log.error("Errore DAO  RuntimeException");
 			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
-			throw tec;	
-			
-			//log.error("Errore DAO getJdbcTemplate() Exception");
-			//throw e;			
+			throw tec;						
 		
 		}  catch (Exception e) 
 		{				
@@ -163,7 +84,7 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 			
 		} 		
 		
-		log.debug("risultato DAO query result {} "+ result)	;		
+		log.debug("risultato DAO query result {} "+ result)	;	
 		
 		MediaResponse response = new MediaResponse();
 		response.setResult(dto);
@@ -173,54 +94,13 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 	
 	}		
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	private String[] getRequestId(List<MediaParam> parameters) {
-		String[] id = new String[parameters.size()];
-		int i = 0;
-		for (MediaParam documentParam : parameters) {
-			id[i] = documentParam.getIdFile();
-			i++;
-		}
-		return id;
-	}	
-	
-	
-	
-	
-	
-	
-	
-	
 
-
-	@Override
-   public MediaResponse listMedia( MediaRequest request) throws TechnicalException, Exception {	
+   @Override
+   public MediaResponse listMedia( MediaRequest request) throws ApplicationException, Exception {	
 		
 		MediaDTO dto = request.getMediaDTO();		
 		MediaResponse response = new MediaResponse() ;
-		
-
-		// *********************************************************************************
-		// Preparo la query
-		// *********************************************************************************
-	/*	StringBuilder whereClause = new StringBuilder(" ");
-		AsiaSqlBuilder sqlparam = AsiaSqlBuilder.getInstance();
-		
-		String[] param = {dto.getIdUtente(),dto.getCanale(),dto.getTipoUtente()};
-		
-		//String[] id = getRequestId(request.getParams());		
-		
-		sqlparam.getQueryStringArrayOR(whereClause, param, "ID_FILE");
-	*/
-		
-		
+				
 		String whereClause = "and ID_UTENTE = '"+dto.getIdUtente()+
 				"' and  CANALE = '"+dto.getCanale()+
 				"' and  TIPO_UTENTE = '"+dto.getTipoUtente()+
@@ -228,12 +108,7 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 		
 		StringBuilder queryStrBuilder = new StringBuilder().append("SELECT * FROM qpush_be.ECM_FILE WHERE 1= 1 " + whereClause);
 		log.debug("QUERY CommandDataMove : {}", queryStrBuilder);
-		
-		/*		 
-		manca DATA_AGGIORNAMENTO			
-	
-		*/
-		
+				
 		try {
 		
 			@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -241,17 +116,11 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 				@Override
 				public Object mapRow(java.sql.ResultSet rs, int row) throws SQLException {
 					// MAP YOUR FIELDS HERE
-					MediaDTO te = new MediaDTO();
-					Date date = null;
+					MediaDTO te = new MediaDTO();					
 					
 					te.setCanale(rs.getString("CANALE"));
-					te.setContainerType(rs.getString("CONTAINER_TYPE"));
-					
-					Date dataInserimento = new Date(rs.getLong("DATA_INSERIMENTO"));
-					/*SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy"); 	           
-		            String strDate = formatter.format(dataInserimento);
-		            */
-					
+					te.setContainerType(rs.getString("CONTAINER_TYPE"));					
+					Date dataInserimento = new Date(rs.getLong("DATA_INSERIMENTO"));					
 					te.setDataInserimento(dataInserimento);
 					te.setDestinazione_Path(rs.getString("DESTINAZIONE_PATH"));
 					te.setDominio(rs.getString("DOMINIO"));	
@@ -268,193 +137,94 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 					
 					return te;
 				}
-			});
-			
+			});			
 
 			response.setListResults(ret);
 			return response;
 		
-			
-		
 		}catch (RuntimeException e) 
-		{				
-			log.error("Errore DAO : RuntimeException ");
-			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
-			throw tec;	
-			
-			//log.error("Errore DAO getJdbcTemplate() Exception");
-			//throw e;			
-		
-		}  catch (Exception e) 
-		{				
-			log.error("Errore DAO : Exception ");
-			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
-			throw tec;	
-		} 
-		
-	}	
-	
-
-
-	
-	
-	
-	
-	
-	
-	
-	//			updateMedia
-	
-	/*
-	@Override
-	public MediaResponse updateMedia(MediaRequest request)throws TechnicalException, Exception {			
-		
-		MediaDTO dto = request.getMediaDTO();			
-		int result = 0;
-	
-		try {
-			
-			
-			
-			 getJdbcTemplate().jdbcTemplate.update(
-		                " UPDATE ECM_FILE SET STATO = <stato>, ECM_TYPE = ?, DATA_AGGIORNAMENTO = SYSDATE, destinazione_path = ?, id_file_ecm = ?, container_type = ?, WHERE ID_FILE = ? ", 
-		                dto.getStato(), dto.getECMType(),dto.getDestinazione_Path() ,dto.getIdFileECM() ,dto.getContainerType(),dto.getidFile );
-		  
-			
-			 UPDATE ECM_FILE
-			 SET STATO = <stato>,
-			 ECM_TYPE = <ecm_type>,
-			 DATA_AGGIORNAMENTO = SYSDATE,
-			 destinazione_path = <Destinazione_path>,
-			 id_file_ecm = <id_file_Ecm>,
-			 container_type = <containerType>
-			 WHERE ID_FILE = <idFile>;
-
-			 
-			 
-			result = getJdbcTemplate()
-					.update("insert into qpush_be.ECM_FILE (ID_FILE, ECM_TYPE, ID_FILE_ECM, SORGENTE_PATH, DESTINAZIONE_PATH, " +
-							"NOME_APP, CONTAINER_TYPE, CANALE, ID_UTENTE, TIPO_UTENTE, DATA_INSERIMENTO, DATA_AGGIORNAMENTO, " +
-							"STATO, TIPO_FILE, NOME_FILE, DOMINIO) " +
-							" values (qpush_be.ECM_FILE_SEQ.nextval, '" +   
-							dto.getECMType()+ "',  '" +   dto.getIdFileECM()+ "',  '" +    dto.getSorgente_Path()+ "',  '" +    
-							dto.getDestinazione_Path()+ "',  '" +  dto.getNomeApp()+ "',  '" +   
-							dto.getContainerType()+ "',  '" +   dto.getCanale()+ "', '" +    dto.getIdUtente()+ "',  '" +    
-							dto.getTipoUtente()+ "', "+ dto.getDataInserimento().getTime() +", sysdate, '" + 
-							dto.getStato()+ "',  '" +    dto.getTipo()+ "',  '" +    dto.getNomeFile() +"', '" + dto.getDominio() +"' )"   
-							);
-
-			if (result == 0) {				
-				log.debug("Errore DAO InsertMedia: parametri non corretti ");
-				TechnicalException  e = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));				
-				throw e;							
-			}	
-
-		}catch (ApplicationException ex) 
-		{
-			log.error("Errore DAO  ApplicationException");
-			TechnicalException  e = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));	
-			throw e;			
-		
-		}  catch (RuntimeException e) 
 		{				
 			log.error("Errore DAO  RuntimeException");
 			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
-			throw tec;	
-			
-			//log.error("Errore DAO getJdbcTemplate() Exception");
-			//throw e;			
+			throw tec;						
 		
 		}  catch (Exception e) 
 		{				
 			log.error("Errore DAO  Exception ");
 			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
-			throw tec;							
+			throw tec;						
 			
-		} 		
-		
-		log.debug("risultato DAO query result {} "+ result)	;		
-		
-		MediaResponse response = new MediaResponse();
-		response.setResult(dto);
-		
-		log.debug("OUTPUT DAO {}", CommonUtils.bean2string(response.getResult()));
-		return response;
-	
-	}		
-	
-	
-	
-	*/
-	
-	
-	
-	
-	
-
-	@Override
-	public uploadMulticanaleResponse moveFile(uploadMulticanaleRequest request) throws AsiaException, Exception
-	{
-		uploadMulticanaleResponse response = new uploadMulticanaleResponse() ;
-		
-  
-		
-		
-		
-		
-		return response;
-	}	
-
-	
-	
-	@Override
-	public uploadMulticanaleResponse getFilenetToken(uploadMulticanaleRequest request) throws AsiaException, Exception
-	{
-		uploadMulticanaleResponse response = new uploadMulticanaleResponse() ;
-		
-  
-		return response;
+		} 
 	}	
 	
 	
 	@Override
-	public uploadMulticanaleResponse getAzureToken(uploadMulticanaleRequest request) throws AsiaException, Exception
-	{
-		uploadMulticanaleResponse response = new uploadMulticanaleResponse() ;
+	public boolean updateMedia( UpdateMediaRequest request )throws ApplicationException, Exception {
 		
-  
-		return response;
-	}	
+		String IdFile = ""+request.getIdFile();
+		String ECMType = ""+request.getECMType();
+		String Stato = ""+request.getStato();
+		String Destinazione_path = ""+request.getDestinazione_path();
+		String idFileECM = ""+request.getIdFileECM();
+		String Container_type = ""+request.getContainer_type();
 		
-	
-	@Override
-	public uploadMulticanaleResponse deleteFileECM(uploadMulticanaleRequest request) throws AsiaException, Exception
-	{
-		uploadMulticanaleResponse response = new uploadMulticanaleResponse() ;
 		
-  
-		return response;
-	}	
-	
-
-	@Override
-	public boolean updateMedia(String idFile, String ecmType, String Stato) throws AsiaException, Exception
-	{
-		try {
-			int result = getJdbcTemplate()
-					.update(" update qpush_be.ECM_FILE set STATO = ? where ECM_TYPE = ? and ID_FILE = ? ",
-							new Object[] {Stato, idFile, idFile });
-			if (result > 0) {
-				return true;
-			} else {
-				return false;
-			}		
-			
-		} catch (Exception e) {
+		String campo1 = IdFile.isEmpty()? "" : " ID_FILE = '"+IdFile+"'";	
+		
+		String campo2 = ECMType.isEmpty()? "" : ", ECM_TYPE = '"+ECMType+"'";		
+		String campo3 = Stato.isEmpty()? "" : ", STATO = '" + Stato+"'";
+		String campo4 = Destinazione_path.isEmpty()? "" : ", DESTINAZIONE_PATH = '"+Destinazione_path+"'";
+		String campo5 = idFileECM.isEmpty()? "" : ", ID_FILE_ECM =  '"+idFileECM+"'";
+		String campo6 = Container_type.isEmpty()? "" : ", CONTAINER_TYPE = '"+Container_type+"'";
+		
+		
+		int response = 0;
+		
+		if ( Stato.isEmpty() && ECMType.isEmpty() &&  Destinazione_path.isEmpty() &&  idFileECM.isEmpty() &&  Container_type.isEmpty() ) {
 			return false;
-		}		
+		}
+		
+		String query = " UPDATE qpush_be.ECM_FILE SET DATA_AGGIORNAMENTO = SYSDATE "+campo2+campo3+campo4+campo5+campo6+" WHERE " +campo1+ " " ;  
+		log.debug("Errore DAO query {} " + query );
+		
+	
+		try {
+			
+			response = getJdbcTemplate().update(query);
+			
+			/*response = getJdbcTemplate().update(
+		                " UPDATE qpush_be.ECM_FILE SET STATO = ?, ECM_TYPE = ?, DATA_AGGIORNAMENTO = SYSDATE, destinazione_path = ?, id_file_ecm = ?, container_type = ? WHERE ID_FILE = ? ", 
+		                Stato, ECMType, Destinazione_path , idFileECM ,Container_type ,IdFile );
+		   
+			if (response == 0) {				
+				log.debug("Errore DAO updateMedia:" );
+				TechnicalException  e = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));				
+				throw e;							
+			}
+			
+		}catch (ApplicationException e) 
+		{				
+			log.error("Errore DAO  ApplicationException " );
+			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			throw tec;	  */
+		
+		}  
+		catch (RuntimeException e) 
+		{				
+			log.error("Errore DAO updateMedia:" );
+			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			throw tec;							
+		
+		}  catch (Exception e) 
+		{				
+			log.error("Errore DAO updateMedia:" );
+			TechnicalException  tec = new TechnicalException( UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			throw tec;	
+		} 		
+				
+		log.debug("OUTPUT result {} "+ response);		
+		return response == 0 ? false : true;	
 	}
-
 	
 	
 }
