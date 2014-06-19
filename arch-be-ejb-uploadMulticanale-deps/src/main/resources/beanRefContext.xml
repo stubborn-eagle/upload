@@ -39,7 +39,8 @@
    <bean id="ear.context" class="org.springframework.context.support.ClassPathXmlApplicationContext">
       <constructor-arg>
          <list>
-            <value>dao-context.xml</value>
+         	<value>ecmconnectors-context.xml</value>
+            <value>dao-context.xml</value>            
          </list>
       </constructor-arg>
    </bean>
