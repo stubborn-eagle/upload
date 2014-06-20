@@ -54,17 +54,16 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	public String createFile(ECMType ecmType, byte[] byteStream,
 			String containerType, String filename, String fileExtension,
 			String appName, String destinationPath, MediaDTO mediaDTO)
-			throws AsiaException, Exception {
-		// TODO Auto-generated method stub
+			throws AsiaException, Exception {		
 		switch (ecmType) {
-		case ALF:
+		case ALFRESCO:
 			return alfrescoConnector.createFile(byteStream, destinationPath, filename);
-		case FNT:
+		case IBM_FILENET:
 			return filenetConnector.createFile(byteStream, destinationPath, filename);
 		default:
 			break;
 		}
-		return null;
+		throw new AsiaException("error code", "ECM_TYPE not reconized.");
 	}
 
 	@Override
@@ -72,27 +71,26 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 			throws AsiaException, Exception {
 		// TODO Auto-generated method stub
 		switch (ecmType) {
-		case ALF:
+		case ALFRESCO:
 			return alfrescoConnector.removeFile(ecmFileId);
-		case FNT:
+		case IBM_FILENET:
 			return filenetConnector.removeFile(ecmFileId);
 		default:
 			break;
 		}
-		return false;
+		throw new AsiaException("error code", "ECM_TYPE not reconized.");
 	}
 
 	@Override
-	public InputStream downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {
-		InputStream stream = null;
+	public InputStream downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {		
 		switch (ecmType) {
-		case ALF:
-			stream = alfrescoConnector.downloadFile(ecmFileId);
-		case FNT:
-			stream = filenetConnector.downloadFile(ecmFileId);
+		case ALFRESCO:
+			return alfrescoConnector.downloadFile(ecmFileId);
+		case IBM_FILENET:
+			return filenetConnector.downloadFile(ecmFileId);
 		default:
 			break;
 		}
-		return stream;
+		throw new AsiaException("error code", "ECM_TYPE not reconized.");
 	}
 }

@@ -8,17 +8,18 @@ package it.bmed.arch.uploadMulticanale.be.api;
  *
  */
 public enum ECMType {
-	FNT("Filenet"),
-	ALF("Alfresco");
+	IBM_FILENET(1),
+	ALFRESCO(2),
+	AZURE(3);
 
-	private String connectorName;
+	private final Integer ecmName;
 	
-	private ECMType(String connectorName) {
-		this.connectorName = connectorName;
+	private ECMType(final Integer ecmName) {
+		this.ecmName = ecmName;
 	}
 	
-	@Override
-	public String toString() {
-		return connectorName;
+	public Integer getEcmName() {
+		return ecmName;
 	}
+	
 }
