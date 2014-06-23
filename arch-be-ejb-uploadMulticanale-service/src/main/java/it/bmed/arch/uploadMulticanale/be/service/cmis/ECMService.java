@@ -1,6 +1,5 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
-import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.asia.exception.AsiaException;
 
@@ -18,7 +17,7 @@ public interface ECMService {
 	 * @throws Exception
 	 */
 
-	String createFile(ECMType ecmType, byte[] byteStream, String containerType, String filename,
+	String createFile(Integer ecmType, byte[] byteStream, String containerType, String filename,
 			String fileExtension, String appName, String destinationPath, MediaDTO mediaDTO)
 			throws AsiaException, Exception;
 
@@ -31,7 +30,7 @@ public interface ECMService {
 	 * @throws AsiaException
 	 * @throws Exception
 	 */
-	boolean removeFile(ECMType ecmType, String ecmFileId) throws AsiaException,
+	boolean removeFile(Integer ecmType, String ecmFileId) throws AsiaException,
 			Exception;
 
 	/**
@@ -43,6 +42,5 @@ public interface ECMService {
 	 * @throws AsiaException
 	 * @throws Exception
 	 */
-	InputStream downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception;
-	
+	InputStream downloadFile(Integer ecmType, String ecmFileId) throws AsiaException, Exception;
 }
