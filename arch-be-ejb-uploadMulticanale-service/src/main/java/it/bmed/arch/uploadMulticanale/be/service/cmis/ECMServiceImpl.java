@@ -51,46 +51,39 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	}
 	
 	@Override
-	public String createFile(ECMType ecmType, byte[] byteStream,
+	public String createFile(Integer ecmType, byte[] byteStream,
 			String containerType, String filename, String fileExtension,
 			String appName, String destinationPath, MediaDTO mediaDTO)
-			throws AsiaException, Exception {		
-		switch (ecmType) {
-		case ALFRESCO:
-			return alfrescoConnector.createFile(byteStream, destinationPath, filename);
-		case IBM_FILENET:
-			return filenetConnector.createFile(byteStream, destinationPath, filename);
-		default:
-			break;
-		}
-		throw new AsiaException("error code", "ECM_TYPE not reconized.");
-	}
-
-	@Override
-	public boolean removeFile(ECMType ecmType, String ecmFileId)
 			throws AsiaException, Exception {
-		// TODO Auto-generated method stub
-		switch (ecmType) {
-		case ALFRESCO:
-			return alfrescoConnector.removeFile(ecmFileId);
-		case IBM_FILENET:
-			return filenetConnector.removeFile(ecmFileId);
-		default:
-			break;
+		
+		if( ecmType == ECMType.IBM_FILENET.getValue() ) {		
+			return filenetConnector.createFile(byteStream, destinationPath, filename);
+		} else if( ecmType == ECMType.ALFRESCO.getValue() ) {
+			return alfrescoConnector.createFile(byteStream, destinationPath, filename);
+		} else {			
+			throw new AsiaException("error code", "ECM_TYPE not reconized.");			
 		}
-		throw new AsiaException("error code", "ECM_TYPE not reconized.");
 	}
 
 	@Override
-	public InputStream downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {		
-		switch (ecmType) {
-		case ALFRESCO:
-			return alfrescoConnector.downloadFile(ecmFileId);
-		case IBM_FILENET:
-			return filenetConnector.downloadFile(ecmFileId);
-		default:
-			break;
+	public boolean removeFile(Integer ecmType, String ecmFileId) throws AsiaException, Exception {
+		if( ecmType == ECMType.IBM_FILENET.getValue() ) {
+			return filenetConnector.removeFile(ecmFileId);
+		} else if( ecmType == ECMType.ALFRESCO.getValue()) {
+			return alfrescoConnector.removeFile(ecmFileId);
+		} else {
+			throw new AsiaException("error code", "ECM_TYPE not reconized.");
 		}
-		throw new AsiaException("error code", "ECM_TYPE not reconized.");
+	}
+
+	@Override
+	public InputStream downloadFile(Integer ecmType, String ecmFileId) throws AsiaException, Exception {		
+		if(ecmType == ECMType.IBM_FILENET.getValue()) {
+			return filenetConnector.downloadFile(ecmFileId);
+		} else if(ecmType == ECMType.ALFRESCO.getValue()) {
+			return filenetConnector.downloadFile(ecmFileId);
+		} else {
+			throw new AsiaException("error code", "ECM_TYPE not reconized.");
+		}
 	}
 }
