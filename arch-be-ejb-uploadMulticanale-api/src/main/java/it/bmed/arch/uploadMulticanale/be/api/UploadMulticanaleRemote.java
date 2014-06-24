@@ -18,7 +18,7 @@ import javax.jws.soap.SOAPBinding.Style;
 
 @WebService
 @SOAPBinding(style = Style.RPC)
-public interface uploadMulticanaleRemote extends Remote {
+public interface UploadMulticanaleRemote extends Remote {
 
 		@WebMethod(operationName = "InsertMedia")
 		@WebResult(name = "response")
