@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("uploadMulticanaleService")
-public class uploadMulticanaleServiceImpl implements uploadMulticanaleService, InitializingBean {
-	Logger log = LoggerFactory.getLogger(uploadMulticanaleServiceImpl.class);
+public class UploadMulticanaleServiceImpl implements UploadMulticanaleService, InitializingBean {
+	Logger log = LoggerFactory.getLogger(UploadMulticanaleServiceImpl.class);
 
 	@Autowired
 	uploadMulticanaleDaoJdbcTemplate uploadMulticanaleDaoJdbcTemplate;

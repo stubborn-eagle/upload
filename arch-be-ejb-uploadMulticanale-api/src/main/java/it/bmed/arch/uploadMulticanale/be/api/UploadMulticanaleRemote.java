@@ -47,20 +47,26 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebMethod(operationName = "moveFile")
 		@WebResult(name = "response")
 		uploadMulticanaleResponse moveFile(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
+		*/
 		
 		@WebMethod(operationName = "getFilenetToken")
 		@WebResult(name = "response")
-		uploadMulticanaleResponse getFilenetToken(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
+		MediaResponse getFilenetToken(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
 		
 		@WebMethod(operationName = "getAzureToken")
 		@WebResult(name = "response")
-		uploadMulticanaleResponse getAzureToken(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
+		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request) throws RemoteException, Exception;
 		
 
 		@WebMethod(operationName = "deleteFileECM")
 		@WebResult(name = "response")
-		uploadMulticanaleResponse deleteFileECM(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
-	
+		boolean deleteFileECM(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
+		
+		@WebMethod(operationName = "deleteFileNAS")
+		@WebResult(name = "response")
+		boolean deleteFileNAS(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
+		
+		/*
 		@WebMethod(operationName = "updateMedia")
 		@WebResult(name = "response")
 		boolean updateMedia(@WebParam(name = "request") String idFile, String ecmType, String Stato ) throws RemoteException, Exception;

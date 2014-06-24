@@ -9,7 +9,6 @@ import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
-import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.azure.AzureService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
@@ -232,7 +231,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 
 
 	@Override
-	public boolean deleteFileNAS(MediaRequest request) {
+	public boolean deleteFileNAS(MediaRequest request) throws RemoteException {
 		boolean response = false;
 		MediaDTO mediaDTO = null;
 		MediaResponse mediaResponse = null;
@@ -261,4 +260,13 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		azureResponse.setResult(azureDTO);
 		return azureResponse;
 	}
+
+
+	@Override
+	public MediaResponse getFilenetToken(MediaRequest request)
+			throws RemoteException, Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
