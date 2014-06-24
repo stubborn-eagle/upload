@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://xmlns.oracle.com/weblogic/deployment-plan http://xmlns.oracle.com/weblogic/deployment-plan/1.0/deployment-plan.xsd"
 	global-variables="false">
 	<application-name>upload</application-name>
-	<variable-definition>
+	<variable-definition>	
 		<variable>
 			<name>myhost</name>
 			<value>localhost</value>
@@ -19,6 +19,10 @@
 		<variable>
 			<name>mypassword</name>
 			<value>Weblogic1</value>
+		</variable>
+		<variable>
+			<name>mylogback</name>
+            <value>apps-properties/arch-be-ejb-uploadMulticanale-be.xml</value>
 		</variable>
 	</variable-definition>
 	<module-override>

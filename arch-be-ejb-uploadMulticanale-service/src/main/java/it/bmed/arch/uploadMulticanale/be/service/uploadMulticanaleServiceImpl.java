@@ -1,5 +1,6 @@
 package it.bmed.arch.uploadMulticanale.be.service;
 
+
 import it.bmed.arch.uploadMulticanale.be.api.*;
 import it.bmed.arch.uploadMulticanale.be.dao.*;
 import it.bmed.asia.exception.*;
@@ -10,12 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("uploadMulticanaleService")
-public class uploadMulticanaleServiceImpl implements uploadMulticanaleService, InitializingBean {
-	Logger log = LoggerFactory.getLogger(uploadMulticanaleServiceImpl.class);
+public class UploadMulticanaleServiceImpl implements UploadMulticanaleService, InitializingBean {
+	Logger log = LoggerFactory.getLogger(UploadMulticanaleServiceImpl.class);
 
-	@Autowired
-	uploadMulticanaleDaoJdbcTemplate uploadMulticanaleDaoJdbcTemplate;
+	private uploadMulticanaleDaoJdbcTemplate uploadMulticanaleDaoJdbcTemplate = null; 
+
 	
+	
+	/**
+	 * @param uploadMulticanaleDaoJdbcTemplate the uploadMulticanaleDaoJdbcTemplate to set
+	 */	
+	public void setUploadMulticanaleDaoJdbcTemplate(
+			uploadMulticanaleDaoJdbcTemplate uploadMulticanaleDaoJdbcTemplate) {
+		this.uploadMulticanaleDaoJdbcTemplate = uploadMulticanaleDaoJdbcTemplate;
+	}
+
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if (uploadMulticanaleDaoJdbcTemplate == null)
@@ -45,7 +55,7 @@ public class uploadMulticanaleServiceImpl implements uploadMulticanaleService, I
 			// controllo lunghezza del campo di input stato
 			if ( dto.getCanale().length() > 15 || dto.getContainerType().length() > 20 
 					|| dto.getDestinazione_Path().length() > 500 || dto.getDominio().length() > 50  
-					|| dto.getECMType().length() > 3 ||  dto.getIdFileECM().length() > 200 || dto.getIdUtente().length() > 11 
+					|| dto.getECMType() > 0 ||  dto.getIdFileECM().length() > 200 || dto.getIdUtente().length() > 11 
 					|| dto.getNomeApp().length() > 100 ||  dto.getNomeFile().length() >  50
 					|| dto.getSorgente_Path().length() > 500 || dto.getStato().length() > 3  || dto.getTipo().length() > 25  
 					|| dto.getTipoUtente().length() > 15  ) 

@@ -14,5 +14,9 @@
    <context:component-scan base-package="it.bmed" />
 
    <!-- Datasource for Plain jdbc data access -->
+ 
    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/rdv/ds/pushbe" resource-ref="true" />
+   <!-- 
+   <jee:jndi-lookup id="dataSource" jndi-name="jdbc/banca/ds/dbaz" resource-ref="true" />
+	-->   
 </beans>

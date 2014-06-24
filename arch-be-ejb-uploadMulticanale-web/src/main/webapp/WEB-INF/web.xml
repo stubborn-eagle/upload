@@ -28,7 +28,7 @@
    <env-entry>
       <env-entry-name>LOGBACK-CONFIG</env-entry-name>
       <env-entry-type>java.lang.String</env-entry-type>
-      <env-entry-value>apps-properties/mob-logback-be.xml</env-entry-value>
+      <env-entry-value>apps-properties/arch-be-ejb-uploadMulticanale-be.xml</env-entry-value>
    </env-entry>
 
 </web-app>

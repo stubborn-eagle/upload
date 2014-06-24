@@ -12,7 +12,7 @@ public class MediaDTO implements Serializable {
 	private String ContainerType;
 	private Date DataInserimento;
 	private String idFileECM;
-	private String ECMType;
+	private Integer ECMType;
 	private String idUtente;
 	private String nomeApp;	
 	private String nomeFile;	
@@ -21,9 +21,22 @@ public class MediaDTO implements Serializable {
 	private String Stato;	
 	private String Tipo;	
 	private String tipoUtente;	
-	private String dominio;	
+	private String dominio;
+	private String idFile;
 
 	
+	/**
+	 * @return the idFile
+	 */
+	public String getIdFile() {
+		return idFile;
+	}
+	/**
+	 * @param idFile the idFile to set
+	 */
+	public void setIdFile(String idFile) {
+		this.idFile = idFile;
+	}
 	public String getCanale() {
 		return Canale;
 	}
@@ -48,10 +61,10 @@ public class MediaDTO implements Serializable {
 	public void setIdFileECM(String idFileECM) {
 		this.idFileECM = idFileECM;
 	}
-	public String getECMType() {
+	public Integer getECMType() {
 		return ECMType;
 	}
-	public void setECMType(String eCMType) {
+	public void setECMType(Integer eCMType) {
 		ECMType = eCMType;
 	}
 	public String getIdUtente() {

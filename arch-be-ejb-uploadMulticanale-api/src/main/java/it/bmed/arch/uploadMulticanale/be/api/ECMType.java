@@ -12,14 +12,14 @@ public enum ECMType {
 	ALFRESCO(2),
 	AZURE(3);
 
-	private final Integer ecmName;
+	private final Integer value;
 	
-	private ECMType(final Integer ecmName) {
-		this.ecmName = ecmName;
+	private ECMType(final Integer value) {
+		this.value = value;
 	}
 	
-	public Integer getEcmName() {
-		return ecmName;
+	public Integer getValue() {
+		return value;
 	}
 	
 }

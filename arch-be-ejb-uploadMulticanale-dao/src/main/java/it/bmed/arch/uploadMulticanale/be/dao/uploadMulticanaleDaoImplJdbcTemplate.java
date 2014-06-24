@@ -124,7 +124,7 @@ public class uploadMulticanaleDaoImplJdbcTemplate implements uploadMulticanaleDa
 					te.setDataInserimento(dataInserimento);
 					te.setDestinazione_Path(rs.getString("DESTINAZIONE_PATH"));
 					te.setDominio(rs.getString("DOMINIO"));	
-					te.setECMType(rs.getString("ECM_TYPE"));
+					te.setECMType(rs.getInt("ECM_TYPE"));
 					te.setIdFileECM(rs.getString("ID_FILE_ECM"));				
 					te.setIdUtente(rs.getString("ID_UTENTE"));
 					te.setNomeApp(rs.getString("NOME_APP"));

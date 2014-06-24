@@ -1,11 +1,9 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.jaxws.SystemFault;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.List;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -18,7 +16,7 @@ import javax.jws.soap.SOAPBinding.Style;
 
 @WebService
 @SOAPBinding(style = Style.RPC)
-public interface uploadMulticanaleRemote extends Remote {
+public interface UploadMulticanaleRemote extends Remote {
 
 		@WebMethod(operationName = "InsertMedia")
 		@WebResult(name = "response")
@@ -43,27 +41,51 @@ public interface uploadMulticanaleRemote extends Remote {
 		
 		
 	
-		/*
-		@WebMethod(operationName = "moveFile")
-		@WebResult(name = "response")
-		uploadMulticanaleResponse moveFile(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
 		
-		@WebMethod(operationName = "getFilenetToken")
-		@WebResult(name = "response")
-		uploadMulticanaleResponse getFilenetToken(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
-		
+//		@WebMethod(operationName = "moveFile")
+//		@WebResult(name = "response")
+//		UploadMulticanaleResponse moveFile(@WebParam(name = "request") UploadMulticanaleRequest request) throws RemoteException, Exception;
+//		
+//		@WebMethod(operationName = "getFilenetToken")
+//		@WebResult(name = "response")
+//		UploadMulticanaleResponse getFilenetToken(@WebParam(name = "request") UploadMulticanaleRequest request) throws RemoteException, Exception;
+//		
+		/**
+		 * Retrieve the Azure's token
+		 * @param request
+		 * @return The azure's token
+		 * @throws RemoteException
+		 * @throws Exception
+		 */
+//		@WebMethod(operationName = "getAzureToken")
+//		@WebResult(name = "response")
+//		MediaResponse getAzureToken(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
 		@WebMethod(operationName = "getAzureToken")
-		@WebResult(name = "response")
-		uploadMulticanaleResponse getAzureToken(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
+		@WebResult(name = "response")		
+		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request) throws RemoteException, Exception;
 		
-
+		/**
+		 * Remove a file in the NAS using a specific path, and making a backup copy in a provided repository
+		 * @param request
+		 * @return The status of the operation as <b>boolean</b>
+		 */
+		@WebMethod(operationName = "deleteFileNAS")
+		@WebResult(name = "response")
+		boolean deleteFileNAS(@WebParam(name = "request") MediaRequest request);
+		
+		/**
+		 * Remote method used to delete a file from the ECM
+		 * @param request
+		 * @return The operation's result as <b>boolean</b>
+		 * @throws RemoteException
+		 * @throws Exception
+		 */
 		@WebMethod(operationName = "deleteFileECM")
 		@WebResult(name = "response")
-		uploadMulticanaleResponse deleteFileECM(@WebParam(name = "request") uploadMulticanaleRequest request) throws RemoteException, Exception;
-	
-		@WebMethod(operationName = "updateMedia")
-		@WebResult(name = "response")
-		boolean updateMedia(@WebParam(name = "request") String idFile, String ecmType, String Stato ) throws RemoteException, Exception;
-		*/
+		boolean deleteFileECM(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
+//	
+//		@WebMethod(operationName = "updateMedia")
+//		@WebResult(name = "response")
+//		boolean updateMedia(@WebParam(name = "request") String idFile, String ecmType, String Stato ) throws RemoteException, Exception;	
 		
 }
