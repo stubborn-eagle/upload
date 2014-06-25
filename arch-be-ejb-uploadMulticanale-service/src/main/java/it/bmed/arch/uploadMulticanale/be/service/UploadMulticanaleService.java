@@ -1,11 +1,13 @@
 package it.bmed.arch.uploadMulticanale.be.service;
 
+import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
+import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
+import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
+import it.bmed.asia.exception.TechnicalException;
+import it.bmed.asia.exception.jaxws.SystemFault;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import it.bmed.arch.uploadMulticanale.be.api.*;
-import it.bmed.asia.exception.*;
-import it.bmed.asia.exception.jaxws.SystemFault;
 
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 public interface UploadMulticanaleService {

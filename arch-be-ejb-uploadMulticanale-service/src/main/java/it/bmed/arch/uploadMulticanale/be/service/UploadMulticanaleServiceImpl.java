@@ -1,13 +1,19 @@
 package it.bmed.arch.uploadMulticanale.be.service;
 
-
-import it.bmed.arch.uploadMulticanale.be.api.*;
-import it.bmed.arch.uploadMulticanale.be.dao.*;
-import it.bmed.asia.exception.*;
+import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
+import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
+import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
+import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
+import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
+import it.bmed.arch.uploadMulticanale.be.dao.uploadMulticanaleDaoJdbcTemplate;
+import it.bmed.asia.exception.ApplicationException;
+import it.bmed.asia.exception.IErrorCode;
+import it.bmed.asia.exception.TechnicalException;
 import it.bmed.asia.exception.jaxws.SystemFault;
-import it.bmed.asia.log.*;
+import it.bmed.asia.log.Logger;
+import it.bmed.asia.log.LoggerFactory;
+
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("uploadMulticanaleService")
