@@ -35,11 +35,11 @@ public class AlfrescoConnector extends AbstractECMConnector {
 
 		String fileId = "";
 		Document document = null;
-		ObjectId folderId = null;
-		Folder rootFolder = null;
+//		ObjectId folderId = null;
+//		Folder rootFolder = null;
 		Folder folder = null;
 		ContentStream contentStream = null;
-		final String mimetype = "text/plain; charset=UTF-8";
+//		final String mimetype = "text/plain; charset=UTF-8";
 		
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");

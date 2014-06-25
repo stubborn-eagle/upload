@@ -196,7 +196,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 
 	}
 
-
+	/**
+	 * @author donatello.boccaforno
+	 */
 	@Override
 	public boolean deleteFileECM(MediaRequest request) throws RemoteException, Exception {
 		boolean result = false;
@@ -229,7 +231,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		return result;
 	}
 
-
+	/**
+	 * @author donatello.boccaforno
+	 */
 	@Override
 	public boolean deleteFileNAS(MediaRequest request) {
 		boolean response = false;
@@ -250,7 +254,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		return response;
 	}
 
-
+	/**
+	 * @author donatello.boccaforno
+	 */
 	@Override
 	public AzureResponse getAzureToken(AzureRequest request) throws RemoteException, Exception {
 		AzureResponse azureResponse = new AzureResponse();
@@ -260,14 +266,18 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		return azureResponse;
 	}
 
-
+	/**
+	 * @author donatello.boccaforno
+	 */
 	@Override
 	public void moveFile() throws RemoteException, Exception {
 		// TODO Auto-generated method stub
 		
 	}
 
-
+	/**
+	 * @author donatello.boccaforno
+	 */
 	@Override
 	public void convertToPDF() throws RemoteException, Exception {
 		// TODO Auto-generated method stub
