@@ -42,14 +42,27 @@ public interface UploadMulticanaleRemote extends Remote {
 		
 	
 		
-//		@WebMethod(operationName = "moveFile")
-//		@WebResult(name = "response")
-//		UploadMulticanaleResponse moveFile(@WebParam(name = "request") UploadMulticanaleRequest request) throws RemoteException, Exception;
-//		
-//		@WebMethod(operationName = "getFilenetToken")
-//		@WebResult(name = "response")
-//		UploadMulticanaleResponse getFilenetToken(@WebParam(name = "request") UploadMulticanaleRequest request) throws RemoteException, Exception;
-//		
+		/**
+		 * Remove a file in the NAS using a specific path, and making a backup copy in a provided repository
+		 * @param request
+		 * @return The status of the operation as <b>boolean</b>
+		 */
+		@WebMethod(operationName = "deleteFileNAS")
+		@WebResult(name = "response")
+		boolean deleteFileNAS(@WebParam(name = "request") MediaRequest request);
+
+
+		/**
+		 * Remote method used to delete a file from the ECM
+		 * @param request
+		 * @return The operation's result as <b>boolean</b>
+		 * @throws RemoteException
+		 * @throws Exception
+		 */
+		@WebMethod(operationName = "deleteFileECM")
+		@WebResult(name = "response")
+		boolean deleteFileECM(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
+
 		/**
 		 * Retrieve the Azure's token
 		 * @param request
@@ -61,28 +74,13 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebResult(name = "response")		
 		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request) throws RemoteException, Exception;
 		
-		/**
-		 * Remove a file in the NAS using a specific path, and making a backup copy in a provided repository
-		 * @param request
-		 * @return The status of the operation as <b>boolean</b>
-		 */
-		@WebMethod(operationName = "deleteFileNAS")
-		@WebResult(name = "response")
-		boolean deleteFileNAS(@WebParam(name = "request") MediaRequest request);
 		
-		/**
-		 * Remote method used to delete a file from the ECM
-		 * @param request
-		 * @return The operation's result as <b>boolean</b>
-		 * @throws RemoteException
-		 * @throws Exception
-		 */
-		@WebMethod(operationName = "deleteFileECM")
-		@WebResult(name = "response")
-		boolean deleteFileECM(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
-//	
-//		@WebMethod(operationName = "updateMedia")
+//		Not required	
+//		@WebMethod(operationName = "getECMToken")
 //		@WebResult(name = "response")
-//		boolean updateMedia(@WebParam(name = "request") String idFile, String ecmType, String Stato ) throws RemoteException, Exception;	
+//		UploadMulticanaleResponse getECMToken(@WebParam(name = "request") UploadMulticanaleRequest request) throws RemoteException, Exception;
 		
+		void moveFile() throws RemoteException, Exception;
+		
+		void convertToPDF() throws RemoteException, Exception;
 }

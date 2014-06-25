@@ -259,4 +259,18 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		azureResponse.setResult(azureDTO);
 		return azureResponse;
 	}
+
+
+	@Override
+	public void moveFile() throws RemoteException, Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void convertToPDF() throws RemoteException, Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }
