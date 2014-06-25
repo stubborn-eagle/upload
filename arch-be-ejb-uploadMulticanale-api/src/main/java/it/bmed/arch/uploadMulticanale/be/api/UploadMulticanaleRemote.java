@@ -81,15 +81,15 @@ public interface UploadMulticanaleRemote extends Remote {
 		
 		/**
 		 * Move a file from NAS to a specific ECM
-		 * @param ecmDTO
-		 * @param removeFromNAS
+		 * @param request
+		 * @param remove
 		 * @return The move operation result as <b>MoveResonse</b>
 		 * @throws RemoteException
 		 * @throws Exception
 		 */
 		@WebMethod(operationName = "moveFile")
 		@WebResult(name = "response")
-		MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS removeFromNAS) throws RemoteException, Exception;
+		MediaResponse moveFile(@WebParam(name = "request") MediaRequest request, @WebParam(name = "remove") RemoveFromNAS remove) throws RemoteException, Exception;
 		
 		@WebMethod(operationName = "convertToPDF")
 		void convertToPDF() throws RemoteException, Exception;
