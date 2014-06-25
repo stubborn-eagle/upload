@@ -80,7 +80,7 @@ public interface UploadMulticanaleRemote extends Remote {
 //		@WebResult(name = "response")
 //		UploadMulticanaleResponse getECMToken(@WebParam(name = "request") UploadMulticanaleRequest request) throws RemoteException, Exception;
 		
-		void moveFile() throws RemoteException, Exception;
+		MoveResponse moveFile(RemoveFromNAS parameter) throws RemoteException, Exception;
 		
 		void convertToPDF() throws RemoteException, Exception;
 }

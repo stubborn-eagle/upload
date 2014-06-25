@@ -3,8 +3,10 @@ package it.bmed.arch.uploadMulticanale.be.ejbimpl;
 import it.bmed.arch.uploadMulticanale.be.api.AzureDTO;
 import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
+import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
+import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
@@ -270,9 +272,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public void moveFile() throws RemoteException, Exception {
-		// TODO Auto-generated method stub
+	public MoveResponse moveFile(RemoveFromNAS parameter) throws RemoteException, Exception {
+		MoveResponse response = null;
 		
+		return response;		
 	}
 
 	/**
