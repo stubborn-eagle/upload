@@ -10,7 +10,7 @@ public class MediaRequest extends BaseBeRequest {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private RequestMetaData requestMetaData = null;
 
 	private MediaDTO mediaDTO;
@@ -18,10 +18,10 @@ public class MediaRequest extends BaseBeRequest {
 	public MediaDTO getMediaDTO() {
 		return mediaDTO;
 	}
+
 	public void setMediaDTO(MediaDTO mediaDTO) {
 		this.mediaDTO = mediaDTO;
 	}
-	
 
 	@Override
 	public RequestMetaData getMetadata() {
@@ -40,36 +40,21 @@ public class MediaRequest extends BaseBeRequest {
 		this.requestMetaData = requestMetaData;
 	}
 
-	
 	/*
-	public MediaParam getParam() {
-		return param;
-	}
-
-	public void setParam(MediaParam param) {
-		this.param = param;
-	}
-
-	
-
-	public List<MediaParam> getParams() {
-		return params;
-	}
-
-	public void setParams(List<MediaParam> params) {
-		this.params = params;
-	}
-
-	public void addParam(MediaParam param) {
-		if (this.params == null)
-			this.params = new ArrayList<MediaParam>();
-		params.add(param);
-
-	}
-	*/
-	
-	
-	
-	
+	 * public MediaParam getParam() { return param; }
+	 * 
+	 * public void setParam(MediaParam param) { this.param = param; }
+	 * 
+	 * 
+	 * 
+	 * public List<MediaParam> getParams() { return params; }
+	 * 
+	 * public void setParams(List<MediaParam> params) { this.params = params; }
+	 * 
+	 * public void addParam(MediaParam param) { if (this.params == null)
+	 * this.params = new ArrayList<MediaParam>(); params.add(param);
+	 * 
+	 * }
+	 */
 
 }
