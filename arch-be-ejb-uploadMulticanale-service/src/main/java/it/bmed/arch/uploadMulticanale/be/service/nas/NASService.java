@@ -13,4 +13,14 @@ public interface NASService {
 	 */
 	boolean deleteFile(String path, String filename) throws TechnicalException, Exception;
 
+	/**
+	 * Load the  file with filename and the the provided path, returning a byte array stream   
+	 * @param path
+	 * @param filename
+	 * @return The byte array stream
+	 * @throws TechnicalException
+	 * @throws Exception
+	 */
+	byte[] loadFile(String path, String filename) throws TechnicalException, Exception;
+
 }

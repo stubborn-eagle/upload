@@ -3,9 +3,9 @@ package it.bmed.arch.uploadMulticanale.be.ejbimpl;
 import it.bmed.arch.uploadMulticanale.be.api.AzureDTO;
 import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
-import it.bmed.arch.uploadMulticanale.be.api.ECMDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
+import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
@@ -25,6 +25,7 @@ import it.bmed.asia.exception.jaxws.SystemFault;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
+import java.io.File;
 import java.rmi.RemoteException;
 
 import javax.ejb.Remote;
@@ -330,10 +331,14 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS parameter)
+	public MoveResponse moveFile(MediaRequest request, RemoveFromNAS remove)
 			throws RemoteException, Exception {
 		MoveResponse response = null;
-
+		MediaResponse mediaResponse = null;
+		MoveDTO mediaDTO = null;
+		byte[] buffer = null;
+		mediaResponse = listMedia(request);
+		buffer = nasService.loadFile(mediaResponse.getResult().getSorgente_Path());		
 		return response;
 	}
 

@@ -4,6 +4,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
+import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.IErrorCode;
 import it.bmed.asia.exception.TechnicalException;
 import it.bmed.asia.log.Logger;
@@ -17,12 +18,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.activation.FileTypeMap;
+
 
 /**
  * @author donatello.boccaforno
  *
  */
-public class NASServiceImpl implements NASService{
+public class NASServiceImpl implements NASService {
 	private static final Logger logger = LoggerFactory.getLogger(NASServiceImpl.class); 
 
 	/* (non-Javadoc)
@@ -63,6 +66,41 @@ public class NASServiceImpl implements NASService{
 		return result;
 	}
 	
+	@Override
+		public byte[] loadFile(String path, String filename)
+				throws TechnicalException, Exception {		
+			InputStream inputStream = null;
+			File file = null;
+			int fileLength = 0;
+			
+			file = new File(path + filename);
+			fileLength = (int) file.length();
+	
+	//		TODO: check this if required		
+	//		if(fileLength > MAX_FILE_SIZE) {
+	//			throw new AsiaException("Illegal file size.");
+	//		}
+			
+			byte[] buffer = new byte[fileLength];
+			try {
+				inputStream = new FileInputStream(file);
+				if (inputStream.read(buffer) == -1) {
+					throw new AsiaException(new IOException("Error while loding file."));
+				}
+			} catch (FileNotFoundException e) {
+				throw new AsiaException(e);
+			} finally {
+				if(inputStream != null) {
+					try {
+						inputStream.close();
+					} catch (Exception e) {
+						logger.error("loadFile " + e.getMessage());
+					}
+				}
+			}
+			return buffer;
+		}
+
 	private void copyFile(String sourcePathname, String destinationPathname, String filename) throws IOException {
 		File srcfile = new File(sourcePathname);
 		File destFile = new File(destinationPathname + filename);

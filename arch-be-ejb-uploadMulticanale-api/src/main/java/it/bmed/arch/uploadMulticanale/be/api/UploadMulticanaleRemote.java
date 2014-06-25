@@ -89,7 +89,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "moveFile")
 		@WebResult(name = "response")
-		MediaResponse moveFile(@WebParam(name = "request") MediaRequest request, @WebParam(name = "remove") RemoveFromNAS remove) throws RemoteException, Exception;
+		MoveResponse moveFile(@WebParam(name = "request") MediaRequest request, @WebParam(name = "remove") RemoveFromNAS remove) throws RemoteException, Exception;
 		
 		@WebMethod(operationName = "convertToPDF")
 		void convertToPDF() throws RemoteException, Exception;
