@@ -3,7 +3,6 @@ package it.bmed.arch.uploadMulticanale.be.ejbimpl;
 import it.bmed.arch.uploadMulticanale.be.api.AzureDTO;
 import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
-import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
