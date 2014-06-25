@@ -1,9 +1,8 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import java.util.Arrays;
-import java.util.List;
+import it.bmed.asia.api.BaseBeResponse;
 
-import it.bmed.asia.api.*;
+import java.util.List;
 
 public class MediaResponse extends BaseBeResponse<MediaDTO> {
 

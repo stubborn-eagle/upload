@@ -18,19 +18,19 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.RPC)
 public interface UploadMulticanaleRemote extends Remote {
 
-		@WebMethod(operationName = "InsertMedia")
+		@WebMethod(operationName = "insertMedia")
 		@WebResult(name = "response")
-		MediaResponse InsertMedia(@WebParam(name = "request") MediaRequest request) throws  SystemFault, RemoteException, Exception;
+		MediaResponse insertMedia(@WebParam(name = "request") MediaRequest request) throws  SystemFault, RemoteException, Exception;
 		
 		
-		@WebMethod(operationName = "ListMedia")
+		@WebMethod(operationName = "listMedia")
 		@WebResult(name = "response")
-		MediaResponse ListMedia(@WebParam(name = "request")  MediaRequest request) throws SystemFault, RemoteException, Exception;
+		MediaResponse listMedia(@WebParam(name = "request")  MediaRequest request) throws SystemFault, RemoteException, Exception;
 	
 			
-		@WebMethod(operationName = "UpdateMedia")
+		@WebMethod(operationName = "updateMedia")
 		@WebResult(name = "response")
-		boolean UpdateMedia(@WebParam(name = "request") UpdateMediaRequest request) throws SystemFault, RemoteException, Exception;
+		boolean updateMedia(@WebParam(name = "request") UpdateMediaRequest request) throws SystemFault, RemoteException, Exception;
 	
 	
 	/*	
@@ -73,14 +73,23 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebMethod(operationName = "getAzureToken")
 		@WebResult(name = "response")		
 		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request) throws RemoteException, Exception;
-		
-		
+				
 //		Not required	
 //		@WebMethod(operationName = "getECMToken")
 //		@WebResult(name = "response")
 //		UploadMulticanaleResponse getECMToken(@WebParam(name = "request") UploadMulticanaleRequest request) throws RemoteException, Exception;
 		
-		MoveResponse moveFile(RemoveFromNAS parameter) throws RemoteException, Exception;
+		/**
+		 * Move a file from NAS to a specific ECM
+		 * @param ecmDTO
+		 * @param removeFromNAS
+		 * @return The move operation result as <b>MoveResonse</b>
+		 * @throws RemoteException
+		 * @throws Exception
+		 */
+		@WebMethod(operationName = "moveFile")
+		@WebResult(name = "response")
+		MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS removeFromNAS) throws RemoteException, Exception;
 		
 		void convertToPDF() throws RemoteException, Exception;
 }

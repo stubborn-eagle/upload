@@ -1,7 +1,6 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Request DTO for Move operation

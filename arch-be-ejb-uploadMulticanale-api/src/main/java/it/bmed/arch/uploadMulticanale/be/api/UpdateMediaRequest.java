@@ -4,6 +4,10 @@ import it.bmed.asia.api.BaseBeRequest;
 
 public class UpdateMediaRequest extends BaseBeRequest {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7089630504774213849L;
 	private String IdFile;
 	private String ECMType;
 	private String Stato;

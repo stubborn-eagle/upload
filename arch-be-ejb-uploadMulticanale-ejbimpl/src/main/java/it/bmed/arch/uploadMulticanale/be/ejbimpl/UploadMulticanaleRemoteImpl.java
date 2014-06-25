@@ -3,10 +3,11 @@ package it.bmed.arch.uploadMulticanale.be.ejbimpl;
 import it.bmed.arch.uploadMulticanale.be.api.AzureDTO;
 import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
-import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
+import it.bmed.arch.uploadMulticanale.be.api.ECMDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
+import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
@@ -62,7 +63,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 
 	
 	@Override
-	public MediaResponse InsertMedia(MediaRequest r) throws SystemFault,RemoteException, Exception
+	public MediaResponse insertMedia(MediaRequest r) throws SystemFault,RemoteException, Exception
 	{			
 		MediaResponse resp= null;
 			
@@ -116,7 +117,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	
 	
    @Override
-   public MediaResponse ListMedia(MediaRequest request) throws SystemFault,RemoteException, Exception
+   public MediaResponse listMedia(MediaRequest request) throws SystemFault,RemoteException, Exception
    {		
 		MediaResponse resp= null; 
 		
@@ -158,7 +159,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 
 	
 	@Override
-	public boolean UpdateMedia( UpdateMediaRequest request ) throws SystemFault, RemoteException, Exception
+	public boolean updateMedia( UpdateMediaRequest request ) throws SystemFault, RemoteException, Exception
 	{
 		boolean resp= false; 
 
@@ -213,7 +214,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		}
 		
 		try {
-			response = ListMedia(request);
+			response = listMedia(request);
 			if(response == null) {
 				log.error("deleteFileECM: ListMedia cannot be null. ");
 				throw new AsiaApplicationException("TCH_ECM_ERROR", "deleteFileECM: ListMedia cannot be null. ");
@@ -246,7 +247,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		}
 
 		try {
-			mediaResponse = ListMedia(request);
+			mediaResponse = listMedia(request);
 			response = nasService.deleteFile(mediaResponse.getResult().getSorgente_Path(), mediaResponse.getResult().getIdFile());
 			log.info("deleteFileNAS: operation succesfully returned.");
 		} catch (Exception e) {
@@ -272,7 +273,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public MoveResponse moveFile(RemoveFromNAS parameter) throws RemoteException, Exception {
+	public MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS parameter) throws RemoteException, Exception {
 		MoveResponse response = null;
 		
 		return response;		

@@ -4,9 +4,6 @@ import it.bmed.asia.api.BaseBeRequest;
 import it.bmed.asia.api.CommonUtils;
 import it.bmed.asia.api.RequestMetaData;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MediaRequest extends BaseBeRequest {
 
 	/**
