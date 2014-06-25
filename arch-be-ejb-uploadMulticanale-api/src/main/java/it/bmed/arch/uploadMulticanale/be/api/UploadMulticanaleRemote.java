@@ -57,9 +57,6 @@ public interface UploadMulticanaleRemote extends Remote {
 		 * @throws RemoteException
 		 * @throws Exception
 		 */
-//		@WebMethod(operationName = "getAzureToken")
-//		@WebResult(name = "response")
-//		MediaResponse getAzureToken(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
 		@WebMethod(operationName = "getAzureToken")
 		@WebResult(name = "response")		
 		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request) throws RemoteException, Exception;

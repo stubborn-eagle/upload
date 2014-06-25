@@ -234,7 +234,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	@Override
 	public boolean deleteFileNAS(MediaRequest request) {
 		boolean response = false;
-		MediaDTO mediaDTO = null;
 		MediaResponse mediaResponse = null;
 		if(request == null) {
 			log.error("deleteFileNAS: request cannot be null.");
