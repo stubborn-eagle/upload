@@ -49,7 +49,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "deleteFileNAS")
 		@WebResult(name = "response")
-		boolean deleteFileNAS(@WebParam(name = "request") MediaRequest request);
+		boolean deleteFileNAS(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
 
 
 		/**
@@ -91,5 +91,6 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebResult(name = "response")
 		MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS removeFromNAS) throws RemoteException, Exception;
 		
+		@WebMethod(operationName = "convertToPDF")
 		void convertToPDF() throws RemoteException, Exception;
 }
