@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 @Stateless(name = "uploadMulticanaleDaoWS", mappedName = "ejb/", description = "")
-@WebService(serviceName = "uploadMulticanaleBS", name = "uploadMulticanaleBS", portName = "uploadMulticanaleBS", endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.uploadMulticanaleRemote")
+@WebService(serviceName = "uploadMulticanaleBS", name = "uploadMulticanaleBS", portName = "uploadMulticanaleBS", endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote")
 @Remote(UploadMulticanaleRemote.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
 public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
@@ -290,7 +290,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public boolean deleteFileNAS(MediaRequest request) {
+	public boolean deleteFileNAS(MediaRequest request) throws RemoteException, Exception {
 		boolean response = false;
 		MediaResponse mediaResponse = null;
 		if (request == null) {
@@ -306,8 +306,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 			log.info("deleteFileNAS: operation succesfully returned.");
 		} catch (Exception e) {
 			log.error("deleteFileNAS: " + e.getMessage());
-			throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: "
-					+ e.getMessage());
+			throw e;
+		//	throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: "
+		//			+ e.getMessage());
 		}
 		return response;
 	}
