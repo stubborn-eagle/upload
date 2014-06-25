@@ -22,12 +22,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-@Repository("uploadMulticanaleDaoJdbcTemplate")
-public class uploadMulticanaleDaoImplJdbcTemplate implements
-		uploadMulticanaleDaoJdbcTemplate, InitializingBean {
+@Repository("UploadMulticanaleDaoJdbcTemplate")
+public class UploadMulticanaleDaoImplJdbcTemplate implements
+		UploadMulticanaleDaoJdbcTemplate, InitializingBean {
 
 	Logger log = LoggerFactory
-			.getLogger(uploadMulticanaleDaoImplJdbcTemplate.class);
+			.getLogger(UploadMulticanaleDaoImplJdbcTemplate.class);
 	@Autowired
 	DataSource dataSource;
 

@@ -11,7 +11,7 @@ import it.bmed.asia.exception.ApplicationException;
  * @author generated automaticallu by bmed-asia-be-archetype
  * 
  */
-public interface uploadMulticanaleDaoJdbcTemplate {
+public interface UploadMulticanaleDaoJdbcTemplate {
 
 	public MediaResponse insertMedia(MediaRequest request)
 			throws ApplicationException, Exception;
