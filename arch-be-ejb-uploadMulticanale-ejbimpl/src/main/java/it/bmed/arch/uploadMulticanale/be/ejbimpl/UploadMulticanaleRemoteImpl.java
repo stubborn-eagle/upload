@@ -35,167 +35,213 @@ import javax.jws.WebService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
-
 @Stateless(name = "uploadMulticanaleDaoWS", mappedName = "ejb/", description = "")
-@WebService(
-		serviceName = "uploadMulticanaleBS", 
-		name = "uploadMulticanaleBS", 
-		portName = "uploadMulticanaleBS", 
-		endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.uploadMulticanaleRemote")
+@WebService(serviceName = "uploadMulticanaleBS", name = "uploadMulticanaleBS", portName = "uploadMulticanaleBS", endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.uploadMulticanaleRemote")
 @Remote(UploadMulticanaleRemote.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
-
 public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 
 	Logger log = LoggerFactory.getLogger(UploadMulticanaleRemoteImpl.class);
-	
+
 	@Autowired
 	UploadMulticanaleService uploadMulticanaleService;
-	
+
 	@Autowired
 	ECMService ecmService;
-	
+
 	@Autowired
 	AzureService azureService;
-	
+
 	@Autowired
 	NASService nasService;
 
-	
 	@Override
-	public MediaResponse insertMedia(MediaRequest r) throws SystemFault,RemoteException, Exception
-	{			
-		MediaResponse resp= null;
-			
-		try
-		{				
-			resp =  uploadMulticanaleService.InsertMedia(r);
-		
-		}catch(ApplicationException e){
-			
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);			
-			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice()+"_"+fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setTechnical(true);  
-			
-			throw fault;
-	        
-		}catch(RuntimeException runtimeException){
+	public MediaResponse insertMedia(MediaRequest r) throws SystemFault,
+			RemoteException, Exception {
+		MediaResponse resp = null;
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
-			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
-			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+"_"+UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setLayer(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+"_"+UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false); 
+		try {
+			resp = uploadMulticanaleService.insertMedia(r);
+
+		} catch (ApplicationException e) {
+
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			fault.getFaultInfo().setMessaggio(
+					fault.getFaultInfo().getCodice() + "_"
+							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setTechnical(true);
+
+			throw fault;
+
+		} catch (RuntimeException runtimeException) {
+
+			SystemFault fault = ExceptionToFaultConversionUtil
+					.toFault(runtimeException);
+			fault.getFaultInfo().setCodice(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode());
+			fault.getFaultInfo().setMessaggio(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode()
+							+ "_"
+							+ UploadMulticanaleErrorCodeEnums.valueOf(
+									"TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setLayer(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode()
+							+ "_"
+							+ UploadMulticanaleErrorCodeEnums.valueOf(
+									"TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setTechnical(false);
 			/*
-			log.error("Errore e.getMessage() "+ runtimeException.getMessage());
-			log.error("Errore e.getFaultInfo().getCodice() "+ fault.getFaultInfo().getCodice());
-			log.error("Errore e.getFaultInfo().getMessaggio() "+ fault.getFaultInfo().getMessaggio());
-			log.error("Errore e.getFaultInfo().getMessaggio() "+ fault.getFaultInfo().isTechnical());
-			*/
+			 * log.error("Errore e.getMessage() "+
+			 * runtimeException.getMessage());
+			 * log.error("Errore e.getFaultInfo().getCodice() "+
+			 * fault.getFaultInfo().getCodice());
+			 * log.error("Errore e.getFaultInfo().getMessaggio() "+
+			 * fault.getFaultInfo().getMessaggio());
+			 * log.error("Errore e.getFaultInfo().getMessaggio() "+
+			 * fault.getFaultInfo().isTechnical());
+			 */
 			throw fault;
-
 
 		} catch (Exception app) {
 
-			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
-			TechnicalException  applicationException = new TechnicalException( er );	
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
-			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice()+"_"+fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setTechnical(false);  
+			IErrorCode er = UploadMulticanaleErrorCodeEnums
+					.valueOf("TCH_GENERIC_ERROR");
+			TechnicalException applicationException = new TechnicalException(er);
+			SystemFault fault = ExceptionToFaultConversionUtil
+					.toFault(applicationException);
+			fault.getFaultInfo().setMessaggio(
+					fault.getFaultInfo().getCodice() + "_"
+							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setTechnical(false);
 			/*
-			log.error("Errore e.getMessage() "+ fault.getMessage());
-			log.error("Errore e.getFaultInfo().getCodice() "+ fault.getFaultInfo().getCodice());
-			log.error("Errore e.getFaultInfo().getMessaggio() "+ fault.getFaultInfo().getMessaggio());
-			log.error("Errore e.getFaultInfo().getMessaggio() "+ fault.getFaultInfo().isTechnical());
-			*/
+			 * log.error("Errore e.getMessage() "+ fault.getMessage());
+			 * log.error("Errore e.getFaultInfo().getCodice() "+
+			 * fault.getFaultInfo().getCodice());
+			 * log.error("Errore e.getFaultInfo().getMessaggio() "+
+			 * fault.getFaultInfo().getMessaggio());
+			 * log.error("Errore e.getFaultInfo().getMessaggio() "+
+			 * fault.getFaultInfo().isTechnical());
+			 */
 		}
-		
-		 return resp;		 
+
+		return resp;
 	}
-	
-	
-   @Override
-   public MediaResponse listMedia(MediaRequest request) throws SystemFault,RemoteException, Exception
-   {		
-		MediaResponse resp= null; 
-		
-		try
-		{
+
+	@Override
+	public MediaResponse listMedia(MediaRequest request) throws SystemFault,
+			RemoteException, Exception {
+		MediaResponse resp = null;
+
+		try {
 			resp = uploadMulticanaleService.listMedia(request);
 
-		}catch(ApplicationException e){
+		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);			
-			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice()+"_"+fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setTechnical(true);  
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			fault.getFaultInfo().setMessaggio(
+					fault.getFaultInfo().getCodice() + "_"
+							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setTechnical(true);
 
 			throw fault;
 
-		}catch(RuntimeException runtimeException){
+		} catch (RuntimeException runtimeException) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
-			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
-			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+"_"+UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setLayer(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+"_"+UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false); 
+			SystemFault fault = ExceptionToFaultConversionUtil
+					.toFault(runtimeException);
+			fault.getFaultInfo().setCodice(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode());
+			fault.getFaultInfo().setMessaggio(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode()
+							+ "_"
+							+ UploadMulticanaleErrorCodeEnums.valueOf(
+									"TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setLayer(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode()
+							+ "_"
+							+ UploadMulticanaleErrorCodeEnums.valueOf(
+									"TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setTechnical(false);
 
 			throw fault;
 
 		} catch (Exception app) {
 
-			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
-			TechnicalException  applicationException = new TechnicalException( er );	
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
-			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice()+"_"+fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setTechnical(false);  
+			IErrorCode er = UploadMulticanaleErrorCodeEnums
+					.valueOf("TCH_GENERIC_ERROR");
+			TechnicalException applicationException = new TechnicalException(er);
+			SystemFault fault = ExceptionToFaultConversionUtil
+					.toFault(applicationException);
+			fault.getFaultInfo().setMessaggio(
+					fault.getFaultInfo().getCodice() + "_"
+							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setTechnical(false);
 
-		}		
-		 return resp;			
-	} 	
+		}
+		return resp;
+	}
 
-	
 	@Override
-	public boolean updateMedia( UpdateMediaRequest request ) throws SystemFault, RemoteException, Exception
-	{
-		boolean resp= false; 
+	public boolean updateMedia(UpdateMediaRequest request) throws SystemFault,
+			RemoteException, Exception {
+		boolean resp = false;
 
-		try
-		{
+		try {
 			resp = uploadMulticanaleService.updateMedia(request);
 
-		}catch(ApplicationException e){
+		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);			
-			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice()+"_"+fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio() );
-			
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			fault.getFaultInfo().setMessaggio(
+					fault.getFaultInfo().getCodice() + "_"
+							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+
 			throw fault;
 
-		}catch(RuntimeException runtimeException){
+		} catch (RuntimeException runtimeException) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
-			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
-			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+"_"+UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false); 
-			
+			SystemFault fault = ExceptionToFaultConversionUtil
+					.toFault(runtimeException);
+			fault.getFaultInfo().setCodice(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode());
+			fault.getFaultInfo().setMessaggio(
+					UploadMulticanaleErrorCodeEnums
+							.valueOf("TCH_GENERIC_ERROR").getErrorCode()
+							+ "_"
+							+ UploadMulticanaleErrorCodeEnums.valueOf(
+									"TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setTechnical(false);
+
 			throw fault;
 
 		} catch (Exception e) {
 
-			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
-			TechnicalException  applicationException = new TechnicalException( er );	
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);			
-			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice()+"_"+fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio() );
-			fault.getFaultInfo().setTechnical(false);  
+			IErrorCode er = UploadMulticanaleErrorCodeEnums
+					.valueOf("TCH_GENERIC_ERROR");
+			TechnicalException applicationException = new TechnicalException(er);
+			SystemFault fault = ExceptionToFaultConversionUtil
+					.toFault(applicationException);
+			fault.getFaultInfo().setMessaggio(
+					fault.getFaultInfo().getCodice() + "_"
+							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setTechnical(false);
 
 			throw fault;
 		}
-		return resp;	
+		return resp;
 
 	}
 
@@ -203,32 +249,38 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public boolean deleteFileECM(MediaRequest request) throws RemoteException, Exception {
+	public boolean deleteFileECM(MediaRequest request) throws RemoteException,
+			Exception {
 		boolean result = false;
 		MediaResponse response = null;
 		try {
 			log.info("deleteFileECM params: " + response);
 		} catch (NullPointerException e) {
 			log.error("deleteFileECM: request argument cannot be null.");
-			throw new AsiaApplicationException("TCH_ECM_ERROR", "deleteFileECM: request argument cannot be null.");
+			throw new AsiaApplicationException("TCH_ECM_ERROR",
+					"deleteFileECM: request argument cannot be null.");
 		}
-		
+
 		try {
 			response = listMedia(request);
-			if(response == null) {
+			if (response == null) {
 				log.error("deleteFileECM: ListMedia cannot be null. ");
-				throw new AsiaApplicationException("TCH_ECM_ERROR", "deleteFileECM: ListMedia cannot be null. ");
+				throw new AsiaApplicationException("TCH_ECM_ERROR",
+						"deleteFileECM: ListMedia cannot be null. ");
 			}
 		} catch (Exception e) {
 			log.error("deleteFileECM: SQLException. " + e.getMessage());
-			throw new AsiaApplicationException("TCH_ECM_ERROR", "deleteFileECM: SQLException. " + e.getMessage());
+			throw new AsiaApplicationException("TCH_ECM_ERROR",
+					"deleteFileECM: SQLException. " + e.getMessage());
 		}
-		
+
 		try {
-			result = ecmService.removeFile(response.getResult().getECMType(), response.getResult().getIdFileECM());
+			result = ecmService.removeFile(response.getResult().getECMType(),
+					response.getResult().getIdFileECM());
 		} catch (Exception e) {
 			log.error("deleteFileECM " + e.getMessage());
-			throw new AsiaApplicationException("TCH_ECM_ERROR", "deleteFileECM: " + e.getMessage());
+			throw new AsiaApplicationException("TCH_ECM_ERROR",
+					"deleteFileECM: " + e.getMessage());
 		}
 		log.info("deleteFileECM returns: " + result);
 		return result;
@@ -241,18 +293,21 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	public boolean deleteFileNAS(MediaRequest request) {
 		boolean response = false;
 		MediaResponse mediaResponse = null;
-		if(request == null) {
+		if (request == null) {
 			log.error("deleteFileNAS: request cannot be null.");
 			throw new AsiaException("deleteFileNAS: request cannot be null.");
 		}
 
 		try {
 			mediaResponse = listMedia(request);
-			response = nasService.deleteFile(mediaResponse.getResult().getSorgente_Path(), mediaResponse.getResult().getIdFile());
+			response = nasService.deleteFile(mediaResponse.getResult()
+					.getSorgente_Path(), mediaResponse.getResult()
+					.getNomeFile());
 			log.info("deleteFileNAS: operation succesfully returned.");
 		} catch (Exception e) {
 			log.error("deleteFileNAS: " + e.getMessage());
-			throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: " + e.getMessage());
+			throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: "
+					+ e.getMessage());
 		}
 		return response;
 	}
@@ -261,7 +316,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public AzureResponse getAzureToken(AzureRequest request) throws RemoteException, Exception {
+	public AzureResponse getAzureToken(AzureRequest request)
+			throws RemoteException, Exception {
 		AzureResponse azureResponse = new AzureResponse();
 		AzureDTO azureDTO = null;
 		azureDTO = azureService.generateToken(request);
@@ -273,10 +329,11 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS parameter) throws RemoteException, Exception {
+	public MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS parameter)
+			throws RemoteException, Exception {
 		MoveResponse response = null;
-		
-		return response;		
+
+		return response;
 	}
 
 	/**
@@ -285,6 +342,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	@Override
 	public void convertToPDF() throws RemoteException, Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
