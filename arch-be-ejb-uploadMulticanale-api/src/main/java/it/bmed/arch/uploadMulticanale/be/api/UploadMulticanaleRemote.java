@@ -92,9 +92,5 @@ public interface UploadMulticanaleRemote extends Remote {
 		MoveResponse moveFile(ECMDTO ecmDTO, RemoveFromNAS removeFromNAS) throws RemoteException, Exception;
 		
 		@WebMethod(operationName = "convertToPDF")
-<<<<<<< HEAD
-=======
-		@WebResult(name = "response")
->>>>>>> 1192220d7efbb8be46953d8ab8187feb32bfa565
 		void convertToPDF() throws RemoteException, Exception;
 }
