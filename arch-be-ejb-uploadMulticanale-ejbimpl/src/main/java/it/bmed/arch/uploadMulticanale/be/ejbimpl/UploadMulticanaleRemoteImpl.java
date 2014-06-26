@@ -229,14 +229,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 
 		} catch (Exception e) {
 
-			IErrorCode er = UploadMulticanaleErrorCodeEnums
-					.valueOf("TCH_GENERIC_ERROR");
+			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
-			SystemFault fault = ExceptionToFaultConversionUtil
-					.toFault(applicationException);
-			fault.getFaultInfo().setMessaggio(
-					fault.getFaultInfo().getCodice() + "_"
-							+ fault.getFaultInfo().getMessaggio());
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(false);
 
@@ -338,7 +334,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		MoveDTO mediaDTO = null;
 		byte[] buffer = null;
 		mediaResponse = listMedia(request);
-		buffer = nasService.loadFile(mediaResponse.getResult().getSorgente_Path());		
+		buffer = nasService.loadFile(mediaResponse.getResult().getSorgente_Path(), mediaResponse.getResult().getNomeFile());		
 		return response;
 	}
 
