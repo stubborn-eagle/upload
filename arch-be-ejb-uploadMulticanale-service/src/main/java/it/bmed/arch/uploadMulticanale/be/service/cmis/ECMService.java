@@ -12,7 +12,7 @@ public interface ECMService {
 	 * @param ecmType
 	 * @param user
 	 * @param password
-	 * @return The operation's status as <b>boolean</b>
+	 * @return The created file Id as <b>String</b> 
 	 * @throws AsiaException
 	 * @throws Exception
 	 */
