@@ -247,17 +247,17 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 	public boolean updateMedia(UpdateECMRequest request)
 			throws ApplicationException, Exception {
 
-		String Destinazione_path = "" + request.getDestinazione_path();
+		String Destinazione_path = "" + request.getDestinationPath();
 		String idFileECM = "" + request.getIdFileECM();
-		String Container_type = "" + request.getContainer_type();
+		String Container_type = "" + request.getContainerType();
 		String NomeApp = "" + request.getNameApp();
 
 		String campo1 = " COD_UPLD_FILE_INTERN = " + request.getIdFile() + "";
-		String campo2 = request.getECMType() == null
-				|| request.getECMType() == 0 ? "" : ", COD_TIPO_ECM = "
-				+ request.getECMType() + "";
-		String campo3 = request.getStato() == null || request.getStato() == 0 ? ""
-				: ", COD_STATO_ECM = " + request.getStato() + "";
+		String campo2 = request.getEcmType() == null
+				|| request.getEcmType() == null ? "" : ", COD_TIPO_ECM = "
+				+ request.getEcmType() + "";
+		String campo3 = request.getState() == null || request.getState() == null ? ""
+				: ", COD_STATO_ECM = " + request.getState() + "";
 
 		String campo4 = Destinazione_path.isEmpty() ? ""
 				: ", DES_DEST_PATH = '" + Destinazione_path + "'";
