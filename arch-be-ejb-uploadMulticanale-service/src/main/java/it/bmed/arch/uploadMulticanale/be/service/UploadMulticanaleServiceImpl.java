@@ -5,7 +5,7 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
-import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
+import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.dao.UploadMulticanaleDaoJdbcTemplate;
 import it.bmed.asia.exception.ApplicationException;
@@ -134,7 +134,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 	}
 
 	@Override
-	public MediaResponse listMedia(MediaRequest request)
+	public ECMResponse listMedia(ECMRequest request)
 			throws TechnicalException, Exception {
 		try {
 			MediaDTO dto = request.getMediaDTO();
@@ -185,7 +185,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 	}
 
 	@Override
-	public boolean updateMedia(UpdateMediaRequest request) throws SystemFault,
+	public boolean updateMedia(UpdateECMRequest request) throws SystemFault,
 			Exception {
 		try {
 			boolean res;

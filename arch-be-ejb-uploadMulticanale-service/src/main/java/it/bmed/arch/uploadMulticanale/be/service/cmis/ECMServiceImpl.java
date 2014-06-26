@@ -51,14 +51,14 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	}
 	
 	@Override
-	public String createFile(Integer ecmType, byte[] byteStream,
+	public String createFile(ECMType ecmType, byte[] byteStream,
 			String containerType, String filename, String fileExtension,
 			String appName, String destinationPath, MediaDTO mediaDTO)
 			throws AsiaException, Exception {
 		
-		if( ecmType == ECMType.IBM_FILENET.getValue() ) {		
+		if( ecmType == ECMType.IBM_FILENET ) {		
 			return filenetConnector.createFile(byteStream, destinationPath, filename);
-		} else if( ecmType == ECMType.ALFRESCO.getValue() ) {
+		} else if( ecmType == ECMType.ALFRESCO) {
 			return alfrescoConnector.createFile(byteStream, destinationPath, filename);
 		} else {			
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");			
@@ -66,10 +66,10 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	}
 
 	@Override
-	public boolean removeFile(Integer ecmType, String ecmFileId) throws AsiaException, Exception {
-		if( ecmType == ECMType.IBM_FILENET.getValue() ) {
+	public boolean removeFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {
+		if( ecmType == ECMType.IBM_FILENET) {
 			return filenetConnector.removeFile(ecmFileId);
-		} else if( ecmType == ECMType.ALFRESCO.getValue()) {
+		} else if( ecmType == ECMType.ALFRESCO) {
 			return alfrescoConnector.removeFile(ecmFileId);
 		} else {
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");
@@ -77,10 +77,10 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	}
 
 	@Override
-	public InputStream downloadFile(Integer ecmType, String ecmFileId) throws AsiaException, Exception {		
-		if(ecmType == ECMType.IBM_FILENET.getValue()) {
+	public InputStream downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {		
+		if(ecmType == ECMType.IBM_FILENET) {
 			return filenetConnector.downloadFile(ecmFileId);
-		} else if(ecmType == ECMType.ALFRESCO.getValue()) {
+		} else if(ecmType == ECMType.ALFRESCO) {
 			return filenetConnector.downloadFile(ecmFileId);
 		} else {
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");

@@ -3,14 +3,17 @@ package it.bmed.arch.uploadMulticanale.be.ejbimpl;
 import it.bmed.arch.uploadMulticanale.be.api.AzureDTO;
 import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
+import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
-import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
+import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
-import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
+import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
@@ -28,8 +31,6 @@ import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
 import java.rmi.RemoteException;
-import java.sql.Timestamp;
-import java.util.Date;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -38,6 +39,7 @@ import javax.jws.WebService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Stateless(name = "uploadMulticanaleDaoWS", mappedName = "ejb/", description = "")
 @WebService(serviceName = "uploadMulticanaleBS", name = "uploadMulticanaleBS", portName = "uploadMulticanaleBS", endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote")
@@ -60,9 +62,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	NASService nasService;
 
 	@Override
-	public MediaResponse insertMedia(MediaRequest r) throws SystemFault,
+	public ECMResponse insertMedia(ECMRequest r) throws SystemFault,
 			RemoteException, Exception {
-		MediaResponse resp = null;
+		ECMResponse resp = null;
 
 		try {
 			resp = uploadMulticanaleService.insertMedia(r);
@@ -137,9 +139,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	}
 
 	@Override
-	public MediaResponse listMedia(MediaRequest request) throws SystemFault,
+	public ECMResponse listMedia(ECMRequest request) throws SystemFault,
 			RemoteException, Exception {
-		MediaResponse resp = null;
+		ECMResponse resp = null;
 
 		try {
 			resp = uploadMulticanaleService.listMedia(request);
@@ -196,7 +198,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	}
 
 	@Override
-	public boolean updateMedia(UpdateMediaRequest request) throws SystemFault,
+	public boolean updateMedia(UpdateECMRequest request) throws SystemFault,
 			RemoteException, Exception {
 		boolean resp = false;
 
@@ -246,13 +248,40 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	}
 
 	/**
+		 * @author donatello.boccaforno
+		 */
+		@Override
+		public boolean deleteFileNAS(ECMRequest request) throws RemoteException, Exception {
+			boolean response = false;
+			ECMResponse ecmResponse = null;
+			if (request == null) {
+				log.error("deleteFileNAS: request cannot be null.");
+				throw new AsiaException("deleteFileNAS: request cannot be null.");
+			}
+	
+			try {
+				ecmResponse = listMedia(request);
+				response = nasService.deleteFile(ecmResponse.getResult()
+						.getSourcePath(), ecmResponse.getResult()
+						.getNameFile());
+				log.info("deleteFileNAS: operation succesfully returned.");
+			} catch (Exception e) {
+				log.error("deleteFileNAS: " + e.getMessage());
+	//			throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: "
+	//					+ e.getMessage());
+				throw e;
+			}
+			return response;
+		}
+
+	/**
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public boolean deleteFileECM(MediaRequest request) throws RemoteException,
+	public boolean deleteFileECM(ECMRequest request) throws RemoteException,
 			Exception {
 		boolean result = false;
-		MediaResponse response = null;
+		ECMResponse response = null;
 		try {
 			log.info("deleteFileECM params: " + response);
 		} catch (NullPointerException e) {
@@ -275,7 +304,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		}
 
 		try {
-			result = ecmService.removeFile(response.getResult().getECMType(),
+			result = ecmService.removeFile(response.getResult().getEcmType(),
 					response.getResult().getIdFileECM());
 		} catch (Exception e) {
 			log.error("deleteFileECM " + e.getMessage());
@@ -284,33 +313,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		}
 		log.info("deleteFileECM returns: " + result);
 		return result;
-	}
-
-	/**
-	 * @author donatello.boccaforno
-	 */
-	@Override
-	public boolean deleteFileNAS(MediaRequest request) throws RemoteException, Exception {
-		boolean response = false;
-		MediaResponse mediaResponse = null;
-		if (request == null) {
-			log.error("deleteFileNAS: request cannot be null.");
-			throw new AsiaException("deleteFileNAS: request cannot be null.");
-		}
-
-		try {
-			mediaResponse = listMedia(request);
-			response = nasService.deleteFile(mediaResponse.getResult()
-					.getSorgente_Path(), mediaResponse.getResult()
-					.getNomeFile());
-			log.info("deleteFileNAS: operation succesfully returned.");
-		} catch (Exception e) {
-			log.error("deleteFileNAS: " + e.getMessage());
-//			throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: "
-//					+ e.getMessage());
-			throw e;
-		}
-		return response;
 	}
 
 	/**
@@ -330,39 +332,47 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public MoveResponse moveFile(MediaRequest request, RemoveFromNAS remove) throws RemoteException, Exception {
+	public MoveResponse moveFile(MoveRequest request) throws RemoteException, Exception {
 		MoveResponse response = new MoveResponse();
-		MediaResponse mediaResponse = null;
-		UpdateMediaRequest updateMediaRequest = new UpdateMediaRequest();
+		ECMResponse ecmResponse = null;
+		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
 		byte[] buffer = null;
-		MediaDTO mediaDTO = null;
+		ECMFile ecmFile = null;
 		String idFileECM = null;
 		MoveDTO moveDTO = new MoveDTO();
+		
+		ECMRequest ecmRequest = new ECMRequest();
+		ecmFile = new ECMFile();
+		ecmFile.setIdFile(request.getEcmParam().getIdFile());
+		ecmRequest.setEcmFile(ecmFile);
+		
+		
+		
 		try {
-			mediaResponse = listMedia(request);
+			ecmResponse = listMedia(ecmRequest);
 			
 			// Load file from NAS
-			buffer = nasService.loadFile(mediaResponse.getResult().getSorgente_Path(), mediaResponse.getResult().getNomeFile());
-			mediaDTO = mediaResponse.getResult();
+			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile());
+			ecmFile = ecmResponse.getResult();
 			
 			// Create file on ECM
-			idFileECM = ecmService.createFile(mediaDTO.getECMType(), buffer, mediaDTO.getContainerType(), mediaDTO.getNomeFile(),"", null, mediaDTO.getDestinazione_Path(), mediaDTO);
-			updateMediaRequest.setContainer_type(mediaDTO.getContainerType());
-			updateMediaRequest.setDestinazione_path(mediaDTO.getDestinazione_Path());
-			updateMediaRequest.setECMType(mediaDTO.getECMType());
-			updateMediaRequest.setIdFile(mediaDTO.getIdFile());
-			updateMediaRequest.setIdFileECM(idFileECM);
-			updateMediaRequest.setNameApp(mediaDTO.getNomeApp());
-			updateMediaRequest.setStato(ECMState.MOVED.getValue());
+			idFileECM = ecmService.createFile(ecmFile.getEcmType(), buffer, ecmFile.getContainerType(), ecmFile.getNameFile(),"", null, ecmFile.getDestinationPath(), null);
+			updateECMRequest.setContainerType(ecmFile.getContainerType());
+			updateECMRequest.setDestinationPath(ecmFile.getDestinationPath());
+			updateECMRequest.setEcmType(ecmFile.getEcmType());
+			updateECMRequest.setIdFile(ecmFile.getIdFile());
+			updateECMRequest.setIdFileECM(idFileECM);
+			updateECMRequest.setNameApp(ecmFile.getNameApp());
+			updateECMRequest.setState(ECMState.MOVED);
 //			updateMediaRequest.setOperationTimestamp(new Timestamp(new Date().getTime())); //TODO: instance variable to be implemented
-			updateMedia(updateMediaRequest);
+			updateMedia(updateECMRequest);
 			
 			// Remove file from NAS
-			if(remove == RemoveFromNAS.REMOVE) {
-				nasService.deleteFile(mediaDTO.getSorgente_Path(), mediaDTO.getNomeFile());
+			if(request.getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
+				nasService.deleteFile(ecmFile.getSourcePath(), ecmFile.getNameFile());
 			}
 			moveDTO.setEcmFileId(idFileECM);
-			moveDTO.setFileId(mediaDTO.getIdFile());
+			moveDTO.setFileId(ecmFile.getIdFile());
 		} catch (ApplicationException e) {
 			//TODO :hnadle exception
 			log.error("moveFile: " + e.getMessage());
@@ -376,8 +386,15 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public void convertToPDF() throws RemoteException, Exception {
-		// TODO Auto-generated method stub
-
+	public MoveResponse convertToPDF(MoveRequest request) throws RemoteException, Exception {
+		MoveResponse response = null;
+		ECMRequest ecmRequest = new ECMRequest();
+		ECMResponse ecmResponse = new ECMResponse();
+		ECMFile ecmFile = new ECMFile();
+		ecmFile.setIdFile(request.getEcmParam().getIdFile());
+		ecmRequest.setEcmFile(ecmFile);
+		ecmResponse = listMedia(ecmRequest);
+		
+		return response;
 	}
 }

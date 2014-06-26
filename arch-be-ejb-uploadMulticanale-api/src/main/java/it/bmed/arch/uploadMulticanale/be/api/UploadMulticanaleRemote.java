@@ -20,36 +20,26 @@ public interface UploadMulticanaleRemote extends Remote {
 
 		@WebMethod(operationName = "insertMedia")
 		@WebResult(name = "response")
-		MediaResponse insertMedia(@WebParam(name = "request") MediaRequest request) throws  SystemFault, RemoteException, Exception;
+		ECMResponse insertMedia(@WebParam(name = "request") ECMRequest request) throws  SystemFault, RemoteException, Exception;
 		
 		
 		@WebMethod(operationName = "listMedia")
 		@WebResult(name = "response")
-		MediaResponse listMedia(@WebParam(name = "request")  MediaRequest request) throws SystemFault, RemoteException, Exception;
+		ECMResponse listMedia(@WebParam(name = "request")  ECMRequest request) throws SystemFault, RemoteException, Exception;
 	
 			
 		@WebMethod(operationName = "updateMedia")
 		@WebResult(name = "response")
-		boolean updateMedia(@WebParam(name = "request") UpdateMediaRequest request) throws SystemFault, RemoteException, Exception;
+		boolean updateMedia(@WebParam(name = "request") UpdateECMRequest request) throws SystemFault, RemoteException, Exception;
 	
-	
-	/*	
-		@WebMethod(operationName = "uploadListFile")
-		@WebResult(name = "response")
-		MediaResponse uploadListFile(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
-	*/
-		
-		
-	
-		
 		/**
 		 * Remove a file in the NAS using a specific path, and making a backup copy in a provided repository
-		 * @param request
+		 * @param idFile
 		 * @return The status of the operation as <b>boolean</b>
 		 */
 		@WebMethod(operationName = "deleteFileNAS")
 		@WebResult(name = "response")
-		boolean deleteFileNAS(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
+		boolean deleteFileNAS(@WebParam(name = "request") ECMRequest request) throws RemoteException, Exception;
 
 
 		/**
@@ -61,7 +51,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "deleteFileECM")
 		@WebResult(name = "response")
-		boolean deleteFileECM(@WebParam(name = "request") MediaRequest request) throws RemoteException, Exception;
+		boolean deleteFileECM(@WebParam(name = "request") ECMRequest request) throws RemoteException, Exception;
 
 		/**
 		 * Retrieve the Azure's token
@@ -89,8 +79,9 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "moveFile")
 		@WebResult(name = "response")
-		MoveResponse moveFile(@WebParam(name = "request") MediaRequest request, @WebParam(name = "remove") RemoveFromNAS remove) throws RemoteException, Exception;
+		MoveResponse moveFile(@WebParam(name = "request") MoveRequest request) throws RemoteException, Exception;
 		
 		@WebMethod(operationName = "convertToPDF")
-		void convertToPDF() throws RemoteException, Exception;
+		@WebResult(name = "response")
+		MoveResponse convertToPDF(@WebParam(name = "request") MoveRequest request) throws RemoteException, Exception;
 }

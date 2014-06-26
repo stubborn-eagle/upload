@@ -3,7 +3,7 @@ package it.bmed.arch.uploadMulticanale.be.dao;
 import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
-import it.bmed.arch.uploadMulticanale.be.api.UpdateMediaRequest;
+import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.api.CommonUtils;
 import it.bmed.asia.exception.ApplicationException;
@@ -244,7 +244,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 	}
 
 	@Override
-	public boolean updateMedia(UpdateMediaRequest request)
+	public boolean updateMedia(UpdateECMRequest request)
 			throws ApplicationException, Exception {
 
 		String Destinazione_path = "" + request.getDestinazione_path();
