@@ -25,7 +25,6 @@ import it.bmed.asia.exception.jaxws.SystemFault;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
-import java.io.File;
 import java.rmi.RemoteException;
 
 import javax.ejb.Remote;
