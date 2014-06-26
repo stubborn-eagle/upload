@@ -3,6 +3,8 @@ package it.bmed.arch.uploadMulticanale.be.ejbimpl;
 import it.bmed.arch.uploadMulticanale.be.api.AzureDTO;
 import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
+import it.bmed.arch.uploadMulticanale.be.api.ECMState;
+import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
@@ -26,6 +28,8 @@ import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
 import java.rmi.RemoteException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -326,14 +330,45 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public MoveResponse moveFile(MediaRequest request, RemoveFromNAS remove)
-			throws RemoteException, Exception {
-		MoveResponse response = null;
+	public MoveResponse moveFile(MediaRequest request, RemoveFromNAS remove) throws RemoteException, Exception {
+		MoveResponse response = new MoveResponse();
 		MediaResponse mediaResponse = null;
-		MoveDTO mediaDTO = null;
+		UpdateMediaRequest updateMediaRequest = new UpdateMediaRequest();
 		byte[] buffer = null;
-		mediaResponse = listMedia(request);
-		buffer = nasService.loadFile(mediaResponse.getResult().getSorgente_Path(), mediaResponse.getResult().getNomeFile());		
+		MediaDTO mediaDTO = null;
+		String idFileECM = null;
+		MoveDTO moveDTO = new MoveDTO();
+		try {
+			mediaResponse = listMedia(request);
+			
+			// Load file from NAS
+			buffer = nasService.loadFile(mediaResponse.getResult().getSorgente_Path(), mediaResponse.getResult().getNomeFile());
+			mediaDTO = mediaResponse.getResult();
+			
+			// Create file on ECM
+			idFileECM = ecmService.createFile(mediaDTO.getECMType(), buffer, mediaDTO.getContainerType(), mediaDTO.getNomeFile(),"", null, mediaDTO.getDestinazione_Path(), mediaDTO);
+			updateMediaRequest.setContainer_type(mediaDTO.getContainerType());
+			updateMediaRequest.setDestinazione_path(mediaDTO.getDestinazione_Path());
+			updateMediaRequest.setECMType(mediaDTO.getECMType());
+			updateMediaRequest.setIdFile(mediaDTO.getIdFile());
+			updateMediaRequest.setIdFileECM(idFileECM);
+			updateMediaRequest.setNameApp(mediaDTO.getNomeApp());
+			updateMediaRequest.setStato(ECMState.MOVED.getValue());
+//			updateMediaRequest.setOperationTimestamp(new Timestamp(new Date().getTime())); //TODO: instance variable to be implemented
+			updateMedia(updateMediaRequest);
+			
+			// Remove file from NAS
+			if(remove == RemoveFromNAS.REMOVE) {
+				nasService.deleteFile(mediaDTO.getSorgente_Path(), mediaDTO.getNomeFile());
+			}
+			moveDTO.setEcmFileId(idFileECM);
+			moveDTO.setFileId(mediaDTO.getIdFile());
+		} catch (ApplicationException e) {
+			//TODO :hnadle exception
+			log.error("moveFile: " + e.getMessage());
+			throw e;
+		}
+		response.setResult(moveDTO);
 		return response;
 	}
 
