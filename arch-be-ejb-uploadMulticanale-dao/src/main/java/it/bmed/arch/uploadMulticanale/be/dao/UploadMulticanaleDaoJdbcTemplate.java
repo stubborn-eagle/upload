@@ -1,5 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.dao;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
+import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
@@ -13,10 +15,10 @@ import it.bmed.asia.exception.ApplicationException;
  */
 public interface UploadMulticanaleDaoJdbcTemplate {
 
-	public MediaResponse insertMedia(MediaRequest request)
+	public ECMResponse insertMedia(ECMRequest request)
 			throws ApplicationException, Exception;
 
-	public MediaResponse listMedia(MediaRequest request)
+	public ECMResponse listMedia(ECMRequest request)
 			throws ApplicationException, Exception;
 
 	public boolean updateMedia(UpdateECMRequest request)

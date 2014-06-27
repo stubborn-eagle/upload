@@ -1,9 +1,11 @@
 package it.bmed.arch.uploadMulticanale.be.service;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
+import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
-import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
@@ -35,35 +37,34 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 	}
 
 	@Override
-	public MediaResponse insertMedia(MediaRequest request)
+	public ECMResponse insertMedia(ECMRequest request)
 			throws TechnicalException, Exception {
 		try {
-			MediaDTO dto = request.getMediaDTO();
-
+//			MediaDTO dto = request.getMediaDTO();
+			ECMFile ecmFile = request.getEcmFile(); 
 			// stato e dominio per il db devono essere not null
 			// default
-			if (dto.getStato() == null || dto.getStato() == 0) {
+			if(ecmFile.getState() == null /*|| ecmFile.getState() == 0*/) {
 
-				dto.setStato(ECMState.INSERTED.getValue());
+				ecmFile.setState(ECMState.INSERTED);
 			}
 
 			// default perche obbligatorio sul db ma non obbligatorio in input
-			if (dto.getECMType() == null || dto.getECMType() == 0) {
-
-				dto.setECMType(ECMType.IBM_FILENET.getValue());
+			if (ecmFile.getEcmType() == null /*|| ecmFile.getECMType() == 0*/) {
+				ecmFile.setEcmType(ECMType.IBM_FILENET);
 			}
 
 			// campi non obbligatori lasciati null
 			// controllo obbligatorieta dei campiù
 
-			if (dto == null || dto.getCanale().isEmpty()
-					|| dto.getIdUtente().isEmpty()
-					|| dto.getNomeApp().isEmpty()
-					|| dto.getNomeFile().isEmpty()
-					|| dto.getSorgente_Path().isEmpty()
-					|| dto.getTipoUtente().isEmpty()
-					|| dto.getDominio() == null || dto.getDominio() == 0
-					|| dto.getTipo().isEmpty()) {
+			if (ecmFile == null || ecmFile.getChannel().isEmpty()
+					|| ecmFile.getUserId().isEmpty()
+					|| ecmFile.getNameApp().isEmpty()
+					|| ecmFile.getNameFile().isEmpty()
+					|| ecmFile.getSourcePath().isEmpty()
+					|| ecmFile.getUserType().isEmpty()
+					|| ecmFile.getSource() == null
+					|| ecmFile.getType().isEmpty()) {
 				log.debug("Errore Servizio: parametri non corretti ");
 
 				IErrorCode er = UploadMulticanaleErrorCodeEnums
@@ -74,16 +75,16 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			}
 
 			// controllo lunghezza del campo di input stato
-			if (dto.getCanale().length() > 15
-					|| dto.getContainerType().length() > 20
-					|| dto.getDestinazione_Path().length() > 200
-					|| dto.getIdFileECM().length() > 500
-					|| dto.getIdUtente().length() > 16
-					|| dto.getNomeApp().length() > 100
-					|| dto.getNomeFile().length() > 50
-					|| dto.getSorgente_Path().length() > 500
-					|| dto.getTipo().length() > 5
-					|| dto.getTipoUtente().length() > 50) {
+			if (ecmFile.getChannel().length() > 15
+					|| ecmFile.getContainerType().length() > 20
+					|| ecmFile.getDestinationPath().length() > 200
+					|| ecmFile.getIdFileECM().length() > 500
+					|| ecmFile.getUserId().length() > 16
+					|| ecmFile.getNameApp().length() > 100
+					|| ecmFile.getNameFile().length() > 50
+					|| ecmFile.getSourcePath().length() > 500
+					|| ecmFile.getType().length() > 5
+					|| ecmFile.getUserType().length() > 50) {
 				log.debug("Errore Servizio: parametri non corretti qualche campo troppo lungo");
 				IErrorCode er = UploadMulticanaleErrorCodeEnums
 						.valueOf("TCH_GENERIC_ERROR");
@@ -118,7 +119,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			 */
 
 			log.debug(" Servizio: parametri  corretti ");
-			MediaResponse response = new MediaResponse();
+			ECMResponse response = new ECMResponse();
 			response = uploadMulticanaleDaoJdbcTemplate.insertMedia(request);
 			return response;
 		} catch (ApplicationException e) {
@@ -137,7 +138,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 	public ECMResponse listMedia(ECMRequest request)
 			throws TechnicalException, Exception {
 		try {
-			MediaDTO dto = request.getMediaDTO();
+			ECMFile ecmFile = request.getEcmFile();
 
 			/*
 			 * tolgo obbligatorieta per tutti
@@ -154,11 +155,11 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 
 			// controllo lunghezza del campo di input stato
 
-			if (dto.getCanale().length() > 15
-					|| dto.getIdUtente().length() > 11
-					|| dto.getTipoUtente().length() > 15
-					|| dto.getIdFileECM().length() > 15
-					|| dto.getIdFileECM().length() > 15) {
+			if (ecmFile.getChannel().length() > 15
+					|| ecmFile.getUserId().length() > 11
+					|| ecmFile.getUserType().length() > 15
+					|| ecmFile.getIdFileECM().length() > 15
+					|| ecmFile.getIdFileECM().length() > 15) {
 				log.debug("Errore InsertMedia: parametri non corretti qualche campo troppo lungo");
 				IErrorCode er = UploadMulticanaleErrorCodeEnums
 						.valueOf("TCH_GENERIC_ERROR");
@@ -167,7 +168,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 				throw tec;
 			}
 
-			MediaResponse response = new MediaResponse();
+			ECMResponse response = new ECMResponse();
 			response = uploadMulticanaleDaoJdbcTemplate.listMedia(request);
 
 			return response;
@@ -190,14 +191,14 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 		try {
 			boolean res;
 
-			String Destinazione_path = request.getDestinazione_path();
+			String Destinazione_path = request.getDestinationPath();
 			String idFileECM = request.getIdFileECM();
-			String Container_type = request.getContainer_type();
+			String Container_type = request.getContainerType();
 			String nomApp = request.getNameApp();
 
 			// controllo campi obbligatori
 			if ((request.getIdFile() == null || request.getIdFile() == 0)
-					&& (request.getStato() == null || request.getStato() == 0)
+					&& (request.getState() == null)
 					&& request.getNameApp().isEmpty()) {
 				log.debug("Errore updateMedia: IdFile obbligatorio ");
 

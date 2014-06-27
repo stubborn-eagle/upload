@@ -23,7 +23,7 @@ public class ECMFile implements Serializable {
 	private String type;
 	private String userType;
 	private ECMType ecmType;
-	private ECMSource field;
+	private ECMSource source;
 	private ECMState state;
 	private Integer idFile;
 	/**
@@ -31,6 +31,18 @@ public class ECMFile implements Serializable {
 	 */
 	public String getChannel() {
 		return channel;
+	}
+	/**
+	 * @return the source
+	 */
+	public ECMSource getSource() {
+		return source;
+	}
+	/**
+	 * @param source the source to set
+	 */
+	public void setSource(ECMSource source) {
+		this.source = source;
 	}
 	/**
 	 * @param channel the channel to set
@@ -159,18 +171,6 @@ public class ECMFile implements Serializable {
 		this.ecmType = ecmType;
 	}
 	/**
-	 * @return the field
-	 */
-	public ECMSource getField() {
-		return field;
-	}
-	/**
-	 * @param field the field to set
-	 */
-	public void setField(ECMSource field) {
-		this.field = field;
-	}
-	/**
 	 * @return the state
 	 */
 	public ECMState getState() {
@@ -207,13 +207,13 @@ public class ECMFile implements Serializable {
 		result = prime * result
 				+ ((destinationPath == null) ? 0 : destinationPath.hashCode());
 		result = prime * result + ((ecmType == null) ? 0 : ecmType.hashCode());
-		result = prime * result + ((field == null) ? 0 : field.hashCode());
 		result = prime * result + ((idFile == null) ? 0 : idFile.hashCode());
 		result = prime * result
 				+ ((idFileECM == null) ? 0 : idFileECM.hashCode());
 		result = prime * result + ((nameApp == null) ? 0 : nameApp.hashCode());
 		result = prime * result
 				+ ((nameFile == null) ? 0 : nameFile.hashCode());
+		result = prime * result + ((source == null) ? 0 : source.hashCode());
 		result = prime * result
 				+ ((sourcePath == null) ? 0 : sourcePath.hashCode());
 		result = prime * result + ((state == null) ? 0 : state.hashCode());
@@ -252,8 +252,6 @@ public class ECMFile implements Serializable {
 			return false;
 		if (ecmType != other.ecmType)
 			return false;
-		if (field != other.field)
-			return false;
 		if (idFile == null) {
 			if (other.idFile != null)
 				return false;
@@ -273,6 +271,8 @@ public class ECMFile implements Serializable {
 			if (other.nameFile != null)
 				return false;
 		} else if (!nameFile.equals(other.nameFile))
+			return false;
+		if (source != other.source)
 			return false;
 		if (sourcePath == null) {
 			if (other.sourcePath != null)
@@ -308,7 +308,7 @@ public class ECMFile implements Serializable {
 				+ userId + ", nameApp=" + nameApp + ", nameFile=" + nameFile
 				+ ", sourcePath=" + sourcePath + ", destinationPath="
 				+ destinationPath + ", type=" + type + ", userType=" + userType
-				+ ", ecmType=" + ecmType + ", field=" + field + ", state="
+				+ ", ecmType=" + ecmType + ", source=" + source + ", state="
 				+ state + ", idFile=" + idFile + "]";
 	}
 }
