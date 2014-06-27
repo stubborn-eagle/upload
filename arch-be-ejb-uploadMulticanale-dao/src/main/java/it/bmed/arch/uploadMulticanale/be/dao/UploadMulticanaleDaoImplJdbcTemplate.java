@@ -1,5 +1,11 @@
 package it.bmed.arch.uploadMulticanale.be.dao;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
+import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
+import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
+import it.bmed.arch.uploadMulticanale.be.api.ECMState;
+import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
@@ -7,6 +13,7 @@ import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.api.CommonUtils;
 import it.bmed.asia.exception.ApplicationException;
+import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.TechnicalException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
@@ -46,10 +53,10 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 	}
 
 	@Override
-	public MediaResponse insertMedia(MediaRequest parameters)
+	public ECMResponse insertMedia(ECMRequest parameters)
 			throws ApplicationException, Exception {
 
-		MediaDTO dto = parameters.getMediaDTO();
+		ECMFile ecmFile = parameters.getEcmFile();
 		int result = 0;
 
 		try {
@@ -67,34 +74,34 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 							+ "GSTD_D_INS_RECORD, " + "GSTD_X_TIP_MODF, "
 							+ "GSTD_F_ESIST) " + "values  "
 							+ "( qpush_be.ECM_FILE_SEQ.nextval, "
-							+ dto.getECMType()
+							+ ecmFile.getEcmType()
 							+ ",  "
-							+ dto.getDominio()
+							+ ecmFile.getSource()
 							+ ",  "
-							+ dto.getStato()
+							+ ecmFile.getState()
 							+ ",  '"
-							+ dto.getNomeApp()
+							+ ecmFile.getNameApp()
 							+ "',  '"
 							+ // controllare
-							dto.getDestinazione_Path()
+							ecmFile.getDestinationPath()
 							+ "',  '"
-							+ dto.getContainerType()
+							+ ecmFile.getContainerType()
 							+ "',  '"
-							+ dto.getCanale()
+							+ ecmFile.getChannel()
 							+ "', '"
-							+ dto.getTipoUtente()
+							+ ecmFile.getUserType()
 							+ "', '"
-							+ dto.getNomeFile()
+							+ ecmFile.getNameFile()
 							+ "', '"
-							+ dto.getSorgente_Path()
+							+ ecmFile.getSourcePath()
 							+ "',  '"
-							+ dto.getIdFileECM()
+							+ ecmFile.getIdFileECM()
 							+ "',  '"
-							+ dto.getTipo()
+							+ ecmFile.getType()
 							+ "',  '"
-							+ dto.getNomeApp()
+							+ ecmFile.getNameApp()
 							+ "',  '"
-							+ dto.getIdUtente()
+							+ ecmFile.getUserId()
 							+ "', "
 							+ " sysdate, "
 							+ " sysdate, " + "'I', " + "'S' )");
@@ -129,8 +136,8 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 
 		log.debug("risultato DAO query result {} " + result);
 
-		MediaResponse response = new MediaResponse();
-		response.setResult(dto);
+		ECMResponse response = new ECMResponse();
+		response.setResult(ecmFile);
 
 		log.debug("OUTPUT DAO {}",
 				CommonUtils.bean2string(response.getResult()));
@@ -139,25 +146,25 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 	}
 
 	@Override
-	public MediaResponse listMedia(MediaRequest request)
+	public ECMResponse listMedia(ECMRequest request)
 			throws ApplicationException, Exception {
 
-		MediaDTO dto = request.getMediaDTO();
-		MediaResponse response = new MediaResponse();
+		ECMFile ecmFile = request.getEcmFile();
+		ECMResponse response = new ECMResponse();
 
 		// unici valori richiesti per la ricerca nonj obbligatori
-		String and1 = dto.getIdUtente().equals("") ? "" : "and GSTD_X_USER = '"
-				+ dto.getIdUtente() + "' ";
-		String and2 = dto.getCanale().equals("") ? "" : "and COD_TIPO_CANA = '"
-				+ dto.getCanale() + "' ";
-		String and3 = dto.getTipoUtente().equals("") ? ""
-				: "and  COD_TIPO_UTE = '" + dto.getTipoUtente() + "' ";
-		String and4 = dto.getIdFileECM().equals("") ? ""
-				: "and COD_UPLD_FILE_ECM = '" + dto.getIdFileECM() + "' ";
-		String and5 = dto.getECMType() == null || dto.getECMType() == 0 ? ""
-				: "and  COD_TIPO_ECM = " + dto.getECMType() + " ";
-		String and6 = dto.getIdFile() == null || dto.getIdFile() == 0 ? ""
-				: "and  COD_UPLD_FILE_INTERN = " + dto.getIdFile() + " ";
+		String and1 = ecmFile.getUserId().equals("") ? "" : "and GSTD_X_USER = '"
+				+ ecmFile.getUserId() + "' ";
+		String and2 = ecmFile.getChannel().equals("") ? "" : "and COD_TIPO_CANA = '"
+				+ ecmFile.getChannel() + "' ";
+		String and3 = ecmFile.getUserType().equals("") ? ""
+				: "and  COD_TIPO_UTE = '" + ecmFile.getUserType() + "' ";
+		String and4 = ecmFile.getIdFileECM().equals("") ? ""
+				: "and COD_UPLD_FILE_ECM = '" + ecmFile.getIdFileECM() + "' ";
+		String and5 = ecmFile.getEcmType() == null ? ""
+				: "and  COD_TIPO_ECM = " + ecmFile.getEcmType() + " ";
+		String and6 = ecmFile.getIdFile() == null || ecmFile.getIdFile() == 0 ? ""
+				: "and  COD_UPLD_FILE_INTERN = " + ecmFile.getIdFile() + " ";
 
 		String whereClause = and1 + and2 + and3 + and4 + and5 + and6;
 
@@ -169,29 +176,79 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 		try {
 
 			@SuppressWarnings({ "rawtypes", "unchecked" })
-			List<MediaDTO> ret = getJdbcTemplate().query(
+			List<ECMFile> ret = getJdbcTemplate().query(
 					queryStrBuilder.toString(), new RowMapper() {
 						@Override
 						public Object mapRow(java.sql.ResultSet rs, int row)
 								throws SQLException {
 							// MAP YOUR FIELDS HERE
-							MediaDTO te = new MediaDTO();
-
+							ECMFile te = new ECMFile();
+							
+							ECMSource ecmSource = null;
+							switch (rs.getInt("COD_TIPO_PROVNZ_FILE")) {
+							case 1:
+								ecmSource = ECMSource.INTERNET_BANKING;
+								break;
+							case 2:
+								ecmSource = ECMSource.PORTALE_DI_SEDE;
+								break;
+							case 3:
+								ecmSource = ECMSource.RETE_DI_VENDITA;
+								break;
+							default:
+								log.error("mapRow: illegal mapping for COD_TIPO_PROVNZ_FILE.");
+								throw new AsiaException("illegal mapping");
+							}
+							
+							ECMType ecmType = null;
+							switch (rs.getInt("COD_TIPO_ECM")) {
+							case 1:
+								ecmType = ECMType.IBM_FILENET;
+								break;
+							case 2:
+								ecmType = ECMType.ALFRESCO;
+								break;
+							case 3:
+								ecmType = ECMType.AZURE;
+								break;
+							default:
+								log.error("mapRow: illegal mapping for COD_TIPO_ECM.");
+								throw new AsiaException("illegal mapping");
+							}
+							
+							ECMState ecmState = null;
+							switch (rs.getInt("COD_STATO_ECM")) {
+							case 1:		
+								ecmState = ECMState.INSERTED;
+								break;
+							case 2:
+								ecmState = ECMState.PENDING;
+								break;
+							case 3:
+								ecmState = ECMState.MOVED;
+								break;
+							case 4:
+								ecmState = ECMState.DELETED;
+								break;								
+							default:
+								log.error("mapRow: illegal mapping for COD_STATO_ECM.");
+								throw new AsiaException("illegal mapping");
+							}
+							
 							te.setIdFile(rs.getInt("COD_UPLD_FILE_INTERN"));
-							te.setCanale(rs.getString("COD_TIPO_CANA"));
+							te.setChannel(rs.getString("COD_TIPO_CANA"));
 							te.setContainerType(rs.getString("DEN_CNTR"));
-							te.setDestinazione_Path(rs
-									.getString("DES_DEST_PATH"));
-							te.setDominio(rs.getInt("COD_TIPO_PROVNZ_FILE"));
-							te.setECMType(rs.getInt("COD_TIPO_ECM"));
+							te.setDestinationPath(rs.getString("DES_DEST_PATH"));
+							te.setSource(ecmSource);
+							te.setEcmType(ecmType);
 							te.setIdFileECM(rs.getString("COD_UPLD_FILE_ECM"));
-							te.setIdUtente(rs.getString("GSTD_X_USER"));
-							te.setNomeApp(rs.getString("DES_APPLICNE"));
-							te.setNomeFile(rs.getString("DEN_FILE"));
-							te.setSorgente_Path(rs.getString("DES_SORG_PATH"));
-							te.setStato(rs.getInt("COD_STATO_ECM"));
-							te.setTipo(rs.getString("DEN_ESTNS_FILE"));
-							te.setTipoUtente(rs.getString("COD_TIPO_UTE"));
+							te.setUserId(rs.getString("GSTD_X_USER"));
+							te.setNameApp(rs.getString("DES_APPLICNE"));
+							te.setNameFile(rs.getString("DEN_FILE"));
+							te.setSourcePath(rs.getString("DES_SORG_PATH"));
+							te.setState(ecmState);
+							te.setType(rs.getString("DEN_ESTNS_FILE"));
+							te.setUserType(rs.getString("COD_TIPO_UTE"));
 
 							/*
 							 * COD_UPLD_FILE_INTERN INTEGER NOT NULL , ID_FILE
