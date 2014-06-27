@@ -11,6 +11,7 @@ public class ECMParam  implements Serializable {
 	private String destinationPath = null;
 	private String containerType = null;
 	private RemoveFromNAS removeFromNAS = null;
+	
 	/**
 	 * @return the idFile
 	 */
@@ -149,5 +150,5 @@ public class ECMParam  implements Serializable {
 				+ destinationPath + ", containerType=" + containerType
 				+ ", removeFromNAS=" + removeFromNAS + "]";
 	}
-
+	
 }

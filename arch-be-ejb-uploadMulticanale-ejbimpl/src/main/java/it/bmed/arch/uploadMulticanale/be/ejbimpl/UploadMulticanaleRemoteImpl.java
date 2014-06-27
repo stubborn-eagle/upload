@@ -3,12 +3,11 @@ package it.bmed.arch.uploadMulticanale.be.ejbimpl;
 import it.bmed.arch.uploadMulticanale.be.api.AzureDTO;
 import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
+import it.bmed.arch.uploadMulticanale.be.api.ECMConvertRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
-import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
-import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
@@ -39,7 +38,6 @@ import javax.jws.WebService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 @Stateless(name = "uploadMulticanaleDaoWS", mappedName = "ejb/", description = "")
 @WebService(serviceName = "uploadMulticanaleBS", name = "uploadMulticanaleBS", portName = "uploadMulticanaleBS", endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote")
@@ -368,7 +366,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 			updateMedia(updateECMRequest);
 			
 			// Remove file from NAS
-			if(request.getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
+			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
 				nasService.deleteFile(ecmFile.getSourcePath(), ecmFile.getNameFile());
 			}
 			moveDTO.setEcmFileId(idFileECM);
@@ -386,8 +384,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public MoveResponse convertToPDF(MoveRequest request) throws RemoteException, Exception {
-		MoveResponse response = null;
+	public ECMResponse convertToPDF(ECMConvertRequest request) throws RemoteException, Exception {
+		ECMResponse response = null;
 		ECMRequest ecmRequest = new ECMRequest();
 		ECMResponse ecmResponse = new ECMResponse();
 		ECMFile ecmFile = new ECMFile();
