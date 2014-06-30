@@ -22,7 +22,7 @@ public class TestAzureServiceGeneration {
 	private static final String IB_SFONDI_CONTAINER = "ib-sfondi";
 	private static final int EXPIRATIONTIME = 45;
 	
-	Logger log = LoggerFactory.getLogger(AzureServiceImpl.class);
+	Logger log = LoggerFactory.getLogger(TestAzureServiceGeneration.class);
 
 	private AzureService azureService = null;
 	

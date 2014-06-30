@@ -392,7 +392,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		ecmFile.setIdFile(request.getEcmParam().getIdFile());
 		ecmRequest.setEcmFile(ecmFile);
 		ecmResponse = listMedia(ecmRequest);
-		
+		// TODO: return an empty pdf 
 		return response;
 	}
 }
