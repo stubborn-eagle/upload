@@ -1,0 +1,22 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.5. -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://simpleType.common.schema.bmed.it/v1">
+<xs:simpleType name="CanaleType">
+<xs:restriction base="xs:string">
+<xs:enumeration value="NSP"/>
+<xs:enumeration value="FEC"/>
+<xs:enumeration value="ITN"/>
+<xs:enumeration value="ATM"/>
+<xs:enumeration value="POS"/>
+<xs:enumeration value="IVR"/>
+<xs:enumeration value="MBN"/>
+<xs:enumeration value="CBK"/>
+<xs:enumeration value="ACN"/>
+<xs:enumeration value="IBR"/>
+<xs:enumeration value="B2B"/>
+<xs:enumeration value="BTC"/>
+<xs:enumeration value="ITR"/>
+<xs:enumeration value="TST"/>
+</xs:restriction>
+</xs:simpleType>
+</xs:schema>
