@@ -28,7 +28,7 @@
 	</bean>
 	
 	<!-- FILENET ECM CONNECTOR -->
-	<bean id="filnetConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetConnector">
+	<bean id="filenetConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetConnector">
 		<!-- User credentials -->
 		<property name="user" value="" />
 		<property name="password" value="" />
