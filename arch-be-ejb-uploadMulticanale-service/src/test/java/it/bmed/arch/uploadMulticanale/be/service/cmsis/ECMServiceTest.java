@@ -1,5 +1,8 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmsis;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetConnector;
 import it.bmed.asia.exception.AsiaException;
@@ -7,8 +10,6 @@ import it.bmed.asia.exception.AsiaException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Scanner;
-
-import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -38,7 +39,8 @@ public class ECMServiceTest {
 
 	@Test
 	public void testECMService() {
-		String filename = "alfrescoConnector.txt";
+		String filename = "alfrescoConnector";
+		String type = "txt";
 		String txtContent = "Halo Wars!";
 		byte[] buffer = null;
 		
@@ -53,7 +55,7 @@ public class ECMServiceTest {
 
 		// check createFile
 		try {
-			fileId = alfrescoConnector.createFile(buffer, "/upload-multicanale-dev", filename);
+			fileId = alfrescoConnector.createFile(buffer, "/upload-multicanale-dev", filename, type);
 			assertNotNull(fileId);
 		} catch (Exception e) {
 			e.printStackTrace();
