@@ -1,5 +1,6 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.asia.exception.AsiaException;
@@ -19,7 +20,7 @@ public interface ECMService {
 	 */
 
 	String createFile(ECMType ecmType, byte[] byteStream, String containerType, String filename,
-			String fileExtension, String appName, String destinationPath, MediaDTO mediaDTO)
+			String fileExtension, String appName, String destinationPath, ECMFile ecmFile)
 			throws AsiaException, Exception;
 
 	/**

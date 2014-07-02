@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <deployment-plan xmlns="http://xmlns.oracle.com/weblogic/deployment-plan" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://xmlns.oracle.com/weblogic/deployment-plan http://xmlns.oracle.com/weblogic/deployment-plan/1.0/deployment-plan.xsd"
 	global-variables="false">
@@ -20,14 +20,15 @@
 			<name>mypassword</name>
 			<value>Weblogic1</value>
 		</variable>
+
 		<variable>
 			<name>mylogback</name>
             <value>apps-properties/arch-be-ejb-uploadMulticanale-be.xml</value>
 		</variable>
 	</variable-definition>
 	<module-override>
-		<module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
-		<module-type>war</module-type>
+        <module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
+        <module-type>war</module-type>
 		<module-descriptor external="false">
 			<root-element>web-app</root-element>
 			<uri>WEB-INF/web.xml</uri>

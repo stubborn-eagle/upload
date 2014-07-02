@@ -7,7 +7,8 @@
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
+ 	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
+ 	<context:component-scan base-package="it.bmed.asia.utility" />
 	<!-- ALFRESCO ECM CONNECTOR -->
 	<bean id="alfrescoConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
 		<!-- User credentials -->

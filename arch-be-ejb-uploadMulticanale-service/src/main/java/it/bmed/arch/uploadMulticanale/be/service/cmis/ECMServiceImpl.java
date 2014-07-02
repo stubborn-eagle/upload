@@ -1,7 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
-import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
@@ -53,13 +53,13 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	@Override
 	public String createFile(ECMType ecmType, byte[] byteStream,
 			String containerType, String filename, String fileExtension,
-			String appName, String destinationPath, MediaDTO mediaDTO)
+			String appName, String destinationPath, ECMFile ecmFile)
 			throws AsiaException, Exception {
 		
 		if( ecmType == ECMType.IBM_FILENET ) {		
-			return filenetConnector.createFile(byteStream, destinationPath, filename);
+			return filenetConnector.createFile(byteStream, containerType, filename, fileExtension, appName, destinationPath, ecmFile);
 		} else if( ecmType == ECMType.ALFRESCO) {
-			return alfrescoConnector.createFile(byteStream, destinationPath, filename);
+			return alfrescoConnector.createFile(byteStream, containerType, filename, fileExtension, appName, destinationPath, ecmFile);
 		} else {			
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");			
 		}

@@ -31,6 +31,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		System.out.println("uploadMulticanaleDaoJdbcTemplate: " + uploadMulticanaleDaoJdbcTemplate.getClass().getName());
 		if (uploadMulticanaleDaoJdbcTemplate == null)
 			throw new Exception(
 					"ERROR: uploadMulticanaleDaoJdbcTemplate not injected");

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector;
-import it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetConnector;
 import it.bmed.asia.exception.AsiaException;
 
 import java.io.InputStream;
@@ -20,15 +19,21 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ECMServiceTest {
 	private ApplicationContext context = null;
 	private AlfrescoConnector alfrescoConnector = null;
-	private FilenetConnector filenetConnector = null;
+//	private FilenetConnector filenetConnector = null;
 	private String fileId = null;
 	private boolean connected = false;
 
 	@Before
 	public void setUp() throws Exception {
+		try {
 		context = new ClassPathXmlApplicationContext("ecmconnectors-context.xml");
 		alfrescoConnector = (AlfrescoConnector) context.getBean("alfrescoConnector");
+//		dataSource = (DataSource) context.getBean("dataSource");
+//		System.out.println(dataSource.getClass().getName());
 		connected = alfrescoConnector.createConnection();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@After
@@ -55,7 +60,7 @@ public class ECMServiceTest {
 
 		// check createFile
 		try {
-			fileId = alfrescoConnector.createFile(buffer, "/upload-multicanale-dev", filename, type);
+			fileId = alfrescoConnector.createFile(buffer, "", filename, type, "", "/upload-multicanale-dev", null);
 			assertNotNull(fileId);
 		} catch (Exception e) {
 			e.printStackTrace();

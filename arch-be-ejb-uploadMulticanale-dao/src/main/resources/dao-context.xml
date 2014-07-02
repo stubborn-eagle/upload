@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
    xmlns:context="http://www.springframework.org/schema/context"
@@ -11,12 +12,9 @@
    http://www.springframework.org/schema/context
    http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-   <context:component-scan base-package="it.bmed" />
+   	<context:component-scan base-package="it.bmed" />
+	<context:component-scan base-package="arch.bmed" />
 
-   <!-- Datasource for Plain jdbc data access -->
- 
+   <!-- Datasource for Plain jdbc data access --> 
    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/rdv/ds/pushbe" resource-ref="true" />
-   <!-- 
-   <jee:jndi-lookup id="dataSource" jndi-name="jdbc/banca/ds/dbaz" resource-ref="true" />
-	-->   
 </beans>

@@ -1,8 +1,9 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import java.util.List;
+import it.bmed.asia.api.BaseBeResponse;
+import it.bmed.asia.api.CommonUtils;
 
-import it.bmed.asia.api.*;
+import java.util.List;
 
 public class AzureResponse extends BaseBeResponse<AzureDTO> {
 	/**

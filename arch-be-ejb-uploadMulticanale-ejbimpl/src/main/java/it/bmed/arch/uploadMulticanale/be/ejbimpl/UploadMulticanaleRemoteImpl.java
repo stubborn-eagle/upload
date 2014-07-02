@@ -45,19 +45,23 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 @Interceptors(SpringBeanAutowiringInterceptor.class)
 public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 
-	Logger log = LoggerFactory.getLogger(UploadMulticanaleRemoteImpl.class);
+//	private static final Logger log = LoggerFactory.getLogger(UploadMulticanaleRemoteImpl.class);
 
 	@Autowired
 	UploadMulticanaleService uploadMulticanaleService;
 
 	@Autowired
-	ECMService ecmService;
+	private ECMService ecmService;
 
 	@Autowired
-	AzureService azureService;
+	private AzureService azureService;
 
 	@Autowired
-	NASService nasService;
+	private NASService nasService;
+	
+	public UploadMulticanaleRemoteImpl() {
+		super();
+	}
 
 	@Override
 	public ECMResponse insertMedia(ECMRequest r) throws SystemFault,
@@ -253,7 +257,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 			boolean response = false;
 			ECMResponse ecmResponse = null;
 			if (request == null) {
-				log.error("deleteFileNAS: request cannot be null.");
+//				log.error("deleteFileNAS: request cannot be null.");
 				throw new AsiaException("deleteFileNAS: request cannot be null.");
 			}
 	
@@ -262,9 +266,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 				response = nasService.deleteFile(ecmResponse.getResult()
 						.getSourcePath(), ecmResponse.getResult()
 						.getNameFile());
-				log.info("deleteFileNAS: operation succesfully returned.");
+//				log.info("deleteFileNAS: operation succesfully returned.");
 			} catch (Exception e) {
-				log.error("deleteFileNAS: " + e.getMessage());
+//				log.error("deleteFileNAS: " + e.getMessage());
 	//			throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: "
 	//					+ e.getMessage());
 				throw e;
@@ -281,9 +285,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		boolean result = false;
 		ECMResponse response = null;
 		try {
-			log.info("deleteFileECM params: " + response);
+//			log.info("deleteFileECM params: " + response);
 		} catch (NullPointerException e) {
-			log.error("deleteFileECM: request argument cannot be null.");
+//			log.error("deleteFileECM: request argument cannot be null.");
 			throw new AsiaApplicationException("TCH_ECM_ERROR",
 					"deleteFileECM: request argument cannot be null.");
 		}
@@ -291,12 +295,12 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		try {
 			response = listMedia(request);
 			if (response == null) {
-				log.error("deleteFileECM: ListMedia cannot be null. ");
+//				log.error("deleteFileECM: ListMedia cannot be null. ");
 				throw new AsiaApplicationException("TCH_ECM_ERROR",
 						"deleteFileECM: ListMedia cannot be null. ");
 			}
 		} catch (Exception e) {
-			log.error("deleteFileECM: SQLException. " + e.getMessage());
+//			log.error("deleteFileECM: SQLException. " + e.getMessage());
 			throw new AsiaApplicationException("TCH_ECM_ERROR",
 					"deleteFileECM: SQLException. " + e.getMessage());
 		}
@@ -305,11 +309,11 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 			result = ecmService.removeFile(response.getResult().getEcmType(),
 					response.getResult().getIdFileECM());
 		} catch (Exception e) {
-			log.error("deleteFileECM " + e.getMessage());
+//			log.error("deleteFileECM " + e.getMessage());
 			throw new AsiaApplicationException("TCH_ECM_ERROR",
 					"deleteFileECM: " + e.getMessage());
 		}
-		log.info("deleteFileECM returns: " + result);
+//		log.info("deleteFileECM returns: " + result);
 		return result;
 	}
 
@@ -344,17 +348,15 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		ecmFile.setIdFile(request.getEcmParam().getIdFile());
 		ecmRequest.setEcmFile(ecmFile);
 		
-		
-		
 		try {
 			ecmResponse = listMedia(ecmRequest);
 			
 			// Load file from NAS
-			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile());
+			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile() + ecmResponse.getResult().getType());
 			ecmFile = ecmResponse.getResult();
 			
 			// Create file on ECM
-			idFileECM = ecmService.createFile(ecmFile.getEcmType(), buffer, ecmFile.getContainerType(), ecmFile.getNameFile(),"", null, ecmFile.getDestinationPath(), null);
+			idFileECM = ecmService.createFile(ecmFile.getEcmType(), buffer, ecmFile.getContainerType(), ecmFile.getNameFile(), ecmFile.getType(), ecmFile.getNameApp(), ecmFile.getDestinationPath(), ecmFile);
 			updateECMRequest.setContainerType(ecmFile.getContainerType());
 			updateECMRequest.setDestinationPath(ecmFile.getDestinationPath());
 			updateECMRequest.setEcmType(ecmFile.getEcmType());
@@ -373,7 +375,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 			moveDTO.setFileId(ecmFile.getIdFile());
 		} catch (ApplicationException e) {
 			//TODO :hnadle exception
-			log.error("moveFile: " + e.getMessage());
+//			log.error("moveFile: " + e.getMessage());
 			throw e;
 		}
 		response.setResult(moveDTO);
@@ -385,7 +387,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	 */
 	@Override
 	public ECMResponse convertToPDF(ECMConvertRequest request) throws RemoteException, Exception {
-		ECMResponse response = null;
 		ECMRequest ecmRequest = new ECMRequest();
 		ECMResponse ecmResponse = new ECMResponse();
 		ECMFile ecmFile = new ECMFile();
@@ -393,6 +394,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		ecmRequest.setEcmFile(ecmFile);
 		ecmResponse = listMedia(ecmRequest);
 		// TODO: return an empty pdf 
-		return response;
+		return ecmResponse;
 	}
 }

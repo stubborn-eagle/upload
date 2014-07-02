@@ -1,231 +1,262 @@
-<?xml version='1.0' encoding='UTF-8'?><!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.5. --><xs:schema xmlns:tns="http://api.be.uploadMulticanale.arch.bmed.it/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://api.be.uploadMulticanale.arch.bmed.it/">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is 
+	Oracle JAX-WS 2.1.5. -->
+<xs:schema xmlns:tns="http://api.be.uploadMulticanale.arch.bmed.it/"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+	targetNamespace="http://api.be.uploadMulticanale.arch.bmed.it/">
 
-<xs:element name="Exception" type="tns:Exception"/>
+	<xs:element name="Exception" type="tns:Exception" />
 
-<xs:complexType name="ecmConvertRequest">
-<xs:complexContent>
-<xs:extension base="tns:baseBeRequest">
-<xs:sequence>
-<xs:element name="ecmFile" type="tns:ecmFile" minOccurs="0"/>
-<xs:element name="ecmParam" type="tns:ecmParam" minOccurs="0"/>
-<xs:element name="idFile" type="xs:int" minOccurs="0"/>
-<xs:element name="requestMetaData" type="tns:requestMetaData" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="ecmConvertRequest">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeRequest">
+				<xs:sequence>
+					<xs:element name="ecmFile" type="tns:ecmFile" minOccurs="0" />
+					<xs:element name="ecmParam" type="tns:ecmParam"
+						minOccurs="0" />
+					<xs:element name="idFile" type="xs:int" minOccurs="0" />
+					<xs:element name="requestMetaData" type="tns:requestMetaData"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="baseBeRequest">
-<xs:sequence>
-<xs:element name="metadata" type="tns:requestMetaData" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="baseBeRequest">
+		<xs:sequence>
+			<xs:element name="metadata" type="tns:requestMetaData"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="ecmFile">
-<xs:sequence>
-<xs:element name="channel" type="xs:string" minOccurs="0"/>
-<xs:element name="containerType" type="xs:string" minOccurs="0"/>
-<xs:element name="destinationPath" type="xs:string" minOccurs="0"/>
-<xs:element name="ecmType" type="tns:ecmType" minOccurs="0"/>
-<xs:element name="idFile" type="xs:int" minOccurs="0"/>
-<xs:element name="idFileECM" type="xs:string" minOccurs="0"/>
-<xs:element name="nameApp" type="xs:string" minOccurs="0"/>
-<xs:element name="nameFile" type="xs:string" minOccurs="0"/>
-<xs:element name="source" type="tns:ecmSource" minOccurs="0"/>
-<xs:element name="sourcePath" type="xs:string" minOccurs="0"/>
-<xs:element name="state" type="tns:ecmState" minOccurs="0"/>
-<xs:element name="type" type="xs:string" minOccurs="0"/>
-<xs:element name="userId" type="xs:string" minOccurs="0"/>
-<xs:element name="userType" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="ecmFile">
+		<xs:sequence>
+			<xs:element name="channel" type="xs:string" minOccurs="0" />
+			<xs:element name="containerType" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="destinationPath" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="ecmType" type="tns:ecmType" minOccurs="0" />
+			<xs:element name="idFile" type="xs:int" minOccurs="0" />
+			<xs:element name="idFileECM" type="xs:string" minOccurs="0" />
+			<xs:element name="nameApp" type="xs:string" minOccurs="0" />
+			<xs:element name="nameFile" type="xs:string" minOccurs="0" />
+			<xs:element name="source" type="tns:ecmSource" minOccurs="0" />
+			<xs:element name="sourcePath" type="xs:string" minOccurs="0" />
+			<xs:element name="state" type="tns:ecmState" minOccurs="0" />
+			<xs:element name="type" type="xs:string" minOccurs="0" />
+			<xs:element name="userId" type="xs:string" minOccurs="0" />
+			<xs:element name="userType" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="ecmParam">
-<xs:sequence>
-<xs:element name="containerType" type="xs:string" minOccurs="0"/>
-<xs:element name="destinationPath" type="xs:string" minOccurs="0"/>
-<xs:element name="ecmType" type="tns:ecmType" minOccurs="0"/>
-<xs:element name="idFile" type="xs:int" minOccurs="0"/>
-<xs:element name="nameApp" type="xs:string" minOccurs="0"/>
-<xs:element name="removeFromNAS" type="tns:removeFromNAS" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="ecmParam">
+		<xs:sequence>
+			<xs:element name="containerType" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="destinationPath" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="ecmType" type="tns:ecmType" minOccurs="0" />
+			<xs:element name="idFile" type="xs:int" minOccurs="0" />
+			<xs:element name="nameApp" type="xs:string" minOccurs="0" />
+			<xs:element name="removeFromNAS" type="tns:removeFromNAS"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="requestMetaData">
-<xs:sequence>
-<xs:element name="abiCode" type="xs:string" minOccurs="0"/>
-<xs:element name="callerDataId" type="xs:string" minOccurs="0"/>
-<xs:element name="channelCode" type="xs:string" minOccurs="0"/>
-<xs:element name="companyCode" type="xs:string" minOccurs="0"/>
-<xs:element name="familiBankerCode" type="xs:string" minOccurs="0"/>
-<xs:element name="inputCommonDataVestion" type="xs:string" minOccurs="0"/>
-<xs:element name="ip" type="xs:string" minOccurs="0"/>
-<xs:element name="keylog" type="xs:string" minOccurs="0"/>
-<xs:element name="placeCode" type="xs:string" minOccurs="0"/>
-<xs:element name="statusCode" type="xs:int"/>
-<xs:element name="swift" type="xs:string" minOccurs="0"/>
-<xs:element name="timeStamp" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="userAgent" type="xs:string" minOccurs="0"/>
-<xs:element name="userId" type="xs:string" minOccurs="0"/>
-<xs:element name="versionBs" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="requestMetaData">
+		<xs:sequence>
+			<xs:element name="abiCode" type="xs:string" minOccurs="0" />
+			<xs:element name="callerDataId" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="channelCode" type="xs:string" minOccurs="0" />
+			<xs:element name="companyCode" type="xs:string" minOccurs="0" />
+			<xs:element name="familiBankerCode" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="inputCommonDataVestion" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="ip" type="xs:string" minOccurs="0" />
+			<xs:element name="keylog" type="xs:string" minOccurs="0" />
+			<xs:element name="placeCode" type="xs:string" minOccurs="0" />
+			<xs:element name="statusCode" type="xs:int" />
+			<xs:element name="swift" type="xs:string" minOccurs="0" />
+			<xs:element name="timeStamp" type="xs:dateTime" minOccurs="0" />
+			<xs:element name="userAgent" type="xs:string" minOccurs="0" />
+			<xs:element name="userId" type="xs:string" minOccurs="0" />
+			<xs:element name="versionBs" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="ecmResponse">
-<xs:complexContent>
-<xs:extension base="tns:baseBeResponse">
-<xs:sequence>
-<xs:element name="result" type="tns:ecmFile" minOccurs="0"/>
-<xs:element name="results" type="tns:ecmFile" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="ecmResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeResponse">
+				<xs:sequence>
+					<xs:element name="result" type="tns:ecmFile" minOccurs="0" />
+					<xs:element name="results" type="tns:ecmFile" nillable="true"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="baseBeResponse" abstract="true">
-<xs:sequence>
-<xs:element name="responseMetaData" type="tns:responseMetaData" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="baseBeResponse" abstract="true">
+		<xs:sequence>
+			<xs:element name="responseMetaData" type="tns:responseMetaData"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="responseMetaData">
-<xs:sequence>
-<xs:element name="callerDataId" type="xs:string" minOccurs="0"/>
-<xs:element name="channelCode" type="xs:string" minOccurs="0"/>
-<xs:element name="companyCode" type="xs:string" minOccurs="0"/>
-<xs:element name="outputCommonDataVersion" type="xs:string" minOccurs="0"/>
-<xs:element name="placeCode" type="xs:string" minOccurs="0"/>
-<xs:element name="statusCode" type="xs:int"/>
-<xs:element name="userId" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="responseMetaData">
+		<xs:sequence>
+			<xs:element name="callerDataId" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="channelCode" type="xs:string" minOccurs="0" />
+			<xs:element name="companyCode" type="xs:string" minOccurs="0" />
+			<xs:element name="outputCommonDataVersion" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="placeCode" type="xs:string" minOccurs="0" />
+			<xs:element name="statusCode" type="xs:int" />
+			<xs:element name="userId" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="Exception">
-<xs:sequence>
-<xs:element name="message" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="Exception">
+		<xs:sequence>
+			<xs:element name="message" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="ecmRequest">
-<xs:complexContent>
-<xs:extension base="tns:baseBeRequest">
-<xs:sequence>
-<xs:element name="ecmFile" type="tns:ecmFile" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="ecmRequest">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeRequest">
+				<xs:sequence>
+					<xs:element name="ecmFile" type="tns:ecmFile" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="updateECMRequest">
-<xs:complexContent>
-<xs:extension base="tns:baseBeRequest">
-<xs:sequence>
-<xs:element name="containerType" type="xs:string" minOccurs="0"/>
-<xs:element name="destinationPath" type="xs:string" minOccurs="0"/>
-<xs:element name="ecmType" type="tns:ecmType" minOccurs="0"/>
-<xs:element name="idFile" type="xs:int" minOccurs="0"/>
-<xs:element name="idFileECM" type="xs:string" minOccurs="0"/>
-<xs:element name="nameApp" type="xs:string" minOccurs="0"/>
-<xs:element name="state" type="tns:ecmState" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="updateECMRequest">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeRequest">
+				<xs:sequence>
+					<xs:element name="containerType" type="xs:string"
+						minOccurs="0" />
+					<xs:element name="destinationPath" type="xs:string"
+						minOccurs="0" />
+					<xs:element name="ecmType" type="tns:ecmType" minOccurs="0" />
+					<xs:element name="idFile" type="xs:int" minOccurs="0" />
+					<xs:element name="idFileECM" type="xs:string" minOccurs="0" />
+					<xs:element name="nameApp" type="xs:string" minOccurs="0" />
+					<xs:element name="state" type="tns:ecmState" minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="azureRequest">
-<xs:complexContent>
-<xs:extension base="tns:baseBeRequest">
-<xs:sequence>
-<xs:element name="expirationTime" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="readOnly" type="xs:boolean"/>
-<xs:element name="resourceBlobFile" type="xs:string" minOccurs="0"/>
-<xs:element name="safeOffset" type="xs:boolean"/>
-<xs:element name="targetContainer" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="azureRequest">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeRequest">
+				<xs:sequence>
+					<xs:element name="expirationTime" type="xs:dateTime"
+						minOccurs="0" />
+					<xs:element name="readOnly" type="xs:boolean" />
+					<xs:element name="resourceBlobFile" type="xs:string"
+						minOccurs="0" />
+					<xs:element name="safeOffset" type="xs:boolean" />
+					<xs:element name="targetContainer" type="xs:string"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="azureResponse">
-<xs:complexContent>
-<xs:extension base="tns:baseBeResponse">
-<xs:sequence>
-<xs:element name="result" type="tns:azureDTO" minOccurs="0"/>
-<xs:element name="results" type="tns:azureDTO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="azureResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeResponse">
+				<xs:sequence>
+					<xs:element name="result" type="tns:azureDTO" minOccurs="0" />
+					<xs:element name="results" type="tns:azureDTO" nillable="true"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="azureDTO">
-<xs:sequence>
-<xs:element name="container" type="xs:string" minOccurs="0"/>
-<xs:element name="expiredTime" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="resourceBlobFile" type="xs:string" minOccurs="0"/>
-<xs:element name="SAS" type="xs:string" minOccurs="0"/>
-<xs:element name="startTime" type="xs:dateTime" minOccurs="0"/>
-<xs:element name="URI" type="xs:string" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="azureDTO">
+		<xs:sequence>
+			<xs:element name="container" type="xs:string" minOccurs="0" />
+			<xs:element name="expiredTime" type="xs:dateTime"
+				minOccurs="0" />
+			<xs:element name="resourceBlobFile" type="xs:string"
+				minOccurs="0" />
+			<xs:element name="SAS" type="xs:string" minOccurs="0" />
+			<xs:element name="startTime" type="xs:dateTime" minOccurs="0" />
+			<xs:element name="URI" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:complexType name="moveRequest">
-<xs:complexContent>
-<xs:extension base="tns:baseBeRequest">
-<xs:sequence>
-<xs:element name="ecmParam" type="tns:ecmParam" minOccurs="0"/>
-<xs:element name="requestMetaData" type="tns:requestMetaData" minOccurs="0"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="moveRequest">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeRequest">
+				<xs:sequence>
+					<xs:element name="ecmParam" type="tns:ecmParam"
+						minOccurs="0" />
+					<xs:element name="requestMetaData" type="tns:requestMetaData"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="moveResponse">
-<xs:complexContent>
-<xs:extension base="tns:baseBeResponse">
-<xs:sequence>
-<xs:element name="result" type="tns:moveDTO" minOccurs="0"/>
-<xs:element name="results" type="tns:moveDTO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
+	<xs:complexType name="moveResponse">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBeResponse">
+				<xs:sequence>
+					<xs:element name="result" type="tns:moveDTO" minOccurs="0" />
+					<xs:element name="results" type="tns:moveDTO" nillable="true"
+						minOccurs="0" maxOccurs="unbounded" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
 
-<xs:complexType name="moveDTO">
-<xs:sequence>
-<xs:element name="ecmFileId" type="xs:string" minOccurs="0"/>
-<xs:element name="fileId" type="xs:int" minOccurs="0"/>
-</xs:sequence>
-</xs:complexType>
+	<xs:complexType name="moveDTO">
+		<xs:sequence>
+			<xs:element name="ecmFileId" type="xs:string" minOccurs="0" />
+			<xs:element name="fileId" type="xs:int" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
 
-<xs:simpleType name="ecmType">
-<xs:restriction base="xs:string">
-<xs:enumeration value="IBM_FILENET"/>
-<xs:enumeration value="ALFRESCO"/>
-<xs:enumeration value="AZURE"/>
-</xs:restriction>
-</xs:simpleType>
+	<xs:simpleType name="ecmType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="IBM_FILENET" />
+			<xs:enumeration value="ALFRESCO" />
+			<xs:enumeration value="AZURE" />
+		</xs:restriction>
+	</xs:simpleType>
 
-<xs:simpleType name="ecmSource">
-<xs:restriction base="xs:string">
-<xs:enumeration value="INTERNET_BANKING"/>
-<xs:enumeration value="PORTALE_DI_SEDE"/>
-<xs:enumeration value="RETE_DI_VENDITA"/>
-</xs:restriction>
-</xs:simpleType>
+	<xs:simpleType name="ecmSource">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INTERNET_BANKING" />
+			<xs:enumeration value="PORTALE_DI_SEDE" />
+			<xs:enumeration value="RETE_DI_VENDITA" />
+		</xs:restriction>
+	</xs:simpleType>
 
-<xs:simpleType name="ecmState">
-<xs:restriction base="xs:string">
-<xs:enumeration value="INSERTED"/>
-<xs:enumeration value="PENDING"/>
-<xs:enumeration value="MOVED"/>
-<xs:enumeration value="DELETED"/>
-</xs:restriction>
-</xs:simpleType>
+	<xs:simpleType name="ecmState">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INSERTED" />
+			<xs:enumeration value="PENDING" />
+			<xs:enumeration value="MOVED" />
+			<xs:enumeration value="DELETED" />
+		</xs:restriction>
+	</xs:simpleType>
 
-<xs:simpleType name="removeFromNAS">
-<xs:restriction base="xs:string">
-<xs:enumeration value="NOT_REMOVE"/>
-<xs:enumeration value="REMOVE"/>
-</xs:restriction>
-</xs:simpleType>
+	<xs:simpleType name="removeFromNAS">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NOT_REMOVE" />
+			<xs:enumeration value="REMOVE" />
+		</xs:restriction>
+	</xs:simpleType>
 </xs:schema>

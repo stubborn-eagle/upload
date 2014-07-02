@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>it.bmed.arch</groupId>
 		<artifactId>bmed-master-pom</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
@@ -13,7 +13,6 @@
 	<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 	<packaging>pom</packaging>
 	<name>arch-be-ejb-uploadMulticanale</name>
-
 	<version>1.0.0-SNAPSHOT</version>
 
   <modules>

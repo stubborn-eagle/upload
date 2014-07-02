@@ -1,5 +1,6 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
@@ -12,7 +13,6 @@ import java.util.Map;
 
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
-import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
 import org.apache.chemistry.opencmis.commons.enums.VersioningState;
@@ -28,10 +28,12 @@ public class AlfrescoConnector extends AbstractECMConnector {
 		// TODO Auto-generated constructor stub
 	}
 	@Override
-	public String createFile(byte[] buffer, String destinationPath, String filename) throws AsiaException {
+	public String createFile(byte[] buffer, String containerType,
+			String filename, String fileExtension, String appName,
+			String destinationPath, ECMFile ecmFile) throws AsiaException {
 
 		// throw new AsiaException("TCH_ECM_ERROR", "createFile - argument cannot be null!");
-		logger.debug("createFile: creating " + filename);
+		logger.debug("createFile: creating " + filename + "." + fileExtension);
 
 		String fileId = "";
 		Document document = null;
@@ -64,14 +66,14 @@ public class AlfrescoConnector extends AbstractECMConnector {
 			//rootFolder = session.getRootFolder();
 			folder = (Folder) session.getObjectByPath(destinationPath);
 			InputStream inputStream = new ByteArrayInputStream(buffer);
-			contentStream = new ContentStreamImpl(filename, BigInteger.valueOf(buffer.length), "", inputStream);
+			contentStream = new ContentStreamImpl(filename + "." + fileExtension, BigInteger.valueOf(buffer.length), "", inputStream);
 			// document = (Document) session.getObjectByPath(destinationPath + "/" + filename);
 			document = folder.createDocument(properties, contentStream, VersioningState.MAJOR);
 			fileId  = document.getId();
 			logger.debug("createFile: created file with id " + fileId);
 			//System.out.println("Connection created: rootFolderId = " + folderId);
 		} catch (CmisContentAlreadyExistsException e) {
-			logger.debug("createFile: " + e.getMessage() + "'" + session.getObjectByPath(destinationPath + "/" + filename).getId() + "'");
+			logger.debug("createFile: " + e.getMessage() + "'" + session.getObjectByPath(destinationPath + "/" + filename + "." + fileExtension).getId() + "'");
 		} catch (Exception e) {
 			logger.error("createFile: " + e.getMessage());
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());

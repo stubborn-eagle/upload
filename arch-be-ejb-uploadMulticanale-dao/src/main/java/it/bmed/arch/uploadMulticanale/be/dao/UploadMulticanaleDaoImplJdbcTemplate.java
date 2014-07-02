@@ -6,9 +6,6 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
-import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
-import it.bmed.arch.uploadMulticanale.be.api.MediaRequest;
-import it.bmed.arch.uploadMulticanale.be.api.MediaResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.api.CommonUtils;
@@ -30,11 +27,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository("UploadMulticanaleDaoJdbcTemplate")
-public class UploadMulticanaleDaoImplJdbcTemplate implements
-		UploadMulticanaleDaoJdbcTemplate, InitializingBean {
+public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDaoJdbcTemplate, InitializingBean {
 
-	Logger log = LoggerFactory
-			.getLogger(UploadMulticanaleDaoImplJdbcTemplate.class);
+	Logger log = LoggerFactory.getLogger(UploadMulticanaleDaoImplJdbcTemplate.class);
+	
 	@Autowired
 	DataSource dataSource;
 
@@ -50,6 +46,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		System.out.println("dataSource bean = " + dataSource.getClass().getName());
 	}
 
 	@Override
