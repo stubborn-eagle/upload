@@ -1,6 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ECMParam  implements Serializable {
 	private static final long serialVersionUID = -2006320181477501366L;
@@ -11,6 +12,7 @@ public class ECMParam  implements Serializable {
 	private String destinationPath = null;
 	private String containerType = null;
 	private RemoveFromNAS removeFromNAS = null;
+	private ArrayList<FileProperty> property;
 	
 	/**
 	 * @return the idFile
@@ -84,6 +86,18 @@ public class ECMParam  implements Serializable {
 	public void setRemoveFromNAS(RemoveFromNAS removeFromNAS) {
 		this.removeFromNAS = removeFromNAS;
 	}
+	/**
+	 * @return the property
+	 */
+	public ArrayList<FileProperty> getProperty() {
+		return property;
+	}
+	/**
+	 * @param property the property to set
+	 */
+	public void setProperty(ArrayList<FileProperty> property) {
+		this.property = property;
+	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -98,6 +112,8 @@ public class ECMParam  implements Serializable {
 		result = prime * result + ((ecmType == null) ? 0 : ecmType.hashCode());
 		result = prime * result + ((idFile == null) ? 0 : idFile.hashCode());
 		result = prime * result + ((nameApp == null) ? 0 : nameApp.hashCode());
+		result = prime * result
+				+ ((property == null) ? 0 : property.hashCode());
 		result = prime * result
 				+ ((removeFromNAS == null) ? 0 : removeFromNAS.hashCode());
 		return result;
@@ -136,6 +152,11 @@ public class ECMParam  implements Serializable {
 				return false;
 		} else if (!nameApp.equals(other.nameApp))
 			return false;
+		if (property == null) {
+			if (other.property != null)
+				return false;
+		} else if (!property.equals(other.property))
+			return false;
 		if (removeFromNAS != other.removeFromNAS)
 			return false;
 		return true;
@@ -148,7 +169,8 @@ public class ECMParam  implements Serializable {
 		return "ECMParam [idFile=" + idFile + ", ecmType=" + ecmType
 				+ ", nameApp=" + nameApp + ", destinationPath="
 				+ destinationPath + ", containerType=" + containerType
-				+ ", removeFromNAS=" + removeFromNAS + "]";
+				+ ", removeFromNAS=" + removeFromNAS + ", property=" + property
+				+ "]";
 	}
 	
 }

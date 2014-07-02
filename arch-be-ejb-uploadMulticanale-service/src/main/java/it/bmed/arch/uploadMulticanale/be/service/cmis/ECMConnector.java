@@ -4,6 +4,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 
 import java.io.InputStream;
 import java.rmi.RemoteException;
@@ -33,8 +34,7 @@ public interface ECMConnector {
 	 * @throws Exception
 	 */
 //	String createFile(byte[] buffer, String destinationPath, String filename, String type);
-	String createFile(byte[] buffer, String containerType, String filename,
-			String fileExtension, String appName, String destinationPath, ECMFile ecmFile);
+	String createFile(byte[] buffer, ECMFile ecmFile, ECMParam ecmParam);
 	
 	/**
 	 * Delete a file from the ECM using it's respective file Id

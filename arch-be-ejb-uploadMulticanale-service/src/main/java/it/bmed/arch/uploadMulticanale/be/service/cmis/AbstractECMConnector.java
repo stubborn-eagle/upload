@@ -140,7 +140,8 @@ public abstract class AbstractECMConnector implements ECMConnector {
 			try {
 				repositories = factory.getRepositories(parameters);
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.out.println(e.getMessage());
+				throw e;
 			}
 			logger.debug("createConnection - Retrieved "+ repositories.size() + " repository: got the first one '" + repositories.get(0).getName() + "'");
 			if( repositories != null && repositories.size() > 0 ) {

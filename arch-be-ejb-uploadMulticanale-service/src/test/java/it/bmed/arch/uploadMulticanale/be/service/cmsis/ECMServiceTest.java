@@ -3,6 +3,7 @@ package it.bmed.arch.uploadMulticanale.be.service.cmsis;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector;
 import it.bmed.asia.exception.AsiaException;
 
@@ -48,7 +49,10 @@ public class ECMServiceTest {
 		String type = "txt";
 		String txtContent = "Halo Wars!";
 		byte[] buffer = null;
-		
+		ECMFile ecmFile = new ECMFile();
+		ecmFile.setType(type);
+		ecmFile.setNameFile(filename);
+		ecmFile.setDestinationPath("/upload-multicanale-dev/");
 		// check connection
 		assertTrue(connected);
 
@@ -60,7 +64,7 @@ public class ECMServiceTest {
 
 		// check createFile
 		try {
-			fileId = alfrescoConnector.createFile(buffer, "", filename, type, "", "/upload-multicanale-dev", null);
+			fileId = alfrescoConnector.createFile(buffer, ecmFile, null);
 			assertNotNull(fileId);
 		} catch (Exception e) {
 			e.printStackTrace();
