@@ -1,4 +1,4 @@
-package it.bmed.arch.uploadMulticanale.be.service.cmsis;
+package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -70,8 +70,7 @@ public class ECMServiceTest {
 			e.printStackTrace();
 		}
 		// check downloadFile
-		assertEquals(txtContent,
-				convertStreamToString(alfrescoConnector.downloadFile(fileId)));
+		assertEquals(txtContent, alfrescoConnector.downloadFile(fileId));
 		// check removeFile
 		boolean removed = false;
 		try {
@@ -80,9 +79,5 @@ public class ECMServiceTest {
 		} catch (AsiaException e) {
 			e.printStackTrace();
 		}
-	}
-	private static String convertStreamToString(InputStream is) {
-		Scanner s = new Scanner(is).useDelimiter("\\A");
-		return (s.hasNext() ? s.next() : "");
 	}
 }
