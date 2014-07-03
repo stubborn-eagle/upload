@@ -365,6 +365,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 			updateECMRequest.setIdFileECM(idFileECM);
 			updateECMRequest.setNameApp(ecmFile.getNameApp());
 			updateECMRequest.setState(ECMState.MOVED);
+			// FIXME: dao doesn't handle operation timestamp field 
 //			updateMediaRequest.setOperationTimestamp(new Timestamp(new Date().getTime())); //TODO: instance variable to be implemented
 			updateMedia(updateECMRequest);
 			

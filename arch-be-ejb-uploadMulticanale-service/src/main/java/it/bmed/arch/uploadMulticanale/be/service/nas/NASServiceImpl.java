@@ -18,8 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import javax.activation.FileTypeMap;
-
 
 /**
  * @author donatello.boccaforno
@@ -67,34 +65,35 @@ public class NASServiceImpl implements NASService {
 	}
 	
 	@Override
-		public byte[] loadFile(String path, String filename)
-				throws TechnicalException, Exception {		
+		public byte[] loadFile(String path, String filename) {		
 			InputStream inputStream = null;
 			File file = null;
 			int fileLength = 0;
 			
 			file = new File(path + filename);
 			fileLength = (int) file.length();
-	
-	//		TODO: check this if required		
-	//		if(fileLength > MAX_FILE_SIZE) {
-	//			throw new AsiaException("Illegal file size.");
-	//		}
+
+			// FIXME: check which is the real limit in bytes to load a file
+			if (fileLength >= Integer.MAX_VALUE) { 
+				throw new AsiaException("Illegal file size.");
+			}
 			
 			byte[] buffer = new byte[fileLength];
 			try {
 				inputStream = new FileInputStream(file);
 				if (inputStream.read(buffer) == -1) {
-					throw new AsiaException(new IOException("Error while loding file."));
+					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: BOF equals to EOF.");
 				}
 			} catch (FileNotFoundException e) {
-				throw new AsiaException(e);
+				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: file not found.", e);
+			} catch (IOException e) {
+				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: can't read from file.", e);
 			} finally {
 				if(inputStream != null) {
 					try {
 						inputStream.close();
 					} catch (Exception e) {
-						logger.error("loadFile " + e.getMessage());
+						logger.error("loadFile " + UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode() + " - " + e.getMessage());
 					}
 				}
 			}
