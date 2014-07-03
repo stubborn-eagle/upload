@@ -4,9 +4,11 @@ import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -156,5 +158,15 @@ public abstract class AbstractECMConnector implements ECMConnector {
 		logger.debug("createConnection - session established");
 		
 		return true;
+	}
+	
+	/**
+	 * Convert an InputStream returning an empty string if InputStream is empty
+	 * @param is InputStream
+	 * @return The converted string
+	 */
+	protected static String convertStreamToString(InputStream is) {
+		Scanner s = new Scanner(is, "UTF-8").useDelimiter("\\A");
+		return (s.hasNext() ? s.next() : "");
 	}
 }

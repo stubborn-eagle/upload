@@ -8,9 +8,11 @@ import it.bmed.asia.log.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
@@ -100,7 +102,7 @@ public class AlfrescoConnector extends AbstractECMConnector {
 		return result;
 	}
 	@Override
-	public InputStream downloadFile(String ecmFileId) throws AsiaException {
+	public String downloadFile(String ecmFileId) throws AsiaException {
 		InputStream stream = null;
 		Document document = null;		
 		try {					
@@ -108,11 +110,10 @@ public class AlfrescoConnector extends AbstractECMConnector {
 			document = (Document) session.getObject(ecmFileId);
 			stream = document.getContentStream().getStream();
 			logger.debug("downloadFile returned successfully");
+			return convertStreamToString(stream);			
 		} catch (Exception e) {
 			logger.error("downloadFile " + e.getMessage());
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
-		}	 
-		return stream;
+		}
 	}
-	
 }

@@ -1,6 +1,10 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
-
+/**
+ * Index node used in delete and download filenet requests
+ * @author donatello.boccaforno
+ *
+ */
 public class IndexDelete {
 	//ATTRIBUTI DI INDEX
 	private String name;

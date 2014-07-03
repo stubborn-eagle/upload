@@ -52,5 +52,5 @@ public interface ECMConnector {
 	 * @throws RemoteException
 	 * @throws Exception
 	 */
-	InputStream downloadFile(String ecmFileId);
+	String downloadFile(String ecmFileId);
 }

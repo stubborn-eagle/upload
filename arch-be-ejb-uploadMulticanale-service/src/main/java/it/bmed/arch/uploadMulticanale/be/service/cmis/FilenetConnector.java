@@ -1,36 +1,44 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.CREATE_REQUEST;
+import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.DELETE_REQUEST;
+import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.DOWNLOAD_REQUEST;
 import filenet.ws.client.WSGDIImpl;
 import filenet.ws.client.WSGDIImplService;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
+import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
+import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.StringReader;
 
 import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public class FilenetConnector extends AbstractECMConnector implements
 		InitializingBean {
 	private static final Logger logger = LoggerFactory
 			.getLogger(FilenetConnector.class);
 	@Autowired
-	CommandServiceLocator ejbServiceLocator; // it.bmed.asia.utility.CommandServiceLocatorImpl
+	private CommandServiceLocator ejbServiceLocator; // it.bmed.asia.utility.CommandServiceLocatorImpl
 
 	@HandlerChain(file = "handler-chain-be.xml")
 	public static class FileNetFactory extends WSGDIImplService implements
@@ -58,12 +66,12 @@ public class FilenetConnector extends AbstractECMConnector implements
 					.getWsClient(FileNetFactory.class);
 			// Encoding file in base64 preparing the xml transformation
 			String encodeFile = (Util.encodeFileToBase64Binary(buffer));
-			String xml = Util.encodeXML(encodeFile, ecmFile, ecmParam);
+			String xml = Util.encodeXML(CREATE_REQUEST, encodeFile, ecmFile, ecmParam);
 			String response = serviceFileNet.addObject(xml);
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("createFile " + e.getMessage());
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "createFile error", e);
 		}
 		return idFilenet;
 	}
@@ -75,20 +83,30 @@ public class FilenetConnector extends AbstractECMConnector implements
 		ECMParam ecmParam = new ECMParam();
 		try {
 			WSGDIImpl serviceFileNet = (WSGDIImpl) ejbServiceLocator.getWsClient(FileNetFactory.class);
-			String xml = Util.encodeXML(ecmFile);
+			String xml = Util.encodeXML(DELETE_REQUEST, null, ecmFile, null);
 			serviceFileNet.deleteObject(xml);
 			return true;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			logger.error("removeFile " + e.getMessage());
+//			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "removeFile error", e);
 		}
 		return false;
 	}
 
 	@Override
-	public InputStream downloadFile(String ecmFileId) {
-		// TODO Auto-generated method stub
-		return null;
+	public String downloadFile(String ecmFileId) {
+		String downloadedFile = null;
+		try {
+			ECMFile ecmFile = new ECMFile();
+			WSGDIImpl serviceFileNet = (WSGDIImpl) ejbServiceLocator.getWsClient(FileNetFactory.class);
+			String xml = Util.encodeXML(DOWNLOAD_REQUEST, null, ecmFile, null); 
+			String response = serviceFileNet.getDocumentContent(xml);
+			downloadedFile = getDocContentFromResponse(response);
+		} catch (Exception e) {
+			logger.error("downloadFile " + e.getMessage());
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "downloadFile error", e);
+		}
+		return downloadedFile;
 	}
 
 	@Override
@@ -116,6 +134,40 @@ public class FilenetConnector extends AbstractECMConnector implements
 			logger.error("Errore nel recuperare l'id", e);
 			return "";
 		}
+	}
+	
+	/**
+	 * Retrieve the document content from the xml response
+	 * @author donatello.boccaforno
+	 * @param response
+	 * @return The document content as <b>String</b> 
+	 */
+	private String getDocContentFromResponse(String response) {
+		String documentContent = null;
+		XPathFactory xPathFactory = XPathFactory.newInstance();
+		XPath xPath = xPathFactory.newXPath();
+		String expression = "Response/DocContent";
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		documentBuilderFactory.setNamespaceAware(false);
+		DocumentBuilder documentBuilder;
+		try {
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document document = documentBuilder.parse(new InputSource(new StringReader(response)));
+			documentContent = xPath.compile(expression).evaluate(document, XPathConstants.STRING).toString();
+		} catch (ParserConfigurationException e) {
+			logger.error("getDocContentFromResponse " + e.getMessage());
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse ParseConfigurationException", e);
+		} catch (SAXException e) {
+			logger.error("getDocContentFromResponse " + e.getMessage());
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse SAXException", e);
+		} catch (IOException e) {
+			logger.error("getDocContentFromResponse " + e.getMessage());
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse IOException", e);
+		} catch (XPathExpressionException e) {
+			logger.error("getDocContentFromResponse " + e.getMessage());
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse XPathExpressionException", e);
+		}
+		return documentContent;
 	}
 
 }

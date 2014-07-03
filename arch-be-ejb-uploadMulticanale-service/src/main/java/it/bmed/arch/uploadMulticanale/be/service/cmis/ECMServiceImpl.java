@@ -76,7 +76,7 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	}
 
 	@Override
-	public InputStream downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {		
+	public String downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {		
 		if(ecmType == ECMType.IBM_FILENET) {
 			return filenetConnector.downloadFile(ecmFileId);
 		} else if(ecmType == ECMType.ALFRESCO) {

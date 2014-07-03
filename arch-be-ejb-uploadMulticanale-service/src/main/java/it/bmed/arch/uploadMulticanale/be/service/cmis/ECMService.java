@@ -40,9 +40,9 @@ public interface ECMService {
 	 * 
 	 * @param ecmType
 	 * @param ecmFileId
-	 * @return The input stream
+	 * @return The downloaded file as encoded string 
 	 * @throws AsiaException
 	 * @throws Exception
 	 */
-	InputStream downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception;
+	String downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception;
 }
