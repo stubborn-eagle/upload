@@ -15,6 +15,10 @@
  		<property name="filenetConnector" ref="filenetConnector"/>
  	</bean>
  	
+ 	<bean id="nasService" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceImpl"/>
+
+	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl"/>
+ 	
 	<!-- ALFRESCO ECM CONNECTOR -->
 	<bean id="alfrescoConnector"
 		class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">

@@ -48,14 +48,15 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 		}
 		if (filenetConnector == null) {
 			throw new Exception("ERROR: filenetConnector not injected");
-		} else {
+		} /* 
+		else {
 			try {
 				filenetConnector.createConnection();
 			} catch (Exception e) {
 				logger.error("afterPropertiesSet: filenetConnector cannot create connection. " + e.getMessage());
 				throw e;
 			}
-		}
+		}*/
 	}
 	
 	@Override
