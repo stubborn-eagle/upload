@@ -8,6 +8,7 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
+import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
@@ -18,6 +19,7 @@ import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.azure.AzureService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
+import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
 import it.bmed.asia.exception.ApplicationException;
 import it.bmed.asia.exception.AsiaApplicationException;
@@ -29,6 +31,7 @@ import it.bmed.asia.exception.jaxws.SystemFault;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
+import java.io.File;
 import java.rmi.RemoteException;
 
 import javax.ejb.Remote;
@@ -385,17 +388,101 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	}
 
 	/**
+	 * Lookup a file from NAS or ECM, and convert it into a pdf
 	 * @author donatello.boccaforno
 	 */
 	@Override
 	public ECMResponse convertToPDF(ECMConvertRequest request) throws RemoteException, Exception {
 		ECMRequest ecmRequest = new ECMRequest();
 		ECMResponse ecmResponse = new ECMResponse();
+		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
+		final String CLOSE_IMGTAG = "\">"; 
+		
+		// Retrieve the file's data from technical db
 		ECMFile ecmFile = new ECMFile();
 		ecmFile.setIdFile(request.getEcmParam().getIdFile());
 		ecmRequest.setEcmFile(ecmFile);
-		ecmResponse = listMedia(ecmRequest);
-		// TODO: return an empty pdf 
+		
+		try {
+			ecmResponse = listMedia(ecmRequest);
+		} catch (Exception e) {
+			log.error("convertToPDF: file not found.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
+		}
+		
+		// File to looking for
+		String encodedFile = null;
+		// load the file from repository
+		try {
+			encodedFile = lookupFileToConvert(ecmResponse);
+		} catch (Exception e) {
+			log.error("convertToPDF " + e.getMessage());
+			throw e;
+		}
+		// TODO: caricare il template
+		File templateFile = new File("TemplatePDF.html");
+//		File targetFile = new File("HtmlToPDF.html");
+		StringBuilder imgTag = new StringBuilder();
+		imgTag.append(OPEN_IMGTAG).append(encodedFile).append(CLOSE_IMGTAG);
+
+		// TODO: reading the file coping the words into a buffer still doesn't mach the div tag with id image
+		
+		// TODO: append the imgTag String into the target file
+		
+		// TODO: Continue reading&coping
+		
+		if (templateFile.exists()) {
+			// TODO: append imgTag in templateFile after matching pattern 
+		} else {
+			log.error("convertToPDF: template file " + templateFile.getName() + " not found.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: template file " + templateFile.getName() + " not found.");			
+		}
+		// TODO: sostituire l'immagine con il file content encodato
+		
+		// TODO: chiamare htmpToPDF2 di GenerateServiceClient passando il file html, aspettandosi un InputStream
+		
+		// TODO: salvare il pdf
+		
+		// TODO: salvare info nel db tecnico attraverso insertMedia
 		return ecmResponse;
+	}
+	/**
+	 * Retrieve the file from the repository using the response from the technical database 
+	 * @param ecmResponse
+	 * @return The file encoded in base64 as <b>String</b>
+	 */
+	private String lookupFileToConvert(ECMResponse ecmResponse) {
+		// File to looking for
+		String encodedFile = null;
+		
+		if (ecmResponse != null && ecmResponse.getResult() != null) {
+			// File found
+			if (ecmResponse.getResult().getDestinationPath() != null && ecmResponse.getResult().getDestinationPath().length() > 0) {
+				// the file it's on the ECM
+				try {
+					ECMType ecmType = ecmResponse.getResult().getEcmType();
+					String ecmFileId = ecmResponse.getResult().getIdFileECM();
+					encodedFile = ecmService.downloadFile(ecmType, ecmFileId);
+				} catch (Exception e) {
+					log.error("convertToPDF " + e.getMessage());
+					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), e.getMessage());
+				}
+			} else {
+				// the file it's on the NAS
+				try {
+					String path = ecmResponse.getResult().getSourcePath();
+					String filename = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType();
+					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename));
+				} catch (Exception e) {
+					log.error("convertToPDF " + e.getMessage());
+					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());
+				}
+			}		 	
+		} else {
+			// File not found
+			log.error("convertToPDF: file not found.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
+		}
+		return encodedFile;
 	}
 }

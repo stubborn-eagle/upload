@@ -123,15 +123,20 @@ public class ECMFile implements Serializable {
 		this.sourcePath = sourcePath;
 	}
 	/**
+	 * Getter to retrive the path from the technical db.
+	 * The path must be a full qualified path, including the slash terminator.
 	 * @return the destinationPath
 	 */
 	public String getDestinationPath() {
 		return destinationPath;
 	}
 	/**
+	 * Setter for the path entry into the technical db.
+	 * The path musth be a full qualified path, including the slash terminator. 
 	 * @param destinationPath the destinationPath to set
 	 */
 	public void setDestinationPath(String destinationPath) {
+		// TODO: check if terminator exist, otherwise append it or throw an exception (to be discussed as requirement).
 		this.destinationPath = destinationPath;
 	}
 	/**
