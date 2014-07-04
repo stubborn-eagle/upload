@@ -1,5 +1,6 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
@@ -153,7 +154,7 @@ public abstract class AbstractECMConnector implements ECMConnector {
 			session.getDefaultContext().setCacheEnabled(true);		
 		} catch (Exception e) {
 			logger.error("createConnection - Bad connector settings. ");
-			throw new AsiaException("BKE-000002", "ECM error: " + e.getMessage());
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "ECM error: " + e.getMessage());
 		}		
 		logger.debug("createConnection - session established");
 		

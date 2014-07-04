@@ -22,13 +22,15 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	 */
 	public void setAlfrescoConnector(AlfrescoConnector alfrescoConnector) {
 		this.alfrescoConnector = alfrescoConnector;
+		logger.info("alfrescoConnectore injected with " + alfrescoConnector.getClass().getName());
 	}
 
 	/**
 	 * @param filenetConnector the filenetConnector to set
 	 */
-	public void setFilenetConnector(FilenetConnector filenetConnector) {
+	public void setFilenetConnector(FilenetConnector filenetConnector) {		
 		this.filenetConnector = filenetConnector;
+		logger.info("filenetConnector injected with " + filenetConnector.getClass().getName());
 	}
 
 	@Override
@@ -37,12 +39,22 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 		if (alfrescoConnector == null) {
 			throw new Exception("ERROR: alfrescoConnector not injected");
 		} else {
-			alfrescoConnector.createConnection();
+			try {
+				alfrescoConnector.createConnection();
+			} catch (Exception e) {
+				logger.error("afterPropertiesSet: alfrescoConnector cannot create connection. " + e.getMessage());
+				throw e;
+			}
 		}
 		if (filenetConnector == null) {
 			throw new Exception("ERROR: filenetConnector not injected");
 		} else {
-			filenetConnector.createConnection();
+			try {
+				filenetConnector.createConnection();
+			} catch (Exception e) {
+				logger.error("afterPropertiesSet: filenetConnector cannot create connection. " + e.getMessage());
+				throw e;
+			}
 		}
 	}
 	
