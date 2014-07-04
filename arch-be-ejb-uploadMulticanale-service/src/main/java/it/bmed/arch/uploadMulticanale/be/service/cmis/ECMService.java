@@ -3,10 +3,7 @@ package it.bmed.arch.uploadMulticanale.be.service.cmis;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
-import it.bmed.arch.uploadMulticanale.be.api.MediaDTO;
 import it.bmed.asia.exception.AsiaException;
-
-import java.io.InputStream;
 
 public interface ECMService {
 	/**
@@ -40,7 +37,7 @@ public interface ECMService {
 	 * 
 	 * @param ecmType
 	 * @param ecmFileId
-	 * @return The downloaded file as encoded string 
+	 * @return The downloaded file as encoded <b>String</b> 
 	 * @throws AsiaException
 	 * @throws Exception
 	 */

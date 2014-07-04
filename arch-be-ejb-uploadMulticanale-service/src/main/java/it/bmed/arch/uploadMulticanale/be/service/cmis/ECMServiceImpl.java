@@ -7,10 +7,7 @@ import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
-import java.io.InputStream;
-
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class ECMServiceImpl implements ECMService, InitializingBean {
 	
@@ -23,7 +20,6 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	/**
 	 * @param alfrescoConnector the alfrescoConnector to set
 	 */
-	@Autowired
 	public void setAlfrescoConnector(AlfrescoConnector alfrescoConnector) {
 		this.alfrescoConnector = alfrescoConnector;
 	}
@@ -31,7 +27,6 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	/**
 	 * @param filenetConnector the filenetConnector to set
 	 */
-	@Autowired
 	public void setFilenetConnector(FilenetConnector filenetConnector) {
 		this.filenetConnector = filenetConnector;
 	}

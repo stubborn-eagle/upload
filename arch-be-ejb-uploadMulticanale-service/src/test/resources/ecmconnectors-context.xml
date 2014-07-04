@@ -9,6 +9,12 @@
 
  	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
  	<context:component-scan base-package="it.bmed.asia.utility" />
+ 	
+ 	 <bean id="ecmService" class="it.bmed.arch.uploadMulticanale.be.service.cmis.ECMServiceImpl">
+ 		<property name="alfrescoConnector" ref="alfrescoConnector"/>
+ 		<property name="filenetConnector" ref="filenetConnector"/>
+ 	</bean>
+ 	
 	<!-- ALFRESCO ECM CONNECTOR -->
 	<bean id="alfrescoConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
 		<!-- User credentials -->
