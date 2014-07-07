@@ -20,6 +20,8 @@ import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.azure.AzureService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
+import it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClient;
+import it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
 import it.bmed.asia.exception.ApplicationException;
 import it.bmed.asia.exception.AsiaApplicationException;
@@ -32,7 +34,10 @@ import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.rmi.RemoteException;
+import java.util.Scanner;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -54,13 +59,16 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	UploadMulticanaleService uploadMulticanaleService;
 
 	@Autowired
-	private ECMService ecmService;
+	private ECMService ecmService = null;
 
 	@Autowired
-	private AzureService azureService;
+	private AzureService azureService = null;
 
 	@Autowired
-	private NASService nasService;
+	private NASService nasService = null;
+	
+	// FIXME: To be replaced injecting the livecycle WSClient; pay attention this is just a stub. 
+	private GeneratePDFServiceClient generatePDFServiceClient = new GeneratePDFServiceClientImpl();
 	
 	public UploadMulticanaleRemoteImpl() {
 		super();
@@ -400,9 +408,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		
 		// Retrieve the file's data from technical db
 		ECMFile ecmFile = new ECMFile();
-		ecmFile.setIdFile(request.getEcmParam().getIdFile());
+		ecmFile.setIdFile(request.getIdFile());
 		ecmRequest.setEcmFile(ecmFile);
-		
+
+		// retrive file's data from technical db
 		try {
 			ecmResponse = listMedia(ecmRequest);
 		} catch (Exception e) {
@@ -419,35 +428,88 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 			log.error("convertToPDF " + e.getMessage());
 			throw e;
 		}
-		// TODO: caricare il template
-		File templateFile = new File("TemplatePDF.html");
-//		File targetFile = new File("HtmlToPDF.html");
-		StringBuilder imgTag = new StringBuilder();
-		imgTag.append(OPEN_IMGTAG).append(encodedFile).append(CLOSE_IMGTAG);
-
-		// TODO: reading the file coping the words into a buffer still doesn't mach the div tag with id image
 		
-		// TODO: append the imgTag String into the target file
-		
-		// TODO: Continue reading&coping
-		
-		if (templateFile.exists()) {
-			// TODO: append imgTag in templateFile after matching pattern 
-		} else {
-			log.error("convertToPDF: template file " + templateFile.getName() + " not found.");
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: template file " + templateFile.getName() + " not found.");			
+		String htmlDocument = null;
+		// generate the html doc from template, using encoded file as IMG data attribute value
+		try {
+			htmlDocument = createHTMLDocument(encodedFile);
+		} catch (Exception e) {
+			log.error("convertToPDF " + e.getMessage());
+			throw e;
 		}
-		// TODO: sostituire l'immagine con il file content encodato
 		
-		// TODO: chiamare htmpToPDF2 di GenerateServiceClient passando il file html, aspettandosi un InputStream
+		String inputUrl = null;
+		// Call to livecycle stub
+		 InputStream resultStream = generatePDFServiceClient.htmlToPDF2(inputUrl);
+
+		// Save the pdf to the NAS filesystem
+		try {
+			 nasService.saveFile(resultStream, ecmResponse.getResult().getNameFile());
+		} catch (Exception e) {
+			log.error("convertToPDF " + e.getMessage());
+			throw e;
+		}
 		
-		// TODO: salvare il pdf
-		
-		// TODO: salvare info nel db tecnico attraverso insertMedia
+		// Save the file's metadata to the technical db
+		try {
+			ecmResponse = insertMedia(ecmRequest);
+		} catch (Exception e) {
+			log.error("convertToPDF " + e.getMessage());
+			throw e;
+		}
 		return ecmResponse;
 	}
+
 	/**
-	 * Retrieve the file from the repository using the response from the technical database 
+	 * Inject encoded file into the HTML img tag's data attribute and create an HTML document generated from a template file
+	 * @author donatello.boccaforno
+	 * @param encodedFile
+	 * @return The encoded html document as <b>String</b>
+	 */
+	private String createHTMLDocument(String encodedFile) {
+		StringBuilder outputSB = new StringBuilder(); 
+		File source = new File(".//src//main//resources//TemplatePDF.html");		
+		final String pattern = "<div id=\"image\">";
+		final String imgTagStart = "<img src=\"data:image/png;base64,";
+		final String imgTagEnd = "\">";
+		int patternIndex = 0;
+		if (source.exists()) {
+			log.debug("TemplatePDF.html found in " + source.getAbsolutePath().toString());
+			Scanner scanner = null;
+			try {
+				scanner = new Scanner(source);
+				StringBuilder builder = new StringBuilder();
+				scanner.useDelimiter("");
+				String next = null;
+				while (scanner.hasNext()) {
+					next = scanner.next();
+					if ( patternIndex <= pattern.length() - 1 && next.equals(pattern.substring(patternIndex, patternIndex + 1)) ) {
+						++patternIndex;
+						builder.append(next);
+					} else {
+						outputSB.append(builder.toString()).append(next);
+						if (patternIndex == pattern.length()) {
+							outputSB.append(imgTagStart).append(encodedFile).append(imgTagEnd);
+						}
+						builder.delete(0, builder.length());
+						patternIndex = 0;
+					}
+				}
+				outputSB.append(builder.toString());
+			} catch (FileNotFoundException e) {
+				log.error("createHTMLDocument: cannot create HTML document. TemplatePDF not found.");
+				throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "createHTMLDocument error: TemplatePDF.html not found.", e);
+			}
+		} else {
+			log.error("createHTMLDocument: cannot create HTML document. TemplatePDF not found.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "createHTMLDocument error: TemplatePDF.html not found.");
+		}		
+		return outputSB.toString();
+	}
+	
+	/**
+	 * Retrieve the file from the repository using the response from the technical database
+	 * @author donatello.boccaforno 
 	 * @param ecmResponse
 	 * @return The file encoded in base64 as <b>String</b>
 	 */

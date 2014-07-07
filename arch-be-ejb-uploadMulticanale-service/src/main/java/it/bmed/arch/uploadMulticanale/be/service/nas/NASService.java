@@ -1,5 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
+import java.io.InputStream;
+
 import it.bmed.asia.exception.TechnicalException;
 
 public interface NASService {
@@ -22,5 +24,14 @@ public interface NASService {
 	 * @throws Exception
 	 */
 	byte[] loadFile(String path, String filename) throws TechnicalException, Exception;
+	
+	/**
+	 * Save the InputStream into the NAS filesystem root, with respsective filename and appended extension 
+	 * @param resultStream
+	 * @param nameFile
+	 * @throws TechnicalException
+	 * @throws Exception
+	 */
+	void saveFile(InputStream resultStream, String nameFile) throws TechnicalException, Exception;
 
 }

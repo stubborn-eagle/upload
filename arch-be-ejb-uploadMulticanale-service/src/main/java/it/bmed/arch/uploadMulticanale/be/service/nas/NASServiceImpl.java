@@ -145,4 +145,26 @@ public class NASServiceImpl implements NASService {
 		}
 	}
 
+	@Override
+	public void saveFile(InputStream fileStream, String nameFile)
+			throws TechnicalException, Exception {
+		String destinationPath = NASServiceProperties.getString("NasSettings.multicannelUploadSaved");
+		FileOutputStream fileToBeSaved = null;
+		// pay attention destinationPath must be slash ended
+		try {
+			fileToBeSaved = new FileOutputStream(destinationPath + nameFile);
+		} catch (Exception e) {
+			logger.error("saveFile: Cannot save %s. " + e.getMessage(), fileStream );
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "Cannot save " + fileStream);			
+		}
+		
+		// copy inputstream to outputstream
+		int read = 0;
+		byte[] buffer = new  byte[1024];
+		while ( (read = fileStream.read(buffer) ) != -1) {
+			fileToBeSaved.write(buffer, 0, read);
+		}
+		
+	}
+
 }
