@@ -18,6 +18,8 @@
  	<bean id="nasService" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceImpl"/>
 
 	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl"/>
+	
+	<bean id="generatePDFServiceClient" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl" />
  	
 	<!-- ALFRESCO ECM CONNECTOR -->
 	<bean id="alfrescoConnector"
