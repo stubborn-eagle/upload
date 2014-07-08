@@ -26,6 +26,7 @@ import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
 import it.bmed.asia.exception.ApplicationException;
 import it.bmed.asia.exception.AsiaApplicationException;
 import it.bmed.asia.exception.AsiaException;
+import it.bmed.asia.exception.AsiaTechnicalErrorCode;
 import it.bmed.asia.exception.ExceptionToFaultConversionUtil;
 import it.bmed.asia.exception.IErrorCode;
 import it.bmed.asia.exception.TechnicalException;
@@ -127,9 +128,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		} catch (ApplicationException e) {
 
 			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
-			fault.getFaultInfo().setMessaggio(
-					fault.getFaultInfo().getCodice() + "_"
-							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(true);
 
@@ -137,23 +136,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (RuntimeException runtimeException) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil
-					.toFault(runtimeException);
-			fault.getFaultInfo().setCodice(
-					UploadMulticanaleErrorCodeEnums
-							.valueOf("TCH_GENERIC_ERROR").getErrorCode());
-			fault.getFaultInfo().setMessaggio(
-					UploadMulticanaleErrorCodeEnums
-							.valueOf("TCH_GENERIC_ERROR").getErrorCode()
-							+ "_"
-							+ UploadMulticanaleErrorCodeEnums.valueOf(
-									"TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setLayer(
-					UploadMulticanaleErrorCodeEnums
-							.valueOf("TCH_GENERIC_ERROR").getErrorCode()
-							+ "_"
-							+ UploadMulticanaleErrorCodeEnums.valueOf(
-									"TCH_GENERIC_ERROR").getDescription());
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
+			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
+			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+ "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setLayer(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+ "_"+ UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
 			fault.getFaultInfo().setTechnical(false);
 			/*
 			 * log.error("Errore e.getMessage() "+
@@ -169,14 +155,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (Exception app) {
 
-			IErrorCode er = UploadMulticanaleErrorCodeEnums
-					.valueOf("TCH_GENERIC_ERROR");
+			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
-			SystemFault fault = ExceptionToFaultConversionUtil
-					.toFault(applicationException);
-			fault.getFaultInfo().setMessaggio(
-					fault.getFaultInfo().getCodice() + "_"
-							+ fault.getFaultInfo().getMessaggio());
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(false);
 			/*
@@ -204,9 +186,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		} catch (ApplicationException e) {
 
 			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
-			fault.getFaultInfo().setMessaggio(
-					fault.getFaultInfo().getCodice() + "_"
-							+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(true);
 
@@ -214,8 +194,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (RuntimeException runtimeException) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil
-					.toFault(runtimeException);
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
 			fault.getFaultInfo().setCodice(
 					UploadMulticanaleErrorCodeEnums
 							.valueOf("TCH_GENERIC_ERROR").getErrorCode());
@@ -306,25 +285,19 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		 * @author donatello.boccaforno
 		 */
 		@Override
-		public boolean deleteFileNAS(ECMRequest request) throws RemoteException, Exception {
+		public boolean deleteFileNAS(ECMRequest request) throws SystemFault, RemoteException, Exception {
 			boolean response = false;
 			ECMResponse ecmResponse = null;
 			if (request == null) {
-				log.error("deleteFileNAS: request cannot be null.");
-				throw new AsiaException("deleteFileNAS: request cannot be null.");
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: request cannot be null.");
 			}
 	
 			try {
 				ecmResponse = listMedia(request);
-				response = nasService.deleteFile(ecmResponse.getResult()
-						.getSourcePath(), ecmResponse.getResult()
-						.getNameFile());
+				response = nasService.deleteFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile());
 				log.info("deleteFileNAS: operation succesfully returned.");
-			} catch (Exception e) {
-				log.error("deleteFileNAS: " + e.getMessage());
-//				throw new AsiaException("TCH_ECM_ERROR", "deleteFileNAS: "
-//						+ e.getMessage());
-				throw e;
+			} catch (TechnicalException e) {
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
 			}
 			return response;
 		}
@@ -333,38 +306,28 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public boolean deleteFileECM(ECMRequest request) throws RemoteException,
-			Exception {
+	public boolean deleteFileECM(ECMRequest request) throws SystemFault, RemoteException, Exception {
 		boolean result = false;
 		ECMResponse response = null;
 		try {
 			log.info("deleteFileECM params: " + response);
 		} catch (NullPointerException e) {
-			log.error("deleteFileECM: request argument cannot be null.");
-			throw new AsiaApplicationException("TCH_ECM_ERROR",
-					"deleteFileECM: request argument cannot be null.");
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM: request argument cannot be null.");
 		}
 
 		try {
 			response = listMedia(request);
 			if (response == null) {
-				log.error("deleteFileECM: ListMedia cannot be null. ");
-				throw new AsiaApplicationException("TCH_ECM_ERROR",
-						"deleteFileECM: ListMedia cannot be null. ");
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM: ListMedia cannot be null. ");
 			}
 		} catch (Exception e) {
-			log.error("deleteFileECM: SQLException. " + e.getMessage());
-			throw new AsiaApplicationException("TCH_ECM_ERROR",
-					"deleteFileECM: SQLException. " + e.getMessage());
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM: SQLException. " + e.getMessage());
 		}
 
 		try {
-			result = ecmService.removeFile(response.getResult().getEcmType(),
-					response.getResult().getIdFileECM());
+			result = ecmService.removeFile(response.getResult().getEcmType(), response.getResult().getIdFileECM());
 		} catch (Exception e) {
-			log.error("deleteFileECM " + e.getMessage());
-			throw new AsiaApplicationException("TCH_ECM_ERROR",
-					"deleteFileECM: " + e.getMessage());
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM " + e.getMessage());
 		}
 		log.info("deleteFileECM returns: " + result);
 		return result;
@@ -377,8 +340,12 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	public AzureResponse getAzureToken(AzureRequest request)
 			throws RemoteException, Exception {
 		AzureResponse azureResponse = new AzureResponse();
-		AzureDTO azureDTO = null;
-		azureDTO = azureService.generateToken(request);
+		AzureDTO azureDTO = new AzureDTO();
+		try {
+			azureDTO = azureService.generateToken(request);
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_AZURE_ERROR, "getAzureToken: " + e.getMessage());
+		}
 		azureResponse.setResult(azureDTO);
 		return azureResponse;
 	}
@@ -428,10 +395,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			}
 			moveDTO.setEcmFileId(idFileECM);
 			moveDTO.setFileId(ecmFile.getIdFile());
-		} catch (ApplicationException e) {
-			//TODO :hnadle exception
-			log.error("moveFile: " + e.getMessage());
-			throw e;
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
 		response.setResult(moveDTO);
 		return response;
@@ -457,8 +422,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			ecmResponse = listMedia(ecmRequest);
 		} catch (Exception e) {
-			log.error("convertToPDF: file not found in technical db.");
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_SQL_ERROR,"convertToPDF: file not found in technical db.");
 		}
 		
 		// File to looking for
@@ -467,8 +431,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			encodedFile = lookupFileToConvert(ecmResponse);
 		} catch (Exception e) {
-			log.error("convertToPDF " + e.getMessage());
-			throw e;
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "convertToPDF " + e.getMessage());		
 		}
 		
 		String htmlDocument = null;
@@ -476,8 +439,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			htmlDocument = createHTMLDocument(encodedFile);
 		} catch (Exception e) {
-			log.error("convertToPDF " + e.getMessage());
-			throw e;
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "convertToPDF " + e.getMessage());
 		}
 		
 		String inputUrl = null;
@@ -488,16 +450,14 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			 nasService.saveFile(resultStream, ecmResponse.getResult().getNameFile());
 		} catch (Exception e) {
-			log.error("convertToPDF " + e.getMessage());
-			throw e;
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "convertToPDF " + e.getMessage());
 		}
 		
 		// Save the file's metadata to the technical db
 		try {
 			ecmResponse = insertMedia(ecmRequest);
 		} catch (Exception e) {
-			log.error("convertToPDF " + e.getMessage());
-			throw e;
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_SQL_ERROR, "convertToPDF " + e.getMessage());
 		}
 		return ecmResponse;
 	}
@@ -588,5 +548,13 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
 		}
 		return encodedFile;
+	}
+
+	private void technicalError(UploadMulticanaleErrorCodeEnums errorCode, String error) throws SystemFault {
+		log.error(error);
+		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
+		SystemFault systemFault = ExceptionToFaultConversionUtil.toFault(technicalException);
+		systemFault.getFaultInfo().setLayer("BKE");
+		throw systemFault;
 	}
 }

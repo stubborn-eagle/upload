@@ -39,7 +39,7 @@ public class NASServiceImpl implements NASService {
 			destinationPathname = NASServiceProperties.getString("NasSettings.multicannelUploadDeleted");
 		} catch (Exception e) {
 			logger.error("deleteFile: " + e.getMessage());
-			throw e;
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		
 		// check uninitialized variables
