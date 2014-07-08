@@ -14,6 +14,16 @@ public class ECMParam  implements Serializable {
 	private RemoveFromNAS removeFromNAS = null;
 	private ArrayList<FileProperty> property;
 	
+	
+	
+	public ECMParam() {
+		super();
+		this.containerType = "";
+		this.destinationPath = "";
+		this.nameApp = "";
+		this.property = new ArrayList<FileProperty>();		
+	}
+	
 	/**
 	 * @return the idFile
 	 */

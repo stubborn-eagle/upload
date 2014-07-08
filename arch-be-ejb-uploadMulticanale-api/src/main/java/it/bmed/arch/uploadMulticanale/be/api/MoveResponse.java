@@ -14,6 +14,11 @@ public class MoveResponse extends BaseBeResponse<MoveDTO> {
 	private MoveDTO result;
 	private MoveDTO []results;
 
+	public MoveResponse() {
+		super();
+		this.result = new MoveDTO();
+	}
+
 	@Override
 	public MoveDTO getResult() {
 		return result;

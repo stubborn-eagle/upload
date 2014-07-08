@@ -143,12 +143,11 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 	}
 
 	@Override
-	public ECMResponse listMedia(ECMRequest request)
-			throws ApplicationException, Exception {
+	public ECMResponse listMedia(ECMRequest request) throws ApplicationException, Exception {
 
 		ECMFile ecmFile = request.getEcmFile();
 		ECMResponse response = new ECMResponse();
-
+		log.debug("listMedia params: " + request);
 		// unici valori richiesti per la ricerca nonj obbligatori
 		String and1 = ecmFile.getUserId().equals("") ? "" : "and GSTD_X_USER = '"
 				+ ecmFile.getUserId() + "' ";
@@ -159,10 +158,12 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		String and4 = ecmFile.getIdFileECM().equals("") ? ""
 				: "and COD_UPLD_FILE_ECM = '" + ecmFile.getIdFileECM() + "' ";
 		String and5 = ecmFile.getEcmType() == null ? ""
-				: "and  COD_TIPO_ECM = " + ecmFile.getEcmType() + " ";
+				: "and  COD_TIPO_ECM = " + ecmFile.getEcmType().getValue() + " ";
 		String and6 = ecmFile.getIdFile() == null || ecmFile.getIdFile() == 0 ? ""
 				: "and  COD_UPLD_FILE_INTERN = " + ecmFile.getIdFile() + " ";
 
+//		ecmFile.getNameApp()
+		
 		String whereClause = and1 + and2 + and3 + and4 + and5 + and6;
 
 		StringBuilder queryStrBuilder = new StringBuilder()

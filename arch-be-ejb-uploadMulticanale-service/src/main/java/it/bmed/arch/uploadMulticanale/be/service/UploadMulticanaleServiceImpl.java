@@ -139,7 +139,14 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 	public ECMResponse listMedia(ECMRequest request)
 			throws TechnicalException, Exception {
 		try {
+			
 			ECMFile ecmFile = request.getEcmFile();
+			if (ecmFile == null) {
+				log.error("listMedia: ECMFile argument cannot be null.");
+				IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
+				TechnicalException tec = new TechnicalException(er);
+				throw tec;				
+			}
 
 			/*
 			 * tolgo obbligatorieta per tutti
@@ -154,33 +161,39 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			 * }
 			 */
 
-			// controllo lunghezza del campo di input stato
-
-			if (ecmFile.getChannel().length() > 15
-					|| ecmFile.getUserId().length() > 11
-					|| ecmFile.getUserType().length() > 15
-					|| ecmFile.getIdFileECM().length() > 15
-					|| ecmFile.getIdFileECM().length() > 15) {
-				log.debug("Errore InsertMedia: parametri non corretti qualche campo troppo lungo");
-				IErrorCode er = UploadMulticanaleErrorCodeEnums
-						.valueOf("TCH_GENERIC_ERROR");
-				TechnicalException tec = new TechnicalException(er);
-
-				throw tec;
+			// controllo lunghezza del campo di input stato			
+			if (ecmFile.getChannel() == null || ecmFile.getChannel().length() > 15) {
+				parameterError("channel");
+			} 
+			
+			if (ecmFile.getUserId() == null || ecmFile.getUserId().length() > 16) {
+				parameterError("userId");
 			}
-
+			
+			if (ecmFile.getUserType() == null || ecmFile.getUserType().length() > 50) {
+				parameterError("userType");
+			}
+			
+			if (ecmFile.getIdFile() == null || ecmFile.getIdFile() == 0) {
+				parameterError("idFile");
+			}
+			
+			if (ecmFile.getIdFileECM() == null || ecmFile.getIdFileECM().length() > 500) {
+				parameterError("idFileECM");
+			}
+			
 			ECMResponse response = new ECMResponse();
 			response = uploadMulticanaleDaoJdbcTemplate.listMedia(request);
 
 			return response;
 
 		} catch (ApplicationException e) {
-			log.error("Errore  InsertMedia getErrorCode {}_getErrorDescription {}  "
+			log.error("Errore  listMedia getErrorCode {}_getErrorDescription {}  "
 					+ e.getErrorCode() + "_" + e.getErrorDescription());
 			throw e;
 
 		} catch (RuntimeException e) {
-			log.error("Errore InsertMedia in Servizio");
+			log.error("Errore listMedia in Servizio");
 			throw e;
 		}
 
@@ -238,6 +251,13 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			throw e;
 		}
 
+	}
+
+	private void parameterError(String parameter) throws TechnicalException {
+		log.error("listMedia: " + parameter +" parameter error.");
+		IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
+		TechnicalException tec = new TechnicalException(er);
+		throw tec;
 	}
 
 }

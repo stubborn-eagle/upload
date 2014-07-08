@@ -4,9 +4,13 @@ import it.bmed.asia.api.BaseBeRequest;
 
 public class ECMRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 9170130458793882791L;
-	
-//	private RequestMetaData requestMetaData = null;
 	private ECMFile ecmFile = null;
+	
+	
+	public ECMRequest() {
+		super();
+		this.ecmFile = new ECMFile();
+	}
 	/**
 	 * @return the ecmFile
 	 */

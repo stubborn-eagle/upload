@@ -11,6 +11,15 @@ public class UpdateECMRequest extends BaseBeRequest {
 	private String idFileECM;
 	private String containerType;
 	private String nameApp;
+	
+	
+	public UpdateECMRequest() {
+		super();
+		destinationPath = "";
+		idFileECM = "";
+		containerType = "";
+		nameApp = "";
+	}
 	/**
 	 * @return the idFile
 	 */

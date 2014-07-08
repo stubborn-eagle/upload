@@ -1,13 +1,19 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import java.util.List;
-
 import it.bmed.asia.api.BaseBeResponse;
+
+import java.util.List;
 
 public class ECMResponse extends BaseBeResponse<ECMFile> {
 	private static final long serialVersionUID = 3955575612448558222L;
 	private ECMFile result = null;
 	private ECMFile[] results = null;
+
+	public ECMResponse() {
+		super();
+		this.result = new ECMFile();
+	}
+
 	@Override
 	public ECMFile getResult() {	
 		return result;

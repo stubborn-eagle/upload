@@ -8,16 +8,16 @@ public class MediaDTO implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 4352132526659585898L;
-	private String Canale;
-	private String ContainerType;
-	private String idFileECM;
-	private String idUtente;
-	private String nomeApp;
-	private String nomeFile;
-	private String Sorgente_Path;
-	private String Destinazione_Path;
-	private String Tipo;
-	private String tipoUtente;
+	private String Canale = "";
+	private String ContainerType = "";
+	private String idFileECM = "";
+	private String idUtente = "";
+	private String nomeApp = "";
+	private String nomeFile = "";
+	private String Sorgente_Path = "";
+	private String Destinazione_Path = "";
+	private String Tipo = "";
+	private String tipoUtente = "";
 	private Integer ECMType;
 	private Integer dominio;
 	private Integer Stato;

@@ -16,7 +16,7 @@ public class MoveDTO implements Serializable {
 	
 	public MoveDTO() {
 		super();
-		// TODO Auto-generated constructor stub
+		ecmFileId = "";
 	}
 	
 	/**

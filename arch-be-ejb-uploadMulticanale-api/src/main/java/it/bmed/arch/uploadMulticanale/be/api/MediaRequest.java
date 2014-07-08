@@ -10,10 +10,12 @@ public class MediaRequest extends BaseBeRequest {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-//	private RequestMetaData requestMetaData = null;
-
 	private MediaDTO mediaDTO;
+
+	public MediaRequest() {
+		super();
+		this.mediaDTO = new MediaDTO();
+	}
 
 	public MediaDTO getMediaDTO() {
 		return mediaDTO;
@@ -23,22 +25,9 @@ public class MediaRequest extends BaseBeRequest {
 		this.mediaDTO = mediaDTO;
 	}
 
-//	@Override
-//	public RequestMetaData getMetadata() {
-//		if (requestMetaData == null)
-//			requestMetaData = new RequestMetaData();
-//		return requestMetaData;
-//	}
-
 	public String toString() {
 		return CommonUtils.bean2string(this);
 	}
-
-//	@Override
-//	public void setMetadata(RequestMetaData requestMetaData) {
-//		// TODO Auto-generated method stub
-//		this.requestMetaData = requestMetaData;
-//	}
 
 	/*
 	 * public MediaParam getParam() { return param; }

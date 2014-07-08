@@ -26,6 +26,23 @@ public class ECMFile implements Serializable {
 	private ECMSource source;
 	private ECMState state;
 	private Integer idFile;
+	
+	
+	
+	public ECMFile() {
+		super();
+		this.channel = "";
+		this.containerType = "";
+		this.destinationPath = "";
+		this.idFileECM = "";
+		this.nameApp = "";
+		this.nameFile = "";
+		this.sourcePath = "";
+		this.type = "";
+		this.userId = "";
+		this.userType = "";
+		
+	}
 	/**
 	 * @return the channel
 	 */
