@@ -15,12 +15,13 @@ public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 	@Override
 	public InputStream htmlToPDF2(String inputUrl) {
 		FileInputStream stream;
+		File file = null;
 		try {
-			File file = new File("src//test//resources//it//bmed//arch//uploadMulticanale//be//livecycle//Documento.pdf");
+			file = new File("src//main//resources//it//bmed//arch//uploadMulticanale//be//livecycle//Documento.pdf");
 			logger.info("File " + file.getAbsolutePath());
 			stream = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
-			logger.error("htmlToPDF2 " + e.getMessage());
+			logger.error("htmlToPDF2 " + e.getMessage() + " " + file.getAbsolutePath());
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "htmlToPDF2 error ", e);
 		}
 		return stream;

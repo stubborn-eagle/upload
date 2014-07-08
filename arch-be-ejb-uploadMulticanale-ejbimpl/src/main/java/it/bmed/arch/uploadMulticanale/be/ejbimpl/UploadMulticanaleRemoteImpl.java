@@ -44,6 +44,7 @@ import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.WebService;
 
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
@@ -51,7 +52,7 @@ import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 @WebService(serviceName = "uploadMulticanaleBS", name = "uploadMulticanaleBS", portName = "uploadMulticanaleBS", endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote")
 @Remote(UploadMulticanaleRemote.class)
 @Interceptors(SpringBeanAutowiringInterceptor.class)
-public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
+public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, InitializingBean {
 
 	private static final Logger log = LoggerFactory.getLogger(UploadMulticanaleRemoteImpl.class);
 
@@ -67,13 +68,54 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 	@Autowired
 	private NASService nasService = null;
 	
+	@Autowired
+	private GeneratePDFServiceClient generatePDFServiceClient = null;
+	
 	// FIXME: To be replaced injecting the livecycle WSClient; pay attention this is just a stub. 
-	private GeneratePDFServiceClient generatePDFServiceClient = new GeneratePDFServiceClientImpl();
+//	private GeneratePDFServiceClient generatePDFServiceClient = new GeneratePDFServiceClientImpl();
 	
 	public UploadMulticanaleRemoteImpl() {
 		super();
 	}
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		if (uploadMulticanaleService == null) {
+			System.err.println("Failed injecting uploadMulticanaleService. ");
+			throw new AsiaApplicationException(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode(), "Failed injecting uploadMulticanaleService.");
+		} else {
+			System.out.println("uploadMulticanaleService injected: " + uploadMulticanaleService.getClass().getName());
+		}
+		
+		if (ecmService == null) {
+			System.err.println("Failed injecting ecmService. ");
+			throw new AsiaApplicationException(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode(), "Failed injecting ecmService.");
+		} else {
+			System.out.println("ecmService injected: " + ecmService.getClass().getName());
+		}
+		
+		if (azureService == null) {
+			System.err.println("Failed injecting azureService. ");
+			throw new AsiaApplicationException(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode(), "Failed injecting azureService.");
+		} else {
+			System.out.println("azureService injected: " + azureService.getClass().getName());
+		}
+		
+		if (generatePDFServiceClient == null) {
+			System.err.println("Failed injecting generatePDFServiceClient. ");
+			throw new AsiaApplicationException(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode(), "Failed injecting generatePDFServiceClient.");
+		} else {
+			System.out.println("generatePDFServiceClient injected: " + generatePDFServiceClient.getClass().getName());
+		}
+		
+		if (nasService == null) {
+			System.err.println("Failed injecting nasService. ");
+			throw new AsiaApplicationException(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode(), "Failed injecting nasService.");
+		} else {
+			System.out.println("nasService injected: " + nasService.getClass().getName());
+		}
+	}
+	
 	@Override
 	public ECMResponse insertMedia(ECMRequest r) throws SystemFault,
 			RemoteException, Exception {
@@ -415,7 +457,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		try {
 			ecmResponse = listMedia(ecmRequest);
 		} catch (Exception e) {
-			log.error("convertToPDF: file not found.");
+			log.error("convertToPDF: file not found in technical db.");
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
 		}
 		
@@ -520,29 +562,29 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote {
 		if (ecmResponse != null && ecmResponse.getResult() != null) {
 			// File found
 			if (ecmResponse.getResult().getDestinationPath() != null && ecmResponse.getResult().getDestinationPath().length() > 0) {
-				// the file it's on the ECM
+				// the file is on the ECM
 				try {
 					ECMType ecmType = ecmResponse.getResult().getEcmType();
 					String ecmFileId = ecmResponse.getResult().getIdFileECM();
 					encodedFile = ecmService.downloadFile(ecmType, ecmFileId);
 				} catch (Exception e) {
-					log.error("convertToPDF " + e.getMessage());
+					log.error("lookupFileToConvert: " + e.getMessage());
 					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), e.getMessage());
 				}
 			} else {
-				// the file it's on the NAS
+				// the file is on the NAS
 				try {
 					String path = ecmResponse.getResult().getSourcePath();
 					String filename = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType();
 					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename));
 				} catch (Exception e) {
-					log.error("convertToPDF " + e.getMessage());
+					log.error("lookupFileToConvert: " + e.getMessage());
 					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());
 				}
 			}		 	
 		} else {
 			// File not found
-			log.error("convertToPDF: file not found.");
+			log.error("lookupFileToConvert: file not found.");
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
 		}
 		return encodedFile;
