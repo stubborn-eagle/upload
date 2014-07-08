@@ -27,7 +27,7 @@ public class ECMServiceTest {
 	@Before
 	public void setUp() throws Exception {
 		try {
-		context = new ClassPathXmlApplicationContext("ecmconnectors-context.xml");
+		context = new ClassPathXmlApplicationContext("services-context.xml");
 		alfrescoConnector = (AlfrescoConnector) context.getBean("alfrescoConnector");
 //		dataSource = (DataSource) context.getBean("dataSource");
 //		System.out.println(dataSource.getClass().getName());
