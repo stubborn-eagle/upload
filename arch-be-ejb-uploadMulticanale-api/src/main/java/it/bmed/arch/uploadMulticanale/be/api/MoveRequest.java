@@ -6,21 +6,21 @@ import it.bmed.asia.api.RequestMetaData;
 public class MoveRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 4525337067809641516L;
 	
-	private RequestMetaData requestMetaData = null;
+//	private RequestMetaData requestMetaData = null;
 	private ECMParam ecmParam = null;
 	
-	/**
-	 * @return the requestMetaData
-	 */
-	public RequestMetaData getRequestMetaData() {
-		return requestMetaData;
-	}
-	/**
-	 * @param requestMetaData the requestMetaData to set
-	 */
-	public void setRequestMetaData(RequestMetaData requestMetaData) {
-		this.requestMetaData = requestMetaData;
-	}
+//	/**
+//	 * @return the requestMetaData
+//	 */
+//	public RequestMetaData getRequestMetaData() {
+//		return requestMetaData;
+//	}
+//	/**
+//	 * @param requestMetaData the requestMetaData to set
+//	 */
+//	public void setRequestMetaData(RequestMetaData requestMetaData) {
+//		this.requestMetaData = requestMetaData;
+//	}
 	/**
 	 * @return the ecmParam
 	 */
@@ -38,8 +38,7 @@ public class MoveRequest extends BaseBeRequest {
 	 */
 	@Override
 	public String toString() {
-		return "MoveRequest [requestMetaData=" + requestMetaData
-				+ ", ecmParam=" + ecmParam + "]";
+		return "MoveRequest [ecmParam=" + ecmParam + "]";
 	}
 	
 }

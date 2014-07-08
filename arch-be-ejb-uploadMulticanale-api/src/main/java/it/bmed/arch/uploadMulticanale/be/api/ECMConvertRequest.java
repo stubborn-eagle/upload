@@ -6,22 +6,22 @@ import it.bmed.asia.api.RequestMetaData;
 public class ECMConvertRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 7885155237251899750L;
 	
-	private RequestMetaData requestMetaData = null;
+//	private RequestMetaData requestMetaData = null;
 	private Integer idFile;
 	private ECMFile ecmFile;
 	private ECMParam ecmParam;
-	/**
-	 * @return the requestMetaData
-	 */
-	public RequestMetaData getRequestMetaData() {
-		return requestMetaData;
-	}
-	/**
-	 * @param requestMetaData the requestMetaData to set
-	 */
-	public void setRequestMetaData(RequestMetaData requestMetaData) {
-		this.requestMetaData = requestMetaData;
-	}
+//	/**
+//	 * @return the requestMetaData
+//	 */
+//	public RequestMetaData getRequestMetaData() {
+//		return requestMetaData;
+//	}
+//	/**
+//	 * @param requestMetaData the requestMetaData to set
+//	 */
+//	public void setRequestMetaData(RequestMetaData requestMetaData) {
+//		this.requestMetaData = requestMetaData;
+//	}
 	/**
 	 * @return the idFile
 	 */
@@ -63,8 +63,7 @@ public class ECMConvertRequest extends BaseBeRequest {
 	 */
 	@Override
 	public String toString() {
-		return "ECMConvertRequest [requestMetaData=" + requestMetaData
-				+ ", idFile=" + idFile + ", ecmFile=" + ecmFile + ", ecmParam="
+		return "ECMConvertRequest [idFile=" + idFile + ", ecmFile=" + ecmFile + ", ecmParam="
 				+ ecmParam + "]";
 	}
 	

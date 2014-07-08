@@ -11,7 +11,7 @@ public class MediaRequest extends BaseBeRequest {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private RequestMetaData requestMetaData = null;
+//	private RequestMetaData requestMetaData = null;
 
 	private MediaDTO mediaDTO;
 
@@ -23,22 +23,22 @@ public class MediaRequest extends BaseBeRequest {
 		this.mediaDTO = mediaDTO;
 	}
 
-	@Override
-	public RequestMetaData getMetadata() {
-		if (requestMetaData == null)
-			requestMetaData = new RequestMetaData();
-		return requestMetaData;
-	}
+//	@Override
+//	public RequestMetaData getMetadata() {
+//		if (requestMetaData == null)
+//			requestMetaData = new RequestMetaData();
+//		return requestMetaData;
+//	}
 
 	public String toString() {
 		return CommonUtils.bean2string(this);
 	}
 
-	@Override
-	public void setMetadata(RequestMetaData requestMetaData) {
-		// TODO Auto-generated method stub
-		this.requestMetaData = requestMetaData;
-	}
+//	@Override
+//	public void setMetadata(RequestMetaData requestMetaData) {
+//		// TODO Auto-generated method stub
+//		this.requestMetaData = requestMetaData;
+//	}
 
 	/*
 	 * public MediaParam getParam() { return param; }
