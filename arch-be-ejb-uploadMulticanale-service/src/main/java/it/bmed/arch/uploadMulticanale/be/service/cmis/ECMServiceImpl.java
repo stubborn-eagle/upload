@@ -88,7 +88,7 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 		if(ecmType == ECMType.IBM_FILENET) {
 			return filenetConnector.downloadFile(ecmFileId);
 		} else if(ecmType == ECMType.ALFRESCO) {
-			return filenetConnector.downloadFile(ecmFileId);
+			return alfrescoConnector.downloadFile(ecmFileId);
 		} else {
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");
 		}
