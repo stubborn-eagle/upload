@@ -431,7 +431,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			encodedFile = lookupFileToConvert(ecmResponse);
 		} catch (Exception e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "convertToPDF " + e.getMessage());		
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());		
 		}
 		
 		String htmlDocument = null;
@@ -439,7 +439,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			htmlDocument = createHTMLDocument(encodedFile);
 		} catch (Exception e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "convertToPDF " + e.getMessage());
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "convertToPDF " + e.getMessage());
 		}
 		
 		String inputUrl = null;
@@ -450,7 +450,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			 nasService.saveFile(resultStream, ecmResponse.getResult().getNameFile());
 		} catch (Exception e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "convertToPDF " + e.getMessage());
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());
 		}
 		
 		// Save the file's metadata to the technical db

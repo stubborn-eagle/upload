@@ -174,12 +174,10 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		try {
 
 			@SuppressWarnings({ "rawtypes", "unchecked" })
-			List<ECMFile> ret = getJdbcTemplate().query(
-					queryStrBuilder.toString(), new RowMapper() {
+			List<ECMFile> ret = getJdbcTemplate().query(queryStrBuilder.toString(), new RowMapper() {
 						@Override
-						public Object mapRow(java.sql.ResultSet rs, int row)
-								throws SQLException {
-							// MAP YOUR FIELDS HERE
+						public Object mapRow(java.sql.ResultSet rs, int row) throws SQLException {
+							// MAP YOUR FIELDS HERE							
 							ECMFile te = new ECMFile();
 							
 							ECMSource ecmSource = null;
@@ -232,7 +230,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 								log.error("mapRow: illegal mapping for COD_STATO_ECM.");
 								throw new AsiaException("illegal mapping");
 							}
-							
+
 							te.setIdFile(rs.getInt("COD_UPLD_FILE_INTERN"));
 							te.setChannel(rs.getString("COD_TIPO_CANA"));
 							te.setContainerType(rs.getString("DEN_CNTR"));
@@ -247,7 +245,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							te.setState(ecmState);
 							te.setType(rs.getString("DEN_ESTNS_FILE"));
 							te.setUserType(rs.getString("COD_TIPO_UTE"));
-
+							
 							/*
 							 * COD_UPLD_FILE_INTERN INTEGER NOT NULL , ID_FILE
 							 * VARCHAR2(50) NOT NULL ENABLE, COD_TIPO_ECM
@@ -279,8 +277,13 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							return te;
 						}
 					});
-
-			response.setListResults(ret);
+			if (ret != null && !ret.isEmpty() && ret.size() == 1) {
+				response.setResult(ret.get(0));
+			} else {
+				if(ret != null && !ret.isEmpty() && ret.size() > 1) {
+					response.setListResults(ret);
+				}
+			}			
 			return response;
 
 		} catch (RuntimeException e) {
