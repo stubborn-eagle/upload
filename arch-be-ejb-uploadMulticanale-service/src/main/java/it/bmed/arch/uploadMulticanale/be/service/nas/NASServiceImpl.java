@@ -152,19 +152,21 @@ public class NASServiceImpl implements NASService {
 		FileOutputStream fileToBeSaved = null;
 		// pay attention destinationPath must be slash ended
 		try {
-			fileToBeSaved = new FileOutputStream(destinationPath + nameFile);
+			fileToBeSaved = new FileOutputStream(destinationPath + nameFile + ".pdf");
+			int read = 0;
+			byte[] buffer = new  byte[1024];
+			// copy inputstream to outputstream
+			while ( (read = fileStream.read(buffer) ) != -1) {
+				fileToBeSaved.write(buffer, 0, read);
+			}
 		} catch (Exception e) {
 			logger.error("saveFile: Cannot save %s. " + e.getMessage(), fileStream );
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "Cannot save " + fileStream);			
+		} finally {
+			try {
+				fileToBeSaved.close();
+			} catch (Exception e) {}
 		}
-		
-		// copy inputstream to outputstream
-		int read = 0;
-		byte[] buffer = new  byte[1024];
-		while ( (read = fileStream.read(buffer) ) != -1) {
-			fileToBeSaved.write(buffer, 0, read);
-		}
-		
 	}
 
 }

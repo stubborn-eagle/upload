@@ -66,7 +66,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 					|| ecmFile.getUserType().isEmpty()
 					|| ecmFile.getSource() == null
 					|| ecmFile.getType().isEmpty()) {
-				log.debug("Errore Servizio: parametri non corretti ");
+				log.debug("insertMedia: parametri non valorizzati.");
 
 				IErrorCode er = UploadMulticanaleErrorCodeEnums
 						.valueOf("TCH_GENERIC_ERROR");
@@ -86,7 +86,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 					|| ecmFile.getSourcePath().length() > 500
 					|| ecmFile.getType().length() > 5
 					|| ecmFile.getUserType().length() > 50) {
-				log.debug("Errore Servizio: parametri non corretti qualche campo troppo lungo");
+				log.debug("insertMedia: parametri non corretti, qualche campo troppo lungo");
 				IErrorCode er = UploadMulticanaleErrorCodeEnums
 						.valueOf("TCH_GENERIC_ERROR");
 				TechnicalException tec = new TechnicalException(er);
@@ -119,17 +119,16 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			 * ('S','N')) ) ;
 			 */
 
-			log.debug(" Servizio: parametri  corretti ");
+			log.debug(" insertMedia: parametri  corretti.");
 			ECMResponse response = new ECMResponse();
 			response = uploadMulticanaleDaoJdbcTemplate.insertMedia(request);
 			return response;
 		} catch (ApplicationException e) {
-			log.error("Errore Servizio InsertMedia getErrorCode {}_getErrorDescription {}  "
-					+ e.getErrorCode() + "_" + e.getErrorDescription());
+			log.error("insertMedia: errorCode " + e.getErrorCode() + ", errorDescription " + e.getErrorDescription());
 			throw e;
 
 		} catch (RuntimeException e) {
-			log.error("Errore Servizio InsertMedia ");
+			log.error("insertMedia: " + e.getMessage());
 			throw e;
 		}
 

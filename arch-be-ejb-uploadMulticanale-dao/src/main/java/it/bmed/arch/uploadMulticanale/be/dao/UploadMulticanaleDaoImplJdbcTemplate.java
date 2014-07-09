@@ -71,11 +71,11 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							+ "GSTD_D_INS_RECORD, " + "GSTD_X_TIP_MODF, "
 							+ "GSTD_F_ESIST) " + "values  "
 							+ "( qpush_be.ECM_FILE_SEQ.nextval, "
-							+ ecmFile.getEcmType()
+							+ ecmFile.getEcmType().getValue()
 							+ ",  "
-							+ ecmFile.getSource()
+							+ ecmFile.getSource().getValue()
 							+ ",  "
-							+ ecmFile.getState()
+							+ ecmFile.getState().getValue()
 							+ ",  '"
 							+ ecmFile.getNameApp()
 							+ "',  '"

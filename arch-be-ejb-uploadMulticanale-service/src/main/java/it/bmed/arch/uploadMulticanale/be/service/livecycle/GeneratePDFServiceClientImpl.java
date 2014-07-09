@@ -15,13 +15,13 @@ import java.util.Scanner;
 public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 	private static final Logger logger = LoggerFactory.getLogger(GeneratePDFServiceClientImpl.class);
 	private static final String HTML_TEMPLATE = "/TemplatePDF.html";
-	private static final String PDF_DOCUMENT = "/it/bmed/arch/uploadMulticanale/be/livecycle/Documento.pdf";
+	private static final String PDF_DOCUMENT = "/it/bmed/arch/uploadMulticanale/be/service/livecycle/Documento.pdf";
 	private static final String PATTERN = "<div id=\"image\">";
 	private static final String IMG_TAG_START = "<img src=\"data:image/png;base64,";
 	private static final String IMG_TAG_END = "\">";
 	@Override
 	public InputStream htmlToPDF2(String inputUrl) {
-		InputStream stream;
+		InputStream stream = null;
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		try {
 			stream = loader.getResourceAsStream(PDF_DOCUMENT);

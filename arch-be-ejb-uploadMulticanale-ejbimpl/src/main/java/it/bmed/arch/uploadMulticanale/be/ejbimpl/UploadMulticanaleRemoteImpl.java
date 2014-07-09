@@ -453,6 +453,31 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());
 		}
+		ecmFile.setChannel(ecmResponse.getResult().getChannel());
+		ecmFile.setContainerType(ecmResponse.getResult().getContainerType());
+		ecmFile.setDestinationPath(ecmResponse.getResult().getDestinationPath());
+		ecmFile.setEcmType(ecmResponse.getResult().getEcmType());
+		ecmFile.setIdFile(ecmResponse.getResult().getIdFile());
+		ecmFile.setIdFileECM(ecmResponse.getResult().getIdFileECM());
+		ecmFile.setNameApp(ecmResponse.getResult().getNameApp());
+		ecmFile.setNameFile(ecmResponse.getResult().getNameFile());
+		ecmFile.setSource(ecmResponse.getResult().getSource());
+		ecmFile.setSourcePath(ecmResponse.getResult().getSourcePath());
+		ecmFile.setState(ecmResponse.getResult().getState());
+		ecmFile.setType(ecmResponse.getResult().getType());
+		ecmFile.setUserId(ecmResponse.getResult().getUserId());
+		ecmFile.setUserType(ecmResponse.getResult().getUserType());
+		
+		/*
+		 * ecmFile.getChannel().isEmpty()
+					|| ecmFile.getUserId().isEmpty()
+					|| ecmFile.getNameApp().isEmpty()
+					|| ecmFile.getNameFile().isEmpty()
+					|| ecmFile.getSourcePath().isEmpty()
+					|| ecmFile.getUserType().isEmpty()
+					|| ecmFile.getSource() == null
+					|| ecmFile.getType().isEmpty()) {
+		 */
 		
 		// Save the file's metadata to the technical db
 		try {
