@@ -47,6 +47,7 @@ import javax.jws.WebService;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
 @Stateless(name = "uploadMulticanaleDaoWS", mappedName = "ejb/", description = "")
@@ -469,44 +470,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 * @return The encoded html document as <b>String</b>
 	 */
 	private String createHTMLDocument(String encodedFile) {
-		StringBuilder outputSB = new StringBuilder(); 
-		File source = new File(".//src//main//resources//TemplatePDF.html");		
-		final String pattern = "<div id=\"image\">";
-		final String imgTagStart = "<img src=\"data:image/png;base64,";
-		final String imgTagEnd = "\">";
-		int patternIndex = 0;
-		if (source.exists()) {
-			log.debug("TemplatePDF.html found in " + source.getAbsolutePath().toString());
-			Scanner scanner = null;
-			try {
-				scanner = new Scanner(source);
-				StringBuilder builder = new StringBuilder();
-				scanner.useDelimiter("");
-				String next = null;
-				while (scanner.hasNext()) {
-					next = scanner.next();
-					if ( patternIndex <= pattern.length() - 1 && next.equals(pattern.substring(patternIndex, patternIndex + 1)) ) {
-						++patternIndex;
-						builder.append(next);
-					} else {
-						outputSB.append(builder.toString()).append(next);
-						if (patternIndex == pattern.length()) {
-							outputSB.append(imgTagStart).append(encodedFile).append(imgTagEnd);
-						}
-						builder.delete(0, builder.length());
-						patternIndex = 0;
-					}
-				}
-				outputSB.append(builder.toString());
-			} catch (FileNotFoundException e) {
-				log.error("createHTMLDocument: cannot create HTML document. TemplatePDF not found.");
-				throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "createHTMLDocument error: TemplatePDF.html not found.", e);
-			}
-		} else {
-			log.error("createHTMLDocument: cannot create HTML document. TemplatePDF not found.");
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "createHTMLDocument error: TemplatePDF.html not found.");
-		}		
-		return outputSB.toString();
+		String result = null;
+		result = generatePDFServiceClient.createHTMLDocument(encodedFile);
+		return result;
 	}
 	
 	/**

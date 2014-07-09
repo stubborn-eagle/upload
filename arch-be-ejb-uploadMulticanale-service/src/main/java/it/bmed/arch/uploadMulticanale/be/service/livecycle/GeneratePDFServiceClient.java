@@ -14,5 +14,7 @@ public interface GeneratePDFServiceClient {
 	 * @return The pdf document as <b>InputStream</b>
 	 */
 	InputStream htmlToPDF2(String inputUrl);
+
+	String createHTMLDocument(String encodedFile);
 	
 }
