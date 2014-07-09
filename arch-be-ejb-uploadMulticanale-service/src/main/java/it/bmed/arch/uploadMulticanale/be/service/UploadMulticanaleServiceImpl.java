@@ -173,9 +173,10 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 				parameterError("userType");
 			}
 			
-			if (ecmFile.getIdFile() == null || ecmFile.getIdFile() == 0) {
-				parameterError("idFile");
-			}
+//			if (ecmFile.getIdFile() == null || ecmFile.getIdFile() == 0) {
+//				parameterError("idFile");
+//			}
+			
 			
 			if (ecmFile.getIdFileECM() == null || ecmFile.getIdFileECM().length() > 500) {
 				parameterError("idFileECM");
