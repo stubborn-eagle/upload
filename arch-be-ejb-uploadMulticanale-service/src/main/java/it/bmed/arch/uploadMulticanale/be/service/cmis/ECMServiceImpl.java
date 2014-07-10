@@ -33,6 +33,9 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 		logger.info("filenetConnector injected with " + filenetConnector.getClass().getName());
 	}
 
+	/**
+	 * Start connection to ECM
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 
@@ -40,7 +43,8 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 			throw new Exception("ERROR: alfrescoConnector not injected");
 		} else {
 			try {
-				alfrescoConnector.createConnection();
+				// TODO: uncomment following row to enable connection to Alfresco after certificate issue will be closed 
+				// alfrescoConnector.createConnection();
 			} catch (Exception e) {
 				logger.error("afterPropertiesSet: alfrescoConnector cannot create connection. " + e.getMessage());
 				throw e;
