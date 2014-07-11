@@ -39,7 +39,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "deleteFileNAS")
 		@WebResult(name = "response")
-		boolean deleteFileNAS(@WebParam(name = "request") ECMRequest request) throws RemoteException, Exception;
+		boolean deleteFileNAS(@WebParam(name = "request") ECMRequest request) throws SystemFault, RemoteException, Exception;
 
 
 		/**
@@ -51,7 +51,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "deleteFileECM")
 		@WebResult(name = "response")
-		boolean deleteFileECM(@WebParam(name = "request") ECMRequest request) throws RemoteException, Exception;
+		boolean deleteFileECM(@WebParam(name = "request") ECMRequest request) throws SystemFault, RemoteException, Exception;
 
 		/**
 		 * Retrieve the Azure's token
@@ -62,7 +62,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "getAzureToken")
 		@WebResult(name = "response")		
-		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request) throws RemoteException, Exception;
+		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request) throws SystemFault, RemoteException, Exception;
 				
 //		Not required	
 //		@WebMethod(operationName = "getECMToken")
@@ -79,9 +79,9 @@ public interface UploadMulticanaleRemote extends Remote {
 		 */
 		@WebMethod(operationName = "moveFile")
 		@WebResult(name = "response")
-		MoveResponse moveFile(@WebParam(name = "request") MoveRequest request) throws RemoteException, Exception;
+		MoveResponse moveFile(@WebParam(name = "request") MoveRequest request) throws SystemFault, RemoteException, Exception;
 		
 		@WebMethod(operationName = "convertToPDF")
 		@WebResult(name = "response")
-		ECMResponse convertToPDF(@WebParam(name = "request") ECMConvertRequest request) throws RemoteException, Exception;
+		ECMResponse convertToPDF(@WebParam(name = "request") ECMConvertRequest request) throws SystemFault, RemoteException, Exception;
 }

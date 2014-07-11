@@ -339,7 +339,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 */
 	@Override
 	public AzureResponse getAzureToken(AzureRequest request)
-			throws RemoteException, Exception {
+			throws SystemFault, RemoteException, Exception {
 		AzureResponse azureResponse = new AzureResponse();
 		AzureDTO azureDTO = new AzureDTO();
 		try {
@@ -355,7 +355,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public MoveResponse moveFile(MoveRequest request) throws RemoteException, Exception {
+	public MoveResponse moveFile(MoveRequest request) throws SystemFault, RemoteException, Exception {
 		MoveResponse response = new MoveResponse();
 		ECMResponse ecmResponse = null;
 		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
@@ -408,7 +408,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 * @author donatello.boccaforno
 	 */
 	@Override
-	public ECMResponse convertToPDF(ECMConvertRequest request) throws RemoteException, Exception {
+	public ECMResponse convertToPDF(ECMConvertRequest request) throws SystemFault, RemoteException, Exception {
 		ECMRequest ecmRequest = new ECMRequest();
 		ECMResponse ecmResponse = new ECMResponse();
 		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
