@@ -50,9 +50,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 	}
 
 	@Override
-	public ECMResponse insertMedia(ECMRequest parameters)
-			throws ApplicationException, Exception {
-
+	public ECMResponse insertMedia(ECMRequest parameters) throws ApplicationException, Exception {
 		ECMFile ecmFile = parameters.getEcmFile();
 		int result = 0;
 
@@ -60,18 +58,28 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 
 			result = getJdbcTemplate().update(
 					"insert into qpush_be.ECM_FILE ("
-							+ "COD_UPLD_FILE_INTERN, " + "COD_TIPO_ECM,  "
-							+ "COD_TIPO_PROVNZ_FILE, " + "COD_STATO_ECM, "
-							+ "DES_APPLICNE, " + "DES_DEST_PATH, "
-							+ "DEN_CNTR, " + "COD_TIPO_CANA, "
-							+ "COD_TIPO_UTE, " + "DEN_FILE, "
-							+ "DES_SORG_PATH, " + "COD_UPLD_FILE_ECM, "
-							+ "DEN_ESTNS_FILE, " + "GSTD_M_NOM_ULT_MODF, "
-							+ "GSTD_X_USER, " + "GSTD_D_ULT_MODF_RECORD, "
-							+ "GSTD_D_INS_RECORD, " + "GSTD_X_TIP_MODF, "
-							+ "GSTD_F_ESIST) " + "values  "
+							+ "COD_UPLD_FILE_INTERN, " 	// PK
+							+ (ecmFile.getEcmType() == null ? "" : "COD_TIPO_ECM,  ")
+							+ "COD_TIPO_PROVNZ_FILE, "	// Required 
+							+ "COD_STATO_ECM, "			// Required
+							+ "DES_APPLICNE, " 			// Required
+							+ (ecmFile.getDestinationPath() == null ? "" : "DES_DEST_PATH, ")
+							+ (ecmFile.getContainerType() == null ? "" : "DEN_CNTR, ") 
+							+ "COD_TIPO_CANA, "			// Required
+							+ (ecmFile.getUserType() == null ? "" : "COD_TIPO_UTE, ") 
+							+ "DEN_FILE, "				// Required
+							+ (ecmFile.getSourcePath() == null ? "" : "DES_SORG_PATH, ")
+							+ (ecmFile.getIdFileECM() == null ? "" : "COD_UPLD_FILE_ECM, ")
+							+ (ecmFile.getType() == null ? "" : "DEN_ESTNS_FILE, ") 
+							+ (ecmFile.getNameApp() == null ? "" : "GSTD_M_NOM_ULT_MODF, ")
+							+ "GSTD_X_USER, " 			// Required
+							+ "GSTD_D_ULT_MODF_RECORD, "
+							+ "GSTD_D_INS_RECORD, " 
+							+ "GSTD_X_TIP_MODF, "
+							+ "GSTD_F_ESIST) " 			// Required
+							+ "values  "
 							+ "( qpush_be.ECM_FILE_SEQ.nextval, "
-							+ ecmFile.getEcmType().getValue()
+							+ (ecmFile.getEcmType() == null ? "" : ecmFile.getEcmType().getValue())
 							+ ",  "
 							+ ecmFile.getSource().getValue()
 							+ ",  "
@@ -79,24 +87,23 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							+ ",  '"
 							+ ecmFile.getNameApp()
 							+ "',  '"
-							+ // controllare
-							ecmFile.getDestinationPath()
+							+ (ecmFile.getDestinationPath() == null ? "" : ecmFile.getDestinationPath())
 							+ "',  '"
-							+ ecmFile.getContainerType()
+							+ (ecmFile.getContainerType() == null ? "" :  ecmFile.getContainerType())
 							+ "',  '"
 							+ ecmFile.getChannel()
 							+ "', '"
-							+ ecmFile.getUserType()
+							+ (ecmFile.getUserType() == null ? "" : ecmFile.getUserType())
 							+ "', '"
 							+ ecmFile.getNameFile()
 							+ "', '"
-							+ ecmFile.getSourcePath()
+							+ (ecmFile.getSourcePath() == null ? "" : ecmFile.getSourcePath())
 							+ "',  '"
-							+ ecmFile.getIdFileECM()
+							+ (ecmFile.getIdFileECM() == null ? "" : ecmFile.getIdFileECM())
 							+ "',  '"
-							+ ecmFile.getType()
+							+ (ecmFile.getType() == null ? "" : ecmFile.getType())
 							+ "',  '"
-							+ ecmFile.getNameApp()
+							+ (ecmFile.getNameApp() == null ? "" : ecmFile.getNameApp())
 							+ "',  '"
 							+ ecmFile.getUserId()
 							+ "', "
@@ -304,7 +311,11 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 	@Override
 	public boolean updateMedia(UpdateECMRequest request)
 			throws ApplicationException, Exception {
-
+		
+		// Check object fields
+		if (request.getEcmType() == null) {
+			
+		} 		
 		String Destinazione_path = "" + request.getDestinationPath();
 		String idFileECM = "" + request.getIdFileECM();
 		String Container_type = "" + request.getContainerType();
@@ -314,7 +325,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		String campo2 = request.getEcmType() == null
 				|| request.getEcmType() == null ? "" : ", COD_TIPO_ECM = "
 				+ request.getEcmType() + "";
-		String campo3 = request.getState() == null || request.getState() == null ? ""
+		String campo3 = request.getState() == null || request.getState().getValue() == 0 ? ""
 				: ", COD_STATO_ECM = " + request.getState() + "";
 
 		String campo4 = Destinazione_path.isEmpty() ? ""
