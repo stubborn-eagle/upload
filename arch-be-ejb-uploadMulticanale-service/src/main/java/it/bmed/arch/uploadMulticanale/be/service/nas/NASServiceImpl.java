@@ -73,7 +73,7 @@ public class NASServiceImpl implements NASService {
 			file = new File(path + filename);
 			fileLength = (int) file.length();
 
-			// FIXME: check which is the real limit in bytes to load a file
+			// The higher bound is checked in the caller's side
 			if (fileLength >= Integer.MAX_VALUE) { 
 				throw new AsiaException("Illegal file size.");
 			}
