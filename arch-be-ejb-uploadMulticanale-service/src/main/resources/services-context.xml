@@ -32,23 +32,23 @@
 			value="org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi" />
 		<!-- CMIS WebService Connection Settings -->
 		<property name="repositoryServiceUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/RepositoryService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/RepositoryService?wsdl" />
 		<property name="navigationServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/NavigationService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/NavigationService?wsdl" />
 		<property name="objectServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/ObjectService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/ObjectService?wsdl" />
 		<property name="versioningServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/VersioningService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/VersioningService?wsdl" />
 		<property name="discoveryServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/DiscoveryService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/DiscoveryService?wsdl" />
 		<property name="relationshipServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/RelationshipService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/RelationshipService?wsdl" />
 		<property name="multiFilingServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/MultiFilingService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/MultiFilingService?wsdl" />
 		<property name="policyServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/PolicyService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/PolicyService?wsdl" />
 		<property name="aclServiceWsdlUrl"
-			value="http://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/ACLService?wsdl" />
+			value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/ACLService?wsdl" />
 	</bean>
 
 	<!-- FILENET ECM CONNECTOR -->
