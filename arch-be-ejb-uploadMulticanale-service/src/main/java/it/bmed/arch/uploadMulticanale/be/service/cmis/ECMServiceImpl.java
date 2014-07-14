@@ -43,8 +43,7 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 			throw new Exception("ERROR: alfrescoConnector not injected");
 		} else {
 			try {
-				// TODO: uncomment following row to enable connection to Alfresco after certificate issue will be closed 
-				// alfrescoConnector.createConnection();
+				 alfrescoConnector.createConnection();
 			} catch (Exception e) {
 				logger.error("afterPropertiesSet: alfrescoConnector cannot create connection. " + e.getMessage());
 				throw e;
