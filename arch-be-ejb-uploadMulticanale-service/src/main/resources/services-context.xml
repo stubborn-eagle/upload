@@ -18,31 +18,32 @@
  		<property name="filenetConnector" ref="filenetConnector"/>
  	</bean>
  	
- 	<bean id="nasService" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceImpl"/>
+ 	<bean id="nasService" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceImpl">
+ 		<property name="settingsBean" ref="settingsBean"/>
+ 	</bean>
 
 	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl"/>
 	
-	<bean id="generatePDFServiceClient" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl" />
- 	<jee:jndi-lookup id="alfrescoUri" jndi-name="java:comp/env/ALFRESCO-URI" expected-type="java.lang.String" />
+	<bean id="generatePDFServiceClient" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl" /> 	
  	
 	<!-- ALFRESCO ECM CONNECTOR -->
 	<bean id="alfrescoConnector"
 		class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
 		<!-- User credentials -->
-		<property name="user" value="up-multi-dev" />
-		<property name="password" value="uploadmulti001!" />
+		<property name="user" ref="alfrescoUser" />
+		<property name="password" ref="alfrescoPassword" />
 		<!-- Binding Settings -->
 		<property name="bindingSPIType" value="org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi" />
 		<!-- CMIS WebService Connection Settings -->
-		<property name="repositoryServiceUrl" ref="alfrescoUri" />
-		<property name="navigationServiceWsdlUrl" ref="alfrescoUri"/>
-		<property name="objectServiceWsdlUrl" ref="alfrescoUri" />
-		<property name="versioningServiceWsdlUrl" ref="alfrescoUri"/>
-		<property name="discoveryServiceWsdlUrl" ref="alfrescoUri"/>
-		<property name="relationshipServiceWsdlUrl" ref="alfrescoUri"/>
-		<property name="multiFilingServiceWsdlUrl" ref="alfrescoUri"/>
-		<property name="policyServiceWsdlUrl" ref="alfrescoUri"/>
-		<property name="aclServiceWsdlUrl" ref="alfrescoUri"/>
+		<property name="repositoryServiceUrl" ref="alfrescoUrl" />
+		<property name="navigationServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="objectServiceWsdlUrl" ref="alfrescoUrl" />
+		<property name="versioningServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="discoveryServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="relationshipServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="multiFilingServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="policyServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="aclServiceWsdlUrl" ref="alfrescoUrl"/>
 	</bean>
 
 	<!-- FILENET ECM CONNECTOR -->
@@ -63,6 +64,16 @@
 		<property name="policyServiceWsdlUrl" value="" />
 		<property name="aclServiceWsdlUrl" value="" />
 	</bean>
+	
+	<bean id="settingsBean" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceSettingsBean">
+		<property name="nasInternetBankingPath" ref="nasIBPath"/>
+		<property name="nasReteDiVenditaPath" ref="nasRVPath"/>
+		<property name="nasPortaleDiSedePath" ref="nasPSPath"/>
+		<property name="nasInternetBankingDeletedPath" ref="nasIBDeletedPath"/>
+		<property name="nasReteDiVenditaDeletedPath" ref="nasRVDeletedPath"/>
+		<property name="nasPortaleDiSedeDeletedPath" ref="nasPSDeletedPath"/>
+	</bean>
+	
 	<bean id="mimeTypeMapping" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="targetMapClass">
 			<value>java.util.LinkedHashMap</value>
@@ -80,4 +91,18 @@
 			</map>
 		</property>
 	</bean>
+	
+	<jee:jndi-lookup id="alfrescoUrl" jndi-name="java:comp/env/ALFRESCO-URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="alfrescoUser" jndi-name="java:comp/env/ALFRESCO-USER" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="alfrescoPassword" jndi-name="java:comp/env/ALFRESCO-PW" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasIBPath" jndi-name="java:comp/env/PATH-NAS-IB" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasPSPath" jndi-name="java:comp/env/PATH-NAS-PS" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasRVPath" jndi-name="java:comp/env/PATH-NAS-RV" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasIBDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-IB" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasPSDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-PS" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasRVDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-RV" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="filenetUrl" jndi-name="java:comp/env/FILENET-URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="filenetUser" jndi-name="java:comp/env/FILENET-USER" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="filenetPassword" jndi-name="java:comp/env/FILENET-PW" expected-type="java.lang.String" />
+	
 </beans>

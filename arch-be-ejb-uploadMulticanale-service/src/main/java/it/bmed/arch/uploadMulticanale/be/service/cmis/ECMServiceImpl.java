@@ -1,6 +1,5 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
-import junit.framework.JUnit4TestAdapter;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
@@ -8,8 +7,6 @@ import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
-import org.junit.Ignore;
-import org.junit.runner.JUnitCore;
 import org.springframework.beans.factory.InitializingBean;
 
 public class ECMServiceImpl implements ECMService, InitializingBean {

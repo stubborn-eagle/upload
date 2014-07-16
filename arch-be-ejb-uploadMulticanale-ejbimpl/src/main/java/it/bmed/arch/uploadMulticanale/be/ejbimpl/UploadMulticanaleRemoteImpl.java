@@ -295,7 +295,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	
 			try {
 				ecmResponse = listMedia(request);
-				response = nasService.deleteFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile());
+				response = nasService.deleteFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile(), ecmResponse.getResult().getSource());
 				log.info("deleteFileNAS: operation succesfully returned.");
 			} catch (TechnicalException e) {
 				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
@@ -390,7 +390,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			
 			// Remove file from NAS
 			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
-				nasService.deleteFile(ecmFile.getSourcePath(), ecmFile.getNameFile());
+				nasService.deleteFile(ecmFile.getSourcePath(), ecmFile.getNameFile(), ecmFile.getSource());
 			}
 			moveDTO.setEcmFileId(idFileECM);
 			moveDTO.setFileId(ecmFile.getIdFile());

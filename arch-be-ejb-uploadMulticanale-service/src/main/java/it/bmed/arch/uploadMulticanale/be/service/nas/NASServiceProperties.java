@@ -3,6 +3,7 @@ package it.bmed.arch.uploadMulticanale.be.service.nas;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+@Deprecated
 public class NASServiceProperties {
 	private static final String BUNDLE_NAME = "it.bmed.arch.uploadMulticanale.be.service.nas.nasservicesettings"; //$NON-NLS-1$
 

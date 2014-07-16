@@ -3,6 +3,7 @@
  */
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.IErrorCode;
@@ -25,18 +26,39 @@ import java.io.OutputStream;
  */
 public class NASServiceImpl implements NASService {
 	private static final Logger logger = LoggerFactory.getLogger(NASServiceImpl.class); 
+	private NASServiceSettingsBean settingsBean = null;
+	
+	
+	
+	/**
+	 * @param settingsBean the settingsBean to set
+	 */
+	public void setSettingsBean(NASServiceSettingsBean settingsBean) {
+		this.settingsBean = settingsBean;
+	}
 
 	/* (non-Javadoc)
 	 * @see it.bmed.arch.uploadMulticanale.be.service.nas.NASService#deleteFile(java.lang.String)
 	 */
 	@Override
-	public boolean deleteFile(String path, String filename) throws TechnicalException, Exception {
+	public boolean deleteFile(String path, String filename, ECMSource source) throws TechnicalException, Exception {
 		boolean result = false;
-		String destinationPathname; // used by copyFile as recovery path
+		String destinationPathname = null; // used by copyFile as recovery path
 		
-		// Init destinationPathname from file properties
+		// Init destinationPathname from settings
 		try {
-			destinationPathname = NASServiceProperties.getString("NasSettings.multicannelUploadDeleted");
+			switch (source) {
+			case INTERNET_BANKING:
+				destinationPathname = settingsBean.getNasInternetBankingPath();
+				break;
+			case PORTALE_DI_SEDE:
+				destinationPathname = settingsBean.getNasPortaleDiSedeDeletedPath();
+				break;
+			case RETE_DI_VENDITA:
+				destinationPathname = settingsBean.getNasReteDiVenditaDeletedPath();
+				break;
+			}
+			
 		} catch (Exception e) {
 			logger.error("deleteFile: " + e.getMessage());
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
