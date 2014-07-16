@@ -46,24 +46,7 @@ public class NASServiceImpl implements NASService {
 		String destinationPathname = null; // used by copyFile as recovery path
 		
 		// Init destinationPathname from settings
-		try {
-			switch (source) {
-			case INTERNET_BANKING:
-				destinationPathname = settingsBean.getNasInternetBankingPath();
-				break;
-			case PORTALE_DI_SEDE:
-				destinationPathname = settingsBean.getNasPortaleDiSedeDeletedPath();
-				break;
-			case RETE_DI_VENDITA:
-				destinationPathname = settingsBean.getNasReteDiVenditaDeletedPath();
-				break;
-			}
-			
-		} catch (Exception e) {
-			logger.error("deleteFile: " + e.getMessage());
-			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
-		}
-		
+		destinationPathname = getDestinationPathFromSource(source);		
 		// check uninitialized variables
 		if(path == null || path.isEmpty() || filename == null || filename.isEmpty() || destinationPathname == null || destinationPathname.isEmpty()) {
 			logger.error("deleteFile: IllegalArgument.");
@@ -122,6 +105,37 @@ public class NASServiceImpl implements NASService {
 			return buffer;
 		}
 
+	@Override
+	public void saveFile(InputStream fileStream, String nameFile, ECMSource source) throws TechnicalException, Exception {
+		logger.debug("saveFile called. ");
+		String destinationPath = null;
+		if (settingsBean == null) {
+			logger.error("saveFile: settingsBean is null.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "settingsBean is null");
+		} 		
+		destinationPath = getDestinationPathFromSource(source);
+		FileOutputStream fileToBeSaved = null;
+		// pay attention destinationPath must be slash ended
+		try {
+			fileToBeSaved = new FileOutputStream(destinationPath + nameFile + ".pdf");
+			int read = 0;
+			byte[] buffer = new  byte[1024];
+			// copy inputstream to outputstream
+			while ( (read = fileStream.read(buffer) ) != -1) {
+				fileToBeSaved.write(buffer, 0, read);
+			}
+		} catch (Exception e) {
+			logger.error("saveFile: Cannot save %s. " + e.getMessage(), fileStream );
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "Cannot save " + fileStream);			
+		} finally {
+			if (fileToBeSaved != null) {
+				try {
+					fileToBeSaved.close();
+				} catch (Exception e) {}	
+			}
+		}
+	}
+
 	private void copyFile(String sourcePathname, String destinationPathname, String filename) throws IOException {
 		File srcfile = new File(sourcePathname);
 		File destFile = new File(destinationPathname + filename);
@@ -167,38 +181,26 @@ public class NASServiceImpl implements NASService {
 		}
 	}
 
-	@Override
-	public void saveFile(InputStream fileStream, String nameFile, ECMSource source) throws TechnicalException, Exception {
-		String destinationPath = null;
-		switch (source) {
-		case INTERNET_BANKING:
-			destinationPath = settingsBean.getNasInternetBankingPath();
-			break;
-		case PORTALE_DI_SEDE:
-			destinationPath = settingsBean.getNasPortaleDiSedePath();
-			break;
-		case RETE_DI_VENDITA:
-			destinationPath = settingsBean.getNasReteDiVenditaPath();
-			break;
-		}
-		FileOutputStream fileToBeSaved = null;
-		// pay attention destinationPath must be slash ended
+	private String getDestinationPathFromSource(ECMSource source) throws TechnicalException {
+		String destinationPathname = null;
 		try {
-			fileToBeSaved = new FileOutputStream(destinationPath + nameFile + ".pdf");
-			int read = 0;
-			byte[] buffer = new  byte[1024];
-			// copy inputstream to outputstream
-			while ( (read = fileStream.read(buffer) ) != -1) {
-				fileToBeSaved.write(buffer, 0, read);
+			switch (source) {
+			case INTERNET_BANKING:
+				destinationPathname = settingsBean.getNasInternetBankingPath();
+				break;
+			case PORTALE_DI_SEDE:
+				destinationPathname = settingsBean.getNasPortaleDiSedeDeletedPath();
+				break;
+			case RETE_DI_VENDITA:
+				destinationPathname = settingsBean.getNasReteDiVenditaDeletedPath();
+				break;
 			}
+
 		} catch (Exception e) {
-			logger.error("saveFile: Cannot save %s. " + e.getMessage(), fileStream );
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "Cannot save " + fileStream);			
-		} finally {
-			try {
-				fileToBeSaved.close();
-			} catch (Exception e) {}
+			logger.error("deleteFile: " + e.getMessage());
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
+		return destinationPathname;
 	}
 
 }
