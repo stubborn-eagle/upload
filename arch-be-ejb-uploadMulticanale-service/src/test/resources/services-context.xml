@@ -1,54 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context"	
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	http://www.springframework.org/schema/jee
+    http://www.springframework.org/schema/jee/spring-jee-3.1.xsd
 	http://www.springframework.org/schema/context
 	http://www.springframework.org/schema/context/spring-context-3.1.xsd">
-
- 	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
- 	<context:component-scan base-package="it.bmed.asia.utility" />
+	
+	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
+<!--  	<context:component-scan base-package="it.bmed.asia"/> -->
  	
- 	 <bean id="ecmService" class="it.bmed.arch.uploadMulticanale.be.service.cmis.ECMServiceImpl">
+ 	<bean id="ecmService" class="it.bmed.arch.uploadMulticanale.be.service.cmis.ECMServiceImpl">
  		<property name="alfrescoConnector" ref="alfrescoConnector"/>
- 		<property name="filenetConnector" ref="filenetConnector"/>
+<!--  		<property name="filenetConnector" ref="filenetConnector"/> -->
  	</bean>
  	
+ 	<bean id="nasService" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceImpl"/>
+
+	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl"/>
+	
+	<bean id="generatePDFServiceClient" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl" />
+<!--  	<jee:jndi-lookup id="alfrescoUri" jndi-name="java:comp/env/ALFRESCO-URI" expected-type="java.lang.String" /> -->
+	<bean id="alfrescoUri" class="java.lang.String">
+		<constructor-arg value="https://test-alfresco.mediolanum.it/" />
+	</bean>
+ 	
 	<!-- ALFRESCO ECM CONNECTOR -->
-	<bean id="alfrescoConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
+	<bean id="alfrescoConnector"
+		class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
 		<!-- User credentials -->
 		<property name="user" value="up-multi-dev" />
 		<property name="password" value="uploadmulti001!" />
 		<!-- Binding Settings -->
-		<property name="bindingSPIType" value="org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi"/>
+		<property name="bindingSPIType" value="org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi" />
 		<!-- CMIS WebService Connection Settings -->
-		<property name="repositoryServiceUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/RepositoryService?wsdl" />
-		<property name="navigationServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/NavigationService?wsdl"/>
-		<property name="objectServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/ObjectService?wsdl"/>
-		<property name="versioningServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/VersioningService?wsdl" />
-		<property name="discoveryServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/DiscoveryService?wsdl"/>
-		<property name="relationshipServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/RelationshipService?wsdl" />
-		<property name="multiFilingServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/MultiFilingService?wsdl" />
-		<property name="policyServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/PolicyService?wsdl"/>
-		<property name="aclServiceWsdlUrl" value="https://test-alfresco.mediolanum.it/alfresco/cmisws/cmis/services/ACLService?wsdl"/>
+		<property name="repositoryServiceUrl" ref="alfrescoUri" />
+		<property name="navigationServiceWsdlUrl" ref="alfrescoUri"/>
+		<property name="objectServiceWsdlUrl" ref="alfrescoUri" />
+		<property name="versioningServiceWsdlUrl" ref="alfrescoUri"/>
+		<property name="discoveryServiceWsdlUrl" ref="alfrescoUri"/>
+		<property name="relationshipServiceWsdlUrl" ref="alfrescoUri"/>
+		<property name="multiFilingServiceWsdlUrl" ref="alfrescoUri"/>
+		<property name="policyServiceWsdlUrl" ref="alfrescoUri"/>
+		<property name="aclServiceWsdlUrl" ref="alfrescoUri"/>
 	</bean>
-	
+
 	<!-- FILENET ECM CONNECTOR -->
-	<bean id="filenetConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetConnector">
-		<!-- User credentials -->
-		<property name="user" value="" />
-		<property name="password" value="" />
-		
+<!-- 	<bean id="filenetConnector" -->
+<!-- 		class="it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetConnector"> -->
+ 		<!-- User credentials --> 
+<!-- 		<property name="user" value="" /> -->
+<!-- 		<property name="password" value="" /> -->
+
 		<!-- CMIS WebService Connection Settings -->
-		<property name="repositoryServiceUrl" value="" />
-		<property name="navigationServiceWsdlUrl" value=""/>
-		<property name="objectServiceWsdlUrl" value=""/>
-		<property name="versioningServiceWsdlUrl" value="" />
-		<property name="discoveryServiceWsdlUrl" value=""/>
-		<property name="relationshipServiceWsdlUrl" value="" />
-		<property name="multiFilingServiceWsdlUrl" value="" />
-		<property name="policyServiceWsdlUrl" value=""/>
-		<property name="aclServiceWsdlUrl" value=""/>
+<!-- 		<property name="repositoryServiceUrl" value="" /> -->
+<!-- 		<property name="navigationServiceWsdlUrl" value="" /> -->
+<!-- 		<property name="objectServiceWsdlUrl" value="" /> -->
+<!-- 		<property name="versioningServiceWsdlUrl" value="" /> -->
+<!-- 		<property name="discoveryServiceWsdlUrl" value="" /> -->
+<!-- 		<property name="relationshipServiceWsdlUrl" value="" /> -->
+<!-- 		<property name="multiFilingServiceWsdlUrl" value="" /> -->
+<!-- 		<property name="policyServiceWsdlUrl" value="" /> -->
+<!-- 		<property name="aclServiceWsdlUrl" value="" /> -->
+<!-- 	</bean> -->
+	<bean id="mimeTypeMapping" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="targetMapClass">
+			<value>java.util.LinkedHashMap</value>
+		</property>
+		<property name="sourceMap">
+			<map>
+				<entry key="pdf" value="application/pdf" />
+				<entry key="png" value="image/png" />
+				<entry key="jpeg" value="image/jpeg" />
+				<entry key="jpg" value="image/jpeg" />
+				<entry key="gif" value="image/gif" />
+				<entry key="bmp" value="image/bmp" />
+				<entry key="tif" value="image/tiff" />
+				<entry key="tiff" value="image/tiff" />
+			</map>
+		</property>
 	</bean>
 </beans>

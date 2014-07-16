@@ -25,7 +25,7 @@ public class ECMServiceTest {
 	private boolean connected = false;
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		try {
 		context = new ClassPathXmlApplicationContext("services-context.xml");
 		alfrescoConnector = (AlfrescoConnector) context.getBean("alfrescoConnector");

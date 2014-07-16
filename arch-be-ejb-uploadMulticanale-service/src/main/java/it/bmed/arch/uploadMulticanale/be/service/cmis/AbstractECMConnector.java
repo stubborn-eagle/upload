@@ -63,55 +63,55 @@ public abstract class AbstractECMConnector implements ECMConnector {
 	 * @param repositoryServiceUrl the repositoryServiceUrl to set
 	 */
 	public void setRepositoryServiceUrl(String repositoryServiceUrl) {
-		this.repositoryServiceUrl = repositoryServiceUrl;
+		this.repositoryServiceUrl = repositoryServiceUrl + CmisWSBindingWsdlUrl.REPOSITORY_SERVICE_URL;
 	}
 	/**
 	 * @param navigationServiceWsdlUrl the navigationServiceWsdlUrl to set
 	 */
 	public void setNavigationServiceWsdlUrl(String navigationServiceWsdlUrl) {
-		this.navigationServiceWsdlUrl = navigationServiceWsdlUrl;
+		this.navigationServiceWsdlUrl = navigationServiceWsdlUrl + CmisWSBindingWsdlUrl.NAVIGATION_SERVICE_URL;
 	}
 	/**
 	 * @param objectServiceWsdlUrl the objectServiceWsdlUrl to set
 	 */
 	public void setObjectServiceWsdlUrl(String objectServiceWsdlUrl) {
-		this.objectServiceWsdlUrl = objectServiceWsdlUrl;
+		this.objectServiceWsdlUrl = objectServiceWsdlUrl + CmisWSBindingWsdlUrl.OBJECT_SERVICE_URL;
 	}
 	/**
 	 * @param versioningServiceWsdlUrl the versioningServiceWsdlUrl to set
 	 */
 	public void setVersioningServiceWsdlUrl(String versioningServiceWsdlUrl) {
-		this.versioningServiceWsdlUrl = versioningServiceWsdlUrl;
+		this.versioningServiceWsdlUrl = versioningServiceWsdlUrl + CmisWSBindingWsdlUrl.VERSIONING_SERVICE_URL;
 	}
 	/**
 	 * @param discoveryServiceWsdlUrl the discoveryServiceWsdlUrl to set
 	 */
 	public void setDiscoveryServiceWsdlUrl(String discoveryServiceWsdlUrl) {
-		this.discoveryServiceWsdlUrl = discoveryServiceWsdlUrl;
+		this.discoveryServiceWsdlUrl = discoveryServiceWsdlUrl + CmisWSBindingWsdlUrl.DISCOVERY_SERVICE_URL;
 	}
 	/**
 	 * @param relationshipServiceWsdlUrl the relationshipServiceWsdlUrl to set
 	 */
 	public void setRelationshipServiceWsdlUrl(String relationshipServiceWsdlUrl) {
-		this.relationshipServiceWsdlUrl = relationshipServiceWsdlUrl;
+		this.relationshipServiceWsdlUrl = relationshipServiceWsdlUrl + CmisWSBindingWsdlUrl.RELATIONSHIP_SERVICE_URL;
 	}
 	/**
 	 * @param multiFilingServiceWsdlUrl the multiFilingServiceWsdlUrl to set
 	 */
 	public void setMultiFilingServiceWsdlUrl(String multiFilingServiceWsdlUrl) {
-		this.multiFilingServiceWsdlUrl = multiFilingServiceWsdlUrl;
+		this.multiFilingServiceWsdlUrl = multiFilingServiceWsdlUrl + CmisWSBindingWsdlUrl.MULTIFILING_SERVICE_URL;
 	}
 	/**
 	 * @param policyServiceWsdlUrl the policyServiceWsdlUrl to set
 	 */
 	public void setPolicyServiceWsdlUrl(String policyServiceWsdlUrl) {
-		this.policyServiceWsdlUrl = policyServiceWsdlUrl;
+		this.policyServiceWsdlUrl = policyServiceWsdlUrl + CmisWSBindingWsdlUrl.POLICY_SERVICE_URL;
 	}
 	/**
 	 * @param aclServiceWsdlUrl the aclServiceWsdlUrl to set
 	 */
 	public void setAclServiceWsdlUrl(String aclServiceWsdlUrl) {
-		this.aclServiceWsdlUrl = aclServiceWsdlUrl;
+		this.aclServiceWsdlUrl = aclServiceWsdlUrl + CmisWSBindingWsdlUrl.ACL_SERVICE_URL;
 	}
 	
 	@Override
