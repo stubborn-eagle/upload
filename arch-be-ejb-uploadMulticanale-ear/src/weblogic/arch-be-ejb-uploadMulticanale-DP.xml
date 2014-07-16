@@ -39,27 +39,27 @@
 		</variable>
 		<variable>
 			<name>pathNasIb</name>
-			<value>\mediabussvil\Clientisvil</value>
+			<value>\mediabussvil\Clientisvil\</value>
 		</variable>
 		<variable>
 			<name>pathNasPs</name>
-			<value>\mediabussvil\Promotorisvil</value>
+			<value>\mediabussvil\Promotorisvil\</value>
 		</variable>
 		<variable>
 			<name>pathNasRv</name>
-			<value>\mediabussvil\Promotorisvil</value>
+			<value>\mediabussvil\Promotorisvil\</value>
 		</variable>
 		<variable>
 			<name>deletedPathNasIb</name>
-			<value>\mediabussvil\Clientisvil\multichannel-upload-deleted</value>
+			<value>\mediabussvil\Clientisvil\multichannel-upload-deleted\</value>
 		</variable>
 		<variable>
 			<name>deletedPathNasPs</name>
-			<value>\mediabussvil\Promotorisvil\multichannel-upload-deleted</value>
+			<value>\mediabussvil\Promotorisvil\multichannel-upload-deleted\</value>
 		</variable>
 		<variable>
 			<name>deletedPathNasRv</name>
-			<value>\mediabussvil\Promotorisvil\multichannel-upload-deleted</value>
+			<value>\mediabussvil\Promotorisvil\multichannel-upload-deleted\</value>
 		</variable>
 		<variable>
 			<name>filenetUrl</name>
@@ -138,31 +138,37 @@
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>pathNasIb</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-IB&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>pathNasPs</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-PS&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>pathNasRv</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-RV&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>deletedPathNasIb</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-IB&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>deletedPathNasPs</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-PS&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>deletedPathNasRv</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-RV&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>

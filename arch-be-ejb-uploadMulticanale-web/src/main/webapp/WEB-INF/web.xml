@@ -71,17 +71,17 @@
 	<env-entry>
 		<env-entry-name>DELETED-PATH-NAS-IB</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/mediabussvil/Clientisvil/multichannel-upload-deleted</env-entry-value>
+		<env-entry-value>/mediabussvil/Clientisvil/multichannel-upload-deleted/</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>DELETED-PATH-NAS-PS</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/mediabussvil/Promotorisvil/multichannel-upload-deleted</env-entry-value>
+		<env-entry-value>/mediabussvil/Promotorisvil/multichannel-upload-deleted/</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>DELETED-PATH-NAS-RV</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/mediabussvil/Promotorisvil/multichannel-upload-deleted</env-entry-value>
+		<env-entry-value>/mediabussvil/Promotorisvil/multichannel-upload-deleted/</env-entry-value>
 	</env-entry>
 
 	<!-- Puntamenti Filenet -->
