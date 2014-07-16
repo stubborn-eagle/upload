@@ -443,11 +443,16 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		
 		String inputUrl = null;
 		// Call to livecycle stub
-		 InputStream resultStream = generatePDFServiceClient.htmlToPDF2(inputUrl);
+		InputStream resultStream = null;
+		try {
+			resultStream = generatePDFServiceClient.htmlToPDF2(inputUrl);
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());
+		}
 
 		// Save the pdf to the NAS filesystem
 		try {
-			 nasService.saveFile(resultStream, ecmResponse.getResult().getNameFile());
+			 nasService.saveFile(resultStream, ecmResponse.getResult().getNameFile(), ecmResponse.getResult().getSource());
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());
 		}
