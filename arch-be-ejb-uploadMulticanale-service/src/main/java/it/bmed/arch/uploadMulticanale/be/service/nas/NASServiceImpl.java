@@ -125,7 +125,7 @@ public class NASServiceImpl implements NASService {
 				fileToBeSaved.write(buffer, 0, read);
 			}
 		} catch (Exception e) {
-			logger.error("saveFile: Cannot save %s. " + e.getMessage(), fileStream );
+			logger.error("saveFile: Cannot save. " + e.getMessage(), fileStream );
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "Cannot save " + fileStream);			
 		} finally {
 			if (fileToBeSaved != null) {
