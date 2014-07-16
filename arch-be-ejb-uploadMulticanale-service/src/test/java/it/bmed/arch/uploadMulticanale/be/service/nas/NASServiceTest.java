@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.asia.exception.TechnicalException;
 
 import org.junit.After;
@@ -31,7 +32,7 @@ public class NASServiceTest {
 	@Test
 	public void testDeleteFile() {
 		try {
-			assertTrue(nasService.deleteFile(PATHNAME, FILENAME));
+			assertTrue(nasService.deleteFile(PATHNAME, FILENAME, ECMSource.INTERNET_BANKING));
 		} catch (TechnicalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -14,7 +14,6 @@ import java.util.EnumSet;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Service;
 
 import com.microsoft.windowsazure.services.blob.client.CloudBlobClient;
@@ -31,92 +30,61 @@ import com.microsoft.windowsazure.services.core.storage.CloudStorageAccount;
  */
 @Service("azureService")
 public class AzureServiceImpl implements AzureService {
-
-	private static final int SAFE_OFFSET_MINUTES = Integer.parseInt(AzureMessages.getString("AzureServiceImpl.SafeOffsetStartTimeMinutes")); // limit
-																				// of
-	// expiration
-	// time;
-	private static final int AZURE_MAX_EXPIRATION_TIME = Integer.parseInt(AzureMessages.getString("AzureServiceImpl.MaxExpirationTimeMinutes")); // limit
-																				// of
-	// expiration
-	// time
-	private Logger log = LoggerFactory.getLogger(AzureServiceImpl.class);
-	private String connectionString = AzureMessages.getString("AzureServiceImpl.Azure.ConnectionString"); //$NON-NLS-1$
-
+	private static final Logger log = LoggerFactory.getLogger(AzureServiceImpl.class);
+	/**
+	 * Limit of expiration time
+	 */
+	private Integer safeOffestMinutes = null;
+	private Integer azureMaxExpirationTime = null;
+	private String connectionString = null;
+//	private static final int SAFE_OFFSET_MINUTES = Integer.parseInt(AzureMessages.getString("AzureServiceImpl.SafeOffsetStartTimeMinutes")); 
+//	private static final int AZURE_MAX_EXPIRATION_TIME = Integer.parseInt(AzureMessages.getString("AzureServiceImpl.MaxExpirationTimeMinutes")); 	
+//	private String connectionString = AzureMessages.getString("AzureServiceImpl.Azure.ConnectionString"); //$NON-NLS-1$
+	
 
 	@Override
-	public AzureDTO generateToken(AzureRequest parameters)
-			throws AsiaException, Exception {
+	public AzureDTO generateToken(AzureRequest parameters) throws AsiaException, Exception {
 
 		// VALIDATION CHECK
-		if (parameters.getTargetContainer() == null)
-			throw new InvalidAzureContainerException(
-					AzureMessages
-							.getString("AzureServiceImpl.ContainerCannotBeNull")); //$NON-NLS-1$
-		if (parameters.getExpirationTime() == null)
-			throw new InvalidAzureExpirationTimeException(
-					AzureMessages
-							.getString("AzureServiceImpl.ExpirationTimeCannotBeNull")); //$NON-NLS-1$
-
-		GregorianCalendar calendar = new GregorianCalendar(
-				TimeZone.getTimeZone("UTC")); //$NON-NLS-1$
+		if (parameters.getTargetContainer() == null) { 
+			throw new InvalidAzureContainerException (AzureMessages.getString("AzureServiceImpl.ContainerCannotBeNull")); //$NON-NLS-1$
+		}
+		if (parameters.getExpirationTime() == null) { 
+			throw new InvalidAzureExpirationTimeException(AzureMessages.getString("AzureServiceImpl.ExpirationTimeCannotBeNull")); //$NON-NLS-1$
+		}
+		GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone("UTC")); //$NON-NLS-1$
 		calendar.setTime(new Date());
 
-		if (parameters.getExpirationTime().getTime()
-				- calendar.getTimeInMillis() > AZURE_MAX_EXPIRATION_TIME * 60 * 1000)
-			throw new InvalidAzureExpirationTimeException(
-					AzureMessages
-							.getString("AzureServiceImpl.ExpirationTimeExceedsMaximumTimeAllowed") //$NON-NLS-1$
-							+ AZURE_MAX_EXPIRATION_TIME
-							+ AzureMessages
-									.getString("AzureServiceImpl.strMinutes")); //$NON-NLS-1$
+		if (parameters.getExpirationTime().getTime() - calendar.getTimeInMillis() > azureMaxExpirationTime * 60 * 1000) {
+			throw new InvalidAzureExpirationTimeException(AzureMessages.getString("AzureServiceImpl.ExpirationTimeExceedsMaximumTimeAllowed") //$NON-NLS-1$
+							+ azureMaxExpirationTime
+							+ AzureMessages.getString("AzureServiceImpl.strMinutes")); //$NON-NLS-1$
+		}
 
 		try {
-			if (parameters.isSafeOffset())
-				calendar.add(Calendar.MINUTE, -SAFE_OFFSET_MINUTES); // safe
-																		// range
-																		// due
-																		// to
-																		// clock
-																		// skew
-
+			if (parameters.isSafeOffset()) {				
+				calendar.add(Calendar.MINUTE, - safeOffestMinutes); // safe range due to clock skew
+			}
 			// TOKEN GENERATION
-
-			CloudStorageAccount storageAccount = CloudStorageAccount
-					.parse(connectionString);
+			CloudStorageAccount storageAccount = CloudStorageAccount.parse(connectionString);
 			CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
-
-			CloudBlobContainer container = blobClient
-					.getContainerReference(parameters.getTargetContainer()); //$NON-NLS-1$
-
+			CloudBlobContainer container = blobClient.getContainerReference(parameters.getTargetContainer()); //$NON-NLS-1$
 			SharedAccessBlobPolicy policy = new SharedAccessBlobPolicy();
-
 			policy.setSharedAccessStartTime(calendar.getTime()); // Immediately
-
 			policy.setSharedAccessExpiryTime(parameters.getExpirationTime());
 
 			if (parameters.isReadOnly()) {
-				policy.setPermissions(EnumSet
-						.of(SharedAccessBlobPermissions.READ)); // SAS grants
-																// READ ONLY
+				policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ)); // SAS grants																// READ ONLY
 			} else {
-
-				policy.setPermissions(EnumSet.of(
-						SharedAccessBlobPermissions.READ,
-						SharedAccessBlobPermissions.WRITE)); // SAS grants
-																// READ/WRITE
+				policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ, SharedAccessBlobPermissions.WRITE)); // SAS grants READ/WRITE
 			}
 
 			String sas = null;
 			CloudBlockBlob cloudBlockBlob = null;
 			
-			if (parameters.getResourceBlobFile() != null) {
-				
-				cloudBlockBlob = container.getBlockBlobReference(parameters
-						.getResourceBlobFile());
-				sas = cloudBlockBlob
-						.generateSharedAccessSignature(policy, null);
-
+			if (parameters.getResourceBlobFile() != null) {				
+				cloudBlockBlob = container.getBlockBlobReference(parameters.getResourceBlobFile());
+				sas = cloudBlockBlob.generateSharedAccessSignature(policy, null);
 			} else {
 				sas = container.generateSharedAccessSignature(policy, null);
 			}
@@ -129,17 +97,13 @@ public class AzureServiceImpl implements AzureService {
 			azureDTO.setStartTime(policy.getSharedAccessStartTime());
 			azureDTO.setContainer(parameters.getTargetContainer());
 			
-			if (parameters.getResourceBlobFile() != null)
-			{
+			if (parameters.getResourceBlobFile() != null) {
 				azureDTO.setResourceBlobFile(parameters.getResourceBlobFile());
 				azureDTO.setURI(cloudBlockBlob.getUri() + "?" + sas);
-			}
-			else {
+			} else {
 				azureDTO.setURI(container.getUri() + "?" + sas);
 			}
-			
-			
-			
+
 			log.debug("AZURE Token generated successfully for container: " + azureDTO.getContainer() + AzureMessages.getString("AzureServiceImpl.strExpireDate") + azureDTO.getExpiredTime() +  " URI = " + azureDTO.getURI()); //$NON-NLS-1$ //$NON-NLS-2$
 			return azureDTO;
 
@@ -149,6 +113,30 @@ public class AzureServiceImpl implements AzureService {
 					"AZURE001", "AZURE Token generation error:" + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
+	}
+
+
+	/**
+	 * @param safeOffestMinutes the safeOffestMinutes to set
+	 */
+	public void setSafeOffestMinutes(Integer safeOffestMinutes) {
+		this.safeOffestMinutes = safeOffestMinutes;
+	}
+
+
+	/**
+	 * @param azureMaxExpirationTime the azureMaxExpirationTime to set
+	 */
+	public void setAzureMaxExpirationTime(Integer azureMaxExpirationTime) {
+		this.azureMaxExpirationTime = azureMaxExpirationTime;
+	}
+
+
+	/**
+	 * @param connectionString the connectionString to set
+	 */
+	public void setConnectionString(String connectionString) {
+		this.connectionString = connectionString;
 	}
 
 }

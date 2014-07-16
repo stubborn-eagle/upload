@@ -22,7 +22,11 @@
  		<property name="settingsBean" ref="settingsBean"/>
  	</bean>
 
-	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl"/>
+	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl">
+		<property name="connectionString" ref="azureConnectionString"/>
+		<property name="azureMaxExpirationTime" ref="azureMaxExpirationTimeMinutes"/>
+		<property name="safeOffestMinutes" ref="azureSafeOffsetStartTimeMinutes"/>
+	</bean>
 	
 	<bean id="generatePDFServiceClient" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl" /> 	
  	
@@ -92,17 +96,24 @@
 		</property>
 	</bean>
 	
+	<!-- ALFRESCO SETTINGS LOOKUP -->
 	<jee:jndi-lookup id="alfrescoUrl" jndi-name="java:comp/env/ALFRESCO-URL" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="alfrescoUser" jndi-name="java:comp/env/ALFRESCO-USER" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="alfrescoPassword" jndi-name="java:comp/env/ALFRESCO-PW" expected-type="java.lang.String" />
+	<!-- NAS SETTINGS LOOKUP -->
 	<jee:jndi-lookup id="nasIBPath" jndi-name="java:comp/env/PATH-NAS-IB" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="nasPSPath" jndi-name="java:comp/env/PATH-NAS-PS" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="nasRVPath" jndi-name="java:comp/env/PATH-NAS-RV" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="nasIBDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-IB" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="nasPSDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-PS" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="nasRVDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-RV" expected-type="java.lang.String" />
+	<!-- FILENET SETTINGS LOOKUP -->
 	<jee:jndi-lookup id="filenetUrl" jndi-name="java:comp/env/FILENET-URL" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="filenetUser" jndi-name="java:comp/env/FILENET-USER" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="filenetPassword" jndi-name="java:comp/env/FILENET-PW" expected-type="java.lang.String" />
+	<!-- AZURE SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="azureConnectionString" jndi-name="java:comp/env/AZURE-CONNECTION-STRING" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="azureMaxExpirationTimeMinutes" jndi-name="java:comp/env/AZURE-MAX-EXPIRATION-TIME-MINUTES" expected-type="java.lang.Integer" />
+	<jee:jndi-lookup id="azureSafeOffsetStartTimeMinutes" jndi-name="java:comp/env/AZURE-SAFE-OFFESET-START-TIME-MINUTES" expected-type="java.lang.Integer" />
 	
 </beans>
