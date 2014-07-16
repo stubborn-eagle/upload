@@ -492,9 +492,16 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 * @param encodedFile
 	 * @return The encoded html document as <b>String</b>
 	 */
-	private String createHTMLDocument(String encodedFile) {
+	private String createHTMLDocument(String encodedFile) throws AsiaException {
+		log.debug("createHTMLDocument params: " + encodedFile);
 		String result = null;
-		result = generatePDFServiceClient.createHTMLDocument(encodedFile);
+		try {
+			result = generatePDFServiceClient.createHTMLDocument(encodedFile);
+			log.debug("createHTMLDocument returns: " + result);
+		} catch (AsiaException e) {
+			log.error("createHTMLDocument " + e.getMessage());
+			throw e;
+		}		
 		return result;
 	}
 	
@@ -505,6 +512,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 * @return The file encoded in base64 as <b>String</b>
 	 */
 	private String lookupFileToConvert(ECMResponse ecmResponse) {
+		log.debug("lookupFileToConvert params: " + ecmResponse);
 		// File to looking for
 		String encodedFile = null;
 		
@@ -536,6 +544,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			log.error("lookupFileToConvert: file not found.");
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
 		}
+		log.debug("lookupFileToConvert returns: " + encodedFile);
 		return encodedFile;
 	}
 

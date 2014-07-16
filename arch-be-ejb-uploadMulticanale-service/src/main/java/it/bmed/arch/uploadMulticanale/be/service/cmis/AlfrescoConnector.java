@@ -22,8 +22,9 @@ import org.apache.chemistry.opencmis.commons.enums.VersioningState;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisContentAlreadyExistsException;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
+import org.springframework.beans.factory.InitializingBean;
 
-public class AlfrescoConnector extends AbstractECMConnector {
+public class AlfrescoConnector extends AbstractECMConnector implements InitializingBean {
 	private static final Logger logger = LoggerFactory.getLogger(AlfrescoConnector.class);
 	
 	public AlfrescoConnector() {
@@ -115,5 +116,9 @@ public class AlfrescoConnector extends AbstractECMConnector {
 			logger.error("downloadFile " + e.getMessage());
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
+	}
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("afterPropertiesSet: " + getClass().getName());
 	}
 }

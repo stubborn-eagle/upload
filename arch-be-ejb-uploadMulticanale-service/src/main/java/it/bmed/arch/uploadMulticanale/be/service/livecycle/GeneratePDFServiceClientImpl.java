@@ -21,6 +21,7 @@ public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 	private static final String IMG_TAG_END = "\">";
 	@Override
 	public InputStream htmlToPDF2(String inputUrl) {
+		logger.debug("htmltoPDF2 params: " + inputUrl);
 		InputStream stream = null;
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		try {
@@ -29,11 +30,12 @@ public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 			logger.error("htmlToPDF2: Documento.pdf not found. " + e.getMessage());
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "htmlToPDF2: ", e);
 		}
+		logger.debug("htmltoPDF2 returns: " + stream);
 		return stream;
 	}
 	
 	@Override
-	public String createHTMLDocument(String encodedFile) {
+	public String createHTMLDocument(String encodedFile) throws AsiaException {
 		StringBuilder outputSB = new StringBuilder();
 		InputStream source = null;
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();

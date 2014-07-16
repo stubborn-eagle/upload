@@ -31,8 +31,7 @@
 	<bean id="generatePDFServiceClient" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl" /> 	
  	
 	<!-- ALFRESCO ECM CONNECTOR -->
-	<bean id="alfrescoConnector"
-		class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
+	<bean id="alfrescoConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
 		<!-- User credentials -->
 		<property name="user" ref="alfrescoUser" />
 		<property name="password" ref="alfrescoPassword" />

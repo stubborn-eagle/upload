@@ -168,9 +168,19 @@ public class NASServiceImpl implements NASService {
 	}
 
 	@Override
-	public void saveFile(InputStream fileStream, String nameFile)
-			throws TechnicalException, Exception {
-		String destinationPath = NASServiceProperties.getString("NasSettings.multicannelUploadSaved");
+	public void saveFile(InputStream fileStream, String nameFile, ECMSource source) throws TechnicalException, Exception {
+		String destinationPath = null;
+		switch (source) {
+		case INTERNET_BANKING:
+			destinationPath = settingsBean.getNasInternetBankingPath();
+			break;
+		case PORTALE_DI_SEDE:
+			destinationPath = settingsBean.getNasPortaleDiSedePath();
+			break;
+		case RETE_DI_VENDITA:
+			destinationPath = settingsBean.getNasReteDiVenditaPath();
+			break;
+		}
 		FileOutputStream fileToBeSaved = null;
 		// pay attention destinationPath must be slash ended
 		try {

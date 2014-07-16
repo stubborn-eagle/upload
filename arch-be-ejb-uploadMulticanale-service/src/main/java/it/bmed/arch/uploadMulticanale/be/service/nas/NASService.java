@@ -34,6 +34,6 @@ public interface NASService {
 	 * @throws TechnicalException
 	 * @throws Exception
 	 */
-	void saveFile(InputStream resultStream, String nameFile) throws TechnicalException, Exception;
+	void saveFile(InputStream resultStream, String nameFile, ECMSource source) throws TechnicalException, Exception;
 
 }

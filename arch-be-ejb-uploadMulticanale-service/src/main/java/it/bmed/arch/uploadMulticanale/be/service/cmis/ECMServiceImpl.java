@@ -22,7 +22,7 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	 */
 	public void setAlfrescoConnector(AlfrescoConnector alfrescoConnector) {
 		this.alfrescoConnector = alfrescoConnector;
-		logger.info("alfrescoConnectore injected with " + alfrescoConnector.getClass().getName());
+		logger.info("alfrescoConnector injected with " + alfrescoConnector.getClass().getName());
 	}
 
 	/**
@@ -44,8 +44,9 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 		} else {
 			try {
 				 alfrescoConnector.createConnection();
-			} catch (Exception e) {
+			} catch (Exception e) {				
 				logger.error("afterPropertiesSet: alfrescoConnector cannot create connection. " + e.getMessage());
+				logger.error("afterPropertiesSet: alfrescoConnector " + alfrescoConnector);
 				throw e;
 			}
 		}
