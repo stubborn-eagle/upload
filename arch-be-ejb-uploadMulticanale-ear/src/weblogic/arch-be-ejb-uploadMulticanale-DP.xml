@@ -27,7 +27,8 @@
 		</variable>
 		<variable>
 			<name>alfrescoUrl</name>
-			<value>https://172.23.138.34/</value>
+			<value>https://test-alfresco.mediolanum.it/</value>
+			<description>The Alfresco URL terminated with '/'</description>
 		</variable>
 		<variable>
 			<name>alfrescoUser</name>
@@ -87,11 +88,11 @@
         </variable>
         <variable>
         	<name>env</name>
-            <value>svil</value>
+            <value>SVIL</value>
         </variable>
 	</variable-definition>
 	<module-override>
-		<module-name>arch-be-ejb-uploadMulticanale-web</module-name>
+		<module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
 		<module-type>war</module-type>
 		<module-descriptor external="false">
 			<root-element>web-app</root-element>
@@ -210,5 +211,4 @@
             </variable-assignment>
 		</module-descriptor>
 	</module-override>
-
 </deployment-plan>
