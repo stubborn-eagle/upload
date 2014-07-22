@@ -162,6 +162,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(false);
+			
+			throw fault; 
+			
 			/*
 			 * log.error("Errore e.getMessage() "+ fault.getMessage());
 			 * log.error("Errore e.getFaultInfo().getCodice() "+
@@ -227,6 +230,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 							+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(false);
+			
+			throw fault;
 
 		}
 		return resp;
