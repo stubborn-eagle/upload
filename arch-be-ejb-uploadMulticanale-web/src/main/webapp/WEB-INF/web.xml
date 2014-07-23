@@ -36,7 +36,7 @@
 	<env-entry>
 		<env-entry-name>ALFRESCO-URL</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>https://172.23.138.34/</env-entry-value>
+		<env-entry-value>http://172.23.138.34/</env-entry-value>
 	</env-entry>
 	
 	<env-entry>
