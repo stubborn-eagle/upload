@@ -322,18 +322,22 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		String NomeApp = "" + request.getNameApp();
 
 		String campo1 = " COD_UPLD_FILE_INTERN = " + request.getIdFile() + "";
-		String campo2 = request.getEcmType() == null
-				|| request.getEcmType() == null ? "" : ", COD_TIPO_ECM = "
-				+ request.getEcmType() + "";
+		
+		String campo2 = request.getEcmType() == null ? "" : ", COD_TIPO_ECM = "
+				+ (request.getEcmType().getValue()).intValue() + "";
+		
 		String campo3 = request.getState() == null || request.getState().getValue() == 0 ? ""
-				: ", COD_STATO_ECM = " + request.getState() + "";
+				: ", COD_STATO_ECM = " + (request.getState().getValue()).intValue() + "";
 
 		String campo4 = Destinazione_path.isEmpty() ? ""
 				: ", DES_DEST_PATH = '" + Destinazione_path + "'";
+		
 		String campo5 = idFileECM.isEmpty() ? "" : ", COD_UPLD_FILE_ECM =  '"
 				+ idFileECM + "'";
+		
 		String campo6 = Container_type.isEmpty() ? "" : ", DEN_CNTR = '"
 				+ Container_type + "'";
+		
 		String campo7 = NomeApp.isEmpty() ? "" : ", GSTD_M_NOM_ULT_MODF = '"
 				+ NomeApp + "'";
 
