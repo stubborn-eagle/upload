@@ -304,7 +304,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 		}
 		
 		if (request.getState() == null ) {
-			parameterError(methodName, "Sate", cause);
+			parameterError(methodName, "State", cause);
 		}
 		
 		if (request.getNameApp().isEmpty()) {
