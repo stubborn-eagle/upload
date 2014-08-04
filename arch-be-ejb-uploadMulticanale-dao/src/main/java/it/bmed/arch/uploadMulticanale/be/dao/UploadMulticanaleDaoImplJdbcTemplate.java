@@ -52,8 +52,14 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 	@Override
 	public ECMResponse insertMedia(ECMRequest parameters) throws ApplicationException, Exception {
 		ECMFile ecmFile = parameters.getEcmFile();
+		
+		 //modvale
+		int resultSeq;		
+		resultSeq = getJdbcTemplate().queryForObject("select qpush_be.ECM_FILE_SEQ.nextval from dual",Integer.class);
+		 //modvale
+		
 		int result = 0;
-
+		
 		try {
 
 			result = getJdbcTemplate().update(
@@ -78,7 +84,10 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							+ "GSTD_X_TIP_MODF, "
 							+ "GSTD_F_ESIST) " 			// Required
 							+ "values  "
-							+ "( qpush_be.ECM_FILE_SEQ.nextval, "
+							//+ "( qpush_be.ECM_FILE_SEQ.nextval, "
+							+ "("
+							+ resultSeq  //modvale
+							+ ",  "    //modvale
 							+ (ecmFile.getEcmType() == null ? "" : ecmFile.getEcmType().getValue())
 							+ ",  "
 							+ ecmFile.getSource().getValue()
@@ -141,6 +150,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		log.debug("risultato DAO query result {} " + result);
 
 		ECMResponse response = new ECMResponse();
+		ecmFile.setIdFile(resultSeq); //modvale
 		response.setResult(ecmFile);
 
 		log.debug("OUTPUT DAO {}",
