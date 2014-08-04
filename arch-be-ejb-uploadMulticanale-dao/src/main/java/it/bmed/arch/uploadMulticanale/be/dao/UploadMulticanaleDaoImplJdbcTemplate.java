@@ -65,12 +65,12 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 			result = getJdbcTemplate().update(
 					"insert into qpush_be.ECM_FILE ("
 							+ "COD_UPLD_FILE_INTERN, " 	// PK
-							+ (ecmFile.getEcmType() == null ? "" : "COD_TIPO_ECM,  ")
+							+ "COD_TIPO_ECM, "
 							+ "COD_TIPO_PROVNZ_FILE, "	// Required 
 							+ "COD_STATO_ECM, "			// Required
 							+ "DES_APPLICNE, " 			// Required
-							+ (ecmFile.getDestinationPath() == null ? "" : "DES_DEST_PATH, ")
-							+ (ecmFile.getContainerType() == null ? "" : "DEN_CNTR, ") 
+							+ "DES_DEST_PATH, "
+							+ "DEN_CNTR, " 
 							+ "COD_TIPO_CANA, "			// Required
 							+ (ecmFile.getUserType() == null ? "" : "COD_TIPO_UTE, ") 
 							+ "DEN_FILE, "				// Required
@@ -88,7 +88,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							+ "("
 							+ resultSeq  //modvale
 							+ ",  "    //modvale
-							+ (ecmFile.getEcmType() == null ? "" : ecmFile.getEcmType().getValue())
+							+ (ecmFile.getEcmType() == null ? "NULL" : ecmFile.getEcmType().getValue())
 							+ ",  "
 							+ ecmFile.getSource().getValue()
 							+ ",  "
@@ -131,18 +131,21 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 			log.error("Errore DAO  ApplicationException");
 			TechnicalException e = new TechnicalException(
 					UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			e.printStackTrace();
 			throw e;
 
 		} catch (RuntimeException e) {
 			log.error("Errore DAO  RuntimeException");
 			TechnicalException tec = new TechnicalException(
 					UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			e.printStackTrace();
 			throw tec;
 
 		} catch (Exception e) {
 			log.error("Errore DAO  Exception ");
 			TechnicalException tec = new TechnicalException(
 					UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			e.printStackTrace();
 			throw tec;
 
 		}
@@ -224,9 +227,6 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							case 3:
 								ecmType = ECMType.AZURE;
 								break;
-							default:
-								log.error("mapRow: illegal mapping for COD_TIPO_ECM.");
-								throw new AsiaException("illegal mapping");
 							}
 							
 							ECMState ecmState = null;
