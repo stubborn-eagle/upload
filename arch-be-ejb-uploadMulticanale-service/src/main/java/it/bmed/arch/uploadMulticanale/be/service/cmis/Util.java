@@ -125,9 +125,6 @@ public class Util {
 		// °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 		try {
 			for (FileProperty prop : ecmParam.getProperty()) {
-				if ("ObjectClass".equals(prop.getName())) {
-					objectClass.setValue(ecmParam.getContainerType());
-				}
 				// if("ObjectStore".equalsIgnoreCase(prop.getName())){
 				// // objectStore.setValue(prop.getValue());
 				// //DEVE ESSERE IL SEGUENTE??
@@ -154,9 +151,11 @@ public class Util {
 
 			objectStore.setValue("CED088");
 			request.setObjectStore(objectStore);
-
-			// objectClass.setValue("");
+			
+			
+			objectClass.setValue(ecmParam.getContainerType());
 			request.setObjectClass(objectClass);
+			
 			searchAction.setValue("AddVersion");
 
 			index.setName("CODICEDOC");
