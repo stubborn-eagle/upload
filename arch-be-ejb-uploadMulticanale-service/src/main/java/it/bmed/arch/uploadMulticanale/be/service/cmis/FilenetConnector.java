@@ -11,6 +11,7 @@ import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
+import it.bmed.asia.utility.AsiaWsClientBuilder;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
 
@@ -62,8 +63,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 		String idFilenet = null;
 		logger.info("createFile call.");
 		try {
-			WSGDIImpl serviceFileNet = (WSGDIImpl) ejbServiceLocator
-					.getWsClient(FileNetFactory.class);
+			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 			// Encoding file in base64 preparing the xml transformation
 			String encodeFile = (Util.encodeFileToBase64Binary(buffer));
 			String xml = Util.encodeXML(CREATE_REQUEST, encodeFile, ecmFile, ecmParam);
@@ -74,6 +74,13 @@ public class FilenetConnector extends AbstractECMConnector implements
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "createFile error", e);
 		}
 		return idFilenet;
+	}
+	
+	
+	public <SERVICE,FACT extends AsiaWsClientFactory<SERVICE>> SERVICE getWsClient(Class<FACT> factoryClass)  throws Exception {
+		AsiaWsClientBuilder<SERVICE> handler = new AsiaWsClientBuilder<SERVICE>(factoryClass);
+		SERVICE realService = handler.getPort();
+		return realService;
 	}
 
 	@Override
