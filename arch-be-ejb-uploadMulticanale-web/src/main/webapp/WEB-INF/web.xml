@@ -56,17 +56,17 @@
 	<env-entry>
 		<env-entry-name>PATH-NAS-IB</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/Clientisvil</env-entry-value>
+		<env-entry-value>/mediabussvil/Clientisvil</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>PATH-NAS-PS</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/Promotorisvil</env-entry-value>
+		<env-entry-value>/mediabussvil/Promotorisvil</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>PATH-NAS-RV</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/Promotorisvil</env-entry-value>
+		<env-entry-value>/mediabussvil/Promotorisvil</env-entry-value>
 	</env-entry>
 	<!-- Puntamenti NAS Folder Deleted -->
 	<env-entry>
