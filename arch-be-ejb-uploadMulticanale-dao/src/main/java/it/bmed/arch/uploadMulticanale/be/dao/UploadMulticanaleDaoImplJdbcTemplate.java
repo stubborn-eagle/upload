@@ -321,7 +321,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 	@Override
 	public boolean updateMedia(UpdateECMRequest request)
 			throws ApplicationException, Exception {
-		
+		log.debug("updateMedia DAO: ENTERING");
 		// Check object fields
 		if (request.getEcmType() == null) {
 			
@@ -334,10 +334,10 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		String campo1 = " COD_UPLD_FILE_INTERN = " + request.getIdFile() + "";
 		
 		String campo2 = request.getEcmType() == null ? "" : ", COD_TIPO_ECM = "
-				+ (request.getEcmType().getValue()).intValue() + "";
+				+ request.getEcmType().getValue() + "";
 		
 		String campo3 = request.getState() == null || request.getState().getValue() == 0 ? ""
-				: ", COD_STATO_ECM = " + (request.getState().getValue()).intValue() + "";
+				: ", COD_STATO_ECM = " + request.getState().getValue() + "";
 
 		String campo4 = Destinazione_path.isEmpty() ? ""
 				: ", DES_DEST_PATH = '" + Destinazione_path + "'";
@@ -353,7 +353,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 
 		int response = 0;
 
-		String query = " UPDATE qpush_be.ECM_FILE SET GSTD_D_ULT_MODF_RECORD = SYSDATE, GSTD_D_INS_RECORD  = SYSDATE "
+		String query = " UPDATE qpush_be.ECM_FILE SET GSTD_D_ULT_MODF_RECORD = SYSDATE "
 				+ campo2
 				+ campo3
 				+ campo4
@@ -379,8 +379,9 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 					UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
 			throw tec;
 		}
-
+		
 		log.debug("OUTPUT result {} " + response);
+		log.debug("updateMedia DAO: EXITING");
 		return response == 0 ? false : true;
 	}
 

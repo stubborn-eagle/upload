@@ -68,9 +68,9 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	public String createFile(byte[] byteStream, ECMFile ecmFile, ECMParam ecmParam)
 			throws AsiaException, Exception {
 		
-		if( ecmFile.getEcmType() == ECMType.IBM_FILENET ) {		
+		if( ecmParam.getEcmType() == ECMType.IBM_FILENET ) {		
 			return filenetConnector.createFile(byteStream, ecmFile, ecmParam);
-		} else if( ecmFile.getEcmType() == ECMType.ALFRESCO) {
+		} else if( ecmParam.getEcmType() == ECMType.ALFRESCO) {
 			return alfrescoConnector.createFile(byteStream, ecmFile, ecmParam);
 		} else {			
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");			

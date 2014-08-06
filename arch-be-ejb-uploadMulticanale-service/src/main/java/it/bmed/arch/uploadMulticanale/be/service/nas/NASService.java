@@ -25,7 +25,7 @@ public interface NASService {
 	 * @throws TechnicalException
 	 * @throws Exception
 	 */
-	byte[] loadFile(String path, String filename) throws TechnicalException, Exception;
+	byte[] loadFile(String path, String filename, ECMSource source) throws TechnicalException, Exception;
 	
 	/**
 	 * Save the InputStream into the NAS filesystem root, with respsective filename and appended extension 

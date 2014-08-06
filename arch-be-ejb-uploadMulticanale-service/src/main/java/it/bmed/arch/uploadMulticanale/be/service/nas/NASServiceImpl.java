@@ -6,6 +6,7 @@ package it.bmed.arch.uploadMulticanale.be.service.nas;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
+import it.bmed.asia.exception.DevelopmentException;
 import it.bmed.asia.exception.IErrorCode;
 import it.bmed.asia.exception.TechnicalException;
 import it.bmed.asia.log.Logger;
@@ -41,25 +42,44 @@ public class NASServiceImpl implements NASService {
 	 * @see it.bmed.arch.uploadMulticanale.be.service.nas.NASService#deleteFile(java.lang.String)
 	 */
 	@Override
-	public boolean deleteFile(String path, String filename, ECMSource source) throws TechnicalException, Exception {
+	public boolean deleteFile(String sourcePath, String filename, ECMSource source) throws TechnicalException, Exception {
 		boolean result = false;
 		String destinationPathname = null; // used by copyFile as recovery path
+		String destinationDeletedPathname = null; // 
 		
 		// Init destinationPathname from settings
 		destinationPathname = getDestinationPathFromSource(source);		
+		destinationDeletedPathname = getDestinationDeletedPathFromSource(source);	
+				
 		// check uninitialized variables
-		if(path == null || path.isEmpty() || filename == null || filename.isEmpty() || destinationPathname == null || destinationPathname.isEmpty()) {
+		if(filename == null || filename.isEmpty() || destinationDeletedPathname == null || destinationDeletedPathname.isEmpty()) {
 			logger.error("deleteFile: IllegalArgument.");
 			IErrorCode iErrorCode = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException  technicalException = new TechnicalException( iErrorCode );	
 			throw technicalException;
 		}
 		
-		String sourcePathname = path + filename;
+		String sourcePathname;
+		
+	 			
+		if ( destinationPathname != null && destinationPathname.length() == 0) {
+                   throw new DevelopmentException("Path di upload non configurato");
+             }else{
+                   if(sourcePath != null && !sourcePath.contains("../")){
+                      if(!sourcePath.isEmpty()){
+                    	  destinationPathname += "/"+sourcePath;
+                   }
+                        
+              }
+        }
+		
+				
+		sourcePathname = destinationPathname + "/"+ filename;
+			
 		File file = new File(sourcePathname);
 		
 		try {
-			copyFile(sourcePathname, destinationPathname, filename);
+			copyFile(sourcePathname, destinationDeletedPathname, filename);
 			result = file.delete();
 		} catch (Exception e) {
 			logger.error("deleteFile: " + e.getMessage());
@@ -70,12 +90,34 @@ public class NASServiceImpl implements NASService {
 	}
 	
 	@Override
-		public byte[] loadFile(String path, String filename) {		
+		public byte[] loadFile(String sourcePath, String filename, ECMSource source) throws TechnicalException {	
+		
+			
+			String sourcePathname="";
+			String destinationPathname="";
+			
+			destinationPathname = getDestinationPathFromSource(source);
+			if ( destinationPathname != null && destinationPathname.length() == 0) {
+				throw new DevelopmentException("Path di upload non configurato");
+			}else{
+				if(sourcePath != null && !sourcePath.contains("../")){
+					if(!sourcePath.isEmpty()){
+						destinationPathname += "/"+sourcePath;
+					}
+
+				}
+			}
+		
+			
+						
+						
 			InputStream inputStream = null;
 			File file = null;
 			int fileLength = 0;
 			
-			file = new File(path + filename);
+			sourcePathname = destinationPathname + "/"+ filename;
+			
+			file = new File(sourcePathname);
 			fileLength = (int) file.length();
 
 			// The higher bound is checked in the caller's side
@@ -181,6 +223,32 @@ public class NASServiceImpl implements NASService {
 		}
 	}
 
+	private String getDestinationDeletedPathFromSource(ECMSource source) throws TechnicalException {
+		logger.debug("getDestinationDeletedPathFromSource: Entering");
+		String destinationDeletedPathname = null;
+		logger.debug("SOURCE: "+source);
+		try {
+			switch (source) {
+			case INTERNET_BANKING:
+				destinationDeletedPathname = settingsBean.getNasInternetBankingDeletedPath();
+				break;
+			case PORTALE_DI_SEDE:
+				destinationDeletedPathname = settingsBean.getNasPortaleDiSedeDeletedPath();
+				break;
+			case RETE_DI_VENDITA:
+				destinationDeletedPathname = settingsBean.getNasReteDiVenditaDeletedPath();
+				break;
+			}
+
+		} catch (Exception e) {
+			logger.error("deleteFile: " + e.getMessage());
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		logger.debug("getDestinationDeletedPathFromSource: Exting");
+		return destinationDeletedPathname;
+	}
+
+	
 	private String getDestinationPathFromSource(ECMSource source) throws TechnicalException {
 		String destinationPathname = null;
 		try {
@@ -189,10 +257,10 @@ public class NASServiceImpl implements NASService {
 				destinationPathname = settingsBean.getNasInternetBankingPath();
 				break;
 			case PORTALE_DI_SEDE:
-				destinationPathname = settingsBean.getNasPortaleDiSedeDeletedPath();
+				destinationPathname = settingsBean.getNasPortaleDiSedePath();
 				break;
 			case RETE_DI_VENDITA:
-				destinationPathname = settingsBean.getNasReteDiVenditaDeletedPath();
+				destinationPathname = settingsBean.getNasReteDiVenditaPath();
 				break;
 			}
 
@@ -202,5 +270,6 @@ public class NASServiceImpl implements NASService {
 		}
 		return destinationPathname;
 	}
-
+	
+	
 }

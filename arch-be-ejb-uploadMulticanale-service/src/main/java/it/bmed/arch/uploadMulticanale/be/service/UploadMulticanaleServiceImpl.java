@@ -277,7 +277,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			parameterError(methodNAme, "idFileECM", cause);
 		}
 		
-		if(request.getContainerType().length() > 20) {
+		if(request.getContainerType().length() > 50) {
 			parameterError(methodNAme, "ContainerType", cause);
 		}
 		
