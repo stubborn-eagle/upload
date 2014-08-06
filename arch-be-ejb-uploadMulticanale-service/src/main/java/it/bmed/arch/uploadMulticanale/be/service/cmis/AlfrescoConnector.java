@@ -47,7 +47,7 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 		
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
-		properties.put(PropertyIds.NAME, ecmFile.getNameFile());
+		properties.put(PropertyIds.NAME, ecmFile.getNameFile()+ "." + ecmFile.getType());
 		//properties.put(PropertyIds.CREATED_BY, "cmis:")
 	
 		// check connection
@@ -66,7 +66,8 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 		}
 		try {
 			//rootFolder = session.getRootFolder();
-			folder = (Folder) session.getObjectByPath(ecmFile.getDestinationPath());
+			String pathWithSlash = "/"+ecmParam.getDestinationPath();
+			folder = (Folder) session.getObjectByPath(pathWithSlash);
 			InputStream inputStream = new ByteArrayInputStream(buffer);
 			contentStream = new ContentStreamImpl(ecmFile.getNameFile() + "." + ecmFile.getType(), BigInteger.valueOf(buffer.length), "", inputStream);
 			// document = (Document) session.getObjectByPath(destinationPath + "/" + filename);

@@ -67,10 +67,16 @@ public class FilenetConnector extends AbstractECMConnector implements
 			// Encoding file in base64 preparing the xml transformation
 			String encodeFile = (Util.encodeFileToBase64Binary(buffer));
 			String xml = Util.encodeXML(CREATE_REQUEST, encodeFile, ecmFile, ecmParam);
+			logger.debug("createFile xml"+xml);
 			String response = serviceFileNet.addObject(xml);
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
 			logger.error("createFile " + e.getMessage());
+			e.printStackTrace();
+			for(int i=0; i < e.getStackTrace().length; i++){
+				logger.error("STACK"+e.getStackTrace()[i]);
+			}
+			
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "createFile error", e);
 		}
 		return idFilenet;

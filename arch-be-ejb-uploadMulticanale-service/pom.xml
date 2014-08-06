@@ -30,10 +30,10 @@
 			<artifactId>arch-be-ejb-mediabus-wsclient</artifactId>
 			<version>1.0.0.CR-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>arch.bmed.mediabus.be</groupId>
 			<artifactId>arch-be-ejb-mediabus-service</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 </project>

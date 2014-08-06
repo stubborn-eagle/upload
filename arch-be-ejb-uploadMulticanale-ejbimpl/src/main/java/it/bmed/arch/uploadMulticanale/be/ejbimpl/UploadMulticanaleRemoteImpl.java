@@ -7,6 +7,7 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMConvertRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
+import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
@@ -240,6 +241,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	@Override
 	public boolean updateMedia(UpdateECMRequest request) throws SystemFault,
 			RemoteException, Exception {
+		log.debug("updateMedia: Entering");
 		boolean resp = false;
 
 		try {
@@ -280,9 +282,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(false);
-
+			log.error("ERRORE IN UPDATEMEDIA: "+e.getMessage());
 			throw fault;
 		}
+		log.debug("updateMedia: Exiting");
 		return resp;
 
 	}
@@ -293,6 +296,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		@Override
 		public boolean deleteFileNAS(ECMRequest request) throws SystemFault, RemoteException, Exception {
 			boolean response = false;
+			boolean isDeletedOnDB = false;
 			ECMResponse ecmResponse = null;
 			if (request == null) {
 				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: request cannot be null.");
@@ -300,12 +304,27 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	
 			try {
 				ecmResponse = listMedia(request);
-				response = nasService.deleteFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile(), ecmResponse.getResult().getSource());
+				String nameFile =  ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase(); 
+				log.debug("NOME FILE SUL NAS", nameFile);
+				response = nasService.deleteFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 				log.info("deleteFileNAS: operation succesfully returned.");
 			} catch (TechnicalException e) {
 				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
 			}
-			return response;
+			
+			if (response){
+				UpdateECMRequest upRequest = new UpdateECMRequest();
+				upRequest.setIdFile(request.getEcmFile().getIdFile());
+				upRequest.setState(ECMState.DELETED);
+				upRequest.setNameApp(ecmResponse.getResult().getNameApp());
+				isDeletedOnDB = updateMedia(upRequest);
+			}
+			
+			if(response && isDeletedOnDB){
+				return true;
+			}else{
+				return false;
+			}
 		}
 
 	/**
@@ -315,12 +334,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	public boolean deleteFileECM(ECMRequest request) throws SystemFault, RemoteException, Exception {
 		boolean result = false;
 		ECMResponse response = null;
-		try {
-			log.info("deleteFileECM params: " + response);
-		} catch (NullPointerException e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM: request argument cannot be null.");
-		}
-
+		
 		try {
 			response = listMedia(request);
 			if (response == null) {
@@ -361,6 +375,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 */
 	@Override
 	public MoveResponse moveFile(MoveRequest request) throws SystemFault, RemoteException, Exception {
+		log.debug("moveFile: Entering");
 		MoveResponse response = new MoveResponse();
 		ECMResponse ecmResponse = null;
 		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
@@ -375,23 +390,29 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		ecmRequest.setEcmFile(ecmFile);
 		
 		try {
+			
 			ecmResponse = listMedia(ecmRequest);
+			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			
 			// Load file from NAS
-			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), ecmResponse.getResult().getNameFile() + ecmResponse.getResult().getType());
+			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
 			
 			// Create file on ECM
 //			idFileECM = ecmService.createFile(ecmFile.getEcmType(), buffer, ecmFile.getContainerType(), ecmFile.getNameFile(), ecmFile.getType(), ecmFile.getNameApp(), ecmFile.getDestinationPath(), ecmFile);
+			log.debug("CHIAMATA A CREATEFILE - INIZIO");
 			idFileECM = ecmService.createFile(buffer, ecmFile, request.getEcmParam());
-			updateECMRequest.setContainerType(ecmFile.getContainerType());
-			updateECMRequest.setDestinationPath(ecmFile.getDestinationPath());
-			updateECMRequest.setEcmType(ecmFile.getEcmType());
+			log.debug("CHIAMATA A CREATEFILE - FINE");
+			updateECMRequest.setContainerType(request.getEcmParam().getContainerType());
+			updateECMRequest.setDestinationPath(request.getEcmParam().getDestinationPath());
+			updateECMRequest.setEcmType(request.getEcmParam().getEcmType());
 			updateECMRequest.setIdFile(ecmFile.getIdFile());
 			updateECMRequest.setIdFileECM(idFileECM);
-			updateECMRequest.setNameApp(ecmFile.getNameApp());
+			updateECMRequest.setNameApp(request.getEcmParam().getNameApp());
 			updateECMRequest.setState(ECMState.MOVED);
+			log.debug("CHIAMATA A UPDATEMEDIA - INIZIO");
 			updateMedia(updateECMRequest);
+			log.debug("CHIAMATA A UPDATEMEDIA - FINE");
 			
 			// Remove file from NAS
 			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
@@ -543,7 +564,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 				try {
 					String path = ecmResponse.getResult().getSourcePath();
 					String filename = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType();
-					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename));
+					ECMSource source = ecmResponse.getResult().getSource();
+					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename, source));
 				} catch (Exception e) {
 					log.error("lookupFileToConvert: " + e.getMessage());
 					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());

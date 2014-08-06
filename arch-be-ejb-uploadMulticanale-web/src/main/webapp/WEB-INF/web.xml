@@ -25,7 +25,8 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
+	
 	<env-entry>
 		<env-entry-name>LOGBACK-CONFIG</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
@@ -65,7 +66,8 @@
 	<env-entry>
 		<env-entry-name>PATH-NAS-RV</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/mediabussvil/Promotorisvil</env-entry-value>
+		<!-- env-entry-value>/mediabussvil/Promotorisvil</env-entry-value-->
+		<env-entry-value>/mediabussvil</env-entry-value>
 	</env-entry>
 	<!-- Puntamenti NAS Folder Deleted -->
 	<env-entry>

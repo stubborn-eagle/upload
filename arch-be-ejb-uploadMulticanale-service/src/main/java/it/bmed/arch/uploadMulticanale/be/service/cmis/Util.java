@@ -126,7 +126,7 @@ public class Util {
 		try {
 			for (FileProperty prop : ecmParam.getProperty()) {
 				if ("ObjectClass".equals(prop.getName())) {
-					objectClass.setValue(ecmFile.getContainerType());
+					objectClass.setValue(ecmParam.getContainerType());
 				}
 				// if("ObjectStore".equalsIgnoreCase(prop.getName())){
 				// // objectStore.setValue(prop.getValue());
