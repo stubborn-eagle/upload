@@ -78,11 +78,11 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	}
 
 	@Override
-	public boolean removeFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {
+	public boolean removeFile(ECMType ecmType, String ecmFileId, String containerType) throws AsiaException, Exception {
 		logger.debug("ECMServiceImpl removeFile: Entering");
 		if( ecmType == ECMType.IBM_FILENET) {
 			logger.debug("ECMServiceImpl removeFile: Exiting Filenet");
-			return filenetConnector.removeFile(ecmFileId);
+			return filenetConnector.removeFile(ecmFileId, containerType);
 		} else if( ecmType == ECMType.ALFRESCO) {
 			logger.debug("ECMServiceImpl removeFile: Exiting Alfresco");
 			return alfrescoConnector.removeFile(ecmFileId);

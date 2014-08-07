@@ -219,6 +219,8 @@ public class Util {
 		ObjectStore objectStore = new ObjectStore();
 		ObjectClass objectClass = new ObjectClass();
 		IndexDelete index = new IndexDelete();
+		ForceDeleteSubDocuments force = new ForceDeleteSubDocuments();
+		
 
 		// Initializing variables
 		objectClass.setValue(ecmFile.getContainerType());
@@ -227,11 +229,14 @@ public class Util {
 		index.setName("ID");
 		index.setOperator("=");
 		index.setValue(ecmFile.getIdFileECM());
+		
+		force.setValue("false");
 
 		// Initializing request
 		request.setObjectStore(objectStore);
 		request.setObjectClass(objectClass);
 		request.setIndex(index);
+		request.setForceDeleteSubDocuments(force);
 
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new DeleteRequestConverter());
