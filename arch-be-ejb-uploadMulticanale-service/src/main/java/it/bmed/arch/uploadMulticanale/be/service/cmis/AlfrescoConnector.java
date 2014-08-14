@@ -99,6 +99,7 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 
 	@Override
 	public boolean removeFile(String ecmFileId) throws AsiaException {
+		logger.debug("Alfresco Connector removeFile: Entering");
 		if(ecmFileId == null || ecmFileId.length() == 0) {
 			logger.error("removeFile - The argument cannot be null ore empty.");
 			throw new AsiaException("TCH_ECM_ERROR", "The argument cannot be null or empty.");
@@ -114,6 +115,7 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
 		logger.debug("removeFile - removed = " + result);
+		logger.debug("Alfresco Connector removeFile: Exiting");
 		return result;
 	}
 	@Override

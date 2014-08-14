@@ -339,6 +339,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 */
 	@Override
 	public boolean deleteFileECM(ECMRequest request) throws SystemFault, RemoteException, Exception {
+		log.debug("deleteFileECM: Entering");
 		boolean result = false;
 		ECMResponse response = null;
 		
@@ -352,11 +353,13 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		}
 
 		try {
-			result = ecmService.removeFile(response.getResult().getEcmType(), response.getResult().getIdFileECM());
+			log.debug("ECM TYPE RECUPERATO DA LISTMEDIA: "+response.getResult().getEcmType());
+			result = ecmService.removeFile(response.getResult().getEcmType(), response.getResult().getIdFileECM(), response.getResult().getContainerType());
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM " + e.getMessage());
 		}
 		log.info("deleteFileECM returns: " + result);
+		log.debug("deleteFileECM: Exiting");
 		return result;
 	}
 

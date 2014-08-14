@@ -43,6 +43,7 @@ public interface ECMConnector {
 	 * @throws RemoteException
 	 * @throws Exception
 	 */
+	
 	boolean removeFile(String ecmFileId);
 	
 	/**

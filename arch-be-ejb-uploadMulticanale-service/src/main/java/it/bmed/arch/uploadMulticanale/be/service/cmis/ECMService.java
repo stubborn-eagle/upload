@@ -29,7 +29,7 @@ public interface ECMService {
 	 * @throws AsiaException
 	 * @throws Exception
 	 */
-	boolean removeFile(ECMType ecmType, String ecmFileId) throws AsiaException,
+	boolean removeFile(ECMType ecmType, String ecmFileId, String containerType) throws AsiaException,
 			Exception;
 
 	/**

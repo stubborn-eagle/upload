@@ -125,9 +125,6 @@ public class Util {
 		// °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
 		try {
 			for (FileProperty prop : ecmParam.getProperty()) {
-				if ("ObjectClass".equals(prop.getName())) {
-					objectClass.setValue(ecmParam.getContainerType());
-				}
 				// if("ObjectStore".equalsIgnoreCase(prop.getName())){
 				// // objectStore.setValue(prop.getValue());
 				// //DEVE ESSERE IL SEGUENTE??
@@ -154,9 +151,11 @@ public class Util {
 
 			objectStore.setValue("CED088");
 			request.setObjectStore(objectStore);
-
-			// objectClass.setValue("");
+			
+			
+			objectClass.setValue(ecmParam.getContainerType());
 			request.setObjectClass(objectClass);
+			
 			searchAction.setValue("AddVersion");
 
 			index.setName("CODICEDOC");
@@ -220,6 +219,8 @@ public class Util {
 		ObjectStore objectStore = new ObjectStore();
 		ObjectClass objectClass = new ObjectClass();
 		IndexDelete index = new IndexDelete();
+		ForceDeleteSubDocuments force = new ForceDeleteSubDocuments();
+		
 
 		// Initializing variables
 		objectClass.setValue(ecmFile.getContainerType());
@@ -228,11 +229,14 @@ public class Util {
 		index.setName("ID");
 		index.setOperator("=");
 		index.setValue(ecmFile.getIdFileECM());
+		
+		force.setValue("false");
 
 		// Initializing request
 		request.setObjectStore(objectStore);
 		request.setObjectClass(objectClass);
 		request.setIndex(index);
+		request.setForceDeleteSubDocuments(force);
 
 		XStream xStream = new XStream(new DomDriver());
 		xStream.registerConverter(new DeleteRequestConverter());
