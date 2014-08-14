@@ -42,4 +42,18 @@ public interface ECMService {
 	 * @throws Exception
 	 */
 	String downloadFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception;
+	
+	
+	/**
+	 * Generate the ecm token for alfresco or filenet
+	 * 
+	 * @param request
+	 * @param ecmParam
+	 * @return The proper token for alfresco or filenet (not implemented yet) 
+	 * @throws AsiaException
+	 * @throws Exception
+	 */
+	
+	public String getECMToken (ECMParam ecmParam) throws AsiaException, Exception;
+	
 }

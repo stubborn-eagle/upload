@@ -14,6 +14,8 @@ import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
+import it.bmed.arch.uploadMulticanale.be.api.TokenRequest;
+import it.bmed.arch.uploadMulticanale.be.api.TokenResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
@@ -156,6 +158,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			throw fault;
 
 		} catch (Exception app) {
+			
+	
 
 			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
@@ -163,8 +167,11 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setTechnical(false);
+		
 			
 			throw fault; 
+			
+			
 			
 			/*
 			 * log.error("Errore e.getMessage() "+ fault.getMessage());
@@ -586,5 +593,25 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		SystemFault systemFault = ExceptionToFaultConversionUtil.toFault(technicalException);
 		systemFault.getFaultInfo().setLayer("BKE");
 		throw systemFault;
+	}
+	
+	/**
+	 * @author 	andrea.perrotta
+	 * @param 	TokenRequest --> ECMParam --> ecmParam.getEcmType() = ECMType.IBM_FILENET 	--> Filenet 	Token (not implemented yet) 		
+	 * @param 	TokenRequest --> ECMParam --> ecmParam.getEcmType() = ECMType.ALFRESCO 		--> Alfresco 	Token
+	 * @return  Alfresco Or Filenet according ecmParam EcmType value
+	 */
+	@Override
+	public TokenResponse getToken(TokenRequest request) throws SystemFault, RemoteException, Exception {
+		log.debug("getECMToken: Entering");
+		TokenResponse response = new TokenResponse();
+		
+		try {			
+			response.setToken(ecmService.getECMToken(request.getEcmParam()));
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "getECMToken: " + e.getMessage());
+		}
+		log.debug("getECMToken: Exiting");
+		return response;
 	}
 }

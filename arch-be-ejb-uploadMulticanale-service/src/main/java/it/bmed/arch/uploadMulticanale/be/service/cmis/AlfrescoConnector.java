@@ -6,13 +6,21 @@ import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.math.BigInteger;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.chemistry.opencmis.client.api.Document;
 import org.apache.chemistry.opencmis.client.api.Folder;
@@ -23,9 +31,14 @@ import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisContentAlreadyExistsException;
 import org.apache.chemistry.opencmis.commons.impl.dataobjects.ContentStreamImpl;
 import org.springframework.beans.factory.InitializingBean;
+import org.xml.sax.InputSource;
 
 public class AlfrescoConnector extends AbstractECMConnector implements InitializingBean {
 	private static final Logger logger = LoggerFactory.getLogger(AlfrescoConnector.class);
+	
+	  
+	  private static final String WEBSRIPT_LOGIN_URL = "/alfresco/service/api/login";
+	
 	
 	public AlfrescoConnector() {
 		super();
@@ -122,4 +135,58 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 	public void afterPropertiesSet() throws Exception {
 		System.out.println("afterPropertiesSet: " + getClass().getName());
 	}
+	@Override
+	public String getECMToken(String request) throws AsiaException {
+
+		String response = ""; //$NON-NLS-1$
+		try
+		{
+			String data = getLoginData();
+			String urlTmp = alfrescoUrl + WEBSRIPT_LOGIN_URL + data;
+
+			URL url = new URL(urlTmp);
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			conn.setDoOutput(true);
+			conn.setRequestMethod("GET"); //$NON-NLS-1$
+			conn.setRequestProperty("Content-Type", "application/json"); //$NON-NLS-1$ //$NON-NLS-2$
+			BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+			String output;
+			while ((output = br.readLine()) != null) {
+				response = response + output;
+			}
+			conn.disconnect();
+			return extractTicket(response);
+		}
+		catch (MalformedURLException e)
+		{
+			logger.error("getECMToken " + e.getMessage());
+			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
+		}
+		catch (IOException e)
+		{
+			logger.error("getECMToken " + e.getMessage());
+			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
+		} catch (Exception e) {
+			logger.error("getECMToken " + e.getMessage());
+			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
+		}
+		
+	}
+
+
+	
+	
+		private  String extractTicket(String ticket) throws Exception
+		  {
+		    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		    DocumentBuilder builder = factory.newDocumentBuilder();
+		    InputSource is = new InputSource(new StringReader(ticket));
+		    return builder.parse(is).getFirstChild().getTextContent();
+		  }
+		  
+		  private  String getLoginData()
+		  {
+		    String data = "?u=" + user + "&pw=" + password; //$NON-NLS-1$ //$NON-NLS-2$
+		    return data;
+		  }
 }

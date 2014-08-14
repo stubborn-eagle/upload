@@ -76,6 +76,18 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");			
 		}
 	}
+	
+	@Override
+	public String getECMToken (ECMParam ecmParam) throws AsiaException, Exception {
+		
+		if( ecmParam.getEcmType() == ECMType.IBM_FILENET ) {		
+			return filenetConnector.getECMToken("");
+		} else if( ecmParam.getEcmType() == ECMType.ALFRESCO) {
+			return alfrescoConnector.getECMToken("");
+		} else {			
+			throw new AsiaException("error code", "ECM_TYPE not reconized.");			
+		}
+	}
 
 	@Override
 	public boolean removeFile(ECMType ecmType, String ecmFileId) throws AsiaException, Exception {

@@ -84,4 +84,8 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebMethod(operationName = "convertToPDF")
 		@WebResult(name = "response")
 		ECMResponse convertToPDF(@WebParam(name = "request") ECMConvertRequest request) throws SystemFault, RemoteException, Exception;
+
+		@WebMethod(operationName = "getECMToken")
+		@WebResult(name = "response")
+		TokenResponse getToken(TokenRequest request) throws SystemFault, RemoteException, Exception;
 }

@@ -35,6 +35,7 @@
 		<!-- User credentials -->
 		<property name="user" ref="alfrescoUser" />
 		<property name="password" ref="alfrescoPassword" />
+		<property name="alfrescoUrl" ref="alfrescoUrl" />
 		<!-- Binding Settings -->
 		<property name="bindingSPIType" value="org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi" />
 		<!-- CMIS WebService Connection Settings -->

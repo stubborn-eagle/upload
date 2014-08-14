@@ -21,9 +21,10 @@ import org.apache.chemistry.opencmis.commons.enums.BindingType;
 public abstract class AbstractECMConnector implements ECMConnector {
 	private static final Logger logger = LoggerFactory.getLogger(AbstractECMConnector.class);
 	// Applicative user credentials
-	private String user = null;
-	private String password = null;
-	
+	protected String user = null;
+	protected String password = null;
+	protected String alfrescoUrl = null;
+
 	// WebService connection settings	
 	private String repositoryServiceUrl = null;
 	private String navigationServiceWsdlUrl = null;
@@ -34,6 +35,21 @@ public abstract class AbstractECMConnector implements ECMConnector {
 	private String multiFilingServiceWsdlUrl = null;
 	private String policyServiceWsdlUrl = null;
 	private String aclServiceWsdlUrl = null;
+	
+	
+	/**
+	 * @return the alfrescoUrl
+	 */
+	public String getAlfrescoUrl() {
+		return alfrescoUrl;
+	}
+	/**
+	 * @param alfrescoUrl the alfrescoUrl to set
+	 */
+	public void setAlfrescoUrl(String alfrescoUrl) {
+		this.alfrescoUrl = alfrescoUrl;
+	}
+
 	
 	// Bindings Settings
 	private String bindingSPIType = null;

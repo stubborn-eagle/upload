@@ -93,7 +93,7 @@
 	</variable-definition>
 	<module-override>
 		<module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
-		<module-type>war</module-type>
+        <module-type>war</module-type>
 		<module-descriptor external="false">
 			<root-element>web-app</root-element>
 			<uri>WEB-INF/web.xml</uri>

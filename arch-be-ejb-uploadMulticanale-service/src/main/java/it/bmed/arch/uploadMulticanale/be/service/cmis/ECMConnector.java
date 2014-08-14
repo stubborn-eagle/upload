@@ -5,8 +5,8 @@ package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
+import it.bmed.asia.exception.AsiaException;
 
-import java.io.InputStream;
 import java.rmi.RemoteException;
 
 /**
@@ -53,4 +53,13 @@ public interface ECMConnector {
 	 * @throws Exception
 	 */
 	String downloadFile(String ecmFileId);
+	
+	/**
+	 * Get Token for Connector
+	 * @param request Depends from connector
+	 * @return
+	 * @throws RemoteException
+	 * @throws Exception
+	 */
+	public String getECMToken(String request) throws AsiaException;
 }

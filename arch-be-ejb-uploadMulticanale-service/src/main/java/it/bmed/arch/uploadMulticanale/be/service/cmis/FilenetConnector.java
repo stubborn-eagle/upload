@@ -95,7 +95,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 		ECMFile ecmFile = new ECMFile();
 		ECMParam ecmParam = new ECMParam();
 		try {
-			WSGDIImpl serviceFileNet = (WSGDIImpl) ejbServiceLocator.getWsClient(FileNetFactory.class);
+			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 			String xml = Util.encodeXML(DELETE_REQUEST, null, ecmFile, null);
 			serviceFileNet.deleteObject(xml);
 			return true;
@@ -111,7 +111,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 		String downloadedFile = null;
 		try {
 			ECMFile ecmFile = new ECMFile();
-			WSGDIImpl serviceFileNet = (WSGDIImpl) ejbServiceLocator.getWsClient(FileNetFactory.class);
+			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 			String xml = Util.encodeXML(DOWNLOAD_REQUEST, null, ecmFile, null); 
 			String response = serviceFileNet.getDocumentContent(xml);
 			downloadedFile = getDocContentFromResponse(response);
@@ -181,6 +181,13 @@ public class FilenetConnector extends AbstractECMConnector implements
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse XPathExpressionException", e);
 		}
 		return documentContent;
+	}
+
+
+	@Override
+	public String getECMToken(String request) throws AsiaException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
