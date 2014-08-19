@@ -487,26 +487,33 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());
 		}
 
+				
 		// Save the pdf to the NAS filesystem
 		try {
-			 nasService.saveFile(resultStream, ecmResponse.getResult().getNameFile(), ecmResponse.getResult().getSource());
+			 nasService.saveFile(resultStream, ecmResponse.getResult().getNameFile(), request.getEcmFile().getSource(), request.getEcmFile().getSourcePath());
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());
 		}
-		ecmFile.setChannel(ecmResponse.getResult().getChannel());
-		ecmFile.setContainerType(ecmResponse.getResult().getContainerType());
-		ecmFile.setDestinationPath(ecmResponse.getResult().getDestinationPath());
-		ecmFile.setEcmType(ecmResponse.getResult().getEcmType());
-		ecmFile.setIdFile(ecmResponse.getResult().getIdFile());
-		ecmFile.setIdFileECM(ecmResponse.getResult().getIdFileECM());
-		ecmFile.setNameApp(ecmResponse.getResult().getNameApp());
+		
+		ECMRequest ecmRequestReg = new ECMRequest();
+		
+		ecmFile.setIdFile(0);
+		ecmFile.setChannel(request.getEcmFile().getChannel());
+		ecmFile.setContainerType(request.getEcmFile().getContainerType());
+		ecmFile.setDestinationPath(request.getEcmFile().getDestinationPath());
+		ecmFile.setEcmType(request.getEcmFile().getEcmType());
+		//ecmFile.setIdFile(ecmResponse.getResult().getIdFile());
+		ecmFile.setIdFileECM(request.getEcmFile().getIdFileECM());
+		ecmFile.setNameApp(request.getEcmFile().getNameApp());
 		ecmFile.setNameFile(ecmResponse.getResult().getNameFile());
-		ecmFile.setSource(ecmResponse.getResult().getSource());
-		ecmFile.setSourcePath(ecmResponse.getResult().getSourcePath());
-		ecmFile.setState(ecmResponse.getResult().getState());
-		ecmFile.setType(ecmResponse.getResult().getType());
-		ecmFile.setUserId(ecmResponse.getResult().getUserId());
-		ecmFile.setUserType(ecmResponse.getResult().getUserType());
+		ecmFile.setSource(request.getEcmFile().getSource());
+		ecmFile.setSourcePath(request.getEcmFile().getSourcePath());
+		ecmFile.setState(request.getEcmFile().getState());
+		ecmFile.setType("PDF");
+		ecmFile.setUserId(request.getEcmFile().getUserId());
+		ecmFile.setUserType(request.getEcmFile().getUserType());
+		
+		ecmRequestReg.setEcmFile(ecmFile);
 		
 		/*
 		 * ecmFile.getChannel().isEmpty()
@@ -521,7 +528,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		
 		// Save the file's metadata to the technical db
 		try {
-			ecmResponse = insertMedia(ecmRequest);
+			ecmResponse = insertMedia(ecmRequestReg);
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_SQL_ERROR, "convertToPDF " + e.getMessage());
 		}
