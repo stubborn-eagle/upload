@@ -443,6 +443,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	 */
 	@Override
 	public ECMResponse convertToPDF(ECMConvertRequest request) throws SystemFault, RemoteException, Exception {
+		log.debug("convertToPDF: Entering");
 		ECMRequest ecmRequest = new ECMRequest();
 		ECMResponse ecmResponse = new ECMResponse();
 		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
@@ -524,6 +525,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_SQL_ERROR, "convertToPDF " + e.getMessage());
 		}
+		log.debug("convertToPDF: Exiting");
 		return ecmResponse;
 	}
 

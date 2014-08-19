@@ -27,7 +27,7 @@
 		</variable>
 		<variable>
 			<name>alfrescoUrl</name>
-			<value>https://test-alfresco.mediolanum.it/</value>
+			<value>http://test-alfresco.mediolanum.it/</value>
 			<description>The Alfresco URL terminated with '/'</description>
 		</variable>
 		<variable>
