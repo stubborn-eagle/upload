@@ -448,7 +448,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		ECMResponse ecmResponse = new ECMResponse();
 		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
 		final String CLOSE_IMGTAG = "\">"; 
-		
+		log.debug("ECMConvertRequest: "+ request);
+		log.debug("ECMConvertRequest idFile: "+ request.getIdFile());
+		log.debug("ECMConvertRequest ECMFile idFile: "+ request.getEcmFile().getIdFile());
+		log.debug("ECMConvertRequest ECMParam: "+ request.getEcmParam().getIdFile());
 		// Retrieve the file's data from technical db
 		ECMFile ecmFile = new ECMFile();
 		ecmFile.setIdFile(request.getIdFile());

@@ -178,7 +178,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 //		if (ecmFile.getContainerType().isEmpty()) {
 //			parameterError(method, "containerType", emptyCause);
 //		}		
-		if (ecmFile.getContainerType() != null && ecmFile.getContainerType().length() > 20) {
+		if (ecmFile.getContainerType() != null && ecmFile.getContainerType().length() > 30) {
 			parameterError(method, "containerType", exeedCause);
 		}
 		
