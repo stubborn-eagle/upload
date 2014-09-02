@@ -105,7 +105,7 @@
 	<env-entry>
 		<env-entry-name>AZURE-CONNECTION-STRING</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>DefaultEndpointsProtocol=https;AccountName=Uploadmulticanale;AccountKey=DxJFBJHS20WdzuaL7uJ1EXwOYrl93N3rc2nBcCRe3keo7iJWQDKo4BNGXIdkdfHHWZ8CoEeTeFzGKSB8LRJ+tg==</env-entry-value>
+		<env-entry-value>DefaultEndpointsProtocol=https;AccountName=uploadmulticanale;AccountKey=DxJFBJHS20WdzuaL7uJ1EXwOYrl93N3rc2nBcCRe3keo7iJWQDKo4BNGXIdkdfHHWZ8CoEeTeFzGKSB8LRJ+tg==</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>AZURE-MAX-EXPIRATION-TIME-MINUTES</env-entry-name>
