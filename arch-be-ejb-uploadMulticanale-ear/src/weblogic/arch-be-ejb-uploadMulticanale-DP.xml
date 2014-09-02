@@ -64,7 +64,7 @@
 		</variable>
 		<variable>
 			<name>filenetUrl</name>
-			<value>http://docm-med-prd.ced.it/WSGDI/services/WSGDIImpl</value>
+			<value>http://docm-med.ced.it:80/WSGDI/services/WSGDIImpl</value>
 		</variable>
 		<variable>
 			<name>filenetUser</name>

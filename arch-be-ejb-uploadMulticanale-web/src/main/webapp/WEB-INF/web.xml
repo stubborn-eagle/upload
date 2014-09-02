@@ -89,7 +89,7 @@
 	<env-entry>
 		<env-entry-name>FILENET-URL</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>http://docm-med-prd.ced.it/WSGDI/services/WSGDIImpl</env-entry-value>
+		<env-entry-value>http://docm-med.ced.it:80/WSGDI/services/WSGDIImpl</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>FILENET-USER</env-entry-name>
