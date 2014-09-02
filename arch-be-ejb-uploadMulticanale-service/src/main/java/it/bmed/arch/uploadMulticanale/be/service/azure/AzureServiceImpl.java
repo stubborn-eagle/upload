@@ -82,7 +82,7 @@ public class AzureServiceImpl implements AzureService {
 			String sas = null;
 			CloudBlockBlob cloudBlockBlob = null;
 			
-			if (parameters.getResourceBlobFile() != null) {				
+			if (parameters.getResourceBlobFile() != null && !"".equals(parameters.getResourceBlobFile())) {				
 				cloudBlockBlob = container.getBlockBlobReference(parameters.getResourceBlobFile());
 				sas = cloudBlockBlob.generateSharedAccessSignature(policy, null);
 			} else {
@@ -97,7 +97,7 @@ public class AzureServiceImpl implements AzureService {
 			azureDTO.setStartTime(policy.getSharedAccessStartTime());
 			azureDTO.setContainer(parameters.getTargetContainer());
 			
-			if (parameters.getResourceBlobFile() != null) {
+			if (parameters.getResourceBlobFile() != null && !"".equals(parameters.getResourceBlobFile())) {
 				azureDTO.setResourceBlobFile(parameters.getResourceBlobFile());
 				azureDTO.setURI(cloudBlockBlob.getUri() + "?" + sas);
 			} else {
