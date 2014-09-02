@@ -72,11 +72,20 @@ public class AzureServiceImpl implements AzureService {
 			SharedAccessBlobPolicy policy = new SharedAccessBlobPolicy();
 			policy.setSharedAccessStartTime(calendar.getTime()); // Immediately
 			policy.setSharedAccessExpiryTime(parameters.getExpirationTime());
-
+			
 			if (parameters.isReadOnly()) {
+				log.debug("SETTO I PERMESSI: READ");
 				policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ)); // SAS grants																// READ ONLY
 			} else {
-				policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ, SharedAccessBlobPermissions.WRITE)); // SAS grants READ/WRITE
+				
+				if(parameters.getResourceBlobFile()!=null && !"".equalsIgnoreCase(parameters.getResourceBlobFile())){
+					log.debug("SETTO I PERMESSI: READ, WRITE, DELETE");
+					policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ, SharedAccessBlobPermissions.WRITE, SharedAccessBlobPermissions.DELETE)); // SAS grants READ/WRITE
+				}else{
+					log.debug("SETTO I PERMESSI: READ, WRITE");
+					policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ, SharedAccessBlobPermissions.WRITE));
+				}
+				
 			}
 
 			String sas = null;
@@ -96,7 +105,7 @@ public class AzureServiceImpl implements AzureService {
 			azureDTO.setExpiredTime(policy.getSharedAccessExpiryTime());
 			azureDTO.setStartTime(policy.getSharedAccessStartTime());
 			azureDTO.setContainer(parameters.getTargetContainer());
-			
+	
 			if (parameters.getResourceBlobFile() != null && !"".equals(parameters.getResourceBlobFile())) {
 				azureDTO.setResourceBlobFile(parameters.getResourceBlobFile());
 				azureDTO.setURI(cloudBlockBlob.getUri() + "?" + sas);
