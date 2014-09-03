@@ -1,8 +1,11 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
 import it.bmed.asia.api.BaseBeRequest;
-import it.bmed.asia.api.RequestMetaData;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name="ECMConvertRequestType")
 public class ECMConvertRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 7885155237251899750L;
 	
@@ -25,6 +28,7 @@ public class ECMConvertRequest extends BaseBeRequest {
 	/**
 	 * @return the idFile
 	 */
+	@XmlElement(nillable=true, required=true)
 	public Integer getIdFile() {
 		return idFile;
 	}
@@ -37,6 +41,7 @@ public class ECMConvertRequest extends BaseBeRequest {
 	/**
 	 * @return the ecmFile
 	 */
+	@XmlElement(nillable=true, required=true)
 	public ECMFile getEcmFile() {
 		return ecmFile;
 	}
@@ -49,6 +54,7 @@ public class ECMConvertRequest extends BaseBeRequest {
 	/**
 	 * @return the ecmParam
 	 */
+	@XmlElement(nillable=true, required=true)
 	public ECMParam getEcmParam() {
 		return ecmParam;
 	}

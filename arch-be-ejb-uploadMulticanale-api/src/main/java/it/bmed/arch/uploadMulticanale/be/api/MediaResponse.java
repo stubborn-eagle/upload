@@ -4,6 +4,9 @@ import it.bmed.asia.api.BaseBeResponse;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlType(name="MediaResponseType")
 public class MediaResponse extends BaseBeResponse<MediaDTO> {
 
 	/**
@@ -17,6 +20,7 @@ public class MediaResponse extends BaseBeResponse<MediaDTO> {
 	// private boolean Response;
 
 	@Override
+	@XmlElement(nillable=false, required=true)
 	public MediaDTO getResult() {
 		return result;
 	}
@@ -27,6 +31,7 @@ public class MediaResponse extends BaseBeResponse<MediaDTO> {
 	}
 
 	@Override
+	@XmlElement(nillable=true, required=true)
 	public MediaDTO[] getResults() {
 		// TODO Auto-generated method stub
 		return this.results;

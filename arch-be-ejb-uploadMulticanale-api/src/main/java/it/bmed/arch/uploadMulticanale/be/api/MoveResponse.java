@@ -5,6 +5,9 @@ import it.bmed.asia.api.CommonUtils;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlType(name="MoveResponseType")
 public class MoveResponse extends BaseBeResponse<MoveDTO> {
 	/**
 	 * 
@@ -20,6 +23,7 @@ public class MoveResponse extends BaseBeResponse<MoveDTO> {
 	}
 
 	@Override
+	@XmlElement(nillable=false, required=true)
 	public MoveDTO getResult() {
 		return result;
 	}
@@ -30,6 +34,7 @@ public class MoveResponse extends BaseBeResponse<MoveDTO> {
 	}
 
 	@Override
+	@XmlElement(nillable=true, required=true)
 	public MoveDTO[] getResults() {
 		return results;
 	}

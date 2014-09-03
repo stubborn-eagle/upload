@@ -3,11 +3,15 @@ package it.bmed.arch.uploadMulticanale.be.api;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Request DTO for token generation
  * @author raffaele.picardi
  *
  */
+@XmlType(name="AzureDTOType")
 public class AzureDTO implements Serializable {	
 	/**
 	 * 
@@ -45,7 +49,7 @@ public class AzureDTO implements Serializable {
 	 */
 	private String URI;
 	
-	
+	@XmlElement(nillable=false, required=true)
 	public String getURI() {
 		return URI;
 	}
@@ -53,7 +57,7 @@ public class AzureDTO implements Serializable {
 	public void setURI(String uRI) {
 		URI = uRI;
 	}
-
+	@XmlElement(nillable=false, required=true)
 	public String getResourceBlobFile() {
 		return resourceBlobFile;
 	}
@@ -61,7 +65,7 @@ public class AzureDTO implements Serializable {
 	public void setResourceBlobFile(String resourceBlobFile) {
 		this.resourceBlobFile = resourceBlobFile;
 	}
-
+	@XmlElement(nillable=false, required=true)
 	public Date getExpiredTime() {
 		return expiredTime;
 	}
@@ -69,7 +73,7 @@ public class AzureDTO implements Serializable {
 	public void setExpiredTime(Date expiredTime) {
 		this.expiredTime = expiredTime;
 	}
-
+	@XmlElement(nillable=false, required=true)
 	public Date getStartTime() {
 		return startTime;
 	}
@@ -77,7 +81,7 @@ public class AzureDTO implements Serializable {
 	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
-
+	@XmlElement(nillable=false, required=true)
 	public String getContainer() {
 		return container;
 	}
@@ -85,7 +89,7 @@ public class AzureDTO implements Serializable {
 	public void setContainer(String container) {
 		this.container = container;
 	}
-
+	@XmlElement(nillable=false, required=true)
 	public String getSAS() {
 		return SAS;
 	}
