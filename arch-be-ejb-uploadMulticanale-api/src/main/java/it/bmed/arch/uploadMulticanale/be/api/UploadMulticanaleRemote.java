@@ -90,6 +90,8 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebResult(name = "response")
 		TokenResponse getToken(@WebParam(name = "request") TokenRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 		
+		@WebMethod(operationName = "getVersione")
+		@WebResult(name = "response")
 	    public String getVersione ();
 
 }
