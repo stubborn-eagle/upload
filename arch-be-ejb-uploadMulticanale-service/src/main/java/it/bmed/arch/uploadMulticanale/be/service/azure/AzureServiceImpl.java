@@ -44,7 +44,8 @@ public class AzureServiceImpl implements AzureService {
 
 	@Override
 	public AzureDTO generateToken(AzureRequest parameters) throws AsiaException, Exception {
-
+		log.debug("generateToken: Entering");
+		log.debug("AzureRequest parameters: "+parameters);
 		// VALIDATION CHECK
 		if (parameters.getTargetContainer() == null) { 
 			throw new InvalidAzureContainerException (AzureMessages.getString("AzureServiceImpl.ContainerCannotBeNull")); //$NON-NLS-1$
