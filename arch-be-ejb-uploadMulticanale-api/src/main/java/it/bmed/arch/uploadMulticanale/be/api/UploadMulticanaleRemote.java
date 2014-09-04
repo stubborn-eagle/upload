@@ -92,6 +92,6 @@ public interface UploadMulticanaleRemote extends Remote {
 		
 		@WebMethod(operationName = "getVersione")
 		@WebResult(name = "response")
-	    public String getVersione ();
+	    public String getVersione () throws SystemFault, RemoteException, Exception;
 
 }
