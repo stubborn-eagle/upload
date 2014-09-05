@@ -24,12 +24,10 @@ import org.hibernate.type.TrueFalseType;
 public interface UploadMulticanaleRemote extends Remote {
 
 		@WebMethod(operationName = "insertMedia")
-		@WebResult(name = "response")
 		ECMResponse insertMedia(ECMRequest request, @WebParam(header=true) HeaderInputType  stringa) throws  SystemFault, RemoteException, Exception;
 		
 		
 		@WebMethod(operationName = "listMedia")
-		@WebResult(name = "response")
 		ECMResponse listMedia(  ECMRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 	
 			
