@@ -12,6 +12,10 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
+import javax.xml.ws.Action;
+import javax.xml.ws.soap.Addressing;
+
+import org.hibernate.type.TrueFalseType;
 
 
 
@@ -19,17 +23,17 @@ import javax.jws.soap.SOAPBinding.Style;
 @SOAPBinding(style = Style.DOCUMENT, parameterStyle = SOAPBinding.ParameterStyle.BARE)
 public interface UploadMulticanaleRemote extends Remote {
 
-		@WebMethod(operationName = "insertMedia")
+		@WebMethod(operationName = "insertMedia", action=APIParams.XSD_CUSTOM_NAMESPACE+"/insertMedia")
 		@WebResult(name = "response")
 		ECMResponse insertMedia(@WebParam(name = "request") ECMRequest request, @WebParam(header=true) HeaderInputType  stringa) throws  SystemFault, RemoteException, Exception;
 		
 		
-		@WebMethod(operationName = "listMedia")
+		@WebMethod(operationName = "listMedia", action=APIParams.XSD_CUSTOM_NAMESPACE+"/listMedia")
 		@WebResult(name = "response")
 		ECMResponse listMedia(@WebParam(name = "request")  ECMRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 	
 			
-		@WebMethod(operationName = "updateMedia")
+		@WebMethod(operationName = "updateMedia", action=APIParams.XSD_CUSTOM_NAMESPACE+"/updateMedia")
 		@WebResult(name = "response")
 		boolean updateMedia(@WebParam(name = "request") UpdateECMRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 	
@@ -38,7 +42,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 * @param idFile
 		 * @return The status of the operation as <b>boolean</b>
 		 */
-		@WebMethod(operationName = "deleteFileNAS")
+		@WebMethod(operationName = "deleteFileNAS", action=APIParams.XSD_CUSTOM_NAMESPACE+"/deleteFileNAS")
 		@WebResult(name = "response")
 		boolean deleteFileNAS(@WebParam(name = "request") ECMRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 
@@ -50,7 +54,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 * @throws RemoteException
 		 * @throws Exception
 		 */
-		@WebMethod(operationName = "deleteFileECM")
+		@WebMethod(operationName = "deleteFileECM", action=APIParams.XSD_CUSTOM_NAMESPACE+"/deleteFileECM")
 		@WebResult(name = "response")
 		boolean deleteFileECM(@WebParam(name = "request") ECMRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 
@@ -61,7 +65,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		 * @throws RemoteException
 		 * @throws Exception
 		 */
-		@WebMethod(operationName = "getAzureToken")
+		@WebMethod(operationName = "getAzureToken", action=APIParams.XSD_CUSTOM_NAMESPACE+"/getAzureToken")
 		@WebResult(name = "response")		
 		AzureResponse getAzureToken(@WebParam(name = "request") AzureRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 				
@@ -82,16 +86,16 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebResult(name = "response")
 		MoveResponse moveFile(@WebParam(name = "request") MoveRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 		
-		@WebMethod(operationName = "convertToPDF")
+		@WebMethod(operationName = "convertToPDF", action=APIParams.XSD_CUSTOM_NAMESPACE+"/convertToPDF")
 		@WebResult(name = "response")
 		ECMResponse convertToPDF(@WebParam(name = "request") ECMConvertRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 
-		@WebMethod(operationName = "getECMToken")
+		@WebMethod(operationName = "getECMToken", action=APIParams.XSD_CUSTOM_NAMESPACE+"/getECMToken")
 		@WebResult(name = "response")
 		TokenResponse getToken(@WebParam(name = "request") TokenRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 		
 		@WebMethod(operationName = "getVersione")
 		@WebResult(name = "response")
-	    public String getVersione ( @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
+	    public String getVersione () throws SystemFault, RemoteException, Exception;;
 
 }

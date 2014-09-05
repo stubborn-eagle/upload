@@ -43,7 +43,6 @@ import java.rmi.RemoteException;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
-import javax.jws.WebParam;
 import javax.jws.WebService;
 
 import org.springframework.beans.factory.InitializingBean;
@@ -628,7 +627,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 	
 	@Override
-	public String getVersione ( @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception {
+	public String getVersione () throws SystemFault, RemoteException, Exception {
         return APIParams.VERSION;
     }
 

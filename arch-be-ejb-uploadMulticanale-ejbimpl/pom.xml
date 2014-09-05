@@ -34,13 +34,14 @@
                          <version>1.4</version>
                          <executions>
                                 <execution>
-                                      <phase>process-classes</phase>
+                                      <phase>none</phase>
                                       <goals>
                                              <goal>generateWSDL</goal>
                                       </goals>
                                 </execution>
                          </executions>
                          <configuration>
+                         		
                                 <sei>${sei}</sei>
                                 <wsdl_nome_logico_servizio>${wsdl_nome_logico_servizio}</wsdl_nome_logico_servizio>
                                 <gen_major_version>${gen_major_version}</gen_major_version>
