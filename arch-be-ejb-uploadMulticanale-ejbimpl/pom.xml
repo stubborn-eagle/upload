@@ -34,7 +34,7 @@
                          <version>1.4</version>
                          <executions>
                                 <execution>
-                                      <phase>none</phase>
+                                	  <phase>none</phase>                        
                                       <goals>
                                              <goal>generateWSDL</goal>
                                       </goals>
