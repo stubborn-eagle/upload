@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author andrea.perrotta
  *
  */
-@XmlType(name="DettaglioMedboxRequestType")
+@XmlType(name="TokenRequestType")
 
 public class TokenRequest implements Serializable {
 

@@ -627,7 +627,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 	
 	@Override
-    public String getVersione () throws SystemFault, RemoteException, Exception {
+	public String getVersione () throws SystemFault, RemoteException, Exception {
         return APIParams.VERSION;
     }
 
