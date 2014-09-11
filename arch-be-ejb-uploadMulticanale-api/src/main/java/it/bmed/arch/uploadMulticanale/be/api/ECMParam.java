@@ -3,6 +3,9 @@ package it.bmed.arch.uploadMulticanale.be.api;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlType(name="ECMParamType")
 public class ECMParam  implements Serializable {
 	private static final long serialVersionUID = -2006320181477501366L;
 	
@@ -27,6 +30,7 @@ public class ECMParam  implements Serializable {
 	/**
 	 * @return the idFile
 	 */
+	@XmlElement(nillable=false, required=true)
 	public Integer getIdFile() {
 		return idFile;
 	}
@@ -39,6 +43,7 @@ public class ECMParam  implements Serializable {
 	/**
 	 * @return the ecmType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMType getEcmType() {
 		return ecmType;
 	}
@@ -51,6 +56,7 @@ public class ECMParam  implements Serializable {
 	/**
 	 * @return the nameApp
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getNameApp() {
 		return nameApp;
 	}
@@ -63,6 +69,7 @@ public class ECMParam  implements Serializable {
 	/**
 	 * @return the destinationPath
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getDestinationPath() {
 		return destinationPath;
 	}
@@ -75,6 +82,7 @@ public class ECMParam  implements Serializable {
 	/**
 	 * @return the containerType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getContainerType() {
 		return containerType;
 	}
@@ -87,6 +95,7 @@ public class ECMParam  implements Serializable {
 	/**
 	 * @return the removeFromNAS
 	 */
+	@XmlElement(nillable=false, required=true)
 	public RemoveFromNAS getRemoveFromNAS() {
 		return removeFromNAS;
 	}
@@ -99,6 +108,7 @@ public class ECMParam  implements Serializable {
 	/**
 	 * @return the property
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ArrayList<FileProperty> getProperty() {
 		return property;
 	}

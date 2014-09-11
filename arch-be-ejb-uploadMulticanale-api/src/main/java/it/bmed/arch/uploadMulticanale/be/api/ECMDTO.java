@@ -5,10 +5,14 @@ package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author donatello.boccaforno
  *
  */
+@XmlType(name="ECMDTOType")
 public class ECMDTO implements Serializable {
 	/**
 	 * 
@@ -22,6 +26,7 @@ public class ECMDTO implements Serializable {
 	/**
 	 * @return the idFile
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getIdFile() {
 		return idFile;
 	}
@@ -34,6 +39,7 @@ public class ECMDTO implements Serializable {
 	/**
 	 * @return the ecmType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMType getEcmType() {
 		return ecmType;
 	}
@@ -46,6 +52,7 @@ public class ECMDTO implements Serializable {
 	/**
 	 * @return the nameApp
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getNameApp() {
 		return nameApp;
 	}
@@ -58,6 +65,7 @@ public class ECMDTO implements Serializable {
 	/**
 	 * @return the destinationPath
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getDestinationPath() {
 		return destinationPath;
 	}
@@ -70,6 +78,7 @@ public class ECMDTO implements Serializable {
 	/**
 	 * @return the containerType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getContainerType() {
 		return containerType;
 	}

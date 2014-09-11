@@ -2,6 +2,9 @@ package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlType(name="MediaDTOType")
 public class MediaDTO implements Serializable {
 
 	/**
@@ -22,7 +25,8 @@ public class MediaDTO implements Serializable {
 	private Integer dominio;
 	private Integer Stato;
 	private Integer IdFile;
-
+	
+	@XmlElement(nillable=false, required=true)
 	public Integer getIdFile() {
 		return IdFile;
 	}
@@ -30,7 +34,8 @@ public class MediaDTO implements Serializable {
 	public void setIdFile(Integer idFile) {
 		IdFile = idFile;
 	}
-
+	
+	@XmlElement(nillable=false, required=true)
 	public Integer getECMType() {
 		return ECMType;
 	}
@@ -38,7 +43,8 @@ public class MediaDTO implements Serializable {
 	public void setECMType(Integer eCMType) {
 		ECMType = eCMType;
 	}
-
+	
+	@XmlElement(nillable=false, required=true)
 	public Integer getStato() {
 		return Stato;
 	}
@@ -46,7 +52,8 @@ public class MediaDTO implements Serializable {
 	public void setStato(Integer stato) {
 		Stato = stato;
 	}
-
+	
+	@XmlElement(nillable=false, required=true)
 	public Integer getDominio() {
 		return dominio;
 	}
@@ -54,7 +61,8 @@ public class MediaDTO implements Serializable {
 	public void setDominio(Integer dominio) {
 		this.dominio = dominio;
 	}
-
+	
+	@XmlElement(nillable=false, required=true)
 	public String getCanale() {
 		return Canale;
 	}
@@ -62,7 +70,8 @@ public class MediaDTO implements Serializable {
 	public void setCanale(String canale) {
 		Canale = canale;
 	}
-
+	
+	@XmlElement(nillable=false, required=true)
 	public String getContainerType() {
 		return ContainerType;
 	}
@@ -70,15 +79,18 @@ public class MediaDTO implements Serializable {
 	public void setContainerType(String containerType) {
 		ContainerType = containerType;
 	}
-
+	
+	@XmlElement(nillable=false, required=true)
 	public String getIdFileECM() {
 		return idFileECM;
 	}
 
+	@XmlElement(nillable=false, required=true)
 	public void setIdFileECM(String idFileECM) {
 		this.idFileECM = idFileECM;
 	}
 
+	@XmlElement(nillable=false, required=true)
 	public String getIdUtente() {
 		return idUtente;
 	}
@@ -86,7 +98,8 @@ public class MediaDTO implements Serializable {
 	public void setIdUtente(String idUtente) {
 		this.idUtente = idUtente;
 	}
-
+	
+	@XmlElement(nillable=false, required=true)
 	public String getNomeApp() {
 		return nomeApp;
 	}
@@ -95,6 +108,7 @@ public class MediaDTO implements Serializable {
 		this.nomeApp = nomeApp;
 	}
 
+	@XmlElement(nillable=false, required=true)
 	public String getNomeFile() {
 		return nomeFile;
 	}
@@ -103,6 +117,7 @@ public class MediaDTO implements Serializable {
 		this.nomeFile = nomeFile;
 	}
 
+	@XmlElement(nillable=false, required=true)
 	public String getSorgente_Path() {
 		return Sorgente_Path;
 	}
@@ -111,6 +126,8 @@ public class MediaDTO implements Serializable {
 		Sorgente_Path = sorgente_Path;
 	}
 
+	
+	@XmlElement(nillable=false, required=true)
 	public String getDestinazione_Path() {
 		return Destinazione_Path;
 	}
@@ -119,6 +136,7 @@ public class MediaDTO implements Serializable {
 		Destinazione_Path = destinazione_Path;
 	}
 
+	@XmlElement(nillable=false, required=true)
 	public String getTipo() {
 		return Tipo;
 	}
@@ -127,6 +145,7 @@ public class MediaDTO implements Serializable {
 		Tipo = tipo;
 	}
 
+	@XmlElement(nillable=false, required=true)
 	public String getTipoUtente() {
 		return tipoUtente;
 	}

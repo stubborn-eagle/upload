@@ -1,7 +1,11 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import it.bmed.asia.api.BaseBeRequest;
 
+@XmlType(name="ECMRequestType")
 public class ECMRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 9170130458793882791L;
 	private ECMFile ecmFile = null;
@@ -14,6 +18,7 @@ public class ECMRequest extends BaseBeRequest {
 	/**
 	 * @return the ecmFile
 	 */
+	@XmlElement(nillable=true, required=true)
 	public ECMFile getEcmFile() {
 		return ecmFile;
 	}

@@ -5,10 +5,14 @@ package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author donatello.boccaforno
  *
  */
+@XmlType(name="ECMFileType")
 public class ECMFile implements Serializable {
 	private static final long serialVersionUID = 5155691486395220554L;
 	
@@ -46,12 +50,14 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the channel
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getChannel() {
 		return channel;
 	}
 	/**
 	 * @return the source
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMSource getSource() {
 		return source;
 	}
@@ -70,6 +76,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the containerType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getContainerType() {
 		return containerType;
 	}
@@ -82,6 +89,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the idFileECM
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getIdFileECM() {
 		return idFileECM;
 	}
@@ -94,6 +102,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the userId
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getUserId() {
 		return userId;
 	}
@@ -106,6 +115,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the nameApp
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getNameApp() {
 		return nameApp;
 	}
@@ -118,6 +128,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the nameFile
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getNameFile() {
 		return nameFile;
 	}
@@ -130,6 +141,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the sourcePath
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getSourcePath() {
 		return sourcePath;
 	}
@@ -144,6 +156,7 @@ public class ECMFile implements Serializable {
 	 * The path must be a full qualified path, including the slash terminator.
 	 * @return the destinationPath
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getDestinationPath() {
 		return destinationPath;
 	}
@@ -159,6 +172,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the type
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getType() {
 		return type;
 	}
@@ -171,6 +185,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the userType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getUserType() {
 		return userType;
 	}
@@ -183,6 +198,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the ecmType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMType getEcmType() {
 		return ecmType;
 	}
@@ -195,6 +211,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the state
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMState getState() {
 		return state;
 	}
@@ -207,6 +224,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the idFile
 	 */
+	@XmlElement(nillable=false, required=true)
 	public Integer getIdFile() {
 		return idFile;
 	}
