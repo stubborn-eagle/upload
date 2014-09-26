@@ -6,29 +6,12 @@
 	<application-name>upload</application-name>
 	<variable-definition>
 		<variable>
-			<name>myhost</name>
-			<value>localhost</value>
-		</variable>
-		<variable>
-			<name>myport</name>
-			<value>7001</value>
-		</variable>
-		<variable>
-			<name>myusername</name>
-			<value>weblogic</value>
-		</variable>
-		<variable>
-			<name>mypassword</name>
-			<value>Weblogic1</value>
-		</variable>
-		<variable>
 			<name>mylogback</name>
 			<value>apps-properties/arch-be-ejb-uploadMulticanale-be.xml</value>
 		</variable>
 		<variable>
 			<name>alfrescoUrl</name>
-			<value>https://test-alfresco.mediolanum.it/</value>
-			<description>The Alfresco URL terminated with '/'</description>
+			<value>https://test-alfresco.mediolanum.it</value>
 		</variable>
 		<variable>
 			<name>alfrescoUser</name>
@@ -40,31 +23,23 @@
 		</variable>
 		<variable>
 			<name>pathNasIb</name>
-			<value>\mediabussvil\Clientisvil\</value>
-		</variable>
-		<variable>
-			<name>pathNasPs</name>
-			<value>\mediabussvil\Promotorisvil\</value>
+			<value>/mediabustest/Clientitest</value>
 		</variable>
 		<variable>
 			<name>pathNasRv</name>
-			<value>\mediabussvil\Promotorisvil\</value>
+			<value>/mediabustest/Promotoritest</value>
 		</variable>
 		<variable>
 			<name>deletedPathNasIb</name>
-			<value>\mediabussvil\Clientisvil\multichannel-upload-deleted\</value>
-		</variable>
-		<variable>
-			<name>deletedPathNasPs</name>
-			<value>\mediabussvil\Promotorisvil\multichannel-upload-deleted\</value>
+			<value>/mediabustest/Clientitest/multichannel-upload-deleted</value>
 		</variable>
 		<variable>
 			<name>deletedPathNasRv</name>
-			<value>\mediabussvil\Promotorisvil\multichannel-upload-deleted\</value>
+			<value>/mediabustest/Promotoritest/multichannel-upload-deleted</value>
 		</variable>
 		<variable>
 			<name>filenetUrl</name>
-			<value>http://docm-med-prd.ced.it/WSGDI/services/WSGDIImpl</value>
+			<value>http://docm-med.ced.it:80/WSGDI/services/WSGDIImpl</value>
 		</variable>
 		<variable>
 			<name>filenetUser</name>
@@ -73,10 +48,10 @@
 		<variable>
 			<name>filenetPw</name>
 			<value>uploadmulti001!</value>
-		</variable>        
+		</variable>
         <variable>
         	<name>azureConnectionString</name>
-            <value>DefaultEndpointsProtocol=https;AccountName=demofilete;AccountKey=DxJFBJHS20WdzuaL7uJ1EXwOYrl93N3rc2nBcCRe3keo7iJWQDKo4BNGXIdkdfHHWZ8CoEeTeFzGKSB8LRJ+tg==</value>
+            <value>DefaultEndpointsProtocol=https;AccountName=uploadmulticanale;AccountKey=DxJFBJHS20WdzuaL7uJ1EXwOYrl93N3rc2nBcCRe3keo7iJWQDKo4BNGXIdkdfHHWZ8CoEeTeFzGKSB8LRJ+tg==</value>
         </variable>
         <variable>
         	<name>azureMaxExpirationTimeMinutes</name>
@@ -85,38 +60,18 @@
         <variable>
         	<name>azureSafeOffsetStartTimeMinutes</name>
             <value>15</value>
-        </variable>
+        </variable>		
         <variable>
         	<name>env</name>
-            <value>SVIL</value>
+            <value>test</value>
         </variable>
 	</variable-definition>
 	<module-override>
 		<module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
-        <module-type>war</module-type>
+		<module-type>war</module-type>
 		<module-descriptor external="false">
 			<root-element>web-app</root-element>
 			<uri>WEB-INF/web.xml</uri>
-			<variable-assignment>
-				<name>myhost</name>
-				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-HOST&quot;]/env-entry-value</xpath>
-				<operation>replace</operation>
-			</variable-assignment>
-			<variable-assignment>
-				<name>myport</name>
-				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-PORT&quot;]/env-entry-value</xpath>
-				<operation>replace</operation>
-			</variable-assignment>
-			<variable-assignment>
-				<name>myusername</name>
-				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-USERNAME&quot;]/env-entry-value</xpath>
-				<operation>replace</operation>
-			</variable-assignment>
-			<variable-assignment>
-				<name>mypassword</name>
-				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-PASSWORD&quot;]/env-entry-value</xpath>
-				<operation>replace</operation>
-			</variable-assignment>
 			<variable-assignment>
 				<name>mylogback</name>
 				<xpath>/web-app/env-entry/[env-entry-name=&quot;LOGBACK-CONFIG&quot;]/env-entry-value</xpath>
@@ -139,37 +94,21 @@
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
-                <description>filesystem path terminated</description>
                 <name>pathNasIb</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-IB&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
-                <description>filesystem path terminated</description>
-                <name>pathNasPs</name>
-                <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-PS&quot;]/env-entry-value</xpath>
-                <operation>replace</operation>
-            </variable-assignment>
-            <variable-assignment>
-                <description>filesystem path terminated</description>
                 <name>pathNasRv</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-RV&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
-                <description>filesystem path terminated</description>
                 <name>deletedPathNasIb</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-IB&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
-                <description>filesystem path terminated</description>
-                <name>deletedPathNasPs</name>
-                <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-PS&quot;]/env-entry-value</xpath>
-                <operation>replace</operation>
-            </variable-assignment>
-            <variable-assignment>
-                <description>filesystem path terminated</description>
                 <name>deletedPathNasRv</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-RV&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
@@ -208,7 +147,8 @@
                 <name>azureSafeOffsetStartTimeMinutes</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;AZURE-SAFE-OFFESET-START-TIME-MINUTES&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
-            </variable-assignment>
+            </variable-assignment>			
 		</module-descriptor>
 	</module-override>
+
 </deployment-plan>
