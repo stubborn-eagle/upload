@@ -310,7 +310,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 				String nameFile =  ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase(); 
 				log.debug("NOME FILE SUL NAS", nameFile);
 				response = nasService.deleteFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
-				log.info("deleteFileNAS: operation succesfully returned.");
+				log.debug("deleteFileNAS: operation succesfully returned.");
 			} catch (TechnicalException e) {
 				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
 			}
@@ -354,7 +354,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM " + e.getMessage());
 		}
-		log.info("deleteFileECM returns: " + result);
+		log.debug("deleteFileECM returns: " + result);
 		log.debug("deleteFileECM: Exiting");
 		return result;
 	}
@@ -401,6 +401,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			
 			// Load file from NAS
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE", nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH", ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE", ecmResponse.getResult().getSource());
 			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
 			
@@ -416,7 +419,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			updateECMRequest.setIdFileECM(idFileECM);
 			updateECMRequest.setNameApp(request.getEcmParam().getNameApp());
 			updateECMRequest.setState(ECMState.MOVED);
-			log.debug("CHIAMATA A UPDATEMEDIA - INIZIO");
+			log.debug("CHIAMATA A UPDATEMEDIA - INIZIO - DATI REQUEST", updateECMRequest.toString());
 			updateMedia(updateECMRequest, new HeaderInputType());
 			log.debug("CHIAMATA A UPDATEMEDIA - FINE");
 			
@@ -430,6 +433,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
 		response.setResult(moveDTO);
+		log.debug("moveFile: Entering");
 		return response;
 	}
 

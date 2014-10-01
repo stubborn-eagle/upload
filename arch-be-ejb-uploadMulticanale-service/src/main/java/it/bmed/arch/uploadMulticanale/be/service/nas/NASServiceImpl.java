@@ -97,6 +97,7 @@ public class NASServiceImpl implements NASService {
 			String destinationPathname="";
 			
 			destinationPathname = getDestinationPathFromSource(source);
+			logger.debug("Destination PATH From Source ", destinationPathname);
 			if ( destinationPathname != null && destinationPathname.length() == 0) {
 				throw new DevelopmentException("Path di upload non configurato");
 			}else{
@@ -263,6 +264,7 @@ public class NASServiceImpl implements NASService {
 	
 	private String getDestinationPathFromSource(ECMSource source) throws TechnicalException {
 		String destinationPathname = null;
+		logger.debug("Settings Bean TO STRING", settingsBean.toString());
 		try {
 			switch (source) {
 			case INTERNET_BANKING:

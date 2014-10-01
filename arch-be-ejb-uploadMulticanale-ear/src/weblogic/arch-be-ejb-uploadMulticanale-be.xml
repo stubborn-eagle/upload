@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+                <encoder>
+                        <Pattern>%d{HH:mm:ss.SSS} {%thread} %-5level %logger{36} - %msg%n
+                        </Pattern>
+                </encoder>
+        </appender>
+
+                <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+                <file>${domain.home}/apps-logs/arch-be-ejb-uploadMulticanale-be.log</file>
+
+                <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+<!--                     daily rollover  -->
+                                <fileNamePattern>${domain.home}/apps-logs/umc-be.log_%d{MMdd}</fileNamePattern>
+
+                        <maxHistory>5</maxHistory>
+                </rollingPolicy>
+                <encoder>
+                        <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} {%thread} %-5level %logger{36} - %msg%n</pattern>
+                </encoder>
+        </appender>
+
+
+        <logger name="org.hibernate.SQL" level="INFO" />
+        <logger name="it.bmed" level="INFO" />
+        <logger name="org.springframework.transaction" level="INFO" />
+        <logger name="org.springframework.orm" level="INFO" />
+        <logger name="org.aspectj" level="INFO" />
+        <logger name="org.springframework.aop" level="INFO" />
+
+        <root level="ERROR">
+                <appender-ref ref="FILE" />
+        </root>
+</configuration>
+

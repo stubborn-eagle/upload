@@ -61,6 +61,61 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		int result = 0;
 		
 		try {
+			log.debug("INSERT MEDIA >>>>>>>>>>>>>>>>>>", "insert into qpush_be.ECM_FILE ("
+							+ "COD_UPLD_FILE_INTERN, " 	// PK
+							+ "COD_TIPO_ECM, "
+							+ "COD_TIPO_PROVNZ_FILE, "	// Required 
+							+ "COD_STATO_ECM, "			// Required
+							+ "DES_APPLICNE, " 			// Required
+							+ "DES_DEST_PATH, "
+							+ "DEN_CNTR, " 
+							+ "COD_TIPO_CANA, "			// Required
+							+ (ecmFile.getUserType() == null ? "" : "COD_TIPO_UTE, ") 
+							+ "DEN_FILE, "				// Required
+							+ (ecmFile.getSourcePath() == null ? "" : "DES_SORG_PATH, ")
+							+ (ecmFile.getIdFileECM() == null ? "" : "COD_UPLD_FILE_ECM, ")
+							+ (ecmFile.getType() == null ? "" : "DEN_ESTNS_FILE, ") 
+							+ (ecmFile.getNameApp() == null ? "" : "GSTD_M_NOM_ULT_MODF, ")
+							+ "GSTD_X_USER, " 			// Required
+							+ "GSTD_D_ULT_MODF_RECORD, "
+							+ "GSTD_D_INS_RECORD, " 
+							+ "GSTD_X_TIP_MODF, "
+							+ "GSTD_F_ESIST) " 			// Required
+							+ "values  "
+							//+ "( qpush_be.ECM_FILE_SEQ.nextval, "
+							+ "("
+							+ resultSeq  //modvale
+							+ ",  "    //modvale
+							+ (ecmFile.getEcmType() == null ? "NULL" : ecmFile.getEcmType().getValue())
+							+ ",  "
+							+ ecmFile.getSource().getValue()
+							+ ",  "
+							+ ecmFile.getState().getValue()
+							+ ",  '"
+							+ ecmFile.getNameApp()
+							+ "',  '"
+							+ (ecmFile.getDestinationPath() == null ? "" : ecmFile.getDestinationPath())
+							+ "',  '"
+							+ (ecmFile.getContainerType() == null ? "" :  ecmFile.getContainerType())
+							+ "',  '"
+							+ ecmFile.getChannel()
+							+ "', '"
+							+ (ecmFile.getUserType() == null ? "" : ecmFile.getUserType())
+							+ "', '"
+							+ ecmFile.getNameFile()
+							+ "', '"
+							+ (ecmFile.getSourcePath() == null ? "" : ecmFile.getSourcePath())
+							+ "',  '"
+							+ (ecmFile.getIdFileECM() == null ? "" : ecmFile.getIdFileECM())
+							+ "',  '"
+							+ (ecmFile.getType() == null ? "" : ecmFile.getType())
+							+ "',  '"
+							+ (ecmFile.getNameApp() == null ? "" : ecmFile.getNameApp())
+							+ "',  '"
+							+ ecmFile.getUserId()
+							+ "', "
+							+ " sysdate, "
+							+ " sysdate, " + "'I', " + "'S' )");
 
 			result = getJdbcTemplate().update(
 					"insert into qpush_be.ECM_FILE ("
@@ -189,7 +244,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		StringBuilder queryStrBuilder = new StringBuilder()
 				.append("SELECT * FROM qpush_be.ECM_FILE WHERE 1= 1 "
 						+ whereClause);
-		log.debug("QUERY CommandDataMove : {}", queryStrBuilder);
+		log.debug("LIST MEDIA QUERY CommandDataMove : {}", queryStrBuilder);
 
 		try {
 
@@ -326,10 +381,15 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		if (request.getEcmType() == null) {
 			
 		} 		
+		
 		String Destinazione_path = "" + request.getDestinationPath();
+		log.debug("UPDATE MEDIA - DESTINATION PATH:", Destinazione_path);
 		String idFileECM = "" + request.getIdFileECM();
+		log.debug("UPDATE MEDIA - ID FILE ECM:", idFileECM);
 		String Container_type = "" + request.getContainerType();
+		log.debug("UPDATE MEDIA - CONTAINER TYPE:", Container_type);
 		String NomeApp = "" + request.getNameApp();
+		log.debug("UPDATE MEDIA - NAME APP:", NomeApp);
 
 		String campo1 = " COD_UPLD_FILE_INTERN = " + request.getIdFile() + "";
 		
@@ -361,6 +421,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 				+ campo6
 				+ campo7
 				+ " WHERE " + campo1 + " ";
+		
 		log.debug(" DAO query {} " + query);
 
 		try {
