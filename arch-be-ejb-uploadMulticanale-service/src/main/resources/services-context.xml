@@ -67,6 +67,10 @@
 		<property name="multiFilingServiceWsdlUrl" value="" />
 		<property name="policyServiceWsdlUrl" value="" />
 		<property name="aclServiceWsdlUrl" value="" />
+		
+		<!-- FILENET CONNECTION SETTINGS -->
+		<property name="filenetUrl" ref="filenetUrl" />
+	
 	</bean>
 	
 	<bean id="settingsBean" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceSettingsBean">

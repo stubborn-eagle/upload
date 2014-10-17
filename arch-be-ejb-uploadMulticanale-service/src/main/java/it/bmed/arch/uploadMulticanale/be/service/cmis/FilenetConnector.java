@@ -23,6 +23,7 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.ws.BindingProvider;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -40,6 +41,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 			.getLogger(FilenetConnector.class);
 	@Autowired
 	private CommandServiceLocator ejbServiceLocator; // it.bmed.asia.utility.CommandServiceLocatorImpl
+	private String filenetUrl = null;
 
 	@HandlerChain(file = "handler-chain-be.xml")
 	public static class FileNetFactory extends WSGDIImplService implements
@@ -84,9 +86,17 @@ public class FilenetConnector extends AbstractECMConnector implements
 	
 	
 	public <SERVICE,FACT extends AsiaWsClientFactory<SERVICE>> SERVICE getWsClient(Class<FACT> factoryClass)  throws Exception {
-		AsiaWsClientBuilder<SERVICE> handler = new AsiaWsClientBuilder<SERVICE>(factoryClass);
-		SERVICE realService = handler.getPort();
-		return realService;
+		
+		FACT realService = factoryClass.newInstance();
+		SERVICE port = (SERVICE) realService.getPort();
+		BindingProvider bp = (BindingProvider) port;
+		String url = getFilenetUrl(); 
+		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
+		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 15000); // inserire altre due variabili nel web.xml
+		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 5000);  //
+
+
+		return port;
 	}
 
 	@Override
@@ -208,6 +218,16 @@ public class FilenetConnector extends AbstractECMConnector implements
 	public String getECMToken(String request) throws AsiaException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	public String getFilenetUrl() {
+		return filenetUrl;
+	}
+
+
+	public void setFilenetUrl(String filenetUrl) {
+		this.filenetUrl = filenetUrl;
 	}
 
 }
