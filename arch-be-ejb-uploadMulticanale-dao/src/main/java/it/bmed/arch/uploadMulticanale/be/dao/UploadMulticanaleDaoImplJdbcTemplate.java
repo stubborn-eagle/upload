@@ -108,7 +108,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							+ "',  '"
 							+ (ecmFile.getIdFileECM() == null ? "" : ecmFile.getIdFileECM())
 							+ "',  '"
-							+ (ecmFile.getType() == null ? "" : ecmFile.getType())
+							+ (ecmFile.getType() == null ? "" : ecmFile.getType().toLowerCase())
 							+ "',  '"
 							+ (ecmFile.getNameApp() == null ? "" : ecmFile.getNameApp())
 							+ "',  '"
