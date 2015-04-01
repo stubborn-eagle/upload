@@ -8,6 +8,7 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
+import it.bmed.arch.uploadMulticanale.be.util.Util;
 import it.bmed.asia.api.CommonUtils;
 import it.bmed.asia.exception.ApplicationException;
 import it.bmed.asia.exception.AsiaException;
@@ -16,6 +17,7 @@ import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import javax.sql.DataSource;
@@ -82,7 +84,9 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							+ "GSTD_X_TIP_MODF, "
 							+ "GSTD_F_ESIST) " 			// Required
 							+ "values  "
-							//+ "( qpush_be.ECM_FILE_SEQ.nextval, "
+							
+							//+ "( qpush_be.ECM_FILE_SEQ.nextval, " DEN_CNTR, DEN_FILE, DES_SORG_PATH 
+
 							+ "("
 							+ resultSeq  //modvale
 							+ ",  "    //modvale
@@ -236,10 +240,40 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 				: "and  COD_TIPO_ECM = " + ecmFile.getEcmType().getValue() + " ";
 		String and6 = ecmFile.getIdFile() == null || ecmFile.getIdFile() == 0 ? ""
 				: "and  COD_UPLD_FILE_INTERN = " + ecmFile.getIdFile() + " ";
+		String and7 = (ecmFile.getState() != null && !ecmFile.getState().name().equals("")) ? " and COD_STATO_ECM = " + ecmFile.getState().getValue().intValue()
+				: " and COD_STATO_ECM <> " + ECMState.DELETED.getValue().intValue();
+		String and8 = ecmFile.getDestinationPath() == null || "".equals(ecmFile.getDestinationPath()) ? "" 
+				: " and DES_DEST_PATH = '" +  ecmFile.getDestinationPath() + "'";
+		String and9 = ecmFile.getSourcePath() == null || "".equals(ecmFile.getSourcePath()) ? "" 
+				: " and DES_SORG_PATH = '" +  ecmFile.getSourcePath() + "'";
+		String and10 = ecmFile.getNameFile() == null || "".equals(ecmFile.getNameFile()) ? "" 
+				: " and DEN_FILE = '" +  ecmFile.getNameFile() + "'";
+		String and11 = ecmFile.getContainerType() == null || "".equals(ecmFile.getContainerType()) ? "" 
+				: " and DEN_CNTR = '" +  ecmFile.getContainerType() + "'";
+		
+		String and12 = "";
+		String and13 = "";
+		if(ecmFile.getDataInserimento()<=0){
+			Date d = Util.convertLongToDate(ecmFile.getDataInserimento());	
+			String dataInserimento = Util.formattedDate(d);
+			and12 = "and trunc(GSTD_D_INS_RECORD) = to_date('" + dataInserimento + "','" + Util.DATE_LOCAL_FORMAT + "')";
+		}
+		 
+		if(ecmFile.getDataModifica()<=0){
+			Date d = Util.convertLongToDate(ecmFile.getDataModifica());	
+			String dataModifica = Util.formattedDate(d);
+			and13 = "and trunc(GSTD_D_ULT_MODF_RECORD) = to_date('" + dataModifica + "','" + Util.DATE_LOCAL_FORMAT + "')";
+		}
+
+
+		
+
+		
+				
 
 //		ecmFile.getNameApp()
 		
-		String whereClause = and1 + and2 + and3 + and4 + and5 + and6;
+		String whereClause = and1 + and2 + and3 + and4 + and5 + and6 + and7 + and8 + and9 + and10 + and11 + and12 + and13;
 
 		StringBuilder queryStrBuilder = new StringBuilder()
 				.append("SELECT * FROM qpush_be.ECM_FILE WHERE 1= 1 "
@@ -317,6 +351,13 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							te.setState(ecmState);
 							te.setType(rs.getString("DEN_ESTNS_FILE"));
 							te.setUserType(rs.getString("COD_TIPO_UTE"));
+							if(rs.getDate("GSTD_D_INS_RECORD")!=null){
+								te.setDataInserimento(rs.getDate("GSTD_D_INS_RECORD").getTime());
+							}	
+							
+							if(rs.getDate("GSTD_D_ULT_MODF_RECORD")!=null){
+								te.setDataModifica(rs.getDate("GSTD_D_ULT_MODF_RECORD").getTime());
+							}
 							
 							/*
 							 * COD_UPLD_FILE_INTERN INTEGER NOT NULL , ID_FILE

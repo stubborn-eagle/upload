@@ -194,7 +194,10 @@ public class NASServiceImpl implements NASService {
 	private void copyFile(String sourcePathname, String destinationPathname, String filename) throws IOException {
 		File srcfile = new File(sourcePathname);
 		File destFile = new File(destinationPathname + filename);
-		
+//		if(destFile.exists()){
+//			destFile.renameTo(NEWNAME);
+//		}
+//		System.currentTimeMillis();
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		
