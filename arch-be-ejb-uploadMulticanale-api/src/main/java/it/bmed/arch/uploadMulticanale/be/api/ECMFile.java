@@ -240,6 +240,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the dataInserimento
 	 */
+	@XmlElement(nillable=true, required=false)
 	public long getDataInserimento() {
 		return dataInserimento;
 	}
@@ -252,6 +253,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the dataModifica
 	 */
+	@XmlElement(nillable=true, required=false)
 	public long getDataModifica() {
 		return dataModifica;
 	}
@@ -420,8 +422,11 @@ public class ECMFile implements Serializable {
 				+ destinationPath + ", type=" + type + ", userType=" + userType
 				+ ", ecmType=" + ecmType + ", source=" + source + ", state="
 				+ state + ", idFile=" + idFile + ", dataInserimento="
-				+ dataInserimento + ", dataModifica=" + dataModifica + "]";
+				+ dataInserimento + ", dataModifica=" + dataModifica 
+				+ "]";
 	}
+
+	
 	
 	
 	
