@@ -12,9 +12,7 @@
 <variable>
 			<name>alfrescoUrl</name>
 			<value>https://test-alfresco.mediolanum.it</value>
-
 			<description>The Alfresco URL terminated with '/'</description>
-
 		</variable>
 		<variable>
 			<name>alfrescoUser</name>
@@ -27,7 +25,6 @@
 		<variable>
 			<name>pathNasIb</name>
 			<value>/mediabustest/Clientitest</value>
-
 		</variable>
 		<variable>
 			<name>pathNasPs</name>
