@@ -256,13 +256,13 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		if(ecmFile.getDataInserimento()>0){
 			Date d = Util.convertLongToDate(ecmFile.getDataInserimento());	
 			String dataInserimento = Util.formattedDate(d);
-			and12 = "and trunc(GSTD_D_INS_RECORD) = to_date('" + dataInserimento + "','" + Util.DATE_LOCAL_FORMAT + "')";
+			and12 = "and trunc(GSTD_D_INS_RECORD) = to_date('" + dataInserimento + "','" + Util.DEFAULT_DATE_FORMAT + "')";
 		}
 		 
 		if(ecmFile.getDataModifica()>0){
 			Date d = Util.convertLongToDate(ecmFile.getDataModifica());	
 			String dataModifica = Util.formattedDate(d);
-			and13 = "and trunc(GSTD_D_ULT_MODF_RECORD) = to_date('" + dataModifica + "','" + Util.DATE_LOCAL_FORMAT + "')";
+			and13 = "and trunc(GSTD_D_ULT_MODF_RECORD) = to_date('" + dataModifica + "','" + Util.DEFAULT_DATE_FORMAT + "')";
 		}
 
 
