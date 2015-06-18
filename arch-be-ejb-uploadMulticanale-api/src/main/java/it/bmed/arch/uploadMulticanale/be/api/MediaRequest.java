@@ -1,9 +1,13 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import it.bmed.asia.api.BaseBeRequest;
 import it.bmed.asia.api.CommonUtils;
 import it.bmed.asia.api.RequestMetaData;
 
+@XmlType(name="MediaRequestType")
 public class MediaRequest extends BaseBeRequest {
 
 	/**
@@ -17,6 +21,7 @@ public class MediaRequest extends BaseBeRequest {
 		this.mediaDTO = new MediaDTO();
 	}
 
+	@XmlElement(nillable=false, required=true)
 	public MediaDTO getMediaDTO() {
 		return mediaDTO;
 	}

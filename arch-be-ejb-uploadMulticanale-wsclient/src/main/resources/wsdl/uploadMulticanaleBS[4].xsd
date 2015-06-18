@@ -24,6 +24,8 @@
 <xs:sequence>
 <xs:element name="channel" type="xs:string" minOccurs="0"/>
 <xs:element name="containerType" type="xs:string" minOccurs="0"/>
+<xs:element name="dataInserimento" type="xs:long"  minOccurs="0"/> 
+<xs:element name="dataModifica" type="xs:long"  minOccurs="0"/> 
 <xs:element name="destinationPath" type="xs:string" minOccurs="0"/>
 <xs:element name="ecmType" type="tns:ecmType" minOccurs="0"/>
 <xs:element name="idFile" type="xs:int" minOccurs="0"/>

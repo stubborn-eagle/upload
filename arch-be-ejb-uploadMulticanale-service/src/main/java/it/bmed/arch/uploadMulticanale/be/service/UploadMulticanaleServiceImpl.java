@@ -26,6 +26,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+		
 		System.out.println("uploadMulticanaleDaoJdbcTemplate: " + uploadMulticanaleDaoJdbcTemplate.getClass().getName());
 		if (uploadMulticanaleDaoJdbcTemplate == null)
 			throw new Exception(
@@ -34,6 +35,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 
 	@Override
 	public ECMResponse insertMedia(ECMRequest request) throws TechnicalException, Exception {
+		ECMResponse response = new ECMResponse();
 		try {
 			// check required parameters
 			checkRequiredParametersInsertMedia(request);
@@ -41,7 +43,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			checkParametersLengthInsertMedia(request);
 
 			log.debug(" insertMedia: parametri  corretti.");
-			ECMResponse response = new ECMResponse();
+			
 			response = uploadMulticanaleDaoJdbcTemplate.insertMedia(request);
 			return response;
 		} catch (ApplicationException e) {
@@ -51,7 +53,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 		} catch (RuntimeException e) {
 			log.error("insertMedia: " + e.getMessage());
 			throw e;
-		}
+		} 
 
 	}
 
@@ -178,7 +180,7 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 //		if (ecmFile.getContainerType().isEmpty()) {
 //			parameterError(method, "containerType", emptyCause);
 //		}		
-		if (ecmFile.getContainerType() != null && ecmFile.getContainerType().length() > 20) {
+		if (ecmFile.getContainerType() != null && ecmFile.getContainerType().length() > 30) {
 			parameterError(method, "containerType", exeedCause);
 		}
 		

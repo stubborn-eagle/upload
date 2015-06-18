@@ -7,11 +7,14 @@
 	<variable-definition>
 		<variable>
 			<name>mylogback</name>
-			<value>apps-properties/arch-be-ejb-uploadMulticanale-be.xml</value>
+			<value>apps-properties/arch-logback-be.xml</value>
 		</variable>
-		<variable>
+<variable>
 			<name>alfrescoUrl</name>
 			<value>https://test-alfresco.mediolanum.it</value>
+
+			<description>The Alfresco URL terminated with '/'</description>
+
 		</variable>
 		<variable>
 			<name>alfrescoUser</name>
@@ -24,6 +27,12 @@
 		<variable>
 			<name>pathNasIb</name>
 			<value>/mediabustest/Clientitest</value>
+
+		</variable>
+		<variable>
+			<name>pathNasPs</name>
+			<value>/mediabustest/Promotoritest</value>
+
 		</variable>
 		<variable>
 			<name>pathNasRv</name>
@@ -31,11 +40,15 @@
 		</variable>
 		<variable>
 			<name>deletedPathNasIb</name>
-			<value>/mediabustest/Clientitest/multichannel-upload-deleted</value>
+			<value>/mediabustest/Clientitest/multichannel-upload-deleted/</value>
+		</variable>
+		<variable>
+			<name>deletedPathNasPs</name>
+			<value>/mediabustest/Promotoritest/multichannel-upload-deleted/</value>
 		</variable>
 		<variable>
 			<name>deletedPathNasRv</name>
-			<value>/mediabustest/Promotoritest/multichannel-upload-deleted</value>
+			<value>/mediabustest/Promotoritest/multichannel-upload-deleted/</value>
 		</variable>
 		<variable>
 			<name>filenetUrl</name>
@@ -152,3 +165,4 @@
 	</module-override>
 
 </deployment-plan>
+

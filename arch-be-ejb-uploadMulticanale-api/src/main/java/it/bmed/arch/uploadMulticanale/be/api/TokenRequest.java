@@ -5,10 +5,15 @@ package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author andrea.perrotta
  *
  */
+@XmlType(name="TokenRequestType")
+
 public class TokenRequest implements Serializable {
 
 	/**
@@ -22,6 +27,7 @@ public class TokenRequest implements Serializable {
 	/**
 	 * @return the ecmParam
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMParam getEcmParam() {
 		return ecmParam;
 	}

@@ -6,16 +6,20 @@ import it.bmed.asia.api.RequestMetaData;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * 
  * DTO for Azure Token Generation request
  *
  */
+@XmlType(name="AzureRequestType")
 public class AzureRequest extends BaseBeRequest {
 	
 
 	private static final long serialVersionUID = 1L;
-	private RequestMetaData requestMetaData =null;
+	private RequestMetaData requestMetaData = null;
 
 	/**
 	 * The target Azure Container containing  files that the token will allow access to.
@@ -45,7 +49,7 @@ public class AzureRequest extends BaseBeRequest {
 	 */
 	private String resourceBlobFile;
 	
-	
+	@XmlElement(nillable=true, required=true)
 	public String getResourceBlobFile() {
 		return resourceBlobFile;
 	}
@@ -69,7 +73,8 @@ public class AzureRequest extends BaseBeRequest {
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 	}
-
+	
+	@XmlElement(nillable=true, required=true)
 	public Date getExpirationTime() {
 		return expirationTime;
 	}

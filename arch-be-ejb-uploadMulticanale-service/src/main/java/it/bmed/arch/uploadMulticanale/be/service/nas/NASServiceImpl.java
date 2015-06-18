@@ -97,6 +97,7 @@ public class NASServiceImpl implements NASService {
 			String destinationPathname="";
 			
 			destinationPathname = getDestinationPathFromSource(source);
+			logger.debug("Destination PATH From Source ", destinationPathname);
 			if ( destinationPathname != null && destinationPathname.length() == 0) {
 				throw new DevelopmentException("Path di upload non configurato");
 			}else{
@@ -106,10 +107,7 @@ public class NASServiceImpl implements NASService {
 					}
 
 				}
-			}
-		
-			
-						
+			}	
 						
 			InputStream inputStream = null;
 			File file = null;
@@ -148,7 +146,7 @@ public class NASServiceImpl implements NASService {
 		}
 
 	@Override
-	public void saveFile(InputStream fileStream, String nameFile, ECMSource source) throws TechnicalException, Exception {
+	public void saveFile(InputStream fileStream, String nameFile, ECMSource source, String sourcePath) throws TechnicalException, Exception {
 		logger.debug("saveFile called. ");
 		String destinationPath = null;
 		if (settingsBean == null) {
@@ -156,10 +154,25 @@ public class NASServiceImpl implements NASService {
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "settingsBean is null");
 		} 		
 		destinationPath = getDestinationPathFromSource(source);
+		
+		if ( destinationPath != null && destinationPath.length() == 0) {
+            throw new DevelopmentException("Path di upload non configurato");
+	      }else{
+	            if(sourcePath != null && !sourcePath.contains("../")){
+	               if(!sourcePath.isEmpty()){
+	            	   destinationPath += "/"+sourcePath;
+	            }
+	                 
+	       }
+	 }
+	
+			
+	String sourcePathname = destinationPath + "/"+ nameFile + ".pdf";
+		
 		FileOutputStream fileToBeSaved = null;
 		// pay attention destinationPath must be slash ended
 		try {
-			fileToBeSaved = new FileOutputStream(destinationPath + nameFile + ".pdf");
+			fileToBeSaved = new FileOutputStream(sourcePathname);
 			int read = 0;
 			byte[] buffer = new  byte[1024];
 			// copy inputstream to outputstream
@@ -181,7 +194,10 @@ public class NASServiceImpl implements NASService {
 	private void copyFile(String sourcePathname, String destinationPathname, String filename) throws IOException {
 		File srcfile = new File(sourcePathname);
 		File destFile = new File(destinationPathname + filename);
-		
+//		if(destFile.exists()){
+//			destFile.renameTo(NEWNAME);
+//		}
+//		System.currentTimeMillis();
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		
@@ -251,6 +267,7 @@ public class NASServiceImpl implements NASService {
 	
 	private String getDestinationPathFromSource(ECMSource source) throws TechnicalException {
 		String destinationPathname = null;
+		logger.debug("Settings Bean TO STRING", settingsBean.toString());
 		try {
 			switch (source) {
 			case INTERNET_BANKING:

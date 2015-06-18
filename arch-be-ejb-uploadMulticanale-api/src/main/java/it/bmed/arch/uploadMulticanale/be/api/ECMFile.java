@@ -5,27 +5,33 @@ package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @author donatello.boccaforno
  *
  */
+@XmlType(name="ECMFileType")
 public class ECMFile implements Serializable {
 	private static final long serialVersionUID = 5155691486395220554L;
 	
-	private String channel;
-	private String containerType;
-	private String idFileECM;
-	private String userId;
-	private String nameApp;
-	private String nameFile;
-	private String sourcePath;
-	private String destinationPath;
-	private String type;
-	private String userType;
-	private ECMType ecmType;
-	private ECMSource source;
-	private ECMState state;
-	private Integer idFile;
+	protected String channel;
+	protected String containerType;
+	protected String idFileECM;
+	protected String userId;
+	protected String nameApp;
+	protected String nameFile;
+	protected String sourcePath;
+	protected String destinationPath;
+	protected String type;
+	protected String userType;
+	protected ECMType ecmType;
+	protected ECMSource source;
+	protected ECMState state;
+	protected Integer idFile;
+	protected long dataInserimento = 0L;
+	protected long dataModifica = 0L;
 	
 	
 	
@@ -46,12 +52,14 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the channel
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getChannel() {
 		return channel;
 	}
 	/**
 	 * @return the source
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMSource getSource() {
 		return source;
 	}
@@ -70,6 +78,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the containerType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getContainerType() {
 		return containerType;
 	}
@@ -82,6 +91,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the idFileECM
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getIdFileECM() {
 		return idFileECM;
 	}
@@ -94,6 +104,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the userId
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getUserId() {
 		return userId;
 	}
@@ -106,6 +117,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the nameApp
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getNameApp() {
 		return nameApp;
 	}
@@ -118,6 +130,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the nameFile
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getNameFile() {
 		return nameFile;
 	}
@@ -130,6 +143,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the sourcePath
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getSourcePath() {
 		return sourcePath;
 	}
@@ -144,6 +158,7 @@ public class ECMFile implements Serializable {
 	 * The path must be a full qualified path, including the slash terminator.
 	 * @return the destinationPath
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getDestinationPath() {
 		return destinationPath;
 	}
@@ -159,6 +174,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the type
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getType() {
 		return type;
 	}
@@ -171,6 +187,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the userType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getUserType() {
 		return userType;
 	}
@@ -183,6 +200,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the ecmType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMType getEcmType() {
 		return ecmType;
 	}
@@ -195,6 +213,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the state
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMState getState() {
 		return state;
 	}
@@ -207,6 +226,7 @@ public class ECMFile implements Serializable {
 	/**
 	 * @return the idFile
 	 */
+	@XmlElement(nillable=false, required=true)
 	public Integer getIdFile() {
 		return idFile;
 	}
@@ -215,6 +235,39 @@ public class ECMFile implements Serializable {
 	 */
 	public void setIdFile(Integer idFile) {
 		this.idFile = idFile;
+	}
+
+	/**
+	 * @return the dataInserimento
+	 */
+	@XmlElement(nillable=true, required=false)
+	public long getDataInserimento() {
+		return dataInserimento;
+	}
+	/**
+	 * @param dataInserimento the dataInserimento to set
+	 */
+	public void setDataInserimento(long dataInserimento) {
+		this.dataInserimento = dataInserimento;
+	}	
+	/**
+	 * @return the dataModifica
+	 */
+	@XmlElement(nillable=true, required=false)
+	public long getDataModifica() {
+		return dataModifica;
+	}
+	/**
+	 * @param dataModifica the dataModifica to set
+	 */
+	public void setDataModifica(long dataModifica) {
+		this.dataModifica = dataModifica;
+	}
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -226,6 +279,9 @@ public class ECMFile implements Serializable {
 		result = prime * result + ((channel == null) ? 0 : channel.hashCode());
 		result = prime * result
 				+ ((containerType == null) ? 0 : containerType.hashCode());
+		result = prime * result
+				+ (int) (dataInserimento ^ (dataInserimento >>> 32));
+		result = prime * result + (int) (dataModifica ^ (dataModifica >>> 32));
 		result = prime * result
 				+ ((destinationPath == null) ? 0 : destinationPath.hashCode());
 		result = prime * result + ((ecmType == null) ? 0 : ecmType.hashCode());
@@ -250,74 +306,108 @@ public class ECMFile implements Serializable {
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (!(obj instanceof ECMFile)) {
 			return false;
+		}
 		ECMFile other = (ECMFile) obj;
 		if (channel == null) {
-			if (other.channel != null)
+			if (other.channel != null) {
 				return false;
-		} else if (!channel.equals(other.channel))
+			}
+		} else if (!channel.equals(other.channel)) {
 			return false;
+		}
 		if (containerType == null) {
-			if (other.containerType != null)
+			if (other.containerType != null) {
 				return false;
-		} else if (!containerType.equals(other.containerType))
+			}
+		} else if (!containerType.equals(other.containerType)) {
 			return false;
+		}
+		if (dataInserimento != other.dataInserimento) {
+			return false;
+		}
+		if (dataModifica != other.dataModifica) {
+			return false;
+		}
 		if (destinationPath == null) {
-			if (other.destinationPath != null)
+			if (other.destinationPath != null) {
 				return false;
-		} else if (!destinationPath.equals(other.destinationPath))
+			}
+		} else if (!destinationPath.equals(other.destinationPath)) {
 			return false;
-		if (ecmType != other.ecmType)
+		}
+		if (ecmType != other.ecmType) {
 			return false;
+		}
 		if (idFile == null) {
-			if (other.idFile != null)
+			if (other.idFile != null) {
 				return false;
-		} else if (!idFile.equals(other.idFile))
+			}
+		} else if (!idFile.equals(other.idFile)) {
 			return false;
+		}
 		if (idFileECM == null) {
-			if (other.idFileECM != null)
+			if (other.idFileECM != null) {
 				return false;
-		} else if (!idFileECM.equals(other.idFileECM))
+			}
+		} else if (!idFileECM.equals(other.idFileECM)) {
 			return false;
+		}
 		if (nameApp == null) {
-			if (other.nameApp != null)
+			if (other.nameApp != null) {
 				return false;
-		} else if (!nameApp.equals(other.nameApp))
+			}
+		} else if (!nameApp.equals(other.nameApp)) {
 			return false;
+		}
 		if (nameFile == null) {
-			if (other.nameFile != null)
+			if (other.nameFile != null) {
 				return false;
-		} else if (!nameFile.equals(other.nameFile))
+			}
+		} else if (!nameFile.equals(other.nameFile)) {
 			return false;
-		if (source != other.source)
+		}
+		if (source != other.source) {
 			return false;
+		}
 		if (sourcePath == null) {
-			if (other.sourcePath != null)
+			if (other.sourcePath != null) {
 				return false;
-		} else if (!sourcePath.equals(other.sourcePath))
+			}
+		} else if (!sourcePath.equals(other.sourcePath)) {
 			return false;
-		if (state != other.state)
+		}
+		if (state != other.state) {
 			return false;
+		}
 		if (type == null) {
-			if (other.type != null)
+			if (other.type != null) {
 				return false;
-		} else if (!type.equals(other.type))
+			}
+		} else if (!type.equals(other.type)) {
 			return false;
+		}
 		if (userId == null) {
-			if (other.userId != null)
+			if (other.userId != null) {
 				return false;
-		} else if (!userId.equals(other.userId))
+			}
+		} else if (!userId.equals(other.userId)) {
 			return false;
+		}
 		if (userType == null) {
-			if (other.userType != null)
+			if (other.userType != null) {
 				return false;
-		} else if (!userType.equals(other.userType))
+			}
+		} else if (!userType.equals(other.userType)) {
 			return false;
+		}
 		return true;
 	}
 	/* (non-Javadoc)
@@ -325,12 +415,20 @@ public class ECMFile implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "ECMFile [channel=" + channel + ", containerType="
+		return "${class.name} [channel=" + channel + ", containerType="
 				+ containerType + ", idFileECM=" + idFileECM + ", userId="
 				+ userId + ", nameApp=" + nameApp + ", nameFile=" + nameFile
 				+ ", sourcePath=" + sourcePath + ", destinationPath="
 				+ destinationPath + ", type=" + type + ", userType=" + userType
 				+ ", ecmType=" + ecmType + ", source=" + source + ", state="
-				+ state + ", idFile=" + idFile + "]";
+				+ state + ", idFile=" + idFile + ", dataInserimento="
+				+ dataInserimento + ", dataModifica=" + dataModifica 
+				+ "]";
 	}
+
+	
+	
+	
+	
+	
 }

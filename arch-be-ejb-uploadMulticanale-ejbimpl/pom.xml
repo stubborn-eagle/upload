@@ -5,11 +5,61 @@
 		<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 		<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-	</parent>
+	</parent>	
 	<artifactId>arch-be-ejb-uploadMulticanale-ejbimpl</artifactId>
 	<packaging>ejb</packaging>
+	<properties>
+             <asia_major_version>3</asia_major_version>
+             <asia_minor_version>1</asia_minor_version>
+             <asia_author>AutoreASIA</asia_author>
+             <asia_nome_logico_servizio>common</asia_nome_logico_servizio>
+             <asia_area>AsiaArea</asia_area>
+             <asia_name_schema>AsiaNameSchema</asia_name_schema>
+             <asia_creation_date>20/07/2013</asia_creation_date>
+             <asia_last_revision_date>30/09/2013</asia_last_revision_date>
+             <sei>it.bmed.arch.uploadMulticanale.be.ejbimpl.UploadMulticanaleRemoteImpl</sei>
+             <wsdl_nome_logico_servizio>UploadMulticanale</wsdl_nome_logico_servizio>
+             <gen_major_version>1</gen_major_version>
+             <gen_minor_version>0</gen_minor_version>
+             <gen_author>Andrea Perrotta</gen_author>
+    
+             
+    </properties>
 	<build>
 		<finalName>${project.parent.artifactId}</finalName>
+		<plugins>
+                  <plugin>
+                         <groupId>it.bmed.arch.gen</groupId>
+                         <artifactId>webservices</artifactId>
+                         <version>1.4</version>
+                         <executions>
+                                <execution>
+                                	  <phase>none</phase>                        
+                                      <goals>
+                                             <goal>generateWSDL</goal>
+                                      </goals>
+                                </execution>
+                         </executions>
+                         <configuration>
+                         		
+                                <sei>${sei}</sei>
+                                <wsdl_nome_logico_servizio>${wsdl_nome_logico_servizio}</wsdl_nome_logico_servizio>
+                                <gen_major_version>${gen_major_version}</gen_major_version>
+                                <gen_minor_version>${gen_minor_version}</gen_minor_version>
+                                <gen_author>${gen_author}</gen_author>
+                                <xsd_nome_logico_oggetto>${xsd_nome_logico_oggetto}</xsd_nome_logico_oggetto>
+                                <xsd_nome_schema>${xsd_nome_schema}</xsd_nome_schema>
+                                <xsd_area>${xsd_area}</xsd_area>
+                                <asia_major_version>${asia_major_version}</asia_major_version>
+                                <asia_minor_version>${asia_minor_version}</asia_minor_version>
+                                <asia_author>${asia_author}</asia_author>
+                                <asia_nome_logico_servizio>${asia_nome_logico_servizio}</asia_nome_logico_servizio>
+                                <asia_area>${asia_area}</asia_area>
+                                <asia_name_schema>${asia_name_schema}</asia_name_schema>
+                         </configuration>
+                  </plugin>
+             </plugins>
+		
 	</build>
 	<dependencies>
 		<dependency>
