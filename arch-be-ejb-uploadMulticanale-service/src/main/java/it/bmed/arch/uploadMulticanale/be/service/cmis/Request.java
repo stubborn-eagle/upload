@@ -1,5 +1,9 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import it.bmed.arch.uploadMulticanale.be.api.FileProperty;
+
+import java.util.ArrayList;
+
 public class Request {
 
 	private ObjectStore objectStore;
@@ -11,6 +15,7 @@ public class Request {
 	private Filiale filiale;
 	private SearchAction searchAction;
 	private DocContent docContent;
+	private ArrayList<FileProperty> property;
 	/**
 	 * @return the objectStore
 	 */
@@ -118,6 +123,12 @@ public class Request {
 	 */
 	public void setRuolo(Ruolo ruolo) {
 		this.ruolo = ruolo;
+	}
+	public ArrayList<FileProperty> getProperty() {
+		return property;
+	}
+	public void setProperty(ArrayList<FileProperty> property) {
+		this.property = property;
 	}
 	
 	

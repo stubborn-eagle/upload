@@ -100,6 +100,20 @@
 		</property>
 	</bean>
 	
+	<bean id="DefinedMetaData" class="it.bmed.arch.uploadMulticanale.be.service.cmis.DefinedMetaData">
+		<property name="metadata">
+			<map>
+				<entry key="CODICEFISCALE" value="CODICEFISCALE"/>
+				<entry key="CODICEDOC" value="CODICEDOC"/>
+				<entry key="DATARIF" value="DATARIF"/>
+				<entry key="ISTITUTO" value="ISTITUTO"/>
+				<entry key="NDG" value="NDG"/>
+				<entry key="LETTO" value="LETTO"/>
+				<entry key="LAYOUTLETTO" value="LAYOUTLETTO"/>
+			</map>
+		</property>
+	</bean>
+	
 	<!-- ALFRESCO SETTINGS LOOKUP -->
 	<jee:jndi-lookup id="alfrescoUrl" jndi-name="java:comp/env/ALFRESCO-URL" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="alfrescoUser" jndi-name="java:comp/env/ALFRESCO-USER" expected-type="java.lang.String" />

@@ -1,13 +1,25 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.interceptor.Interceptors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+
+import it.bmed.arch.uploadMulticanale.be.api.FileProperty;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
+
+
 
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
 
 public class RequestConverter implements Converter {
 
@@ -16,6 +28,17 @@ public class RequestConverter implements Converter {
 	}
 
 	static Logger log = LoggerFactory.getLogger(RequestConverter.class);
+	
+	private Map<String, String> properties;
+	{
+		properties = new HashMap<String, String>();
+		properties.put("CODICEFISCALE", "CODICEFISCALE");
+		properties.put("CODICEDOC", "CODICEDOC");
+		properties.put("DATARIF", "DATARIF");
+		properties.put("ISTITUTO", "ISTITUTO");
+		properties.put("NDG", "NDG");
+		properties.put("LETTO", "LETTO");
+	}
 
 	public void marshal(Object value, HierarchicalStreamWriter writer, MarshallingContext context) {
 		// System.out.println("MARSHAL -->");
@@ -61,6 +84,19 @@ public class RequestConverter implements Converter {
 //		} catch (Exception e) {
 //			log.warn("Errore nel creare il nodo {} ", "Index");
 //		}
+			
+			if(request!=null && request.getProperty()!=null && request.getProperty().size()>0){
+				for(FileProperty metadato : request.getProperty()){
+					log.debug("PROPERTY NAME: "+metadato.getName());
+					log.debug("PROPERTY VALUE: "+metadato.getValue());
+					if(properties.containsKey(metadato.getName())){
+						writer.startNode(metadato.getName());
+						writer.addAttribute("value", metadato.getValue());
+						writer.endNode();
+					}
+					
+				}
+			}
 
 //		try {
 			if (request.getIstituto().getValue() != null && request.getIstituto().getValue().length() > 0) {
