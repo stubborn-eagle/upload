@@ -1,7 +1,10 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import it.bmed.asia.api.BaseBeRequest;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+import it.bmed.asia.api.BaseBeRequest;
+@XmlType(name="UpdateECMRequestType")
 public class UpdateECMRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 487891423675206263L;
 	private Integer idFile;
@@ -23,6 +26,7 @@ public class UpdateECMRequest extends BaseBeRequest {
 	/**
 	 * @return the idFile
 	 */
+	@XmlElement(nillable=false, required=true)
 	public Integer getIdFile() {
 		return idFile;
 	}
@@ -35,6 +39,7 @@ public class UpdateECMRequest extends BaseBeRequest {
 	/**
 	 * @return the ecmType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMType getEcmType() {
 		return ecmType;
 	}
@@ -47,6 +52,7 @@ public class UpdateECMRequest extends BaseBeRequest {
 	/**
 	 * @return the state
 	 */
+	@XmlElement(nillable=false, required=true)
 	public ECMState getState() {
 		return state;
 	}
@@ -59,6 +65,7 @@ public class UpdateECMRequest extends BaseBeRequest {
 	/**
 	 * @return the destinationPath
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getDestinationPath() {
 		return destinationPath;
 	}
@@ -71,6 +78,7 @@ public class UpdateECMRequest extends BaseBeRequest {
 	/**
 	 * @return the idFileECM
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getIdFileECM() {
 		return idFileECM;
 	}
@@ -83,6 +91,7 @@ public class UpdateECMRequest extends BaseBeRequest {
 	/**
 	 * @return the containerType
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getContainerType() {
 		return containerType;
 	}
@@ -95,6 +104,7 @@ public class UpdateECMRequest extends BaseBeRequest {
 	/**
 	 * @return the nameApp
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getNameApp() {
 		return nameApp;
 	}

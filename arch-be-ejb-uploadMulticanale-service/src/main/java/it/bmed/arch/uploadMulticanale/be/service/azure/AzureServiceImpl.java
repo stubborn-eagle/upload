@@ -44,7 +44,8 @@ public class AzureServiceImpl implements AzureService {
 
 	@Override
 	public AzureDTO generateToken(AzureRequest parameters) throws AsiaException, Exception {
-
+		log.debug("generateToken: Entering");
+		log.debug("AzureRequest parameters: "+parameters);
 		// VALIDATION CHECK
 		if (parameters.getTargetContainer() == null) { 
 			throw new InvalidAzureContainerException (AzureMessages.getString("AzureServiceImpl.ContainerCannotBeNull")); //$NON-NLS-1$
@@ -72,17 +73,26 @@ public class AzureServiceImpl implements AzureService {
 			SharedAccessBlobPolicy policy = new SharedAccessBlobPolicy();
 			policy.setSharedAccessStartTime(calendar.getTime()); // Immediately
 			policy.setSharedAccessExpiryTime(parameters.getExpirationTime());
-
+			
 			if (parameters.isReadOnly()) {
+				log.debug("SETTO I PERMESSI: READ");
 				policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ)); // SAS grants																// READ ONLY
 			} else {
-				policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ, SharedAccessBlobPermissions.WRITE)); // SAS grants READ/WRITE
+				
+				if(parameters.getResourceBlobFile()!=null && !"".equalsIgnoreCase(parameters.getResourceBlobFile())){
+					log.debug("SETTO I PERMESSI: READ, WRITE, DELETE");
+					policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ, SharedAccessBlobPermissions.WRITE, SharedAccessBlobPermissions.DELETE)); // SAS grants READ/WRITE
+				}else{
+					log.debug("SETTO I PERMESSI: READ, WRITE");
+					policy.setPermissions(EnumSet.of(SharedAccessBlobPermissions.READ, SharedAccessBlobPermissions.WRITE));
+				}
+				
 			}
 
 			String sas = null;
 			CloudBlockBlob cloudBlockBlob = null;
 			
-			if (parameters.getResourceBlobFile() != null) {				
+			if (parameters.getResourceBlobFile() != null && !"".equals(parameters.getResourceBlobFile())) {				
 				cloudBlockBlob = container.getBlockBlobReference(parameters.getResourceBlobFile());
 				sas = cloudBlockBlob.generateSharedAccessSignature(policy, null);
 			} else {
@@ -96,8 +106,8 @@ public class AzureServiceImpl implements AzureService {
 			azureDTO.setExpiredTime(policy.getSharedAccessExpiryTime());
 			azureDTO.setStartTime(policy.getSharedAccessStartTime());
 			azureDTO.setContainer(parameters.getTargetContainer());
-			
-			if (parameters.getResourceBlobFile() != null) {
+	
+			if (parameters.getResourceBlobFile() != null && !"".equals(parameters.getResourceBlobFile())) {
 				azureDTO.setResourceBlobFile(parameters.getResourceBlobFile());
 				azureDTO.setURI(cloudBlockBlob.getUri() + "?" + sas);
 			} else {

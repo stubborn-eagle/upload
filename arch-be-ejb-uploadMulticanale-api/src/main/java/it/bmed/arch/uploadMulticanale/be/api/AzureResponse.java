@@ -5,6 +5,9 @@ import it.bmed.asia.api.CommonUtils;
 
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+@XmlType(name="AzureResponseType")
 public class AzureResponse extends BaseBeResponse<AzureDTO> {
 	/**
 	 * 
@@ -15,6 +18,7 @@ public class AzureResponse extends BaseBeResponse<AzureDTO> {
 	private AzureDTO []results;
 
 	@Override
+	@XmlElement(nillable=false, required=true)
 	public AzureDTO getResult() {
 		return result;
 	}
@@ -25,6 +29,7 @@ public class AzureResponse extends BaseBeResponse<AzureDTO> {
 	}
 
 	@Override
+	@XmlElement(nillable=true, required=true)
 	public AzureDTO[] getResults() {
 		return results;
 	}

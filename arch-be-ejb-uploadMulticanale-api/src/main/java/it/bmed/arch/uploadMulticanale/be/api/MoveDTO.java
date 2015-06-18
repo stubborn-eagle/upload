@@ -2,11 +2,15 @@ package it.bmed.arch.uploadMulticanale.be.api;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * Request DTO for Move operation
  * @author donatello.boccaforno
  *
  */
+@XmlType(name="MoveDTOType")
 public class MoveDTO implements Serializable {
 	private static final long serialVersionUID = -4035052721772232075L;	
 
@@ -22,6 +26,7 @@ public class MoveDTO implements Serializable {
 	/**
 	 * @return the ecmFileId
 	 */
+	@XmlElement(nillable=false, required=true)
 	public String getEcmFileId() {
 		return ecmFileId;
 	}
@@ -34,6 +39,7 @@ public class MoveDTO implements Serializable {
 	/**
 	 * @return the fileId
 	 */
+	@XmlElement(nillable=false, required=true)
 	public Integer getFileId() {
 		return fileId;
 	}
