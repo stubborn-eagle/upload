@@ -160,22 +160,22 @@ public class Util {
 			
 			searchAction.setValue("AddVersion");
 
-			index.setName("CODICEDOC");
-			index.setSearch("false");
-			value.setValue("");
-			index.setValue(value);
-			request.setIndex(index);
+//			index.setName("CODICEDOC");
+//			index.setSearch("false");
+//			value.setValue("");
+//			index.setValue(value);
+//			request.setIndex(index);
 
-			// istituto.setValue("");
+			istituto.setValue("");
 			request.setIstituto(istituto);
 
-			// matricola.setValue("");
+			matricola.setValue("");
 			request.setMatricola(matricola);
 
-			// ruolo.setValue("");
+			ruolo.setValue("");
 			request.setRuolo(ruolo);
 
-			// filiale.setValue("");
+			filiale.setValue("");
 			request.setFiliale(filiale);
 
 			// searchAction.setValue("AddVersion");
