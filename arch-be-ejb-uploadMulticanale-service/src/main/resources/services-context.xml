@@ -100,9 +100,9 @@
 		</property>
 	</bean>
 	
-	<bean id="DefinedMetaData" class="it.bmed.arch.uploadMulticanale.be.service.cmis.DefinedMetaData">
-		<property name="metadata">
-			<map>
+	<bean id="metadata" class="java.util.HashMap">
+		<constructor-arg>
+			<map key-type="java.lang.String" value-type="java.lang.String">
 				<entry key="CODICEFISCALE" value="CODICEFISCALE"/>
 				<entry key="CODICEDOC" value="CODICEDOC"/>
 				<entry key="DATARIF" value="DATARIF"/>
@@ -111,7 +111,10 @@
 				<entry key="LETTO" value="LETTO"/>
 				<entry key="LAYOUTLETTO" value="LAYOUTLETTO"/>
 			</map>
-		</property>
+		</constructor-arg>
+	</bean>
+	<bean id="definedMetaData" class="it.bmed.arch.uploadMulticanale.be.service.cmis.DefinedMetaData">
+		
 	</bean>
 	
 	<!-- ALFRESCO SETTINGS LOOKUP -->

@@ -1,15 +1,19 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class DefinedMetaData {
-	private Map<String, String> metadata;
+import org.springframework.beans.factory.annotation.Autowired;
 
-	public Map<String, String> getMetadata() {
+public class DefinedMetaData {
+	@Autowired
+	private HashMap<String, String> metadata;
+
+	public HashMap<String, String> getMetadata() {
 		return metadata;
 	}
 
-	public void setMetadata(Map<String, String> metadata) {
+	public void setMetadata(HashMap<String, String> metadata) {
 		this.metadata = metadata;
 	}
 }
