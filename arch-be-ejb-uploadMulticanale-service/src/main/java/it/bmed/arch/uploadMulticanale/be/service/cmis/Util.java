@@ -130,18 +130,20 @@ public class Util {
 				// //DEVE ESSERE IL SEGUENTE??
 				// objectStore.setValue("CED088");
 				// }
-				if ("Istituto".equalsIgnoreCase(prop.getName())) {
-					istituto.setValue(prop.getValue());
-				}
-				if ("Matricola".equalsIgnoreCase(prop.getName())) {
-					matricola.setValue(prop.getValue());
-				}
-				if ("Ruolo".equalsIgnoreCase(prop.getName())) {
-					ruolo.setValue(prop.getValue());
-				}
-				if ("Filiale".equalsIgnoreCase(prop.getName())) {
-					filiale.setValue(prop.getValue());
-				}
+				logger.debug("PROP NAME: "+prop.getName());
+				logger.debug("PROP VALUE: "+prop.getValue());
+//				if ("Istituto".equalsIgnoreCase(prop.getName())) {
+//					istituto.setValue(prop.getValue());
+//				}
+//				if ("Matricola".equalsIgnoreCase(prop.getName())) {
+//					matricola.setValue(prop.getValue());
+//				}
+//				if ("Ruolo".equalsIgnoreCase(prop.getName())) {
+//					ruolo.setValue(prop.getValue());
+//				}
+//				if ("Filiale".equalsIgnoreCase(prop.getName())) {
+//					filiale.setValue(prop.getValue());
+//				}
 				// if("SearchAction".equalsIgnoreCase(prop.getName())){
 				// // searchAction.setValue(prop.getValue());
 				// //DEVE ESSERE IL SEGUENTE??
@@ -158,22 +160,22 @@ public class Util {
 			
 			searchAction.setValue("AddVersion");
 
-			index.setName("CODICEDOC");
-			index.setSearch("false");
-			value.setValue("");
-			index.setValue(value);
-			request.setIndex(index);
+//			index.setName("CODICEDOC");
+//			index.setSearch("false");
+//			value.setValue("");
+//			index.setValue(value);
+//			request.setIndex(index);
 
-			// istituto.setValue("");
+			istituto.setValue("");
 			request.setIstituto(istituto);
 
-			// matricola.setValue("");
+			matricola.setValue("");
 			request.setMatricola(matricola);
 
-			// ruolo.setValue("");
+			ruolo.setValue("");
 			request.setRuolo(ruolo);
 
-			// filiale.setValue("");
+			filiale.setValue("");
 			request.setFiliale(filiale);
 
 			// searchAction.setValue("AddVersion");
@@ -184,6 +186,7 @@ public class Util {
 			// SETTO IL FILECODIFICATO IN BASE64 PER CREARE XML
 			docContent.setFilecod(fileCodificato);
 			request.setDocContent(docContent);
+			request.setProperty(ecmParam.getProperty());
 
 			XStream xStream = new XStream(new DomDriver());
 			xStream.registerConverter(new RequestConverter());
