@@ -182,7 +182,11 @@ public class Util {
 			request.setSearchAction(searchAction);
 
 			docContent.setFileName(ecmFile.getIdFile().toString());
-			docContent.setMimetype(ecmFile.getType());
+			if("PDF".equalsIgnoreCase(ecmFile.getType())){
+				docContent.setMimetype("application/"+ecmFile.getType());
+			}else{
+				docContent.setMimetype("image/"+ecmFile.getType());
+			}
 			// SETTO IL FILECODIFICATO IN BASE64 PER CREARE XML
 			docContent.setFilecod(fileCodificato);
 			request.setDocContent(docContent);
