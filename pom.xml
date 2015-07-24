@@ -13,7 +13,7 @@
 	<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 	<packaging>pom</packaging>
 	<name>arch-be-ejb-uploadMulticanale</name>
-	<version>1.0.1-RC-SNAPSHOT</version>
+	<version>1.0.1</version>
 
   <modules>
     <module>arch-be-ejb-uploadMulticanale-deps</module>
