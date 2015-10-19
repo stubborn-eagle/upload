@@ -2,10 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
-	<parent>
+	<!-- <parent>
 		<groupId>it.bmed.arch</groupId>
 		<artifactId>bmed-master-pom</artifactId>
 		<version>1.0.0</version>
+	</parent> -->
+	<parent>
+		<groupId>it.bmed.arch</groupId>
+		<artifactId>bmed-be-ejb-master-pom</artifactId>
+		<version>RELEASE</version>
 	</parent>
 
 	<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
@@ -27,4 +32,10 @@
     <module>arch-be-ejb-uploadMulticanale-wsclient</module>
      -->
   </modules>
+	<properties>
+		<bmed.check.skip-findbugs>true</bmed.check.skip-findbugs>
+		<bmed.check.skip-enforcer>true</bmed.check.skip-enforcer>
+		<bmed.check.skip-dependency-version-check>true</bmed.check.skip-dependency-version-check>
+		<bmed.check.skip-pmd>true</bmed.check.skip-pmd>
+	</properties>
 </project>

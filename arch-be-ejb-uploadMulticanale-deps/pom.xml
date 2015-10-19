@@ -18,16 +18,11 @@
 			<version>${project.parent.version}</version>
 		</dependency>
 		<!--  ASIA DEPENDENCIES -->
-		<dependency>
-			<groupId>it.bmed.arch</groupId>
-			<artifactId>bmed-asia-ejb</artifactId>
-			<version>${asia.arch.version}</version>
-		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>it.bmed.arch</groupId>
 			<artifactId>bmed-asia-exception</artifactId>
 			<version>${asia.arch.version}</version>
-		</dependency>		
+		</dependency> -->		
 		<!--  -->				
 		<dependency>
 			<groupId>org.apache.chemistry.opencmis</groupId>

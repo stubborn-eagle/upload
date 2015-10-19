@@ -11,16 +11,11 @@
 	<properties>
 		<asia.arch.version>1.3.3</asia.arch.version>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>it.bmed.arch</groupId>
-			<artifactId>bmed-asia-ejb</artifactId>
-			<version>${asia.arch.version}</version>
-		</dependency>
+	<!-- <dependencies>
 		<dependency>
 			<groupId>it.bmed.arch</groupId>
 			<artifactId>bmed-asia-exception-ext</artifactId>
 			<version>1.0.1</version>
 		</dependency>
-	</dependencies>
+	</dependencies> -->
 </project>
