@@ -240,7 +240,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 				: "and  COD_TIPO_ECM = " + ecmFile.getEcmType().getValue() + " ";
 		String and6 = ecmFile.getIdFile() == null || ecmFile.getIdFile() == 0 ? ""
 				: "and  COD_UPLD_FILE_INTERN = " + ecmFile.getIdFile() + " ";
-		String and7 = (ecmFile.getState() != null && !ecmFile.getState().name().equals("")) ? " and COD_STATO_ECM = " + ecmFile.getState().getValue().intValue()
+		String and7 = ecmFile.getState() != null && !ecmFile.getState().name().equals("") ? " and COD_STATO_ECM = " + ecmFile.getState().getValue().intValue()
 				: " and COD_STATO_ECM <> " + ECMState.DELETED.getValue().intValue();
 		String and8 = ecmFile.getDestinationPath() == null || "".equals(ecmFile.getDestinationPath()) ? "" 
 				: " and DES_DEST_PATH = '" +  ecmFile.getDestinationPath() + "'";
@@ -418,10 +418,10 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 	public boolean updateMedia(UpdateECMRequest request)
 			throws ApplicationException, Exception {
 		log.debug("updateMedia DAO: ENTERING");
-		// Check object fields
-		if (request.getEcmType() == null) {
-			
-		} 		
+//		// Check object fields
+//		if (request.getEcmType() == null) {
+//			
+//		} 		
 		
 		String Destinazione_path = "" + request.getDestinationPath();
 		log.debug("UPDATE MEDIA - DESTINATION PATH:", Destinazione_path);

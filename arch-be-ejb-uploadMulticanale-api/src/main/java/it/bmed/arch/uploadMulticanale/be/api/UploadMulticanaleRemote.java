@@ -1,21 +1,16 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import it.bmed.asia.exception.jaxws.HeaderInputType;
 import it.bmed.asia.exception.jaxws.SystemFault;
+import it.bmed.schema.common.v1.HeaderInputType;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
-import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
-import javax.xml.ws.Action;
-import javax.xml.ws.soap.Addressing;
-
-import org.hibernate.type.TrueFalseType;
 
 
 
@@ -87,6 +82,17 @@ public interface UploadMulticanaleRemote extends Remote {
 		TokenResponse getToken( TokenRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 		
 		@WebMethod(operationName = "getVersione")
-	    public String getVersione () throws SystemFault, RemoteException, Exception;;
+	    String getVersione () throws SystemFault, RemoteException, Exception;
+		
+		@WebMethod(operationName = "generatePDF")
+		String generatePDF(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
+		
+		@WebMethod(operationName = "generatePDFDynamic")
+		String generatePDFDynamic(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 
+		@WebMethod(operationName = "signFilenetDocument")
+		String signAndMoveToFilenet(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws RemoteException;
+		
+		@WebMethod(operationName = "moveFileWithMetadata")		
+		MoveResponse moveFileWithMetadata(MoveRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 }

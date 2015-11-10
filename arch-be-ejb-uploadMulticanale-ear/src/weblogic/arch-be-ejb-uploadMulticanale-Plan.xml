@@ -74,6 +74,10 @@
         	<name>env</name>
             <value>test</value>
         </variable>
+        <variable>
+        	<name>generatedPdfFilePath</name>
+            <value>/UploadMulticanale/pdf/default</value>
+        </variable>
 	</variable-definition>
 	<module-override>
 		<module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
@@ -193,6 +197,17 @@
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;AZURE-SAFE-OFFESET-START-TIME-MINUTES&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
+            <variable-assignment>
+				<name>generatedPdfFilePath</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;GENERATED_PDF_FILE_PATH&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>LiveCycle URI comprensive of terminator '/'</description>
+				<name>liveCycleUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;LIVECYCLE_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
 		</module-descriptor>
 	</module-override>
 </deployment-plan>

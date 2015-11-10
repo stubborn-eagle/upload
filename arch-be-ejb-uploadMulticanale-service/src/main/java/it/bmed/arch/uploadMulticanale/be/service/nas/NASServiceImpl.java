@@ -279,6 +279,9 @@ public class NASServiceImpl implements NASService {
 			case RETE_DI_VENDITA:
 				destinationPathname = settingsBean.getNasReteDiVenditaPath();
 				break;
+			case LIVE_CYCLE:
+				destinationPathname = settingsBean.getGeneratedPdfFilePath();
+				break;
 			}
 
 		} catch (Exception e) {

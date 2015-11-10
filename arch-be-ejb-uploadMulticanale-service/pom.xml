@@ -35,5 +35,10 @@
 			<artifactId>arch-be-ejb-mediabus-service</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
 		</dependency> -->
+		<dependency>
+			<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
+			<artifactId>arch-be-ejb-uploadMulticanale-livecycle-wsclient</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

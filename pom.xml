@@ -28,9 +28,6 @@
     <module>arch-be-ejb-uploadMulticanale-ejbimpl</module>
     <module>arch-be-ejb-uploadMulticanale-web</module>
     <module>arch-be-ejb-uploadMulticanale-ear</module>
-    <!-- 
-    <module>arch-be-ejb-uploadMulticanale-wsclient</module>
-     -->
   </modules>
 	<properties>
 		<bmed.check.skip-findbugs>true</bmed.check.skip-findbugs>

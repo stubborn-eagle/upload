@@ -7,6 +7,7 @@ public class NASServiceSettingsBean {
 	private String nasInternetBankingDeletedPath = null;
 	private String nasReteDiVenditaDeletedPath = null;
 	private String nasPortaleDiSedeDeletedPath = null;
+	private String generatedPdfFilePath = null;
 	/**
 	 * @return the nasInternetBankingPath
 	 */
@@ -79,6 +80,18 @@ public class NASServiceSettingsBean {
 	 */
 	public void setNasPortaleDiSedeDeletedPath(String nasPortaleDiSedeDeletedPath) {
 		this.nasPortaleDiSedeDeletedPath = nasPortaleDiSedeDeletedPath;
+	}
+	/**
+	 * @return the generatedPdfFilePath
+	 */
+	public String getGeneratedPdfFilePath() {
+		return generatedPdfFilePath;
+	}
+	/**
+	 * @param generatedPdfFilePath the generatedPdfFilePath to set
+	 */
+	public void setGeneratedPdfFilePath(String generatedPdfFilePath) {
+		this.generatedPdfFilePath = generatedPdfFilePath;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

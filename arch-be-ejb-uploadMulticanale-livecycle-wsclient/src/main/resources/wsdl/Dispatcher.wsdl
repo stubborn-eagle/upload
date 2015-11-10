@@ -1,0 +1,1372 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="Dispatcher" targetNamespace="http://dispatcher.cedacrinternational.md/" xmlns:ns1="http://dispatcher.cedacrinternational.md/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:types>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://dispatcher.cedacrinternational.md/" xmlns:tns="http://dispatcher.cedacrinternational.md/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:element name="AddDocumentHistoryEntry" type="tns:AddDocumentHistoryEntry" />
+<xs:element name="AddDocumentHistoryEntryResponse" type="tns:AddDocumentHistoryEntryResponse" />
+<xs:element name="ApproveDocument" type="tns:ApproveDocument" />
+<xs:element name="ApproveDocumentResponse" type="tns:ApproveDocumentResponse" />
+<xs:element name="Authenticate" type="tns:Authenticate" />
+<xs:element name="AuthenticateResponse" type="tns:AuthenticateResponse" />
+<xs:element name="CleanApprove" type="tns:CleanApprove" />
+<xs:element name="CleanApproveResponse" type="tns:CleanApproveResponse" />
+<xs:element name="CreateNewDocument" type="tns:CreateNewDocument" />
+<xs:element name="CreateNewDocumentResponse" type="tns:CreateNewDocumentResponse" />
+<xs:element name="DocumentAddAttachment" type="tns:DocumentAddAttachment" />
+<xs:element name="DocumentAddAttachmentResponse" type="tns:DocumentAddAttachmentResponse" />
+<xs:element name="DocumentRemoveAttachment" type="tns:DocumentRemoveAttachment" />
+<xs:element name="DocumentRemoveAttachmentResponse" type="tns:DocumentRemoveAttachmentResponse" />
+<xs:element name="EmptyRecycleBinByUser" type="tns:EmptyRecycleBinByUser" />
+<xs:element name="EmptyRecycleBinByUserResponse" type="tns:EmptyRecycleBinByUserResponse" />
+<xs:element name="GenerateDocumentPreview" type="tns:GenerateDocumentPreview" />
+<xs:element name="GenerateDocumentPreviewResponse" type="tns:GenerateDocumentPreviewResponse" />
+<xs:element name="GeneratePDF" type="tns:GeneratePDF" />
+<xs:element name="GeneratePDFDynamic" type="tns:GeneratePDFDynamic" />
+<xs:element name="GeneratePDFDynamicResponse" type="tns:GeneratePDFDynamicResponse" />
+<xs:element name="GeneratePDFResponse" type="tns:GeneratePDFResponse" />
+<xs:element name="GetDepartmentFormList" type="tns:GetDepartmentFormList" />
+<xs:element name="GetDepartmentFormListResponse" type="tns:GetDepartmentFormListResponse" />
+<xs:element name="GetDocumentAttachments" type="tns:GetDocumentAttachments" />
+<xs:element name="GetDocumentAttachmentsResponse" type="tns:GetDocumentAttachmentsResponse" />
+<xs:element name="GetDocumentHistory" type="tns:GetDocumentHistory" />
+<xs:element name="GetDocumentHistoryResponse" type="tns:GetDocumentHistoryResponse" />
+<xs:element name="GetDocumentPDF" type="tns:GetDocumentPDF" />
+<xs:element name="GetDocumentPDFResponse" type="tns:GetDocumentPDFResponse" />
+<xs:element name="GetDocumentUIM" type="tns:GetDocumentUIM" />
+<xs:element name="GetDocumentUIMResponse" type="tns:GetDocumentUIMResponse" />
+<xs:element name="GetQueueDocuments" type="tns:GetQueueDocuments" />
+<xs:element name="GetQueueDocumentsM2SC" type="tns:GetQueueDocumentsM2SC" />
+<xs:element name="GetQueueDocumentsM2SCResponse" type="tns:GetQueueDocumentsM2SCResponse" />
+<xs:element name="GetQueueDocumentsResponse" type="tns:GetQueueDocumentsResponse" />
+<xs:element name="GetQueueIDByDepartment" type="tns:GetQueueIDByDepartment" />
+<xs:element name="GetQueueIDByDepartmentResponse" type="tns:GetQueueIDByDepartmentResponse" />
+<xs:element name="LookupAnagraficaCedacri" type="tns:LookupAnagraficaCedacri" />
+<xs:element name="LookupAnagraficaCedacriResponse" type="tns:LookupAnagraficaCedacriResponse" />
+<xs:element name="LookupCanaliAnagrafe" type="tns:LookupCanaliAnagrafe" />
+<xs:element name="LookupCanaliAnagrafeResponse" type="tns:LookupCanaliAnagrafeResponse" />
+<xs:element name="MoveDocument" type="tns:MoveDocument" />
+<xs:element name="MoveDocumentResponse" type="tns:MoveDocumentResponse" />
+<xs:element name="MoveDocumentToQueueType" type="tns:MoveDocumentToQueueType" />
+<xs:element name="MoveDocumentToQueueTypeResponse" type="tns:MoveDocumentToQueueTypeResponse" />
+<xs:element name="RejectDocument" type="tns:RejectDocument" />
+<xs:element name="RejectDocumentResponse" type="tns:RejectDocumentResponse" />
+<xs:element name="RenderForm" type="tns:RenderForm" />
+<xs:element name="RenderFormResponse" type="tns:RenderFormResponse" />
+<xs:element name="RestoreDocumentFromBin" type="tns:RestoreDocumentFromBin" />
+<xs:element name="RestoreDocumentFromBinResponse" type="tns:RestoreDocumentFromBinResponse" />
+<xs:element name="SendDocument" type="tns:SendDocument" />
+<xs:element name="SendDocumentResponse" type="tns:SendDocumentResponse" />
+<xs:element name="SubmitXml" type="tns:SubmitXml" />
+<xs:element name="SubmitXmlResponse" type="tns:SubmitXmlResponse" />
+<xs:element name="UpdateDocument" type="tns:UpdateDocument" />
+<xs:element name="UpdateDocumentResponse" type="tns:UpdateDocumentResponse" />
+<xs:element name="UpdateOrderAttachments" type="tns:UpdateOrderAttachments" />
+<xs:element name="UpdateOrderAttachmentsResponse" type="tns:UpdateOrderAttachmentsResponse" />
+<xs:element name="addDocumentDeliveryFlag" type="tns:addDocumentDeliveryFlag" />
+<xs:element name="addDocumentDeliveryFlagResponse" type="tns:addDocumentDeliveryFlagResponse" />
+<xs:element name="attachmentConversion" type="tns:attachmentConversion" />
+<xs:element name="attachmentConversionResponse" type="tns:attachmentConversionResponse" />
+<xs:element name="checkPdf" type="tns:checkPdf" />
+<xs:element name="checkPdfResponse" type="tns:checkPdfResponse" />
+<xs:element name="getAllDepartments" type="tns:getAllDepartments" />
+<xs:element name="getAllDepartmentsResponse" type="tns:getAllDepartmentsResponse" />
+<xs:element name="getAllModels" type="tns:getAllModels" />
+<xs:element name="getAllModelsResponse" type="tns:getAllModelsResponse" />
+<xs:element name="getDocumentDeliveryFlag" type="tns:getDocumentDeliveryFlag" />
+<xs:element name="getDocumentDeliveryFlagResponse" type="tns:getDocumentDeliveryFlagResponse" />
+<xs:element name="getDocumentStatus" type="tns:getDocumentStatus" />
+<xs:element name="getDocumentStatusResponse" type="tns:getDocumentStatusResponse" />
+<xs:element name="getQueuesByDepartment" type="tns:getQueuesByDepartment" />
+<xs:element name="getQueuesByDepartmentResponse" type="tns:getQueuesByDepartmentResponse" />
+<xs:element name="getUsersByDepartment" type="tns:getUsersByDepartment" />
+<xs:element name="getUsersByDepartmentResponse" type="tns:getUsersByDepartmentResponse" />
+<xs:element name="lockDocument" type="tns:lockDocument" />
+<xs:element name="lockDocumentResponse" type="tns:lockDocumentResponse" />
+<xs:element name="ricercaDocumenti" type="tns:ricercaDocumenti" />
+<xs:element name="ricercaDocumentiResponse" type="tns:ricercaDocumentiResponse" />
+<xs:element name="unlockDocument" type="tns:unlockDocument" />
+<xs:element name="unlockDocumentResponse" type="tns:unlockDocumentResponse" />
+<xs:element name="updateDocumentBatchId" type="tns:updateDocumentBatchId" />
+<xs:element name="updateDocumentBatchIdResponse" type="tns:updateDocumentBatchIdResponse" />
+<xs:element name="updatePDFDocument" type="tns:updatePDFDocument" />
+<xs:element name="updatePDFDocumentResponse" type="tns:updatePDFDocumentResponse" />
+<xs:complexType name="LookupAnagraficaCedacri">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+<xs:element minOccurs="0" name="arg4" type="xs:string" />
+<xs:element minOccurs="0" name="arg5" type="xs:string" />
+<xs:element minOccurs="0" name="arg6" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LookupAnagraficaCedacriResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GeneratePDF">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GeneratePDFResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:base64Binary" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentDeliveryFlag">
+<xs:sequence>
+<xs:element minOccurs="0" name="DocumentID" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentDeliveryFlagResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetQueueIDByDepartment">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetQueueIDByDepartmentResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GenerateDocumentPreview">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GenerateDocumentPreviewResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:base64Binary" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateOrderAttachments">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="arg3" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateOrderAttachmentsResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimResultSet">
+<xs:sequence>
+<xs:element minOccurs="0" name="errorMessage" type="xs:string" />
+<xs:element name="resultCode" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RejectDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element name="arg2" type="xs:boolean" />
+<xs:element minOccurs="0" name="arg3" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RejectDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePDFDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element name="arg1" type="xs:long" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updatePDFDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DocumentAddAttachment">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+<xs:element minOccurs="0" name="arg4" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="arg5" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DocumentAddAttachmentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GeneratePDFDynamic">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GeneratePDFDynamicResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:base64Binary" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ApproveDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element name="arg2" type="xs:boolean" />
+<xs:element minOccurs="0" name="arg3" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ApproveDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDepartmentFormList">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDepartmentFormListResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:uimForm" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimForm">
+<xs:sequence>
+<xs:element minOccurs="0" name="description" type="xs:string" />
+<xs:element minOccurs="0" name="externalDepartmentID" type="xs:string" />
+<xs:element minOccurs="0" name="formCategory" type="xs:string" />
+<xs:element minOccurs="0" name="formID" type="xs:string" />
+<xs:element minOccurs="0" name="formPath" type="xs:string" />
+<xs:element minOccurs="0" name="formReleaseDate" type="xs:dateTime" />
+<xs:element minOccurs="0" name="formVersion" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetQueueDocuments">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:long" />
+<xs:element minOccurs="0" name="arg4" type="xs:long" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetQueueDocumentsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:uimDocument" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimDocument">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="attachmentList" nillable="true" type="xs:string" />
+<xs:element minOccurs="0" name="changeDate" type="xs:dateTime" />
+<xs:element minOccurs="0" name="deliveryFlag" type="xs:string" />
+<xs:element minOccurs="0" name="description" type="xs:string" />
+<xs:element minOccurs="0" name="documentID" type="xs:integer" />
+<xs:element minOccurs="0" name="externalDocumentID" type="xs:string" />
+<xs:element minOccurs="0" name="fileName" type="xs:string" />
+<xs:element minOccurs="0" name="generationDate" type="xs:dateTime" />
+<xs:element name="preRelease" type="xs:boolean" />
+<xs:element name="previousId" type="xs:int" />
+<xs:element name="queueId" type="xs:int" />
+<xs:element minOccurs="0" name="status" type="xs:string" />
+<xs:element minOccurs="0" name="taskID" type="xs:long" />
+<xs:element minOccurs="0" name="uriModelloXdp" type="xs:string" />
+<xs:element minOccurs="0" name="userFullName" type="xs:string" />
+<xs:element minOccurs="0" name="userID" type="xs:string" />
+<xs:element minOccurs="0" name="xmlData" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SendDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SendDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LookupCanaliAnagrafe">
+<xs:sequence>
+<xs:element minOccurs="0" name="Rapporto" type="xs:string" />
+<xs:element minOccurs="0" name="CodiceClient" type="xs:string" />
+<xs:element minOccurs="0" name="CodiceDocumento" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="LookupCanaliAnagrafeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getQueuesByDepartment">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getQueuesByDepartmentResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddDocumentHistoryEntry">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:dateTime" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AddDocumentHistoryEntryResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllModels">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllModelsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateDocumentBatchId">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="updateDocumentBatchIdResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentStatus">
+<xs:sequence>
+<xs:element minOccurs="0" name="DocumentID" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getDocumentStatusResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="CleanApprove">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="CleanApproveResponse">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="GetDocumentUIM">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDocumentUIMResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimDocument" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="lockDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="DocumentID" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="lockDocumentResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DocumentRemoveAttachment">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:integer" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="DocumentRemoveAttachmentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SubmitXml">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="SubmitXmlResponse">
+<xs:sequence>
+<xs:element name="return" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="attachmentConversion">
+<xs:sequence>
+<xs:element minOccurs="0" name="FileName" type="xs:string" />
+<xs:element minOccurs="0" name="docAttachment" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="documentID" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="attachmentConversionResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:base64Binary" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RestoreDocumentFromBin">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element name="arg1" type="xs:int" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+<xs:element minOccurs="0" name="arg4" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RestoreDocumentFromBinResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MoveDocumentToQueueType">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MoveDocumentToQueueTypeResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="EmptyRecycleBinByUser">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="EmptyRecycleBinByUserResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="Authenticate">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="AuthenticateResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimUser" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimUser">
+<xs:sequence>
+<xs:element minOccurs="0" name="authenticateErrorMessage" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="departmentList" nillable="true" type="tns:uimDepartment" />
+<xs:element minOccurs="0" name="domainName" type="xs:string" />
+<xs:element minOccurs="0" name="password" type="xs:string" />
+<xs:element minOccurs="0" name="userDisplayName" type="xs:string" />
+<xs:element minOccurs="0" name="username" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimDepartment">
+<xs:sequence>
+<xs:element minOccurs="0" name="customerDescription" type="xs:string" />
+<xs:element name="customerID" type="xs:int" />
+<xs:element minOccurs="0" name="departmentDescription" type="xs:string" />
+<xs:element name="departmentId" type="xs:int" />
+<xs:element minOccurs="0" name="departmentUserType" type="xs:string" />
+<xs:element minOccurs="0" name="externalDepartmentID" type="xs:string" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="queueList" nillable="true" type="tns:uimQueue" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimQueue">
+<xs:sequence>
+<xs:element name="departmentID" type="xs:int" />
+<xs:element minOccurs="0" name="queueDescription" type="xs:string" />
+<xs:element name="queueID" type="xs:int" />
+<xs:element minOccurs="0" name="queueTypeDescription" type="xs:string" />
+<xs:element name="queueTypeID" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDocumentPDF">
+<xs:sequence>
+<xs:element minOccurs="0" name="DocumentID" type="xs:integer" />
+<xs:element minOccurs="0" name="resultSet" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDocumentPDFResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:base64Binary" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllDepartments">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:string" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getAllDepartmentsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="unlockDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="DocumentID" type="xs:integer" />
+<xs:element minOccurs="0" name="ClientSend" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="unlockDocumentResponse">
+<xs:sequence />
+</xs:complexType>
+<xs:complexType name="MoveDocument">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+<xs:element name="arg1" type="xs:int" />
+<xs:element minOccurs="0" name="arg2" type="xs:integer" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+<xs:element minOccurs="0" name="arg4" type="xs:string" />
+<xs:element minOccurs="0" name="arg5" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="MoveDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDocumentAttachments">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDocumentAttachmentsResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:uimAttachment" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimAttachment">
+<xs:sequence>
+<xs:element minOccurs="0" name="attachmentDate" type="xs:dateTime" />
+<xs:element minOccurs="0" name="attachmentFileName" type="xs:string" />
+<xs:element minOccurs="0" name="attachmentID" type="xs:integer" />
+<xs:element minOccurs="0" name="attachmentUpdateDate" type="xs:dateTime" />
+<xs:element minOccurs="0" name="byteHandler" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="documentID" type="xs:integer" />
+<xs:element minOccurs="0" name="handler" type="xs:string" />
+<xs:element minOccurs="0" name="userID" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addDocumentDeliveryFlag">
+<xs:sequence>
+<xs:element minOccurs="0" name="DocumentID" type="xs:integer" />
+<xs:element minOccurs="0" name="DeliveryFlag" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="addDocumentDeliveryFlagResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ricercaDocumenti">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:int" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:int" />
+<xs:element minOccurs="0" name="arg4" type="xs:string" />
+<xs:element minOccurs="0" name="arg5" type="xs:string" />
+<xs:element minOccurs="0" name="arg6" type="xs:string" />
+<xs:element minOccurs="0" name="arg7" type="xs:dateTime" />
+<xs:element minOccurs="0" name="arg8" type="xs:dateTime" />
+<xs:element minOccurs="0" name="arg9" type="xs:string" />
+<xs:element minOccurs="0" name="arg10" type="xs:string" />
+<xs:element minOccurs="0" name="arg11" type="xs:string" />
+<xs:element minOccurs="0" name="arg12" type="xs:string" />
+<xs:element minOccurs="0" name="arg13" type="xs:long" />
+<xs:element minOccurs="0" name="arg14" type="xs:long" />
+<xs:element maxOccurs="unbounded" minOccurs="0" name="arg15" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="ricercaDocumentiResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RenderForm">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="RenderFormResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUsersByDepartment">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="getUsersByDepartmentResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="xs:anyType" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="checkPdf">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+<xs:element minOccurs="0" name="arg4" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="checkPdfResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="CreateNewDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:int" />
+<xs:element minOccurs="0" name="arg1" type="xs:dateTime" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+<xs:element minOccurs="0" name="arg3" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="arg4" type="xs:string" />
+<xs:element name="arg5" type="xs:boolean" />
+<xs:element minOccurs="0" name="arg6" type="xs:string" />
+<xs:element minOccurs="0" name="arg7" type="xs:string" />
+<xs:element minOccurs="0" name="arg8" type="xs:string" />
+<xs:element minOccurs="0" name="arg9" type="xs:string" />
+<xs:element minOccurs="0" name="arg10" type="xs:string" />
+<xs:element minOccurs="0" name="arg11" type="xs:string" />
+<xs:element minOccurs="0" name="arg12" type="xs:string" />
+<xs:element minOccurs="0" name="arg13" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="CreateNewDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="xs:integer" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDocumentHistory">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetDocumentHistoryResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:uimHistory" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="uimHistory">
+<xs:sequence>
+<xs:element minOccurs="0" name="historyEntry" type="xs:string" />
+<xs:element minOccurs="0" name="historyEntryDate" type="xs:dateTime" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetQueueDocumentsM2SC">
+<xs:sequence>
+<xs:element name="arg0" type="xs:int" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="GetQueueDocumentsM2SCResponse">
+<xs:sequence>
+<xs:element maxOccurs="unbounded" minOccurs="0" name="return" type="tns:uimDocument" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateDocument">
+<xs:sequence>
+<xs:element minOccurs="0" name="arg0" type="xs:integer" />
+<xs:element minOccurs="0" name="arg1" type="xs:string" />
+<xs:element minOccurs="0" name="arg2" type="xs:base64Binary" />
+<xs:element minOccurs="0" name="arg3" type="xs:string" />
+<xs:element minOccurs="0" name="arg4" type="xs:string" />
+<xs:element minOccurs="0" name="arg5" type="xs:string" />
+<xs:element minOccurs="0" name="arg6" type="xs:string" />
+<xs:element minOccurs="0" name="arg7" type="xs:string" />
+<xs:element minOccurs="0" name="arg8" type="xs:string" />
+</xs:sequence>
+</xs:complexType>
+<xs:complexType name="UpdateDocumentResponse">
+<xs:sequence>
+<xs:element minOccurs="0" name="return" type="tns:uimResultSet" />
+</xs:sequence>
+</xs:complexType>
+<xs:element name="IOException" type="tns:IOException" />
+<xs:complexType name="IOException">
+<xs:sequence />
+</xs:complexType>
+<xs:element name="RepositoryException" type="tns:RepositoryException" />
+<xs:complexType name="RepositoryException">
+<xs:sequence>
+<xs:element name="moduleCode" nillable="true" type="xs:int" />
+<xs:element name="localCode" nillable="true" type="xs:int" />
+</xs:sequence>
+</xs:complexType>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="GetDocumentHistory">
+    <wsdl:part element="ns1:GetDocumentHistory" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocumentDeliveryFlag">
+    <wsdl:part element="ns1:addDocumentDeliveryFlag" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lockDocument">
+    <wsdl:part element="ns1:lockDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkPdfResponse">
+    <wsdl:part element="ns1:checkPdfResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CleanApproveResponse">
+    <wsdl:part element="ns1:CleanApproveResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AuthenticateResponse">
+    <wsdl:part element="ns1:AuthenticateResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unlockDocumentResponse">
+    <wsdl:part element="ns1:unlockDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsersByDepartmentResponse">
+    <wsdl:part element="ns1:getUsersByDepartmentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DocumentAddAttachmentResponse">
+    <wsdl:part element="ns1:DocumentAddAttachmentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentPDF">
+    <wsdl:part element="ns1:GetDocumentPDF" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RenderFormResponse">
+    <wsdl:part element="ns1:RenderFormResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RepositoryException">
+    <wsdl:part element="ns1:RepositoryException" name="RepositoryException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateDocument">
+    <wsdl:part element="ns1:UpdateDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="unlockDocument">
+    <wsdl:part element="ns1:unlockDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateNewDocumentResponse">
+    <wsdl:part element="ns1:CreateNewDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDByDepartment">
+    <wsdl:part element="ns1:GetQueueIDByDepartment" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MoveDocumentToQueueTypeResponse">
+    <wsdl:part element="ns1:MoveDocumentToQueueTypeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDocumentBatchId">
+    <wsdl:part element="ns1:updateDocumentBatchId" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateDocumentResponse">
+    <wsdl:part element="ns1:UpdateDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreateNewDocument">
+    <wsdl:part element="ns1:CreateNewDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RejectDocument">
+    <wsdl:part element="ns1:RejectDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentAttachments">
+    <wsdl:part element="ns1:GetDocumentAttachments" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SubmitXml">
+    <wsdl:part element="ns1:SubmitXml" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQueuesByDepartment">
+    <wsdl:part element="ns1:getQueuesByDepartment" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDepartmentFormList">
+    <wsdl:part element="ns1:GetDepartmentFormList" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneratePDF">
+    <wsdl:part element="ns1:GeneratePDF" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="attachmentConversion">
+    <wsdl:part element="ns1:attachmentConversion" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MoveDocument">
+    <wsdl:part element="ns1:MoveDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="lockDocumentResponse">
+    <wsdl:part element="ns1:lockDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ApproveDocument">
+    <wsdl:part element="ns1:ApproveDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentStatusResponse">
+    <wsdl:part element="ns1:getDocumentStatusResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getUsersByDepartment">
+    <wsdl:part element="ns1:getUsersByDepartment" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SubmitXmlResponse">
+    <wsdl:part element="ns1:SubmitXmlResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentPDFResponse">
+    <wsdl:part element="ns1:GetDocumentPDFResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkPdf">
+    <wsdl:part element="ns1:checkPdf" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RenderForm">
+    <wsdl:part element="ns1:RenderForm" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocumentDeliveryFlagResponse">
+    <wsdl:part element="ns1:addDocumentDeliveryFlagResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="LookupAnagraficaCedacri">
+    <wsdl:part element="ns1:LookupAnagraficaCedacri" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateOrderAttachments">
+    <wsdl:part element="ns1:UpdateOrderAttachments" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SendDocumentResponse">
+    <wsdl:part element="ns1:SendDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DocumentRemoveAttachment">
+    <wsdl:part element="ns1:DocumentRemoveAttachment" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Authenticate">
+    <wsdl:part element="ns1:Authenticate" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SendDocument">
+    <wsdl:part element="ns1:SendDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MoveDocumentResponse">
+    <wsdl:part element="ns1:MoveDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="MoveDocumentToQueueType">
+    <wsdl:part element="ns1:MoveDocumentToQueueType" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DocumentAddAttachment">
+    <wsdl:part element="ns1:DocumentAddAttachment" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="UpdateOrderAttachmentsResponse">
+    <wsdl:part element="ns1:UpdateOrderAttachmentsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EmptyRecycleBinByUserResponse">
+    <wsdl:part element="ns1:EmptyRecycleBinByUserResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="LookupCanaliAnagrafeResponse">
+    <wsdl:part element="ns1:LookupCanaliAnagrafeResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentUIMResponse">
+    <wsdl:part element="ns1:GetDocumentUIMResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ApproveDocumentResponse">
+    <wsdl:part element="ns1:ApproveDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllDepartments">
+    <wsdl:part element="ns1:getAllDepartments" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneratePDFResponse">
+    <wsdl:part element="ns1:GeneratePDFResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RestoreDocumentFromBinResponse">
+    <wsdl:part element="ns1:RestoreDocumentFromBinResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="LookupCanaliAnagrafe">
+    <wsdl:part element="ns1:LookupCanaliAnagrafe" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IOException">
+    <wsdl:part element="ns1:IOException" name="IOException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CleanApprove">
+    <wsdl:part element="ns1:CleanApprove" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ricercaDocumentiResponse">
+    <wsdl:part element="ns1:ricercaDocumentiResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllModelsResponse">
+    <wsdl:part element="ns1:getAllModelsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentHistoryResponse">
+    <wsdl:part element="ns1:GetDocumentHistoryResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="LookupAnagraficaCedacriResponse">
+    <wsdl:part element="ns1:LookupAnagraficaCedacriResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="attachmentConversionResponse">
+    <wsdl:part element="ns1:attachmentConversionResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="DocumentRemoveAttachmentResponse">
+    <wsdl:part element="ns1:DocumentRemoveAttachmentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GenerateDocumentPreview">
+    <wsdl:part element="ns1:GenerateDocumentPreview" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ricercaDocumenti">
+    <wsdl:part element="ns1:ricercaDocumenti" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneratePDFDynamic">
+    <wsdl:part element="ns1:GeneratePDFDynamic" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getQueuesByDepartmentResponse">
+    <wsdl:part element="ns1:getQueuesByDepartmentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePDFDocument">
+    <wsdl:part element="ns1:updatePDFDocument" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentAttachmentsResponse">
+    <wsdl:part element="ns1:GetDocumentAttachmentsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllDepartmentsResponse">
+    <wsdl:part element="ns1:getAllDepartmentsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddDocumentHistoryEntryResponse">
+    <wsdl:part element="ns1:AddDocumentHistoryEntryResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getAllModels">
+    <wsdl:part element="ns1:getAllModels" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentDeliveryFlag">
+    <wsdl:part element="ns1:getDocumentDeliveryFlag" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RestoreDocumentFromBin">
+    <wsdl:part element="ns1:RestoreDocumentFromBin" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updateDocumentBatchIdResponse">
+    <wsdl:part element="ns1:updateDocumentBatchIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetQueueIDByDepartmentResponse">
+    <wsdl:part element="ns1:GetQueueIDByDepartmentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GenerateDocumentPreviewResponse">
+    <wsdl:part element="ns1:GenerateDocumentPreviewResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDocumentUIM">
+    <wsdl:part element="ns1:GetDocumentUIM" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GeneratePDFDynamicResponse">
+    <wsdl:part element="ns1:GeneratePDFDynamicResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetQueueDocumentsResponse">
+    <wsdl:part element="ns1:GetQueueDocumentsResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="updatePDFDocumentResponse">
+    <wsdl:part element="ns1:updatePDFDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentDeliveryFlagResponse">
+    <wsdl:part element="ns1:getDocumentDeliveryFlagResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetQueueDocumentsM2SC">
+    <wsdl:part element="ns1:GetQueueDocumentsM2SC" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetQueueDocuments">
+    <wsdl:part element="ns1:GetQueueDocuments" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="AddDocumentHistoryEntry">
+    <wsdl:part element="ns1:AddDocumentHistoryEntry" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetDepartmentFormListResponse">
+    <wsdl:part element="ns1:GetDepartmentFormListResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDocumentStatus">
+    <wsdl:part element="ns1:getDocumentStatus" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EmptyRecycleBinByUser">
+    <wsdl:part element="ns1:EmptyRecycleBinByUser" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="GetQueueDocumentsM2SCResponse">
+    <wsdl:part element="ns1:GetQueueDocumentsM2SCResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RejectDocumentResponse">
+    <wsdl:part element="ns1:RejectDocumentResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="Dispatcher">
+    <wsdl:operation name="LookupAnagraficaCedacri">
+      <wsdl:input message="ns1:LookupAnagraficaCedacri" name="LookupAnagraficaCedacri">
+    </wsdl:input>
+      <wsdl:output message="ns1:LookupAnagraficaCedacriResponse" name="LookupAnagraficaCedacriResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:IOException" name="IOException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GeneratePDF">
+      <wsdl:input message="ns1:GeneratePDF" name="GeneratePDF">
+    </wsdl:input>
+      <wsdl:output message="ns1:GeneratePDFResponse" name="GeneratePDFResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentDeliveryFlag">
+      <wsdl:input message="ns1:getDocumentDeliveryFlag" name="getDocumentDeliveryFlag">
+    </wsdl:input>
+      <wsdl:output message="ns1:getDocumentDeliveryFlagResponse" name="getDocumentDeliveryFlagResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDByDepartment">
+      <wsdl:input message="ns1:GetQueueIDByDepartment" name="GetQueueIDByDepartment">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetQueueIDByDepartmentResponse" name="GetQueueIDByDepartmentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateDocumentPreview">
+      <wsdl:input message="ns1:GenerateDocumentPreview" name="GenerateDocumentPreview">
+    </wsdl:input>
+      <wsdl:output message="ns1:GenerateDocumentPreviewResponse" name="GenerateDocumentPreviewResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrderAttachments">
+      <wsdl:input message="ns1:UpdateOrderAttachments" name="UpdateOrderAttachments">
+    </wsdl:input>
+      <wsdl:output message="ns1:UpdateOrderAttachmentsResponse" name="UpdateOrderAttachmentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectDocument">
+      <wsdl:input message="ns1:RejectDocument" name="RejectDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:RejectDocumentResponse" name="RejectDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePDFDocument">
+      <wsdl:input message="ns1:updatePDFDocument" name="updatePDFDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:updatePDFDocumentResponse" name="updatePDFDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentAddAttachment">
+      <wsdl:input message="ns1:DocumentAddAttachment" name="DocumentAddAttachment">
+    </wsdl:input>
+      <wsdl:output message="ns1:DocumentAddAttachmentResponse" name="DocumentAddAttachmentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GeneratePDFDynamic">
+      <wsdl:input message="ns1:GeneratePDFDynamic" name="GeneratePDFDynamic">
+    </wsdl:input>
+      <wsdl:output message="ns1:GeneratePDFDynamicResponse" name="GeneratePDFDynamicResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApproveDocument">
+      <wsdl:input message="ns1:ApproveDocument" name="ApproveDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:ApproveDocumentResponse" name="ApproveDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartmentFormList">
+      <wsdl:input message="ns1:GetDepartmentFormList" name="GetDepartmentFormList">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetDepartmentFormListResponse" name="GetDepartmentFormListResponse">
+    </wsdl:output>
+      <wsdl:fault message="ns1:RepositoryException" name="RepositoryException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueDocuments">
+      <wsdl:input message="ns1:GetQueueDocuments" name="GetQueueDocuments">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetQueueDocumentsResponse" name="GetQueueDocumentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendDocument">
+      <wsdl:input message="ns1:SendDocument" name="SendDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:SendDocumentResponse" name="SendDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LookupCanaliAnagrafe">
+      <wsdl:input message="ns1:LookupCanaliAnagrafe" name="LookupCanaliAnagrafe">
+    </wsdl:input>
+      <wsdl:output message="ns1:LookupCanaliAnagrafeResponse" name="LookupCanaliAnagrafeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQueuesByDepartment">
+      <wsdl:input message="ns1:getQueuesByDepartment" name="getQueuesByDepartment">
+    </wsdl:input>
+      <wsdl:output message="ns1:getQueuesByDepartmentResponse" name="getQueuesByDepartmentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDocumentHistoryEntry">
+      <wsdl:input message="ns1:AddDocumentHistoryEntry" name="AddDocumentHistoryEntry">
+    </wsdl:input>
+      <wsdl:output message="ns1:AddDocumentHistoryEntryResponse" name="AddDocumentHistoryEntryResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllModels">
+      <wsdl:input message="ns1:getAllModels" name="getAllModels">
+    </wsdl:input>
+      <wsdl:output message="ns1:getAllModelsResponse" name="getAllModelsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDocumentBatchId">
+      <wsdl:input message="ns1:updateDocumentBatchId" name="updateDocumentBatchId">
+    </wsdl:input>
+      <wsdl:output message="ns1:updateDocumentBatchIdResponse" name="updateDocumentBatchIdResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentStatus">
+      <wsdl:input message="ns1:getDocumentStatus" name="getDocumentStatus">
+    </wsdl:input>
+      <wsdl:output message="ns1:getDocumentStatusResponse" name="getDocumentStatusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CleanApprove">
+      <wsdl:input message="ns1:CleanApprove" name="CleanApprove">
+    </wsdl:input>
+      <wsdl:output message="ns1:CleanApproveResponse" name="CleanApproveResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentUIM">
+      <wsdl:input message="ns1:GetDocumentUIM" name="GetDocumentUIM">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetDocumentUIMResponse" name="GetDocumentUIMResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="lockDocument">
+      <wsdl:input message="ns1:lockDocument" name="lockDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:lockDocumentResponse" name="lockDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentRemoveAttachment">
+      <wsdl:input message="ns1:DocumentRemoveAttachment" name="DocumentRemoveAttachment">
+    </wsdl:input>
+      <wsdl:output message="ns1:DocumentRemoveAttachmentResponse" name="DocumentRemoveAttachmentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitXml">
+      <wsdl:input message="ns1:SubmitXml" name="SubmitXml">
+    </wsdl:input>
+      <wsdl:output message="ns1:SubmitXmlResponse" name="SubmitXmlResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="attachmentConversion">
+      <wsdl:input message="ns1:attachmentConversion" name="attachmentConversion">
+    </wsdl:input>
+      <wsdl:output message="ns1:attachmentConversionResponse" name="attachmentConversionResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreDocumentFromBin">
+      <wsdl:input message="ns1:RestoreDocumentFromBin" name="RestoreDocumentFromBin">
+    </wsdl:input>
+      <wsdl:output message="ns1:RestoreDocumentFromBinResponse" name="RestoreDocumentFromBinResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDocumentToQueueType">
+      <wsdl:input message="ns1:MoveDocumentToQueueType" name="MoveDocumentToQueueType">
+    </wsdl:input>
+      <wsdl:output message="ns1:MoveDocumentToQueueTypeResponse" name="MoveDocumentToQueueTypeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmptyRecycleBinByUser">
+      <wsdl:input message="ns1:EmptyRecycleBinByUser" name="EmptyRecycleBinByUser">
+    </wsdl:input>
+      <wsdl:output message="ns1:EmptyRecycleBinByUserResponse" name="EmptyRecycleBinByUserResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authenticate">
+      <wsdl:input message="ns1:Authenticate" name="Authenticate">
+    </wsdl:input>
+      <wsdl:output message="ns1:AuthenticateResponse" name="AuthenticateResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentPDF">
+      <wsdl:input message="ns1:GetDocumentPDF" name="GetDocumentPDF">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetDocumentPDFResponse" name="GetDocumentPDFResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllDepartments">
+      <wsdl:input message="ns1:getAllDepartments" name="getAllDepartments">
+    </wsdl:input>
+      <wsdl:output message="ns1:getAllDepartmentsResponse" name="getAllDepartmentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unlockDocument">
+      <wsdl:input message="ns1:unlockDocument" name="unlockDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:unlockDocumentResponse" name="unlockDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDocument">
+      <wsdl:input message="ns1:MoveDocument" name="MoveDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:MoveDocumentResponse" name="MoveDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentAttachments">
+      <wsdl:input message="ns1:GetDocumentAttachments" name="GetDocumentAttachments">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetDocumentAttachmentsResponse" name="GetDocumentAttachmentsResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addDocumentDeliveryFlag">
+      <wsdl:input message="ns1:addDocumentDeliveryFlag" name="addDocumentDeliveryFlag">
+    </wsdl:input>
+      <wsdl:output message="ns1:addDocumentDeliveryFlagResponse" name="addDocumentDeliveryFlagResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ricercaDocumenti">
+      <wsdl:input message="ns1:ricercaDocumenti" name="ricercaDocumenti">
+    </wsdl:input>
+      <wsdl:output message="ns1:ricercaDocumentiResponse" name="ricercaDocumentiResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderForm">
+      <wsdl:input message="ns1:RenderForm" name="RenderForm">
+    </wsdl:input>
+      <wsdl:output message="ns1:RenderFormResponse" name="RenderFormResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsersByDepartment">
+      <wsdl:input message="ns1:getUsersByDepartment" name="getUsersByDepartment">
+    </wsdl:input>
+      <wsdl:output message="ns1:getUsersByDepartmentResponse" name="getUsersByDepartmentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkPdf">
+      <wsdl:input message="ns1:checkPdf" name="checkPdf">
+    </wsdl:input>
+      <wsdl:output message="ns1:checkPdfResponse" name="checkPdfResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewDocument">
+      <wsdl:input message="ns1:CreateNewDocument" name="CreateNewDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:CreateNewDocumentResponse" name="CreateNewDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentHistory">
+      <wsdl:input message="ns1:GetDocumentHistory" name="GetDocumentHistory">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetDocumentHistoryResponse" name="GetDocumentHistoryResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueDocumentsM2SC">
+      <wsdl:input message="ns1:GetQueueDocumentsM2SC" name="GetQueueDocumentsM2SC">
+    </wsdl:input>
+      <wsdl:output message="ns1:GetQueueDocumentsM2SCResponse" name="GetQueueDocumentsM2SCResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDocument">
+      <wsdl:input message="ns1:UpdateDocument" name="UpdateDocument">
+    </wsdl:input>
+      <wsdl:output message="ns1:UpdateDocumentResponse" name="UpdateDocumentResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

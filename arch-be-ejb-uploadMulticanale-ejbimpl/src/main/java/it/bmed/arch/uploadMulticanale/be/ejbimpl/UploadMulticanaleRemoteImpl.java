@@ -32,11 +32,12 @@ import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.ExceptionToFaultConversionUtil;
 import it.bmed.asia.exception.IErrorCode;
 import it.bmed.asia.exception.TechnicalException;
-import it.bmed.asia.exception.jaxws.HeaderInputType;
 import it.bmed.asia.exception.jaxws.SystemFault;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
+import it.bmed.schema.common.v1.HeaderInputType;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.rmi.RemoteException;
 
@@ -634,5 +635,47 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	public String getVersione () throws SystemFault, RemoteException, Exception {
         return APIParams.VERSION;
     }
+	
+	@Override
+	public String generatePDF(String refId, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		byte[] fileContent = generatePDFServiceClient.generatePDF(refId);
+		
+		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+		try{
+			nasService.saveFile(resultStream, refId+".pdf", ECMSource.LIVE_CYCLE, null);
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF " + e.getMessage());
+		}
+		
+        return refId+"generatePDF";
+    }
+	
+	@Override
+	public String generatePDFDynamic(String refId, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		byte[] fileContent = generatePDFServiceClient.generatePDFDynamic(refId);
+		
+		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+		try{
+			nasService.saveFile(resultStream, refId+".pdf", ECMSource.LIVE_CYCLE, null);
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDFDynamic " + e.getMessage());
+		}
+		
+        return refId+"generatePDFDynamic";
+    }
+
+	@Override
+	public String signAndMoveToFilenet(String refIf, HeaderInputType string) throws RemoteException {
+		return refIf+"signAndMoveToFilenet";
+	}
+
+	@Override
+	public MoveResponse moveFileWithMetadata(MoveRequest request, HeaderInputType stringa) throws SystemFault, RemoteException, Exception {
+		MoveResponse moveResponse = new MoveResponse();
+		MoveDTO result = new MoveDTO();
+		result.setEcmFileId("moveFileWithMetadata result");
+		moveResponse.setResult(result);
+		return moveResponse;
+	}
 
 }
