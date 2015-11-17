@@ -91,7 +91,7 @@ public interface UploadMulticanaleRemote extends Remote {
 		String generatePDFDynamic(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 
 		@WebMethod(operationName = "signFilenetDocument")
-		String signAndMoveToFilenet(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws RemoteException;
+		String signAndMoveToFilenet(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 		
 		@WebMethod(operationName = "moveFileWithMetadata")		
 		MoveResponse moveFileWithMetadata(MoveRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;

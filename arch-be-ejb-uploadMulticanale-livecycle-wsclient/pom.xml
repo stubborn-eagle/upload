@@ -15,52 +15,170 @@
 	<wsdl.name>lc.wsdl</wsdl.name>
 	<!--  PATH RELATIVO DA CARTELLA RESOURCES  -->
 	<wsdl.sourcedir>/wsdl</wsdl.sourcedir>
+	
+	<bmed.check.skip-pmd>true</bmed.check.skip-pmd>
+	<bmed.check.skip-findbugs>true</bmed.check.skip-findbugs>
 </properties>
-<dependencies>
-	<dependency>
-		<groupId>com.sun.xml.ws</groupId>
-		<artifactId>jaxws-rt</artifactId>
-	</dependency>
-</dependencies>
 <!-- <build>
-		<plugins>
-			<plugin>
-				<groupId>org.jvnet.jax-ws-commons</groupId>
-				<artifactId>jaxws-maven-plugin</artifactId>
-				<version>2.1</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>wsimport</goal>
-						</goals>
-						<configuration>
-							<wsdlDirectory>/home/oracle/Desktop/projects/arch-be-ejb-uploadmulticanale/arch-be-ejb-uploadMulticanale-livecycle-wsclient/src/main/resources/wsdl</wsdlDirectory>
-							<wsdlLocation>${wsdl.sourcedir}/${wsdl.name}</wsdlLocation>
-							<packageName>it.bmed.arch.uploadMulticanale.be.livecycle.ws.client</packageName>
-							<sourceDestDir>${basedir}/src/main/java</sourceDestDir>
-	                        <destDir>${basedir}/target/classes</destDir>
-							<wsdlFiles>
-								<wsdlFile>${wsdl.name}</wsdlFile>
-							</wsdlFiles>
-							<skip>true</skip>
-							<keep>true</keep>
-							<xnocompile>true</xnocompile>
-							<verbose>false</verbose>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<compilerArguments>
-						<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
-					</compilerArguments>
-				</configuration>
-			</plugin>
-		</plugins>
+<plugins>
+<plugin>
+<groupId>org.jvnet.jax-ws-commons</groupId>
+<artifactId>jaxws-maven-plugin</artifactId>
+<executions>
+<execution>
+<goals>
+<goal>wsimport</goal>
+</goals>
+<configuration>
+<packageName>it.bmed.arch.uploadMulticanale.be.livecycle.ws.client</packageName>
+<wsdlLocation>/wsdl/lc.wsdl</wsdlLocation>
+</configuration>
+</execution>
+</executions>
+</plugin>
+<plugin>
+<artifactId>maven-compiler-plugin</artifactId>
+<configuration>
+<compilerArguments>
+<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+</compilerArguments>
+</configuration>
+</plugin>
+<plugin>
+<artifactId>maven-dependency-plugin</artifactId>
+<executions>
+<execution>
+<phase>validate</phase>
+<goals>
+<goal>copy</goal>
+</goals>
+<configuration>
+<outputDirectory>${project.build.directory}/endorsed
+</outputDirectory>
+<silent>true</silent>
+<artifactItems>
+<artifactItem>
+<groupId>javax.xml.bind</groupId>
+<artifactId>jaxb-api</artifactId>
+<version>${dep.javax.xml.bind.jaxb-api.version}</version>
+<type>jar</type>
+</artifactItem>
+<artifactItem>
+<groupId>javax.xml.ws</groupId>
+<artifactId>jaxws-api</artifactId>
+<version>${dep.javax.xml.ws.jaxws-api.version}</version>
+<type>jar</type>
+</artifactItem>
+</artifactItems>
+</configuration>
+</execution>
+</executions>
+</plugin>
+</plugins>
 </build> -->
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.jvnet.jax-ws-commons</groupId>
+					<artifactId>jaxws-maven-plugin</artifactId>
+					<version>2.2</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>wsimport</goal>
+							</goals>						
+							<configuration>
+									<wsdlDirectory>src/main/resources/wsdl</wsdlDirectory>
+									<wsdlLocation>${wsdl.sourcedir}/${wsdl.name}</wsdlLocation>
+									<skip>true</skip>
+									<keep>true</keep>
+									<xnocompile>true</xnocompile>
+									<verbose>false</verbose>
+									<target>2.1</target>
+								</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>1.6</source>
+						<target>1.6</target>
+						<compilerArguments>
+							<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+						</compilerArguments>
+					</configuration>
+				</plugin>
+				<!-- <plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-dependency-plugin</artifactId>
+					<version>2.3</version>
+					<executions>
+						<execution>
+							<phase>validate</phase>
+							<goals>
+								<goal>copy</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+								<silent>true</silent>
+								<artifactItems>
+									<artifactItem>
+										<groupId>javax.xml.bind</groupId>
+										<artifactId>jaxb-api</artifactId>
+										<version>2.2.4</version>
+										<type>jar</type>
+									</artifactItem>
+									<artifactItem>
+										<groupId>javax.xml.ws</groupId>
+										<artifactId>jaxws-api</artifactId>
+										<version>2.2.8</version>
+										<type>jar</type>
+									</artifactItem>
+								</artifactItems>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin> -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!-- <plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.jvnet.jax-ws-commons
+										</groupId>
+										<artifactId>
+											jaxws-maven-plugin
+										</artifactId>
+										<versionRange>
+											[2.2,)
+										</versionRange>
+										<goals>
+											<goal>wsimport</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin> -->
+			</plugins>
+		</pluginManagement>
+	</build>
 </project>

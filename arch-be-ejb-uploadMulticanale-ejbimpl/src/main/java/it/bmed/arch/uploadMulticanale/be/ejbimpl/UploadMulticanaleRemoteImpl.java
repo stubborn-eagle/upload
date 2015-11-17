@@ -638,14 +638,15 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	
 	@Override
 	public String generatePDF(String refId, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		byte[] fileContent = generatePDFServiceClient.generatePDF(refId);
-		
-		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
-		try{
-			nasService.saveFile(resultStream, refId+".pdf", ECMSource.LIVE_CYCLE, null);
-		} catch (Exception e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF " + e.getMessage());
-		}
+//TODO:Marco Mockup
+//		byte[] fileContent = generatePDFServiceClient.generatePDF(refId);
+//		
+//		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+//		try{
+//			nasService.saveFile(resultStream, refId+".pdf", ECMSource.LIVE_CYCLE, null);
+//		} catch (Exception e) {
+//			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF " + e.getMessage());
+//		}
 		
         return refId+"generatePDF";
     }

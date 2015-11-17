@@ -123,451 +123,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link GetDepartmentFormListResponse }
-     * 
-     */
-    public GetDepartmentFormListResponse createGetDepartmentFormListResponse() {
-        return new GetDepartmentFormListResponse();
-    }
-
-    /**
-     * Create an instance of {@link AttachmentConversion }
-     * 
-     */
-    public AttachmentConversion createAttachmentConversion() {
-        return new AttachmentConversion();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentAttachments }
-     * 
-     */
-    public GetDocumentAttachments createGetDocumentAttachments() {
-        return new GetDocumentAttachments();
-    }
-
-    /**
-     * Create an instance of {@link MoveDocumentResponse }
-     * 
-     */
-    public MoveDocumentResponse createMoveDocumentResponse() {
-        return new MoveDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link AttachmentConversionResponse }
-     * 
-     */
-    public AttachmentConversionResponse createAttachmentConversionResponse() {
-        return new AttachmentConversionResponse();
-    }
-
-    /**
-     * Create an instance of {@link LockDocument }
-     * 
-     */
-    public LockDocument createLockDocument() {
-        return new LockDocument();
-    }
-
-    /**
-     * Create an instance of {@link AddDocumentDeliveryFlagResponse }
-     * 
-     */
-    public AddDocumentDeliveryFlagResponse createAddDocumentDeliveryFlagResponse() {
-        return new AddDocumentDeliveryFlagResponse();
-    }
-
-    /**
-     * Create an instance of {@link MoveDocument }
-     * 
-     */
-    public MoveDocument createMoveDocument() {
-        return new MoveDocument();
-    }
-
-    /**
-     * Create an instance of {@link RejectDocumentResponse }
-     * 
-     */
-    public RejectDocumentResponse createRejectDocumentResponse() {
-        return new RejectDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetUsersByDepartmentResponse }
-     * 
-     */
-    public GetUsersByDepartmentResponse createGetUsersByDepartmentResponse() {
-        return new GetUsersByDepartmentResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentAttachmentsResponse }
-     * 
-     */
-    public GetDocumentAttachmentsResponse createGetDocumentAttachmentsResponse() {
-        return new GetDocumentAttachmentsResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentUIMResponse }
-     * 
-     */
-    public GetDocumentUIMResponse createGetDocumentUIMResponse() {
-        return new GetDocumentUIMResponse();
-    }
-
-    /**
-     * Create an instance of {@link RestoreDocumentFromBinResponse }
-     * 
-     */
-    public RestoreDocumentFromBinResponse createRestoreDocumentFromBinResponse() {
-        return new RestoreDocumentFromBinResponse();
-    }
-
-    /**
-     * Create an instance of {@link CreateNewDocumentResponse }
-     * 
-     */
-    public CreateNewDocumentResponse createCreateNewDocumentResponse() {
-        return new CreateNewDocumentResponse();
-    }
-
-    /**
      * Create an instance of {@link UpdateDocumentBatchId }
      * 
      */
     public UpdateDocumentBatchId createUpdateDocumentBatchId() {
         return new UpdateDocumentBatchId();
-    }
-
-    /**
-     * Create an instance of {@link GetUsersByDepartment }
-     * 
-     */
-    public GetUsersByDepartment createGetUsersByDepartment() {
-        return new GetUsersByDepartment();
-    }
-
-    /**
-     * Create an instance of {@link DocumentAddAttachment }
-     * 
-     */
-    public DocumentAddAttachment createDocumentAddAttachment() {
-        return new DocumentAddAttachment();
-    }
-
-    /**
-     * Create an instance of {@link LockDocumentResponse }
-     * 
-     */
-    public LockDocumentResponse createLockDocumentResponse() {
-        return new LockDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentDeliveryFlagResponse }
-     * 
-     */
-    public GetDocumentDeliveryFlagResponse createGetDocumentDeliveryFlagResponse() {
-        return new GetDocumentDeliveryFlagResponse();
-    }
-
-    /**
-     * Create an instance of {@link DocumentRemoveAttachment }
-     * 
-     */
-    public DocumentRemoveAttachment createDocumentRemoveAttachment() {
-        return new DocumentRemoveAttachment();
-    }
-
-    /**
-     * Create an instance of {@link RejectDocument }
-     * 
-     */
-    public RejectDocument createRejectDocument() {
-        return new RejectDocument();
-    }
-
-    /**
-     * Create an instance of {@link DocumentAddAttachmentResponse }
-     * 
-     */
-    public DocumentAddAttachmentResponse createDocumentAddAttachmentResponse() {
-        return new DocumentAddAttachmentResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdatePDFDocument }
-     * 
-     */
-    public UpdatePDFDocument createUpdatePDFDocument() {
-        return new UpdatePDFDocument();
-    }
-
-    /**
-     * Create an instance of {@link UnlockDocument }
-     * 
-     */
-    public UnlockDocument createUnlockDocument() {
-        return new UnlockDocument();
-    }
-
-    /**
-     * Create an instance of {@link UimQueue }
-     * 
-     */
-    public UimQueue createUimQueue() {
-        return new UimQueue();
-    }
-
-    /**
-     * Create an instance of {@link AddDocumentDeliveryFlag }
-     * 
-     */
-    public AddDocumentDeliveryFlag createAddDocumentDeliveryFlag() {
-        return new AddDocumentDeliveryFlag();
-    }
-
-    /**
-     * Create an instance of {@link GetQueuesByDepartmentResponse }
-     * 
-     */
-    public GetQueuesByDepartmentResponse createGetQueuesByDepartmentResponse() {
-        return new GetQueuesByDepartmentResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetQueueDocumentsM2SC }
-     * 
-     */
-    public GetQueueDocumentsM2SC createGetQueueDocumentsM2SC() {
-        return new GetQueueDocumentsM2SC();
-    }
-
-    /**
-     * Create an instance of {@link GeneratePDFResponse }
-     * 
-     */
-    public GeneratePDFResponse createGeneratePDFResponse() {
-        return new GeneratePDFResponse();
-    }
-
-    /**
-     * Create an instance of {@link EmptyRecycleBinByUser }
-     * 
-     */
-    public EmptyRecycleBinByUser createEmptyRecycleBinByUser() {
-        return new EmptyRecycleBinByUser();
-    }
-
-    /**
-     * Create an instance of {@link GetAllDepartmentsResponse }
-     * 
-     */
-    public GetAllDepartmentsResponse createGetAllDepartmentsResponse() {
-        return new GetAllDepartmentsResponse();
-    }
-
-    /**
-     * Create an instance of {@link UimUser }
-     * 
-     */
-    public UimUser createUimUser() {
-        return new UimUser();
-    }
-
-    /**
-     * Create an instance of {@link CleanApprove }
-     * 
-     */
-    public CleanApprove createCleanApprove() {
-        return new CleanApprove();
-    }
-
-    /**
-     * Create an instance of {@link GetAllDepartments }
-     * 
-     */
-    public GetAllDepartments createGetAllDepartments() {
-        return new GetAllDepartments();
-    }
-
-    /**
-     * Create an instance of {@link UimForm }
-     * 
-     */
-    public UimForm createUimForm() {
-        return new UimForm();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentStatusResponse }
-     * 
-     */
-    public GetDocumentStatusResponse createGetDocumentStatusResponse() {
-        return new GetDocumentStatusResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentStatus }
-     * 
-     */
-    public GetDocumentStatus createGetDocumentStatus() {
-        return new GetDocumentStatus();
-    }
-
-    /**
-     * Create an instance of {@link GetQueueDocumentsM2SCResponse }
-     * 
-     */
-    public GetQueueDocumentsM2SCResponse createGetQueueDocumentsM2SCResponse() {
-        return new GetQueueDocumentsM2SCResponse();
-    }
-
-    /**
-     * Create an instance of {@link AddDocumentHistoryEntry }
-     * 
-     */
-    public AddDocumentHistoryEntry createAddDocumentHistoryEntry() {
-        return new AddDocumentHistoryEntry();
-    }
-
-    /**
-     * Create an instance of {@link UpdateDocument }
-     * 
-     */
-    public UpdateDocument createUpdateDocument() {
-        return new UpdateDocument();
-    }
-
-    /**
-     * Create an instance of {@link UimAttachment }
-     * 
-     */
-    public UimAttachment createUimAttachment() {
-        return new UimAttachment();
-    }
-
-    /**
-     * Create an instance of {@link Authenticate }
-     * 
-     */
-    public Authenticate createAuthenticate() {
-        return new Authenticate();
-    }
-
-    /**
-     * Create an instance of {@link CheckPdfResponse }
-     * 
-     */
-    public CheckPdfResponse createCheckPdfResponse() {
-        return new CheckPdfResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentDeliveryFlag }
-     * 
-     */
-    public GetDocumentDeliveryFlag createGetDocumentDeliveryFlag() {
-        return new GetDocumentDeliveryFlag();
-    }
-
-    /**
-     * Create an instance of {@link RicercaDocumentiResponse }
-     * 
-     */
-    public RicercaDocumentiResponse createRicercaDocumentiResponse() {
-        return new RicercaDocumentiResponse();
-    }
-
-    /**
-     * Create an instance of {@link GenerateDocumentPreviewResponse }
-     * 
-     */
-    public GenerateDocumentPreviewResponse createGenerateDocumentPreviewResponse() {
-        return new GenerateDocumentPreviewResponse();
-    }
-
-    /**
-     * Create an instance of {@link RenderFormResponse }
-     * 
-     */
-    public RenderFormResponse createRenderFormResponse() {
-        return new RenderFormResponse();
-    }
-
-    /**
-     * Create an instance of {@link LookupCanaliAnagrafe }
-     * 
-     */
-    public LookupCanaliAnagrafe createLookupCanaliAnagrafe() {
-        return new LookupCanaliAnagrafe();
-    }
-
-    /**
-     * Create an instance of {@link UimResultSet }
-     * 
-     */
-    public UimResultSet createUimResultSet() {
-        return new UimResultSet();
-    }
-
-    /**
-     * Create an instance of {@link RicercaDocumenti }
-     * 
-     */
-    public RicercaDocumenti createRicercaDocumenti() {
-        return new RicercaDocumenti();
-    }
-
-    /**
-     * Create an instance of {@link GetAllModelsResponse }
-     * 
-     */
-    public GetAllModelsResponse createGetAllModelsResponse() {
-        return new GetAllModelsResponse();
-    }
-
-    /**
-     * Create an instance of {@link AddDocumentHistoryEntryResponse }
-     * 
-     */
-    public AddDocumentHistoryEntryResponse createAddDocumentHistoryEntryResponse() {
-        return new AddDocumentHistoryEntryResponse();
-    }
-
-    /**
-     * Create an instance of {@link ApproveDocument }
-     * 
-     */
-    public ApproveDocument createApproveDocument() {
-        return new ApproveDocument();
-    }
-
-    /**
-     * Create an instance of {@link GetQueueIDByDepartment }
-     * 
-     */
-    public GetQueueIDByDepartment createGetQueueIDByDepartment() {
-        return new GetQueueIDByDepartment();
-    }
-
-    /**
-     * Create an instance of {@link UpdatePDFDocumentResponse }
-     * 
-     */
-    public UpdatePDFDocumentResponse createUpdatePDFDocumentResponse() {
-        return new UpdatePDFDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentPDF }
-     * 
-     */
-    public GetDocumentPDF createGetDocumentPDF() {
-        return new GetDocumentPDF();
     }
 
     /**
@@ -579,163 +139,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link LookupCanaliAnagrafeResponse }
+     * Create an instance of {@link AddDocumentHistoryEntryResponse }
      * 
      */
-    public LookupCanaliAnagrafeResponse createLookupCanaliAnagrafeResponse() {
-        return new LookupCanaliAnagrafeResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdateOrderAttachments }
-     * 
-     */
-    public UpdateOrderAttachments createUpdateOrderAttachments() {
-        return new UpdateOrderAttachments();
-    }
-
-    /**
-     * Create an instance of {@link GetQueueDocuments }
-     * 
-     */
-    public GetQueueDocuments createGetQueueDocuments() {
-        return new GetQueueDocuments();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentUIM }
-     * 
-     */
-    public GetDocumentUIM createGetDocumentUIM() {
-        return new GetDocumentUIM();
-    }
-
-    /**
-     * Create an instance of {@link LookupAnagraficaCedacri }
-     * 
-     */
-    public LookupAnagraficaCedacri createLookupAnagraficaCedacri() {
-        return new LookupAnagraficaCedacri();
-    }
-
-    /**
-     * Create an instance of {@link GetQueuesByDepartment }
-     * 
-     */
-    public GetQueuesByDepartment createGetQueuesByDepartment() {
-        return new GetQueuesByDepartment();
-    }
-
-    /**
-     * Create an instance of {@link UpdateOrderAttachmentsResponse }
-     * 
-     */
-    public UpdateOrderAttachmentsResponse createUpdateOrderAttachmentsResponse() {
-        return new UpdateOrderAttachmentsResponse();
-    }
-
-    /**
-     * Create an instance of {@link CreateNewDocument }
-     * 
-     */
-    public CreateNewDocument createCreateNewDocument() {
-        return new CreateNewDocument();
-    }
-
-    /**
-     * Create an instance of {@link UimDepartment }
-     * 
-     */
-    public UimDepartment createUimDepartment() {
-        return new UimDepartment();
-    }
-
-    /**
-     * Create an instance of {@link MoveDocumentToQueueType }
-     * 
-     */
-    public MoveDocumentToQueueType createMoveDocumentToQueueType() {
-        return new MoveDocumentToQueueType();
-    }
-
-    /**
-     * Create an instance of {@link EmptyRecycleBinByUserResponse }
-     * 
-     */
-    public EmptyRecycleBinByUserResponse createEmptyRecycleBinByUserResponse() {
-        return new EmptyRecycleBinByUserResponse();
-    }
-
-    /**
-     * Create an instance of {@link SubmitXml }
-     * 
-     */
-    public SubmitXml createSubmitXml() {
-        return new SubmitXml();
-    }
-
-    /**
-     * Create an instance of {@link RepositoryException }
-     * 
-     */
-    public RepositoryException createRepositoryException() {
-        return new RepositoryException();
-    }
-
-    /**
-     * Create an instance of {@link LookupAnagraficaCedacriResponse }
-     * 
-     */
-    public LookupAnagraficaCedacriResponse createLookupAnagraficaCedacriResponse() {
-        return new LookupAnagraficaCedacriResponse();
-    }
-
-    /**
-     * Create an instance of {@link CleanApproveResponse }
-     * 
-     */
-    public CleanApproveResponse createCleanApproveResponse() {
-        return new CleanApproveResponse();
-    }
-
-    /**
-     * Create an instance of {@link UpdateDocumentResponse }
-     * 
-     */
-    public UpdateDocumentResponse createUpdateDocumentResponse() {
-        return new UpdateDocumentResponse();
-    }
-
-    /**
-     * Create an instance of {@link CheckPdf }
-     * 
-     */
-    public CheckPdf createCheckPdf() {
-        return new CheckPdf();
-    }
-
-    /**
-     * Create an instance of {@link AuthenticateResponse }
-     * 
-     */
-    public AuthenticateResponse createAuthenticateResponse() {
-        return new AuthenticateResponse();
-    }
-
-    /**
-     * Create an instance of {@link GetDocumentHistoryResponse }
-     * 
-     */
-    public GetDocumentHistoryResponse createGetDocumentHistoryResponse() {
-        return new GetDocumentHistoryResponse();
-    }
-
-    /**
-     * Create an instance of {@link UnlockDocumentResponse }
-     * 
-     */
-    public UnlockDocumentResponse createUnlockDocumentResponse() {
-        return new UnlockDocumentResponse();
+    public AddDocumentHistoryEntryResponse createAddDocumentHistoryEntryResponse() {
+        return new AddDocumentHistoryEntryResponse();
     }
 
     /**
@@ -747,107 +155,99 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RestoreDocumentFromBin }
+     * Create an instance of {@link GetDocumentDeliveryFlag }
      * 
      */
-    public RestoreDocumentFromBin createRestoreDocumentFromBin() {
-        return new RestoreDocumentFromBin();
+    public GetDocumentDeliveryFlag createGetDocumentDeliveryFlag() {
+        return new GetDocumentDeliveryFlag();
     }
 
     /**
-     * Create an instance of {@link DocumentRemoveAttachmentResponse }
+     * Create an instance of {@link UimUser }
      * 
      */
-    public DocumentRemoveAttachmentResponse createDocumentRemoveAttachmentResponse() {
-        return new DocumentRemoveAttachmentResponse();
+    public UimUser createUimUser() {
+        return new UimUser();
     }
 
     /**
-     * Create an instance of {@link GeneratePDF }
+     * Create an instance of {@link GetDocumentUIM }
      * 
      */
-    public GeneratePDF createGeneratePDF() {
-        return new GeneratePDF();
+    public GetDocumentUIM createGetDocumentUIM() {
+        return new GetDocumentUIM();
     }
 
     /**
-     * Create an instance of {@link UimDocument }
+     * Create an instance of {@link CheckPdfResponse }
      * 
      */
-    public UimDocument createUimDocument() {
-        return new UimDocument();
+    public CheckPdfResponse createCheckPdfResponse() {
+        return new CheckPdfResponse();
     }
 
     /**
-     * Create an instance of {@link GetDepartmentFormList }
+     * Create an instance of {@link AddDocumentDeliveryFlag }
      * 
      */
-    public GetDepartmentFormList createGetDepartmentFormList() {
-        return new GetDepartmentFormList();
+    public AddDocumentDeliveryFlag createAddDocumentDeliveryFlag() {
+        return new AddDocumentDeliveryFlag();
     }
 
     /**
-     * Create an instance of {@link IOException }
+     * Create an instance of {@link GetDepartmentFormListResponse }
      * 
      */
-    public IOException createIOException() {
-        return new IOException();
+    public GetDepartmentFormListResponse createGetDepartmentFormListResponse() {
+        return new GetDepartmentFormListResponse();
     }
 
     /**
-     * Create an instance of {@link UpdateDocumentBatchIdResponse }
+     * Create an instance of {@link UpdateOrderAttachmentsResponse }
      * 
      */
-    public UpdateDocumentBatchIdResponse createUpdateDocumentBatchIdResponse() {
-        return new UpdateDocumentBatchIdResponse();
+    public UpdateOrderAttachmentsResponse createUpdateOrderAttachmentsResponse() {
+        return new UpdateOrderAttachmentsResponse();
     }
 
     /**
-     * Create an instance of {@link GetAllModels }
+     * Create an instance of {@link GetDocumentAttachmentsResponse }
      * 
      */
-    public GetAllModels createGetAllModels() {
-        return new GetAllModels();
+    public GetDocumentAttachmentsResponse createGetDocumentAttachmentsResponse() {
+        return new GetDocumentAttachmentsResponse();
     }
 
     /**
-     * Create an instance of {@link GeneratePDFDynamicResponse }
+     * Create an instance of {@link Authenticate }
      * 
      */
-    public GeneratePDFDynamicResponse createGeneratePDFDynamicResponse() {
-        return new GeneratePDFDynamicResponse();
+    public Authenticate createAuthenticate() {
+        return new Authenticate();
     }
 
     /**
-     * Create an instance of {@link GetDocumentPDFResponse }
+     * Create an instance of {@link LockDocumentResponse }
      * 
      */
-    public GetDocumentPDFResponse createGetDocumentPDFResponse() {
-        return new GetDocumentPDFResponse();
+    public LockDocumentResponse createLockDocumentResponse() {
+        return new LockDocumentResponse();
     }
 
     /**
-     * Create an instance of {@link GenerateDocumentPreview }
+     * Create an instance of {@link UimResultSet }
      * 
      */
-    public GenerateDocumentPreview createGenerateDocumentPreview() {
-        return new GenerateDocumentPreview();
+    public UimResultSet createUimResultSet() {
+        return new UimResultSet();
     }
 
     /**
-     * Create an instance of {@link GetDocumentHistory }
+     * Create an instance of {@link DocumentAddAttachmentResponse }
      * 
      */
-    public GetDocumentHistory createGetDocumentHistory() {
-        return new GetDocumentHistory();
-    }
-
-    /**
-     * Create an instance of {@link SubmitXmlResponse }
-     * 
-     */
-    public SubmitXmlResponse createSubmitXmlResponse() {
-        return new SubmitXmlResponse();
+    public DocumentAddAttachmentResponse createDocumentAddAttachmentResponse() {
+        return new DocumentAddAttachmentResponse();
     }
 
     /**
@@ -859,27 +259,179 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link RenderForm }
+     * Create an instance of {@link UimQueue }
      * 
      */
-    public RenderForm createRenderForm() {
-        return new RenderForm();
+    public UimQueue createUimQueue() {
+        return new UimQueue();
     }
 
     /**
-     * Create an instance of {@link MoveDocumentToQueueTypeResponse }
+     * Create an instance of {@link UimForm }
      * 
      */
-    public MoveDocumentToQueueTypeResponse createMoveDocumentToQueueTypeResponse() {
-        return new MoveDocumentToQueueTypeResponse();
+    public UimForm createUimForm() {
+        return new UimForm();
     }
 
     /**
-     * Create an instance of {@link ApproveDocumentResponse }
+     * Create an instance of {@link GetDocumentUIMResponse }
      * 
      */
-    public ApproveDocumentResponse createApproveDocumentResponse() {
-        return new ApproveDocumentResponse();
+    public GetDocumentUIMResponse createGetDocumentUIMResponse() {
+        return new GetDocumentUIMResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentHistory }
+     * 
+     */
+    public GetDocumentHistory createGetDocumentHistory() {
+        return new GetDocumentHistory();
+    }
+
+    /**
+     * Create an instance of {@link GetAllModelsResponse }
+     * 
+     */
+    public GetAllModelsResponse createGetAllModelsResponse() {
+        return new GetAllModelsResponse();
+    }
+
+    /**
+     * Create an instance of {@link RicercaDocumentiResponse }
+     * 
+     */
+    public RicercaDocumentiResponse createRicercaDocumentiResponse() {
+        return new RicercaDocumentiResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetQueueDocuments }
+     * 
+     */
+    public GetQueueDocuments createGetQueueDocuments() {
+        return new GetQueueDocuments();
+    }
+
+    /**
+     * Create an instance of {@link UpdateOrderAttachments }
+     * 
+     */
+    public UpdateOrderAttachments createUpdateOrderAttachments() {
+        return new UpdateOrderAttachments();
+    }
+
+    /**
+     * Create an instance of {@link CheckPdf }
+     * 
+     */
+    public CheckPdf createCheckPdf() {
+        return new CheckPdf();
+    }
+
+    /**
+     * Create an instance of {@link MoveDocumentResponse }
+     * 
+     */
+    public MoveDocumentResponse createMoveDocumentResponse() {
+        return new MoveDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link RejectDocumentResponse }
+     * 
+     */
+    public RejectDocumentResponse createRejectDocumentResponse() {
+        return new RejectDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetAllModels }
+     * 
+     */
+    public GetAllModels createGetAllModels() {
+        return new GetAllModels();
+    }
+
+    /**
+     * Create an instance of {@link SubmitXml }
+     * 
+     */
+    public SubmitXml createSubmitXml() {
+        return new SubmitXml();
+    }
+
+    /**
+     * Create an instance of {@link GeneratePDFDynamicResponse }
+     * 
+     */
+    public GeneratePDFDynamicResponse createGeneratePDFDynamicResponse() {
+        return new GeneratePDFDynamicResponse();
+    }
+
+    /**
+     * Create an instance of {@link RestoreDocumentFromBinResponse }
+     * 
+     */
+    public RestoreDocumentFromBinResponse createRestoreDocumentFromBinResponse() {
+        return new RestoreDocumentFromBinResponse();
+    }
+
+    /**
+     * Create an instance of {@link RicercaDocumenti }
+     * 
+     */
+    public RicercaDocumenti createRicercaDocumenti() {
+        return new RicercaDocumenti();
+    }
+
+    /**
+     * Create an instance of {@link AddDocumentDeliveryFlagResponse }
+     * 
+     */
+    public AddDocumentDeliveryFlagResponse createAddDocumentDeliveryFlagResponse() {
+        return new AddDocumentDeliveryFlagResponse();
+    }
+
+    /**
+     * Create an instance of {@link GeneratePDFResponse }
+     * 
+     */
+    public GeneratePDFResponse createGeneratePDFResponse() {
+        return new GeneratePDFResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetQueuesByDepartment }
+     * 
+     */
+    public GetQueuesByDepartment createGetQueuesByDepartment() {
+        return new GetQueuesByDepartment();
+    }
+
+    /**
+     * Create an instance of {@link LookupAnagraficaCedacriResponse }
+     * 
+     */
+    public LookupAnagraficaCedacriResponse createLookupAnagraficaCedacriResponse() {
+        return new LookupAnagraficaCedacriResponse();
+    }
+
+    /**
+     * Create an instance of {@link MoveDocumentToQueueType }
+     * 
+     */
+    public MoveDocumentToQueueType createMoveDocumentToQueueType() {
+        return new MoveDocumentToQueueType();
+    }
+
+    /**
+     * Create an instance of {@link MoveDocument }
+     * 
+     */
+    public MoveDocument createMoveDocument() {
+        return new MoveDocument();
     }
 
     /**
@@ -891,6 +443,406 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetDocumentPDFResponse }
+     * 
+     */
+    public GetDocumentPDFResponse createGetDocumentPDFResponse() {
+        return new GetDocumentPDFResponse();
+    }
+
+    /**
+     * Create an instance of {@link AttachmentConversion }
+     * 
+     */
+    public AttachmentConversion createAttachmentConversion() {
+        return new AttachmentConversion();
+    }
+
+    /**
+     * Create an instance of {@link DocumentAddAttachment }
+     * 
+     */
+    public DocumentAddAttachment createDocumentAddAttachment() {
+        return new DocumentAddAttachment();
+    }
+
+    /**
+     * Create an instance of {@link EmptyRecycleBinByUser }
+     * 
+     */
+    public EmptyRecycleBinByUser createEmptyRecycleBinByUser() {
+        return new EmptyRecycleBinByUser();
+    }
+
+    /**
+     * Create an instance of {@link GetQueueDocumentsM2SCResponse }
+     * 
+     */
+    public GetQueueDocumentsM2SCResponse createGetQueueDocumentsM2SCResponse() {
+        return new GetQueueDocumentsM2SCResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateDocument }
+     * 
+     */
+    public UpdateDocument createUpdateDocument() {
+        return new UpdateDocument();
+    }
+
+    /**
+     * Create an instance of {@link GenerateDocumentPreviewResponse }
+     * 
+     */
+    public GenerateDocumentPreviewResponse createGenerateDocumentPreviewResponse() {
+        return new GenerateDocumentPreviewResponse();
+    }
+
+    /**
+     * Create an instance of {@link CreateNewDocument }
+     * 
+     */
+    public CreateNewDocument createCreateNewDocument() {
+        return new CreateNewDocument();
+    }
+
+    /**
+     * Create an instance of {@link RenderForm }
+     * 
+     */
+    public RenderForm createRenderForm() {
+        return new RenderForm();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentAttachments }
+     * 
+     */
+    public GetDocumentAttachments createGetDocumentAttachments() {
+        return new GetDocumentAttachments();
+    }
+
+    /**
+     * Create an instance of {@link GetUsersByDepartmentResponse }
+     * 
+     */
+    public GetUsersByDepartmentResponse createGetUsersByDepartmentResponse() {
+        return new GetUsersByDepartmentResponse();
+    }
+
+    /**
+     * Create an instance of {@link DocumentRemoveAttachment }
+     * 
+     */
+    public DocumentRemoveAttachment createDocumentRemoveAttachment() {
+        return new DocumentRemoveAttachment();
+    }
+
+    /**
+     * Create an instance of {@link ApproveDocumentResponse }
+     * 
+     */
+    public ApproveDocumentResponse createApproveDocumentResponse() {
+        return new ApproveDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link CleanApproveResponse }
+     * 
+     */
+    public CleanApproveResponse createCleanApproveResponse() {
+        return new CleanApproveResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentHistoryResponse }
+     * 
+     */
+    public GetDocumentHistoryResponse createGetDocumentHistoryResponse() {
+        return new GetDocumentHistoryResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDepartmentFormList }
+     * 
+     */
+    public GetDepartmentFormList createGetDepartmentFormList() {
+        return new GetDepartmentFormList();
+    }
+
+    /**
+     * Create an instance of {@link UimDocument }
+     * 
+     */
+    public UimDocument createUimDocument() {
+        return new UimDocument();
+    }
+
+    /**
+     * Create an instance of {@link LockDocument }
+     * 
+     */
+    public LockDocument createLockDocument() {
+        return new LockDocument();
+    }
+
+    /**
+     * Create an instance of {@link UpdatePDFDocumentResponse }
+     * 
+     */
+    public UpdatePDFDocumentResponse createUpdatePDFDocumentResponse() {
+        return new UpdatePDFDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link LookupCanaliAnagrafe }
+     * 
+     */
+    public LookupCanaliAnagrafe createLookupCanaliAnagrafe() {
+        return new LookupCanaliAnagrafe();
+    }
+
+    /**
+     * Create an instance of {@link GetAllDepartmentsResponse }
+     * 
+     */
+    public GetAllDepartmentsResponse createGetAllDepartmentsResponse() {
+        return new GetAllDepartmentsResponse();
+    }
+
+    /**
+     * Create an instance of {@link UimDepartment }
+     * 
+     */
+    public UimDepartment createUimDepartment() {
+        return new UimDepartment();
+    }
+
+    /**
+     * Create an instance of {@link MoveDocumentToQueueTypeResponse }
+     * 
+     */
+    public MoveDocumentToQueueTypeResponse createMoveDocumentToQueueTypeResponse() {
+        return new MoveDocumentToQueueTypeResponse();
+    }
+
+    /**
+     * Create an instance of {@link UnlockDocument }
+     * 
+     */
+    public UnlockDocument createUnlockDocument() {
+        return new UnlockDocument();
+    }
+
+    /**
+     * Create an instance of {@link GetQueuesByDepartmentResponse }
+     * 
+     */
+    public GetQueuesByDepartmentResponse createGetQueuesByDepartmentResponse() {
+        return new GetQueuesByDepartmentResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetQueueIDByDepartment }
+     * 
+     */
+    public GetQueueIDByDepartment createGetQueueIDByDepartment() {
+        return new GetQueueIDByDepartment();
+    }
+
+    /**
+     * Create an instance of {@link CreateNewDocumentResponse }
+     * 
+     */
+    public CreateNewDocumentResponse createCreateNewDocumentResponse() {
+        return new CreateNewDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateDocumentBatchIdResponse }
+     * 
+     */
+    public UpdateDocumentBatchIdResponse createUpdateDocumentBatchIdResponse() {
+        return new UpdateDocumentBatchIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link DocumentRemoveAttachmentResponse }
+     * 
+     */
+    public DocumentRemoveAttachmentResponse createDocumentRemoveAttachmentResponse() {
+        return new DocumentRemoveAttachmentResponse();
+    }
+
+    /**
+     * Create an instance of {@link AttachmentConversionResponse }
+     * 
+     */
+    public AttachmentConversionResponse createAttachmentConversionResponse() {
+        return new AttachmentConversionResponse();
+    }
+
+    /**
+     * Create an instance of {@link SubmitXmlResponse }
+     * 
+     */
+    public SubmitXmlResponse createSubmitXmlResponse() {
+        return new SubmitXmlResponse();
+    }
+
+    /**
+     * Create an instance of {@link EmptyRecycleBinByUserResponse }
+     * 
+     */
+    public EmptyRecycleBinByUserResponse createEmptyRecycleBinByUserResponse() {
+        return new EmptyRecycleBinByUserResponse();
+    }
+
+    /**
+     * Create an instance of {@link GeneratePDF }
+     * 
+     */
+    public GeneratePDF createGeneratePDF() {
+        return new GeneratePDF();
+    }
+
+    /**
+     * Create an instance of {@link GenerateDocumentPreview }
+     * 
+     */
+    public GenerateDocumentPreview createGenerateDocumentPreview() {
+        return new GenerateDocumentPreview();
+    }
+
+    /**
+     * Create an instance of {@link RenderFormResponse }
+     * 
+     */
+    public RenderFormResponse createRenderFormResponse() {
+        return new RenderFormResponse();
+    }
+
+    /**
+     * Create an instance of {@link UpdateDocumentResponse }
+     * 
+     */
+    public UpdateDocumentResponse createUpdateDocumentResponse() {
+        return new UpdateDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link UnlockDocumentResponse }
+     * 
+     */
+    public UnlockDocumentResponse createUnlockDocumentResponse() {
+        return new UnlockDocumentResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentDeliveryFlagResponse }
+     * 
+     */
+    public GetDocumentDeliveryFlagResponse createGetDocumentDeliveryFlagResponse() {
+        return new GetDocumentDeliveryFlagResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetAllDepartments }
+     * 
+     */
+    public GetAllDepartments createGetAllDepartments() {
+        return new GetAllDepartments();
+    }
+
+    /**
+     * Create an instance of {@link CleanApprove }
+     * 
+     */
+    public CleanApprove createCleanApprove() {
+        return new CleanApprove();
+    }
+
+    /**
+     * Create an instance of {@link RepositoryException }
+     * 
+     */
+    public RepositoryException createRepositoryException() {
+        return new RepositoryException();
+    }
+
+    /**
+     * Create an instance of {@link RestoreDocumentFromBin }
+     * 
+     */
+    public RestoreDocumentFromBin createRestoreDocumentFromBin() {
+        return new RestoreDocumentFromBin();
+    }
+
+    /**
+     * Create an instance of {@link ApproveDocument }
+     * 
+     */
+    public ApproveDocument createApproveDocument() {
+        return new ApproveDocument();
+    }
+
+    /**
+     * Create an instance of {@link UpdatePDFDocument }
+     * 
+     */
+    public UpdatePDFDocument createUpdatePDFDocument() {
+        return new UpdatePDFDocument();
+    }
+
+    /**
+     * Create an instance of {@link RejectDocument }
+     * 
+     */
+    public RejectDocument createRejectDocument() {
+        return new RejectDocument();
+    }
+
+    /**
+     * Create an instance of {@link LookupAnagraficaCedacri }
+     * 
+     */
+    public LookupAnagraficaCedacri createLookupAnagraficaCedacri() {
+        return new LookupAnagraficaCedacri();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentPDF }
+     * 
+     */
+    public GetDocumentPDF createGetDocumentPDF() {
+        return new GetDocumentPDF();
+    }
+
+    /**
+     * Create an instance of {@link AuthenticateResponse }
+     * 
+     */
+    public AuthenticateResponse createAuthenticateResponse() {
+        return new AuthenticateResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetDocumentStatus }
+     * 
+     */
+    public GetDocumentStatus createGetDocumentStatus() {
+        return new GetDocumentStatus();
+    }
+
+    /**
+     * Create an instance of {@link GetUsersByDepartment }
+     * 
+     */
+    public GetUsersByDepartment createGetUsersByDepartment() {
+        return new GetUsersByDepartment();
+    }
+
+    /**
      * Create an instance of {@link GetQueueIDByDepartmentResponse }
      * 
      */
@@ -899,11 +851,59 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetDocumentStatusResponse }
+     * 
+     */
+    public GetDocumentStatusResponse createGetDocumentStatusResponse() {
+        return new GetDocumentStatusResponse();
+    }
+
+    /**
+     * Create an instance of {@link IOException }
+     * 
+     */
+    public IOException createIOException() {
+        return new IOException();
+    }
+
+    /**
+     * Create an instance of {@link UimAttachment }
+     * 
+     */
+    public UimAttachment createUimAttachment() {
+        return new UimAttachment();
+    }
+
+    /**
+     * Create an instance of {@link AddDocumentHistoryEntry }
+     * 
+     */
+    public AddDocumentHistoryEntry createAddDocumentHistoryEntry() {
+        return new AddDocumentHistoryEntry();
+    }
+
+    /**
      * Create an instance of {@link GetQueueDocumentsResponse }
      * 
      */
     public GetQueueDocumentsResponse createGetQueueDocumentsResponse() {
         return new GetQueueDocumentsResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetQueueDocumentsM2SC }
+     * 
+     */
+    public GetQueueDocumentsM2SC createGetQueueDocumentsM2SC() {
+        return new GetQueueDocumentsM2SC();
+    }
+
+    /**
+     * Create an instance of {@link LookupCanaliAnagrafeResponse }
+     * 
+     */
+    public LookupCanaliAnagrafeResponse createLookupCanaliAnagrafeResponse() {
+        return new LookupCanaliAnagrafeResponse();
     }
 
     /**
