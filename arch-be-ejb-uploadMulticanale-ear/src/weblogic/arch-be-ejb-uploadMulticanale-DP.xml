@@ -193,9 +193,34 @@
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;AZURE-SAFE-OFFESET-START-TIME-MINUTES&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
-             <variable-assignment>
+            <variable-assignment>
 				<name>generatedPdfFilePath</name>
 				<xpath>/web-app/env-entry/[env-entry-name=&quot;GENERATED_PDF_FILE_PATH&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>generatedDynamicPdfFilePath</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;GENERATED_DYNAMIC_PDF_FILE_PATH&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleChannel</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_CHANNEL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleContainerType</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_CONTAINERTYPE&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleNameApp</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_NAMEAPP&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleUserId</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_USERID&quot;]/env-entry-value</xpath>
 				<operation>replace</operation>
 			</variable-assignment>
             <variable-assignment>

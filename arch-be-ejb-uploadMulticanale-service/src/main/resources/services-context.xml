@@ -87,6 +87,11 @@
 		<property name="nasReteDiVenditaDeletedPath" ref="nasRVDeletedPath"/>
 		<property name="nasPortaleDiSedeDeletedPath" ref="nasPSDeletedPath"/>
 		<property name="generatedPdfFilePath" ref="generatedPdfFilePath"/>
+		<property name="generatedDynamicPdfFilePath" ref="generatedDynamicPdfFilePath"/>
+		<property name="pdfLiveCycleChannel" ref="pdfLiveCycleChannel"/>
+		<property name="pdfLiveCycleContainerType" ref="pdfLiveCycleContainerType"/>
+		<property name="pdfLiveCycleNameApp" ref="pdfLiveCycleNameApp"/>
+		<property name="pdfLiveCycleUserId" ref="pdfLiveCycleUserId"/>
 	</bean>
 	
 	<bean id="mimeTypeMapping" class="org.springframework.beans.factory.config.MapFactoryBean">
@@ -119,6 +124,11 @@
 	<jee:jndi-lookup id="nasPSDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-PS" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="nasRVDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-RV" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="generatedPdfFilePath" jndi-name="java:comp/env/GENERATED_PDF_FILE_PATH" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="generatedDynamicPdfFilePath" jndi-name="java:comp/env/GENERATED_DYNAMIC_PDF_FILE_PATH" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleChannel" jndi-name="java:comp/env/PDF_LIVECYCLE_CHANNEL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleContainerType" jndi-name="java:comp/env/PDF_LIVECYCLE_CONTAINERTYPE" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleNameApp" jndi-name="java:comp/env/PDF_LIVECYCLE_NAMEAPP" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleUserId" jndi-name="java:comp/env/PDF_LIVECYCLE_USERID" expected-type="java.lang.String" />
 	<!-- FILENET SETTINGS LOOKUP -->
 	<jee:jndi-lookup id="filenetUrl" jndi-name="java:comp/env/FILENET-URL" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="filenetUser" jndi-name="java:comp/env/FILENET-USER" expected-type="java.lang.String" />

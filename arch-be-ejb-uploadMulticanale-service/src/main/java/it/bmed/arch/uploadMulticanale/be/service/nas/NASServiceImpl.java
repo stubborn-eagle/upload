@@ -3,7 +3,9 @@
  */
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
+import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.DevelopmentException;
@@ -282,6 +284,9 @@ public class NASServiceImpl implements NASService {
 			case LIVE_CYCLE:
 				destinationPathname = settingsBean.getGeneratedPdfFilePath();
 				break;
+			case LIVE_CYCLE_DYNAMIC:
+				destinationPathname = settingsBean.getGeneratedDynamicPdfFilePath();
+				break;
 			}
 
 		} catch (Exception e) {
@@ -289,6 +294,32 @@ public class NASServiceImpl implements NASService {
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		return destinationPathname;
+	}
+
+	@Override
+	public ECMFile getEcmFileLiveCyclePdf(String refId, boolean isDynamic) throws TechnicalException {
+		String destinationPath = getDestinationPathFromSource(ECMSource.LIVE_CYCLE);	
+		String fileName = refId + ".pdf";
+		if(isDynamic){
+			fileName = refId + "_dynamic.pdf";
+		}
+		String sourcePath = destinationPath + "/"+ fileName;
+		
+		ECMFile ecmFile = new ECMFile();
+		
+		ecmFile.setIdFile(0);
+		ecmFile.setChannel(settingsBean.getPdfLiveCycleChannel());
+		ecmFile.setContainerType(settingsBean.getPdfLiveCycleContainerType());
+		ecmFile.setDestinationPath(destinationPath);
+		ecmFile.setNameApp(settingsBean.getPdfLiveCycleNameApp());
+		ecmFile.setNameFile(fileName);
+		ecmFile.setSource(ECMSource.LIVE_CYCLE);
+		ecmFile.setSourcePath(sourcePath);
+		ecmFile.setState(ECMState.INSERTED);
+		ecmFile.setType("PDF");
+		ecmFile.setUserId(settingsBean.getPdfLiveCycleUserId());
+		
+		return ecmFile;
 	}
 	
 	

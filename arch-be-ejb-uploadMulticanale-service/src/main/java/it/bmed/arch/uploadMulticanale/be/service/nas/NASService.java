@@ -2,6 +2,7 @@ package it.bmed.arch.uploadMulticanale.be.service.nas;
 
 import java.io.InputStream;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.asia.exception.TechnicalException;
 
@@ -36,4 +37,5 @@ public interface NASService {
 	 */
 	void saveFile(InputStream resultStream, String nameFile, ECMSource source, String sourcePath) throws TechnicalException, Exception;
 
+	ECMFile getEcmFileLiveCyclePdf(String refId, boolean isDynamic) throws TechnicalException;
 }

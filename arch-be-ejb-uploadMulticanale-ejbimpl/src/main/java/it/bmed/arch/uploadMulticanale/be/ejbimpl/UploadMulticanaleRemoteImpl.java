@@ -638,32 +638,45 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	
 	@Override
 	public String generatePDF(String refId, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-//TODO:Marco Mockup
-//		byte[] fileContent = generatePDFServiceClient.generatePDF(refId);
-//		
-//		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
-//		try{
-//			nasService.saveFile(resultStream, refId+".pdf", ECMSource.LIVE_CYCLE, null);
-//		} catch (Exception e) {
-//			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF " + e.getMessage());
-//		}
-		
-        return refId+"generatePDF";
+		return generateLiveCyclePDF(refId, false, string);
     }
 	
 	@Override
 	public String generatePDFDynamic(String refId, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		byte[] fileContent = generatePDFServiceClient.generatePDFDynamic(refId);
-		
-		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
-		try{
-			nasService.saveFile(resultStream, refId+".pdf", ECMSource.LIVE_CYCLE, null);
-		} catch (Exception e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDFDynamic " + e.getMessage());
+		return generateLiveCyclePDF(refId, true, string);
+    }
+	
+	private String generateLiveCyclePDF(String refId, boolean isDynamic, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		String result = null;
+		byte[] fileContent = null;
+		if(!isDynamic){
+			fileContent = generatePDFServiceClient.generatePDF(refId);
+		}else{
+			fileContent = generatePDFServiceClient.generatePDFDynamic(refId);
 		}
 		
-        return refId+"generatePDFDynamic";
-    }
+		ECMSource ecmSource =  ECMSource.LIVE_CYCLE;
+		if(isDynamic){
+			ecmSource =  ECMSource.LIVE_CYCLE_DYNAMIC;
+		}
+		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+		try{
+			nasService.saveFile(resultStream, refId, ecmSource, null);
+			
+			ECMRequest ecmRequestReg = new ECMRequest();
+			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(refId, isDynamic));
+			
+			
+			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());
+			result = ecmResponse.getResult().getIdFile().toString();
+
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF"+(isDynamic?"Dynamic ":" ") + e.getMessage());
+		}
+		
+        return result;
+//        return refId+"generatePDF"+(isDynamic?"Dynamic":"");
+	}
 
 	@Override
 	public String signAndMoveToFilenet(String refIf, HeaderInputType string) throws RemoteException {

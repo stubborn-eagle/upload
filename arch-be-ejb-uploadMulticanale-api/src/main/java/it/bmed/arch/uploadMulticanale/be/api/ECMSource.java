@@ -2,7 +2,7 @@ package it.bmed.arch.uploadMulticanale.be.api;
 
 public enum ECMSource {
 
-	INTERNET_BANKING(1), PORTALE_DI_SEDE(2), RETE_DI_VENDITA(3), LIVE_CYCLE(4);
+	INTERNET_BANKING(1), PORTALE_DI_SEDE(2), RETE_DI_VENDITA(3), LIVE_CYCLE(4), LIVE_CYCLE_DYNAMIC(5);
 
 	private Integer value;
 
