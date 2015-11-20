@@ -24,13 +24,6 @@
 			<version>${project.parent.version}</version>
 			<type>war</type>
 		</dependency>
-
-		<!-- EXTERNAL DEPENDENCIES -->
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>${project.parent.artifactId}-deps</artifactId>
-			<version>${project.parent.version}</version>
-		</dependency>
 	</dependencies>
 
 	<build>
