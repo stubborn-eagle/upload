@@ -21,7 +21,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 
   <modules>
-    <!--  <module>arch-be-ejb-uploadMulticanale-deps</module>-->
+    <module>arch-be-ejb-uploadMulticanale-deps</module>
     <module>arch-be-ejb-uploadMulticanale-api</module>
     <module>arch-be-ejb-uploadMulticanale-dao</module>
     <module>arch-be-ejb-uploadMulticanale-service</module>
