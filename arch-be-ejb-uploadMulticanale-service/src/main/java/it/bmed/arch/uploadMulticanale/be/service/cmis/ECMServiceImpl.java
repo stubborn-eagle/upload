@@ -39,6 +39,7 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		//TODO:Marco test
+		/*
 		if (alfrescoConnector == null) {
 			throw new Exception("ERROR: alfrescoConnector not injected");
 		} else {
@@ -51,7 +52,7 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 			}
 		}
 		//TODO:Marco test
-		/*
+		
 		if (filenetConnector == null) {
 			throw new Exception("ERROR: filenetConnector not injected");
 		}  

@@ -11,7 +11,7 @@
 		<param-name>locatorFactorySelector</param-name>
 		<param-value>beanRefContext.xml</param-value>
 	</context-param>
-
+	
 	<context-param>
 		<param-name>parentContextKey</param-name>
 		<param-value>ear.context</param-value>
@@ -25,7 +25,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
 	
 	<env-entry>
 		<env-entry-name>LOGBACK-CONFIG</env-entry-name>

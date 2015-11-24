@@ -15,6 +15,28 @@
 			<version>${project.parent.version}</version>
 		</dependency>	
 		<dependency>
+			<groupId>org.apache.chemistry.opencmis</groupId>
+			<artifactId>chemistry-opencmis-commons-api</artifactId>
+			<version>0.10.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.chemistry.opencmis</groupId>
+			<artifactId>chemistry-opencmis-client-impl</artifactId>
+			<version>0.10.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>saaj-impl</artifactId>
+					<groupId>com.sun.xml.messaging.saaj</groupId>
+				</exclusion>
+				<!-- 
+				<exclusion>
+					<artifactId>jaxws-rt</artifactId>
+					<groupId>com.sun.xml.ws</groupId>
+				</exclusion>
+				 -->
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.0</version>
@@ -34,6 +56,30 @@
 			<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 			<artifactId>arch-be-ejb-uploadMulticanale-livecycle-wsclient</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.windowsazure</groupId>
+			<artifactId>microsoft-windowsazure-api</artifactId>
+			<version>0.4.6</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-core-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-mapper-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.5</version>
 		</dependency>
 	</dependencies>
 </project>
