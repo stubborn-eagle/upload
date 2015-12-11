@@ -35,6 +35,7 @@ public interface ECMConnector {
 	 */
 //	String createFile(byte[] buffer, String destinationPath, String filename, String type);
 	String createFile(byte[] buffer, ECMFile ecmFile, ECMParam ecmParam);
+	String createFileWithMetadata(byte[] buffer, ECMFile ecmFile, ECMParam ecmParam);
 	
 	/**
 	 * Delete a file from the ECM using it's respective file Id

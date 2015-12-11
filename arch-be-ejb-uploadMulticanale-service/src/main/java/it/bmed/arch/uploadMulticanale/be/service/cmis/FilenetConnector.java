@@ -1,6 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
 import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.CREATE_REQUEST;
+import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.CREATE_REQUEST_WITH_METADATA;
 import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.DELETE_REQUEST;
 import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.DOWNLOAD_REQUEST;
 import filenet.ws.client.WSGDIImpl;
@@ -34,6 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+
+import arch.bmed.mediabus.be.ws.client.media.MediaRequest;
+import arch.bmed.mediabus.be.ws.client.media.RequestMetaData;
 
 public class FilenetConnector extends AbstractECMConnector implements
 		InitializingBean {
@@ -84,6 +88,29 @@ public class FilenetConnector extends AbstractECMConnector implements
 		return idFilenet;
 	}
 	
+	@Override
+	public String createFileWithMetadata(byte[] buffer, ECMFile ecmFile, ECMParam ecmParam) {
+		String idFilenet = null;
+		logger.info("createFile call.");
+		try {
+			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
+			// Encoding file in base64 preparing the xml transformation
+			String encodeFile = (Util.encodeFileToBase64Binary(buffer));
+			String xml = Util.encodeXML(CREATE_REQUEST_WITH_METADATA, encodeFile, ecmFile, ecmParam);
+			logger.debug("createFile xml"+xml);
+			String response = serviceFileNet.addObject(xml);
+			idFilenet = getIdFilenet(response);
+		} catch (Exception e) {
+			logger.error("createFile " + e.getMessage());
+			e.printStackTrace();
+			for(int i=0; i < e.getStackTrace().length; i++){
+				logger.error("STACK"+e.getStackTrace()[i]);
+			}
+			
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "createFile error", e);
+		}
+		return idFilenet;
+	}
 	
 	public <SERVICE,FACT extends AsiaWsClientFactory<SERVICE>> SERVICE getWsClient(Class<FACT> factoryClass)  throws Exception {
 		

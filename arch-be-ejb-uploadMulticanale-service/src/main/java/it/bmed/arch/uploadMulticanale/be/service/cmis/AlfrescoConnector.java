@@ -2,6 +2,7 @@ package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
+import it.bmed.arch.uploadMulticanale.be.api.FileProperty;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
@@ -61,6 +62,64 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 		Map<String, Object> properties = new HashMap<String, Object>();
 		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
 		properties.put(PropertyIds.NAME, ecmFile.getNameFile()+ "." + ecmFile.getType());
+		//properties.put(PropertyIds.CREATED_BY, "cmis:")
+	
+		// check connection
+		if (session == null) {
+			logger.warn("createFile: session timeout.");
+			try {
+				// re-initialise session
+				createConnection();				
+			} catch (CmisConnectionException cce) {
+				logger.error("createFile - connection error.");
+				throw new AsiaException("TCH_ECM_ERROR", cce.getMessage());
+			} catch (Exception e) {
+				logger.error("createFile: " + e.getMessage());				
+				throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
+			}
+		}
+		try {
+			//rootFolder = session.getRootFolder();
+			String pathWithSlash = "/"+ecmParam.getDestinationPath();
+			folder = (Folder) session.getObjectByPath(pathWithSlash);
+			InputStream inputStream = new ByteArrayInputStream(buffer);
+			contentStream = new ContentStreamImpl(ecmFile.getNameFile() + "." + ecmFile.getType(), BigInteger.valueOf(buffer.length), "", inputStream);
+			// document = (Document) session.getObjectByPath(destinationPath + "/" + filename);
+			document = folder.createDocument(properties, contentStream, VersioningState.MAJOR);
+			fileId  = document.getId();
+			logger.debug("createFile: created file with id " + fileId);
+			//System.out.println("Connection created: rootFolderId = " + folderId);
+		} catch (CmisContentAlreadyExistsException e) {
+			logger.debug("createFile: " + e.getMessage() + "'" + session.getObjectByPath(ecmFile.getDestinationPath() + "/" + ecmFile.getNameFile() + "." + ecmFile.getType()).getId() + "'");
+		} catch (Exception e) {
+			logger.error("createFile: " + e.getMessage());
+			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
+		}
+		return fileId;
+	}
+	
+	@Override
+	public String createFileWithMetadata(byte[] buffer, ECMFile ecmFile, ECMParam ecmParam) throws AsiaException {
+
+		// throw new AsiaException("TCH_ECM_ERROR", "createFile - argument cannot be null!");
+		logger.debug("createFile: creating " + ecmFile.getNameFile() + "." + ecmFile.getType());
+
+		String fileId = "";
+		Document document = null;
+//		ObjectId folderId = null;
+//		Folder rootFolder = null;
+		Folder folder = null;
+		ContentStream contentStream = null;
+//		final String mimetype = "text/plain; charset=UTF-8";
+		
+		Map<String, Object> properties = new HashMap<String, Object>();
+		properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:document");
+		properties.put(PropertyIds.NAME, ecmFile.getNameFile()+ "." + ecmFile.getType());
+		for(FileProperty fileProperty : ecmParam.getProperty()){
+			if(!fileProperty.getName().equalsIgnoreCase(PropertyIds.OBJECT_TYPE_ID) && !fileProperty.getName().equalsIgnoreCase(PropertyIds.NAME)){
+				properties.put(fileProperty.getName(), fileProperty.getValue());
+			}
+		}
 		//properties.put(PropertyIds.CREATED_BY, "cmis:")
 	
 		// check connection
