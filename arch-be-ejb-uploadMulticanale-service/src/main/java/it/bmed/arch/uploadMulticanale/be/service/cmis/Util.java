@@ -34,6 +34,13 @@ public class Util {
 				throw new IllegalArgumentException("Arguments cannot be null in Filenet create operation.");
 			}
 			break;
+		case CREATE_REQUEST_WITH_METADATA:
+			if (base64FileContent != null && base64FileContent.length() > 0 && ecmFile != null && ecmParam != null) {
+				xml = encodeXMLToCreateWithMetadata(base64FileContent, ecmFile, ecmParam);
+			} else {
+				throw new IllegalArgumentException("Arguments cannot be null in Filenet create operation.");
+			}
+			break;
 		
 		case DELETE_REQUEST:
 			if (ecmFile != null) {

@@ -15,6 +15,7 @@ import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
+import it.bmed.arch.uploadMulticanale.be.api.SignDocumentAndMoveToFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
@@ -737,8 +738,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 
 	@Override
-	public String signAndMoveToFilenet(String refIf, HeaderInputType string) throws RemoteException {
-		return refIf+"signAndMoveToFilenet";
+	public String signAndMoveToFilenet(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws RemoteException {
+		return request.getSignatureData().getSigners()+"signAndMoveToFilenet";
 	}
-
 }

@@ -158,6 +158,6 @@
 	<env-entry>
 		<env-entry-name>LIVECYCLE_WSDL_URL</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>https://ab03ac2c.ced.it:8443/Dispatcher/Dispatcher</env-entry-value>
+		<env-entry-value>http://ab03ac2c.ced.it:8443/Dispatcher/Dispatcher</env-entry-value>
 	</env-entry>
 </web-app>
