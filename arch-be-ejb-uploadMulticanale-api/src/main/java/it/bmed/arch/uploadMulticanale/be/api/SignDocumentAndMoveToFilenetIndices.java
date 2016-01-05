@@ -1,11 +1,13 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
 //@XmlType(name="indices")
-public class SignDocumentAndMoveToFilenetIndices {
+public class SignDocumentAndMoveToFilenetIndices implements Serializable{
+	private static final long serialVersionUID = 9115072697666632986L;
 	
 	private String documentCode;
 	private List<SignDocumentAndMoveToFilenetIndex> index;

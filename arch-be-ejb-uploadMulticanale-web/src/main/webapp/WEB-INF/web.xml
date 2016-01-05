@@ -160,4 +160,10 @@
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>http://ab03ac2c.ced.it:8443/Dispatcher/Dispatcher</env-entry-value>
 	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>SIGN_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://lxosb701.gbm.lan:8002/FirmaDigitale/SignatureService_RDV</env-entry-value>
+	</env-entry>
 </web-app>

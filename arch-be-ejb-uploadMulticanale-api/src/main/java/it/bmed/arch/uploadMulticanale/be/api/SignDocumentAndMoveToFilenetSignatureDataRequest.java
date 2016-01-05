@@ -7,7 +7,8 @@ import javax.xml.bind.annotation.XmlType;
 
 //@XmlType(name="signatureData")
 public class SignDocumentAndMoveToFilenetSignatureDataRequest implements Serializable{
-	
+	private static final long serialVersionUID = 6309405016747178298L;
+
 	private String domain = null;
 	
 	private String alias = null;
@@ -18,35 +19,35 @@ public class SignDocumentAndMoveToFilenetSignatureDataRequest implements Seriali
 	
 	private String signers = null;
 
-	@XmlElement(nillable=true, required=false)
+	@XmlElement(required=false)
 	public String getDomain() {
 		return domain;
 	}
 	public void setDomain(String domain) {
 		this.domain = domain;
 	}
-	@XmlElement(nillable=true, required=false)
+	@XmlElement(required=false)
 	public String getAlias() {
 		return alias;
 	}
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
-	@XmlElement(nillable=true, required=false)
+	@XmlElement(required=false)
 	public String getPin() {
 		return pin;
 	}
 	public void setPin(String pin) {
 		this.pin = pin;
 	}
-	@XmlElement(nillable=true, required=false)
+	@XmlElement(required=false)
 	public Integer getOtp() {
 		return otp;
 	}
 	public void setOtp(Integer otp) {
 		this.otp = otp;
 	}
-	@XmlElement(nillable=true, required=false)
+	@XmlElement(nillable=false, required=false)
 	public String getSigners() {
 		return signers;
 	}

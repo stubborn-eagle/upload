@@ -229,6 +229,12 @@
 				<xpath>/web-app/env-entry/[env-entry-name=&quot;LIVECYCLE_WSDL_URL&quot;]/env-entry-value</xpath>
 				<operation>replace</operation>
 			</variable-assignment>
+			<variable-assignment>
+				<description>Sign URI comprensive of terminator '/'</description>
+				<name>signUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
 		</module-descriptor>
 	</module-override>
 </deployment-plan>

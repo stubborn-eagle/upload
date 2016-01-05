@@ -6,8 +6,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 //@XmlType(name="ecmParams")
 public class SignDocumentAndMoveToFilenetECMParamRequest  implements Serializable {
-	private static final long serialVersionUID = -2006320181477501366L;
-	
+	private static final long serialVersionUID = -8466453819653526954L;
+
 	private Integer idFile = null;
 	
 	private Boolean removeFromNAS = false;

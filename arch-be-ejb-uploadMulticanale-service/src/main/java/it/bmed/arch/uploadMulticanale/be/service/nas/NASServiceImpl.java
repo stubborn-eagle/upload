@@ -31,7 +31,15 @@ public class NASServiceImpl implements NASService {
 	private static final Logger logger = LoggerFactory.getLogger(NASServiceImpl.class); 
 	private NASServiceSettingsBean settingsBean = null;
 	
-	
+	private SignConnector signConnector;
+
+	public SignConnector getLiveCycleConnector() {
+		return signConnector;
+	}
+
+	public void setLiveCycleConnector(SignConnector signConnector) {
+		this.signConnector = signConnector;
+	}
 	
 	/**
 	 * @param settingsBean the settingsBean to set
@@ -322,5 +330,27 @@ public class NASServiceImpl implements NASService {
 		return ecmFile;
 	}
 	
+	@Override
+	public String firmaCades(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException {
+		logger.info("generatePDF call.");
+		String result = null;
+		try {
+			result = signConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
 	
+	@Override
+	public String firmaPades(String documentoDaFirmare, String firmatari) throws TechnicalException {
+		logger.info("generatePDFDynamic call.");
+		String result = null;
+		try {
+			result = signConnector.firmaPades(documentoDaFirmare, firmatari);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
 }

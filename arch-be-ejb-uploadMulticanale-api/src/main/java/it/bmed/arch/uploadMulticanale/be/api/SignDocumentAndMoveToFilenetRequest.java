@@ -1,8 +1,11 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
+import it.bmed.asia.api.BaseBeRequest;
+
 import javax.xml.bind.annotation.XmlElement;
 
-public class SignDocumentAndMoveToFilenetRequest {
+public class SignDocumentAndMoveToFilenetRequest extends BaseBeRequest {
+	private static final long serialVersionUID = -2802902167917865126L;
 	
 	private SignDocumentAndMoveToFilenetSignatureDataRequest signatureData;
 	private SignDocumentAndMoveToFilenetFilenetRequest filenet;

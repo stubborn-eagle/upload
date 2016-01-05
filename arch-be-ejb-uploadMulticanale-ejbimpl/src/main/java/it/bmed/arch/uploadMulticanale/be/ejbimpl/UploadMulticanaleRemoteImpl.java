@@ -6,6 +6,7 @@ import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMConvertRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
@@ -41,12 +42,15 @@ import it.bmed.schema.common.v1.HeaderInputType;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.rmi.RemoteException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.WebService;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
@@ -441,7 +445,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	
 	@Override
 	public MoveResponse moveFileWithMetadata(MoveRequest request, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		log.debug("moveFile: Entering");
+		log.debug("moveFileWithMetadata: Entering");
 		MoveResponse response = new MoveResponse();
 		ECMResponse ecmResponse = null;
 		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
@@ -493,7 +497,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
 		response.setResult(moveDTO);
-		log.debug("moveFile: Entering");
+		log.debug("moveFileWithMetadata: Exit");
 		return response;
 	}
 
@@ -738,7 +742,73 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 
 	@Override
-	public String signAndMoveToFilenet(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws RemoteException {
-		return request.getSignatureData().getSigners()+"signAndMoveToFilenet";
+	public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException {
+		
+		byte[] buffer = null;
+		ECMFile ecmFile = null;
+		String result = null;
+		
+		ECMResponse ecmResponse = null;
+		ECMRequest ecmRequest = new ECMRequest();
+		ecmFile = new ECMFile();
+		ecmFile.setIdFile(request.getEcmParams().getIdFile());
+		ecmRequest.setEcmFile(ecmFile);
+		
+		try {
+			
+			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
+			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
+			
+			// Load file from NAS
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE", nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH", ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE", ecmResponse.getResult().getSource());
+			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
+			ecmFile = ecmResponse.getResult();
+			
+			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
+			
+			String xmlFirmatari = nasService.firmaCades(documentoDaFirmare, request.getSignatureData().getDomain(), request.getSignatureData().getAlias(), request.getSignatureData().getPin(), Integer.toString(request.getSignatureData().getOtp()));
+			String padesBase64FileContent = nasService.firmaPades(documentoDaFirmare, xmlFirmatari);
+			
+			ECMParam ecmParam = new ECMParam();
+			ecmParam.setEcmType(ECMType.IBM_FILENET);
+			ecmParam.setIdFile(ecmResponse.getResult().getIdFile());
+			ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS()!=null&&request.getEcmParams().getRemoveFromNAS().equals("true")?RemoveFromNAS.REMOVE:RemoveFromNAS.NOT_REMOVE);
+			
+			result = ecmService.createFile(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
+			
+/*
+2.      Dato l’idFile l’ejb recupera il file dal nas (usando il db tecnico) e chiama il servizio osb di firmaCades 
+(osb_firmadigitale-prj/px/FirmaDigitaleSignatureService_proxy_RDV) con l’xml dei firmatari in base64 (documento da firmare)
+3.      L’ejb chiama si servizio Infocert di firmaPades passando in input l’xml restituito dalla firmaCades e il base64 del pdf 
+da firmare (doc firmaCadesPades)
+4.      L’ejb archivia il file firmato su filenet restituendo il GUID (id di fileNet). (documentazione WSGDI)
+ 
+NOTA1: L’xml dei firmatari possiede un campo hash_doc. L’algoritmo usato per il calcolo è SHA-256 sull’inputstream del file codificato in base64. Di seguito un esempio di calcolo
+ 
+MessageDigest md = MessageDigest.getInstance("SHA-256");
+byte[] dataBytes = inputStream;
+md.update(dataBytes);
+byte[] mdbytes = md.digest();
+String hashCode= Base64.encode(mdbytes);
+
+NOTA2: I servizi di Infocert sono protetti da una BASIC authentication. Quando chiamiamo il servizio OSB di firmaCades (punto2) non c’è problema, le credenziali sono inserite dal servizio OSB stesso. Quando invece chiamiamo infocert direttamente dall’ejb senza passare da osb vanno inserite le credenziali. Stiamo cercando un modo per iniettare queste credenziali in modo che a voi sia completamente trasparente (nel caso peggiore andranno invece inserite 3 righe di codice).
+*/
+			
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
+		}
+		log.debug("signFilenetDocument: exit");
+
+		return result;
+	}
+	
+	private String getFileHash(byte[] content) throws NoSuchAlgorithmException{
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		byte[] dataBytes = content;
+		md.update(dataBytes);
+		byte[] mdbytes = md.digest();
+		return new String(Base64.encodeBase64(mdbytes));
 	}
 }
