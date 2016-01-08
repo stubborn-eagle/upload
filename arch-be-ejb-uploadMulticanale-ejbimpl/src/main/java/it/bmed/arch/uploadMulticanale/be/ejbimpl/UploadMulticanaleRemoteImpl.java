@@ -769,7 +769,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
 			
 			String xmlFirmatari = nasService.firmaCades(documentoDaFirmare, request.getSignatureData().getDomain(), request.getSignatureData().getAlias(), request.getSignatureData().getPin(), Integer.toString(request.getSignatureData().getOtp()));
-			String padesBase64FileContent = nasService.firmaPades(documentoDaFirmare, xmlFirmatari);
+			String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatari);
 			
 			ECMParam ecmParam = new ECMParam();
 			ecmParam.setEcmType(ECMType.IBM_FILENET);

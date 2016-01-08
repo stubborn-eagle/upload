@@ -166,4 +166,30 @@
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>https://lxosb701.gbm.lan:8002/FirmaDigitale/SignatureService_RDV</env-entry-value>
 	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_INFOCERT_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://ncfrcl.infocert.it/ncfr-webservice/FirmaWS</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_DOMINIO</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>BMED</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_ALIAS</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>DSRAO-BMDFRM80A01F205J-2</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_PIN</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>00051168</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_OTP</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value></env-entry-value>
+	</env-entry>
+	
 </web-app>

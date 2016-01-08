@@ -1,11 +1,10 @@
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
-import java.io.InputStream;
-
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
-import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.TechnicalException;
+
+import java.io.InputStream;
 
 public interface NASService {
 	/**
@@ -43,4 +42,8 @@ public interface NASService {
 	String firmaCades(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException;
 	
 	String firmaPades(String documentoDaFirmare, String firmatari) throws TechnicalException;
+	
+	String firmaCadesInfocert(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException;
+	
+	String firmaPadesInfocert(String documentoDaFirmare, String firmatari) throws TechnicalException;
 }

@@ -32,20 +32,21 @@ public class NASServiceImpl implements NASService {
 	private NASServiceSettingsBean settingsBean = null;
 	
 	private SignConnector signConnector;
+	private SignConnector signInfocertConnector;
 
-	public SignConnector getLiveCycleConnector() {
-		return signConnector;
-	}
-
-	public void setLiveCycleConnector(SignConnector signConnector) {
-		this.signConnector = signConnector;
-	}
-	
 	/**
 	 * @param settingsBean the settingsBean to set
 	 */
 	public void setSettingsBean(NASServiceSettingsBean settingsBean) {
 		this.settingsBean = settingsBean;
+	}
+	
+	public void setSignConnector(SignConnector signConnector) {
+		this.signConnector = signConnector;
+	}
+
+	public void setSignInfocertConnector(SignConnector signInfocertConnector) {
+		this.signInfocertConnector = signInfocertConnector;
 	}
 
 	/* (non-Javadoc)
@@ -332,7 +333,7 @@ public class NASServiceImpl implements NASService {
 	
 	@Override
 	public String firmaCades(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException {
-		logger.info("generatePDF call.");
+		logger.info("firmaCades call.");
 		String result = null;
 		try {
 			result = signConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
@@ -344,10 +345,34 @@ public class NASServiceImpl implements NASService {
 	
 	@Override
 	public String firmaPades(String documentoDaFirmare, String firmatari) throws TechnicalException {
-		logger.info("generatePDFDynamic call.");
+		logger.info("firmaPades call.");
 		String result = null;
 		try {
 			result = signConnector.firmaPades(documentoDaFirmare, firmatari);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
+	
+	@Override
+	public String firmaCadesInfocert(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException {
+		logger.info("firmaCadesInfocert call.");
+		String result = null;
+		try {
+			result = signInfocertConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
+	
+	@Override
+	public String firmaPadesInfocert(String documentoDaFirmare, String firmatari) throws TechnicalException {
+		logger.info("firmaPadesInfocert call.");
+		String result = null;
+		try {
+			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari);
 		} catch (Exception e) {
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}

@@ -21,6 +21,7 @@
  	<bean id="nasService" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceImpl">
  		<property name="settingsBean" ref="settingsBean"/>
  		<property name="signConnector" ref="signConnector"/>
+ 		<property name="signInfocertConnector" ref="signInfocertConnector"/>
  	</bean>
 
 	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl">
@@ -38,6 +39,13 @@
 	</bean>
  	<bean id="signConnector" class="it.bmed.arch.uploadMulticanale.be.service.nas.SignConnector">
 		<property name="signUrl" ref="signUrl" />
+	</bean>
+	<bean id="signInfocertConnector" class="it.bmed.arch.uploadMulticanale.be.service.nas.SignInfocertConnector">
+		<property name="signInfocertUrl" ref="signInfocertUrl" />
+		<property name="signFirmatariDominio" ref="signFirmatariDominio" />
+		<property name="signFirmatariAlias" ref="signFirmatariAlias" />
+		<property name="signFirmatariPin" ref="signFirmatariPin" />
+		<property name="signFirmatariOtp" ref="signFirmatariOtp" />
 	</bean>
 	
 	<!-- ALFRESCO ECM CONNECTOR -->
@@ -144,6 +152,10 @@
 	<!-- AZURE SETTINGS LOOKUP -->
 	<jee:jndi-lookup id="liveCycleUrl" jndi-name="java:comp/env/LIVECYCLE_WSDL_URL" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="signUrl" jndi-name="java:comp/env/SIGN_WSDL_URL" expected-type="java.lang.String" />
-	
+	<jee:jndi-lookup id="signInfocertUrl" jndi-name="java:comp/env/SIGN_INFOCERT_WSDL_URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariDominio" jndi-name="java:comp/env/SIGN_FIRMATARI_DOMINIO" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariAlias" jndi-name="java:comp/env/SIGN_FIRMATARI_ALIAS" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariPin" jndi-name="java:comp/env/SIGN_FIRMATARI_PIN" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariOtp" jndi-name="java:comp/env/SIGN_FIRMATARI_OTP" expected-type="java.lang.String" />
 	
 </beans>

@@ -6,7 +6,7 @@ import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
-import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.FirmaWS;
+import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.infocert.FirmaWS;
 
 import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
@@ -15,16 +15,21 @@ import javax.xml.ws.BindingProvider;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SignConnector implements InitializingBean, SignConnectorInterface {
-	private static final Logger logger = LoggerFactory.getLogger(SignConnector.class);
+public class SignInfocertConnector implements InitializingBean, SignConnectorInterface {
+	private static final Logger logger = LoggerFactory.getLogger(SignInfocertConnector.class);
 	
 	@Autowired
 	private CommandServiceLocator ejbServiceLocator;
-	private String signUrl = null;
+	private String signInfocertUrl = null;
+	private String signFirmatariDominio = null;
+	private String signFirmatariAlias = null;
+	private String signFirmatariPin = null;
+	private String signFirmatariOtp = null;
+
 
 	@HandlerChain(file = "handler-chain-be.xml")
-	public static class SignFactory implements AsiaWsClientFactory<FirmaWS> {
-		public SignFactory() {
+	public static class SignInfocertFactory implements AsiaWsClientFactory<FirmaWS> {
+		public SignInfocertFactory() {
 			super();
 		}
 
@@ -43,7 +48,7 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 		logger.info("firmaCades call.");
 		String result = null;
 		try {
-			FirmaWS serviceSign = (FirmaWS) getWsClient(SignFactory.class);
+			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaCADES(documentoDaFirmare, dominio, alias, pin, otp);
 		} catch (Exception e) {
 			logger.error("firmaCades " + e.getMessage());
@@ -61,7 +66,7 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 		logger.info("firmaPades call.");
 		String result = null;
 		try {
-			FirmaWS serviceSign = (FirmaWS) getWsClient(SignFactory.class);
+			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari);
 		} catch (Exception e) {
 			logger.error("firmaPades " + e.getMessage());
@@ -80,7 +85,7 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 		FACT realService = factoryClass.newInstance();
 		SERVICE port = (SERVICE) realService.getPort();
 		BindingProvider bp = (BindingProvider) port;
-		String url = getSignUrl(); 
+		String url = getSignInfocertUrl(); 
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
 		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 15000); // inserire altre due variabili nel web.xml
 		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 5000);  //
@@ -93,10 +98,34 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 	public void afterPropertiesSet() throws Exception {
 		logger.info("ejbServiceLocator injected with " + ejbServiceLocator.getClass().getName());
 	}
-	public String getSignUrl() {
-		return signUrl;
+	public String getSignInfocertUrl() {
+		return signInfocertUrl;
 	}
-	public void setSignUrl(String signUrl) {
-		this.signUrl = signUrl;
+	public void setSignInfocertUrl(String signInfocertUrl) {
+		this.signInfocertUrl = signInfocertUrl;
+	}
+	public String getSignFirmatariDominio() {
+		return signFirmatariDominio;
+	}
+	public void setSignFirmatariDominio(String signFirmatariDominio) {
+		this.signFirmatariDominio = signFirmatariDominio;
+	}
+	public String getSignFirmatariAlias() {
+		return signFirmatariAlias;
+	}
+	public void setSignFirmatariAlias(String signFirmatariAlias) {
+		this.signFirmatariAlias = signFirmatariAlias;
+	}
+	public String getSignFirmatariPin() {
+		return signFirmatariPin;
+	}
+	public void setSignFirmatariPin(String signFirmatariPin) {
+		this.signFirmatariPin = signFirmatariPin;
+	}
+	public String getSignFirmatariOtp() {
+		return signFirmatariOtp;
+	}
+	public void setSignFirmatariOtp(String signFirmatariOtp) {
+		this.signFirmatariOtp = signFirmatariOtp;
 	}
 }
