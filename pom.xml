@@ -28,6 +28,9 @@
     <module>arch-be-ejb-uploadMulticanale-ejbimpl</module>
     <module>arch-be-ejb-uploadMulticanale-web</module>
     <module>arch-be-ejb-uploadMulticanale-ear</module>
+    <module>arch-be-ejb-uploadMulticanale-livecycle-wsclient</module>
+    <module>arch-be-ejb-uploadMulticanale-sign-infocert-wsclient</module>
+    <module>arch-be-ejb-uploadMulticanale-sign-wsclient</module>
   </modules>
 	<properties>
 		<bmed.check.skip-findbugs>true</bmed.check.skip-findbugs>

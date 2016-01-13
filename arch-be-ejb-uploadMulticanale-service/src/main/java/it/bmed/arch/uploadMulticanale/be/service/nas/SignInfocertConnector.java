@@ -8,6 +8,7 @@ import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
 import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.infocert.FirmaWS;
+import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.infocert.FirmaWSService;
 
 import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
@@ -31,13 +32,13 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 	private String signInfocertPassword = null;
 
 	@HandlerChain(file = "handler-chain-be.xml")
-	public static class SignInfocertFactory implements AsiaWsClientFactory<FirmaWS> {
+	public static class SignInfocertFactory extends FirmaWSService implements AsiaWsClientFactory<FirmaWS> {
 		public SignInfocertFactory() {
 			super();
 		}
 
 		public FirmaWS getPort() {
-			return this.getPort();
+			return this.getFirmaWSPort();
 		}
 
 		@Override
@@ -99,7 +100,9 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 			bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword());
         } 
         else{
-        	throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "credentials error");
+//        	throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "credentials error");
+        	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "JVJRAO2");   
+			bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "anno2012");
         }
 		
 		return port;

@@ -7,6 +7,7 @@ import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
 import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.FirmaWS;
+import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.FirmaWSService;
 
 import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
@@ -23,13 +24,13 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 	private String signUrl = null;
 
 	@HandlerChain(file = "handler-chain-be.xml")
-	public static class SignFactory implements AsiaWsClientFactory<FirmaWS> {
+	public static class SignFactory extends FirmaWSService implements AsiaWsClientFactory<FirmaWS> {
 		public SignFactory() {
 			super();
 		}
 
 		public FirmaWS getPort() {
-			return this.getPort();
+			return this.getFirmaWSPort();
 		}
 
 		@Override

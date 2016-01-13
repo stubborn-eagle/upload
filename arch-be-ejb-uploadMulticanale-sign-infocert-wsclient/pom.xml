@@ -26,7 +26,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.jvnet.jax-ws-commons</groupId>
@@ -60,7 +59,7 @@
 						</compilerArguments>
 					</configuration>
 				</plugin>
-				<!-- <plugin>
+				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-dependency-plugin</artifactId>
 					<version>2.3</version>
@@ -90,39 +89,7 @@
 							</configuration>
 						</execution>
 					</executions>
-				</plugin> -->
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-				<!-- <plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.jvnet.jax-ws-commons
-										</groupId>
-										<artifactId>
-											jaxws-maven-plugin
-										</artifactId>
-										<versionRange>
-											[2.2,)
-										</versionRange>
-										<goals>
-											<goal>wsimport</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin> -->
+				</plugin>
 			</plugins>
-		</pluginManagement>
 	</build>
 </project>
