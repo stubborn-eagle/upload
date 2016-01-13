@@ -6,6 +6,7 @@ package it.bmed.arch.uploadMulticanale.be.service.nas;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
+import it.bmed.arch.uploadMulticanale.be.api.SignatureData;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.DevelopmentException;
@@ -32,7 +33,7 @@ public class NASServiceImpl implements NASService {
 	private NASServiceSettingsBean settingsBean = null;
 	
 	private SignConnector signConnector;
-	private SignConnector signInfocertConnector;
+	private SignInfocertConnector signInfocertConnector;
 
 	/**
 	 * @param settingsBean the settingsBean to set
@@ -45,7 +46,7 @@ public class NASServiceImpl implements NASService {
 		this.signConnector = signConnector;
 	}
 
-	public void setSignInfocertConnector(SignConnector signInfocertConnector) {
+	public void setSignInfocertConnector(SignInfocertConnector signInfocertConnector) {
 		this.signInfocertConnector = signInfocertConnector;
 	}
 
@@ -373,6 +374,17 @@ public class NASServiceImpl implements NASService {
 		String result = null;
 		try {
 			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
+	
+	@Override
+	public SignatureData getSignatureData() throws TechnicalException {
+		SignatureData result = null;
+		try {
+			result = new SignatureData(signInfocertConnector.getSignFirmatariDominio(), signInfocertConnector.getSignFirmatariAlias(), signInfocertConnector.getSignFirmatariPin(), signInfocertConnector.getSignFirmatariOtp());
 		} catch (Exception e) {
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}

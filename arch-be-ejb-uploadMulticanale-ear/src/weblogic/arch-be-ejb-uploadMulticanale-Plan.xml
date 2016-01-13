@@ -265,6 +265,31 @@
 				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_INFOCERT_WSDL_URL&quot;]/env-entry-value</xpath>
 				<operation>replace</operation>
 			</variable-assignment>
+			
+			<variable-assignment>
+				<description>Sign Firmatari Dominio comprensive of terminator '/'</description>
+				<name>signFirmatariDominio</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_DOMINIO&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Alias comprensive of terminator '/'</description>
+				<name>signFirmatariAlias</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_ALIAS&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Pin comprensive of terminator '/'</description>
+				<name>signFirmatariPin</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_PIN&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Otp comprensive of terminator '/'</description>
+				<name>signFirmatariOtp</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_OTP&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
 		</module-descriptor>
 	</module-override>
 </deployment-plan>

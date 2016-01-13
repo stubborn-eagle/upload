@@ -3,9 +3,7 @@ package it.bmed.arch.uploadMulticanale.be.api;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
-//@XmlType(name="filenet")
 public class SignDocumentAndMoveToFilenetFilenetRequest implements Serializable{
 	private static final long serialVersionUID = 6257799055514578610L;
 	

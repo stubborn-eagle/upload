@@ -1,6 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
+import it.bmed.arch.uploadMulticanale.be.service.nas.util.CredentialMappingHandler;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
@@ -15,7 +16,7 @@ import javax.xml.ws.BindingProvider;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SignInfocertConnector implements InitializingBean, SignConnectorInterface {
+public class SignInfocertConnector implements InitializingBean, SignInfocertConnectorInterface {
 	private static final Logger logger = LoggerFactory.getLogger(SignInfocertConnector.class);
 	
 	@Autowired
@@ -26,6 +27,8 @@ public class SignInfocertConnector implements InitializingBean, SignConnectorInt
 	private String signFirmatariPin = null;
 	private String signFirmatariOtp = null;
 
+	private String signInfocertUser = null;
+	private String signInfocertPassword = null;
 
 	@HandlerChain(file = "handler-chain-be.xml")
 	public static class SignInfocertFactory implements AsiaWsClientFactory<FirmaWS> {
@@ -89,8 +92,16 @@ public class SignInfocertConnector implements InitializingBean, SignConnectorInt
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
 		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 15000); // inserire altre due variabili nel web.xml
 		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 5000);  //
-
-
+		
+		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "med-lookup.users");
+        if (credentials!= null){
+        	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
+			bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword());
+        } 
+        else{
+        	throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "credentials error");
+        }
+		
 		return port;
 	}
 
@@ -98,34 +109,56 @@ public class SignInfocertConnector implements InitializingBean, SignConnectorInt
 	public void afterPropertiesSet() throws Exception {
 		logger.info("ejbServiceLocator injected with " + ejbServiceLocator.getClass().getName());
 	}
+	@Override
 	public String getSignInfocertUrl() {
 		return signInfocertUrl;
 	}
+	@Override
 	public void setSignInfocertUrl(String signInfocertUrl) {
 		this.signInfocertUrl = signInfocertUrl;
 	}
+	@Override
 	public String getSignFirmatariDominio() {
 		return signFirmatariDominio;
 	}
+	@Override
 	public void setSignFirmatariDominio(String signFirmatariDominio) {
 		this.signFirmatariDominio = signFirmatariDominio;
 	}
+	@Override
 	public String getSignFirmatariAlias() {
 		return signFirmatariAlias;
 	}
+	@Override
 	public void setSignFirmatariAlias(String signFirmatariAlias) {
 		this.signFirmatariAlias = signFirmatariAlias;
 	}
+	@Override
 	public String getSignFirmatariPin() {
 		return signFirmatariPin;
 	}
+	@Override
 	public void setSignFirmatariPin(String signFirmatariPin) {
 		this.signFirmatariPin = signFirmatariPin;
 	}
+	@Override
 	public String getSignFirmatariOtp() {
 		return signFirmatariOtp;
 	}
+	@Override
 	public void setSignFirmatariOtp(String signFirmatariOtp) {
 		this.signFirmatariOtp = signFirmatariOtp;
+	}
+	public String getSignInfocertUser() {
+		return signInfocertUser;
+	}
+	public void setSignInfocertUser(String signInfocertUser) {
+		this.signInfocertUser = signInfocertUser;
+	}
+	public String getSignInfocertPassword() {
+		return signInfocertPassword;
+	}
+	public void setSignInfocertPassword(String signInfocertPassword) {
+		this.signInfocertPassword = signInfocertPassword;
 	}
 }

@@ -9,49 +9,74 @@ import javax.xml.bind.annotation.XmlType;
 public class SignDocumentAndMoveToFilenetSignatureDataRequest implements Serializable{
 	private static final long serialVersionUID = 6309405016747178298L;
 
-	private String domain = null;
+	private String ndg1 = null;
+	private String ndg2 = null;
+	private String ndg3 = null;
+	private String codClient = null;
+	private String codDocument = null;
+	private String referenceDate = null;
 	
-	private String alias = null;
-	
-	private String pin = null;
-	
-	private Integer otp = null;
-	
-	private String signers = null;
+	private SignDocumentAndMoveToFilenetSignatureDataSigners signers = null;
 
 	@XmlElement(required=false)
-	public String getDomain() {
-		return domain;
+	public String getNdg1() {
+		return ndg1;
 	}
-	public void setDomain(String domain) {
-		this.domain = domain;
+
+	public void setNdg1(String ndg1) {
+		this.ndg1 = ndg1;
 	}
+
 	@XmlElement(required=false)
-	public String getAlias() {
-		return alias;
+	public String getNdg2() {
+		return ndg2;
 	}
-	public void setAlias(String alias) {
-		this.alias = alias;
+
+	public void setNdg2(String ndg2) {
+		this.ndg2 = ndg2;
 	}
+
 	@XmlElement(required=false)
-	public String getPin() {
-		return pin;
+	public String getNdg3() {
+		return ndg3;
 	}
-	public void setPin(String pin) {
-		this.pin = pin;
+
+	public void setNdg3(String ndg3) {
+		this.ndg3 = ndg3;
 	}
+
 	@XmlElement(required=false)
-	public Integer getOtp() {
-		return otp;
+	public String getCodClient() {
+		return codClient;
 	}
-	public void setOtp(Integer otp) {
-		this.otp = otp;
+
+	public void setCodClient(String codClient) {
+		this.codClient = codClient;
 	}
-	@XmlElement(nillable=false, required=false)
-	public String getSigners() {
+
+	@XmlElement(required=false)
+	public String getCodDocument() {
+		return codDocument;
+	}
+
+	public void setCodDocument(String codDocument) {
+		this.codDocument = codDocument;
+	}
+
+	@XmlElement(required=false)
+	public String getReferenceDate() {
+		return referenceDate;
+	}
+
+	public void setReferenceDate(String referenceDate) {
+		this.referenceDate = referenceDate;
+	}
+
+	public SignDocumentAndMoveToFilenetSignatureDataSigners getSigners() {
 		return signers;
 	}
-	public void setSigners(String signers) {
+
+	public void setSigners(SignDocumentAndMoveToFilenetSignatureDataSigners signers) {
 		this.signers = signers;
 	}
 }

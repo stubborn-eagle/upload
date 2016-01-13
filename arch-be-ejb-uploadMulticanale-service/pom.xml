@@ -91,5 +91,18 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.5</version>
 		</dependency>
+		
+		<dependency>
+            <groupId>com.oracle.security</groupId>
+            <artifactId>jps-api</artifactId>
+            <version>11.1.1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.security</groupId>
+            <artifactId>jps-unsupported-api</artifactId>
+            <version>11.1.1.7</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 </project>

@@ -743,7 +743,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 	@Override
 	public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException {
-		
+//MarcoTest		String result = request.getSignatureData().getSigners().getSigner().get(0).getAlias()+"aaa";
+
 		byte[] buffer = null;
 		ECMFile ecmFile = null;
 		String result = null;
@@ -765,11 +766,14 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE", ecmResponse.getResult().getSource());
 			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
+//MarcoTest			buffer = getBytesFromFile(new java.io.File("/home/oracle/Desktop/Screenshot.png"));
 			
 			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
 			
-			String xmlFirmatari = nasService.firmaCades(documentoDaFirmare, request.getSignatureData().getDomain(), request.getSignatureData().getAlias(), request.getSignatureData().getPin(), Integer.toString(request.getSignatureData().getOtp()));
-			String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatari);
+			String xmlFirmatariOsbCades = SignHelper.getXmlFirmatariOsbCades(request, getFileHash(buffer));
+			String xmlFirmatariOsbCadesCustom = SignHelper.getXmlFirmatariOsbCadesCustom(xmlFirmatariOsbCades, nasService.getSignatureData());
+			String xmlFirmatariPades = nasService.firmaCades(xmlFirmatariOsbCadesCustom, nasService.getSignatureData().getSignFirmatariDominio(), nasService.getSignatureData().getSignFirmatariAlias(), nasService.getSignatureData().getSignFirmatariPin(), nasService.getSignatureData().getSignFirmatariOtp());
+			String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatariPades);
 			
 			ECMParam ecmParam = new ECMParam();
 			ecmParam.setEcmType(ECMType.IBM_FILENET);
@@ -778,24 +782,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			
 			result = ecmService.createFile(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
 			
-/*
-2.      Dato l’idFile l’ejb recupera il file dal nas (usando il db tecnico) e chiama il servizio osb di firmaCades 
-(osb_firmadigitale-prj/px/FirmaDigitaleSignatureService_proxy_RDV) con l’xml dei firmatari in base64 (documento da firmare)
-3.      L’ejb chiama si servizio Infocert di firmaPades passando in input l’xml restituito dalla firmaCades e il base64 del pdf 
-da firmare (doc firmaCadesPades)
-4.      L’ejb archivia il file firmato su filenet restituendo il GUID (id di fileNet). (documentazione WSGDI)
- 
-NOTA1: L’xml dei firmatari possiede un campo hash_doc. L’algoritmo usato per il calcolo è SHA-256 sull’inputstream del file codificato in base64. Di seguito un esempio di calcolo
- 
-MessageDigest md = MessageDigest.getInstance("SHA-256");
-byte[] dataBytes = inputStream;
-md.update(dataBytes);
-byte[] mdbytes = md.digest();
-String hashCode= Base64.encode(mdbytes);
-
-NOTA2: I servizi di Infocert sono protetti da una BASIC authentication. Quando chiamiamo il servizio OSB di firmaCades (punto2) non c’è problema, le credenziali sono inserite dal servizio OSB stesso. Quando invece chiamiamo infocert direttamente dall’ejb senza passare da osb vanno inserite le credenziali. Stiamo cercando un modo per iniettare queste credenziali in modo che a voi sia completamente trasparente (nel caso peggiore andranno invece inserite 3 righe di codice).
-*/
-			
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
@@ -803,6 +789,16 @@ NOTA2: I servizi di Infocert sono protetti da una BASIC authentication. Quando c
 
 		return result;
 	}
+	
+	public static byte[] getBytesFromFile(java.io.File file) throws java.io.IOException {
+		java.io.FileInputStream fis = new java.io.FileInputStream(file);
+	    int x = fis.available();
+	    byte b[] = new byte[x];
+	    fis.read(b);
+	    fis.close();
+
+	    return b;
+	  }
 	
 	private String getFileHash(byte[] content) throws NoSuchAlgorithmException{
 		MessageDigest md = MessageDigest.getInstance("SHA-256");

@@ -242,8 +242,6 @@
 				<operation>replace</operation>
 			</variable-assignment>
 			
-			
-			
 			<variable-assignment>
 				<description>Sign Firmatari Dominio comprensive of terminator '/'</description>
 				<name>signFirmatariDominio</name>
