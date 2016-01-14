@@ -25,10 +25,4 @@
     <module>arch-be-ejb-uploadMulticanale-sign-infocert-wsclient</module>
     <module>arch-be-ejb-uploadMulticanale-sign-wsclient</module>
   </modules>
-	<properties>
-		<bmed.check.skip-findbugs>false</bmed.check.skip-findbugs>
-		<bmed.check.skip-enforcer>false</bmed.check.skip-enforcer>
-		<bmed.check.skip-dependency-version-check>false</bmed.check.skip-dependency-version-check>
-		<bmed.check.skip-pmd>false</bmed.check.skip-pmd>
-	</properties>
 </project>
