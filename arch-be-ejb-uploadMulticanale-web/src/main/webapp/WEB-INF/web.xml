@@ -127,12 +127,12 @@
 	<env-entry>
 		<env-entry-name>GENERATED_PDF_FILE_PATH</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/UploadMulticanale/pdf</env-entry-value>
+		<env-entry-value>/mediabussvil/Promotorisvil/generated</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>GENERATED_DYNAMIC_PDF_FILE_PATH</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/UploadMulticanale/dynamicPdf</env-entry-value>
+		<env-entry-value>/mediabussvil/Promotorisvil/generated</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>PDF_LIVECYCLE_CHANNEL</env-entry-name>

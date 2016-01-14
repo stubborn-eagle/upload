@@ -300,6 +300,12 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 							case 3:
 								ecmSource = ECMSource.RETE_DI_VENDITA;
 								break;
+							case 4:
+								ecmSource = ECMSource.LIVE_CYCLE;
+								break;
+							case 5:
+								ecmSource = ECMSource.LIVE_CYCLE;
+								break;
 							default:
 								log.error("mapRow: illegal mapping for COD_TIPO_PROVNZ_FILE.");
 								throw new AsiaException("illegal mapping");

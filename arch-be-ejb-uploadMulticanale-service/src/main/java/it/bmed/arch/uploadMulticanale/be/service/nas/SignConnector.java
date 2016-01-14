@@ -48,10 +48,7 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 			result = serviceSign.firmaCADES(documentoDaFirmare, dominio, alias, pin, otp);
 		} catch (Exception e) {
 			logger.error("firmaCades " + e.getMessage());
-			e.printStackTrace();
-			for(int i=0; i < e.getStackTrace().length; i++){
-				logger.error("STACK"+e.getStackTrace()[i]);
-			}
+			logger.debug("firmaCades stacktrace ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaCades error", e);
 		}
 		return result;
@@ -66,10 +63,7 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari);
 		} catch (Exception e) {
 			logger.error("firmaPades " + e.getMessage());
-			e.printStackTrace();
-			for(int i=0; i < e.getStackTrace().length; i++){
-				logger.error("STACK"+e.getStackTrace()[i]);
-			}
+			logger.debug("firmaPades stacktrace ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaPades error", e);
 		}
 		return result;

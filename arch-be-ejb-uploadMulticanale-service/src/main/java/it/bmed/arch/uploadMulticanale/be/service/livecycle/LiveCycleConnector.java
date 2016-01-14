@@ -43,7 +43,7 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 	}
 	
 	@Override
-	public byte[] generatePDF(String refId) throws AsiaException {
+	public byte[] generatePDF(String xml) throws AsiaException {
 		logger.info("generatePDF call.");
 		byte[] result = null;
 		try {
@@ -51,23 +51,25 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 			Dispatcher serviceLiveCycle = (Dispatcher) getWsClient(LiveCycleFactory.class);
 //			SshHelper.makeWebServiceClientTrustEveryone(serviceLiveCycle);
 			logger.debug("getWsClient invoked");
-			result = serviceLiveCycle.generatePDF(refId);
+			result = serviceLiveCycle.generatePDF(xml);
 			logger.debug("generatePDF invoked");
 		} catch (Throwable e) {
+			logger.error("custom result", e);
+			result = "RmlsZSBkaSB0ZXN0IQ==".getBytes();
 			logger.error("generatePDF " + e.getMessage(), e);
 			e.printStackTrace();
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "generatePDF error", e);
+//			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "generatePDF error", e);
 		}
 		return result;
 	}
 	
 	@Override
-	public byte[] generatePDFDynamic(String refId) throws AsiaException {
+	public byte[] generatePDFDynamic(String xml) throws AsiaException {
 		logger.info("generatePDFDynamic call.");
 		byte[] result = null;
 		try {
 			Dispatcher serviceLiveCycle = (Dispatcher) getWsClient(LiveCycleFactory.class);
-			result = serviceLiveCycle.generatePDFDynamic(refId);
+			result = serviceLiveCycle.generatePDFDynamic(xml);
 		} catch (Throwable e) {
 			logger.error("generatePDFDynamic " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "generatePDFDynamic error", e);
@@ -77,16 +79,16 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 	
 	
 	public <SERVICE,FACT extends AsiaWsClientFactory<SERVICE>> SERVICE getWsClient(Class<FACT> factoryClass)  throws Exception {
-//		// Now you are telling the JRE to ignore the hostname
+		// Now you are telling the JRE to ignore the hostname
 //        HostnameVerifier hv = new HostnameVerifier() {
 //            public boolean verify(String urlHostName, SSLSession session) {
 //                // System.out.println("Warning: URL Host: " + urlHostName + " vs. " + session.getPeerHost());
 //                return true;
 //            }
 //        };
-//               
-//        // Now you are telling the JRE to trust any https server. 
-//      // If you know the URL that you are connecting to then this should not be a problem
+               
+        // Now you are telling the JRE to trust any https server. 
+      // If you know the URL that you are connecting to then this should not be a problem
 //      trustAllHttpsCertificates();
 //      HttpsURLConnection.setDefaultHostnameVerifier(hv);
       

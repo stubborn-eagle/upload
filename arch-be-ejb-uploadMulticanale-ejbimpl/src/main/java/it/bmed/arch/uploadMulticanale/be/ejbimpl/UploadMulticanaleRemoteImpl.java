@@ -44,6 +44,8 @@ import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+import java.util.UUID;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
@@ -700,22 +702,22 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
     }
 	
 	@Override
-	public String generatePDF(String refId, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		return generateLiveCyclePDF(refId, false, string);
+	public String generatePDF(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDF(xml, false, string);
     }
 	
 	@Override
-	public String generatePDFDynamic(String refId, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		return generateLiveCyclePDF(refId, true, string);
+	public String generatePDFDynamic(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDF(xml, true, string);
     }
 	
-	private String generateLiveCyclePDF(String refId, boolean isDynamic, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+	private String generateLiveCyclePDF(String xml, boolean isDynamic, HeaderInputType string) throws SystemFault, RemoteException, Exception {
 		String result = null;
 		byte[] fileContent = null;
 		if(!isDynamic){
-			fileContent = generatePDFServiceClient.generatePDF(refId);
+			fileContent = generatePDFServiceClient.generatePDF(xml);
 		}else{
-			fileContent = generatePDFServiceClient.generatePDFDynamic(refId);
+			fileContent = generatePDFServiceClient.generatePDFDynamic(xml);
 		}
 		
 		ECMSource ecmSource =  ECMSource.LIVE_CYCLE;
@@ -723,11 +725,12 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			ecmSource =  ECMSource.LIVE_CYCLE_DYNAMIC;
 		}
 		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+		String fileName = UUID.randomUUID().toString();
 		try{
-			nasService.saveFile(resultStream, refId, ecmSource, null);
+			nasService.saveFile(resultStream, fileName, ecmSource, null);
 			
 			ECMRequest ecmRequestReg = new ECMRequest();
-			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(refId, isDynamic));
+			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(fileName, isDynamic));
 			
 			
 			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());
@@ -778,7 +781,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			ECMParam ecmParam = new ECMParam();
 			ecmParam.setEcmType(ECMType.IBM_FILENET);
 			ecmParam.setIdFile(ecmResponse.getResult().getIdFile());
-			ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS()!=null&&request.getEcmParams().getRemoveFromNAS().equals("true")?RemoveFromNAS.REMOVE:RemoveFromNAS.NOT_REMOVE);
+			ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS()!=null&&(request.getEcmParams().getRemoveFromNAS().equals("true")||request.getEcmParams().getRemoveFromNAS().equals("REMOVE"))?RemoveFromNAS.REMOVE:RemoveFromNAS.NOT_REMOVE);
 			
 			result = ecmService.createFile(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
 			

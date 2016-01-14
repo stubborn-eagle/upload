@@ -82,12 +82,12 @@ public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 	}
 
 	@Override
-	public byte[] generatePDF(String refId) throws AsiaException {
-		return liveCycleConnector.generatePDF(refId);
+	public byte[] generatePDF(String xml) throws AsiaException {
+		return liveCycleConnector.generatePDF(xml);
 	}
 
 	@Override
-	public byte[] generatePDFDynamic(String refId) throws AsiaException {
-		return liveCycleConnector.generatePDFDynamic(refId);
+	public byte[] generatePDFDynamic(String xml) throws AsiaException {
+		return liveCycleConnector.generatePDFDynamic(xml);
 	}
 }
