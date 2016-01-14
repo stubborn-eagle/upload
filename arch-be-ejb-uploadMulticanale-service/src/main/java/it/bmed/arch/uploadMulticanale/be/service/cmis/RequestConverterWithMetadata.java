@@ -54,10 +54,10 @@ public class RequestConverterWithMetadata implements Converter {
 			if(request.getIndexes()!=null && request.getIndexes().size()>0){
 				for(Index index : request.getIndexes()){
 					writer.startNode("Index");
-					writer.addAttribute("name", (index.getName() != null && index.getName().length() > 0) ? index.getName() : "");
-					writer.addAttribute("search", (index.getSearch() != null && index.getSearch().length() > 0 ) ? index.getSearch() : "");
+					writer.addAttribute("name", index.getName() != null && index.getName().length() > 0 ? index.getName() : "");
+					writer.addAttribute("search", index.getSearch() != null && index.getSearch().length() > 0  ? index.getSearch() : "");
 					writer.startNode("Value");
-					writer.setValue((index.getValue().getValue() != null && index.getValue().getValue() .length() > 0)?index.getValue().getValue() : "");
+					writer.setValue(index.getValue().getValue() != null && index.getValue().getValue() .length() > 0 ?index.getValue().getValue() : "");
 					writer.endNode();
 					writer.endNode();
 				}
@@ -158,8 +158,8 @@ public class RequestConverterWithMetadata implements Converter {
 		// }
 		try {
 			writer.startNode("DocContent");
-			writer.addAttribute("filename", (request.getDocContent().getFileName() != null && request.getDocContent().getFileName().length()> 0)? request.getDocContent().getFileName() : "");
-			writer.addAttribute("mimetype", (request.getDocContent().getMimetype() != null && request.getDocContent().getMimetype().length() > 0 ) ? request.getDocContent().getMimetype() : "");
+			writer.addAttribute("filename", request.getDocContent().getFileName() != null && request.getDocContent().getFileName().length()> 0 ? request.getDocContent().getFileName() : "");
+			writer.addAttribute("mimetype", request.getDocContent().getMimetype() != null && request.getDocContent().getMimetype().length() > 0  ? request.getDocContent().getMimetype() : "");
 			writer.setValue(request.getDocContent().getFilecod());
 			writer.endNode();
 		} catch (Exception e) {

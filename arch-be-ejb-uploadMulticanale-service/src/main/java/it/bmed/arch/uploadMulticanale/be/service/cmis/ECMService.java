@@ -57,6 +57,6 @@ public interface ECMService {
 	 * @throws Exception
 	 */
 	
-	public String getECMToken (ECMParam ecmParam) throws AsiaException, Exception;
+	String getECMToken (ECMParam ecmParam) throws AsiaException, Exception;
 	
 }

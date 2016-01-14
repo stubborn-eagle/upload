@@ -431,13 +431,13 @@ public class Util {
 
 			is = new FileInputStream(file);
 			long length = file.length();
-			if (length > Integer.MAX_VALUE) {
-
-				// File is too large
-
-				// TODO
-
-			}
+//			if (length > Integer.MAX_VALUE) {
+//
+//				// File is too large
+//
+//				// TODO
+//
+//			}
 
 			bytes = new byte[(int) length];
 

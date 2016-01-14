@@ -16,8 +16,7 @@ public class CredentialMappingHandler {
                         passwordCredential =
                                 (oracle.security.jps.service.credstore.PasswordCredential)java.security.AccessController.doPrivileged(new java.security.PrivilegedExceptionAction<oracle.security.jps.service.credstore.Credential>() {
                                     public oracle.security.jps.service.credstore.Credential run() throws Exception {
-                                        return (credStore.getCredential(mapName,
-                                                                        csfKey));
+                                        return credStore.getCredential(mapName, csfKey);
                                     }
                                 });
                     } else {

@@ -3,7 +3,6 @@ package it.bmed.arch.uploadMulticanale.be.api;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 //@XmlType(name="index")
 public class SignDocumentAndMoveToFilenetIndex implements Serializable{

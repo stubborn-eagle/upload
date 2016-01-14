@@ -77,11 +77,8 @@ public class NASServiceImpl implements NASService {
 		if ( destinationPathname != null && destinationPathname.length() == 0) {
                    throw new DevelopmentException("Path di upload non configurato");
              }else{
-                   if(sourcePath != null && !sourcePath.contains("../")){
-                      if(!sourcePath.isEmpty()){
+                   if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
                     	  destinationPathname += "/"+sourcePath;
-                   }
-                        
               }
         }
 		
@@ -113,11 +110,8 @@ public class NASServiceImpl implements NASService {
 			if ( destinationPathname != null && destinationPathname.length() == 0) {
 				throw new DevelopmentException("Path di upload non configurato");
 			}else{
-				if(sourcePath != null && !sourcePath.contains("../")){
-					if(!sourcePath.isEmpty()){
+				if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
 						destinationPathname += "/"+sourcePath;
-					}
-
 				}
 			}	
 						
@@ -170,11 +164,8 @@ public class NASServiceImpl implements NASService {
 		if ( destinationPath != null && destinationPath.length() == 0) {
             throw new DevelopmentException("Path di upload non configurato");
 	      }else{
-	            if(sourcePath != null && !sourcePath.contains("../")){
-	               if(!sourcePath.isEmpty()){
+	            if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
 	            	   destinationPath += "/"+sourcePath;
-	            }
-	                 
 	       }
 	 }
 	
@@ -198,7 +189,7 @@ public class NASServiceImpl implements NASService {
 			if (fileToBeSaved != null) {
 				try {
 					fileToBeSaved.close();
-				} catch (Exception e) {}	
+				} catch (Exception e) {logger.info("skipped");}	
 			}
 		}
 	}

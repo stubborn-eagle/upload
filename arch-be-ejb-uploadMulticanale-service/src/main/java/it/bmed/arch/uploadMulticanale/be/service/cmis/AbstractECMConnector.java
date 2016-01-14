@@ -52,7 +52,7 @@ public abstract class AbstractECMConnector implements ECMConnector {
 
 	
 	// Bindings Settings
-	private String bindingSPIType = null;
+	public String bindingSPIType = null;
 	
 	// ECM connector session
 	protected Session session = null;

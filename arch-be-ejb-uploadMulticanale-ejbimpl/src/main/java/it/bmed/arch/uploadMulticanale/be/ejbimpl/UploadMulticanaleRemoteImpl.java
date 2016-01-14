@@ -513,8 +513,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		log.debug("convertToPDF: Entering");
 		ECMRequest ecmRequest = new ECMRequest();
 		ECMResponse ecmResponse = new ECMResponse();
-		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
-		final String CLOSE_IMGTAG = "\">"; 
+//		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
+//		final String CLOSE_IMGTAG = "\">"; 
 		log.debug("ECMConvertRequest: "+ request);
 		log.debug("ECMConvertRequest idFile: "+ request.getIdFile());
 		log.debug("ECMConvertRequest ECMFile idFile: "+ request.getEcmFile().getIdFile());
@@ -540,10 +540,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());		
 		}
 		
-		String htmlDocument = null;
 		// generate the html doc from template, using encoded file as IMG data attribute value
 		try {
-			htmlDocument = createHTMLDocument(encodedFile);
+			createHTMLDocument(encodedFile);
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "convertToPDF " + e.getMessage());
 		}
@@ -704,15 +703,15 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	
 	@Override
 	public String generatePDF(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		return generateLiveCyclePDF(xml, false, string);
+		return generateLiveCyclePDF(xml, false);
     }
 	
 	@Override
 	public String generatePDFDynamic(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		return generateLiveCyclePDF(xml, true, string);
+		return generateLiveCyclePDF(xml, true);
     }
 	
-	private String generateLiveCyclePDF(String xml, boolean isDynamic, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+	private String generateLiveCyclePDF(String xml, boolean isDynamic) throws SystemFault, RemoteException, Exception {
 		String result = null;
 		byte[] fileContent = null;
 		if(!isDynamic){

@@ -3,7 +3,6 @@ package it.bmed.arch.uploadMulticanale.be.api;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 //@XmlType(name="ecmParams")
 public class SignDocumentAndMoveToFilenetECMParamRequest  implements Serializable {
 	private static final long serialVersionUID = -8466453819653526954L;

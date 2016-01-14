@@ -12,7 +12,6 @@ import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
-import it.bmed.asia.utility.AsiaWsClientBuilder;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
 
@@ -35,9 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-
-import arch.bmed.mediabus.be.ws.client.media.MediaRequest;
-import arch.bmed.mediabus.be.ws.client.media.RequestMetaData;
 
 public class FilenetConnector extends AbstractECMConnector implements
 		InitializingBean {
@@ -71,7 +67,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 		try {
 			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 			// Encoding file in base64 preparing the xml transformation
-			String encodeFile = (Util.encodeFileToBase64Binary(buffer));
+			String encodeFile = Util.encodeFileToBase64Binary(buffer);
 			String xml = Util.encodeXML(CREATE_REQUEST, encodeFile, ecmFile, ecmParam);
 			logger.debug("createFile xml"+xml);
 			String response = serviceFileNet.addObject(xml);
@@ -95,7 +91,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 		try {
 			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 			// Encoding file in base64 preparing the xml transformation
-			String encodeFile = (Util.encodeFileToBase64Binary(buffer));
+			String encodeFile = Util.encodeFileToBase64Binary(buffer);
 			String xml = Util.encodeXML(CREATE_REQUEST_WITH_METADATA, encodeFile, ecmFile, ecmParam);
 			logger.debug("createFile xml"+xml);
 			String response = serviceFileNet.addObject(xml);
@@ -130,7 +126,6 @@ public class FilenetConnector extends AbstractECMConnector implements
 	public boolean removeFile(String ecmFileId) {		
 		logger.info("removeFile call.");
 		ECMFile ecmFile = new ECMFile();
-		ECMParam ecmParam = new ECMParam();
 		try {
 			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 

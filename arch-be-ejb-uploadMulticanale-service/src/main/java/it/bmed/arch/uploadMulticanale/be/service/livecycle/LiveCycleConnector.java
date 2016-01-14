@@ -10,9 +10,6 @@ import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
 
 import javax.jws.HandlerChain;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
@@ -79,19 +76,6 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 	
 	
 	public <SERVICE,FACT extends AsiaWsClientFactory<SERVICE>> SERVICE getWsClient(Class<FACT> factoryClass)  throws Exception {
-		// Now you are telling the JRE to ignore the hostname
-//        HostnameVerifier hv = new HostnameVerifier() {
-//            public boolean verify(String urlHostName, SSLSession session) {
-//                // System.out.println("Warning: URL Host: " + urlHostName + " vs. " + session.getPeerHost());
-//                return true;
-//            }
-//        };
-               
-        // Now you are telling the JRE to trust any https server. 
-      // If you know the URL that you are connecting to then this should not be a problem
-//      trustAllHttpsCertificates();
-//      HttpsURLConnection.setDefaultHostnameVerifier(hv);
-      
 		String url = getLiveCycleUrl();
 		logger.debug("endpoint:"+url);
 		FACT realService = factoryClass.newInstance();
@@ -104,46 +88,6 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 		return port;
 	}
 	
-//	private static void trustAllHttpsCertificates() throws Exception {
-//
-//        //  Create a trust manager that does not validate certificate chains:
-//
-//        javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
-//
-//        javax.net.ssl.TrustManager tm = new miTM();
-//
-//        trustAllCerts[0] = tm;
-//
-//        javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext.getInstance("SSL");
-//
-//        sc.init(null, trustAllCerts, null);
-//
-//        javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-//    }
-//	
-//	public static class miTM implements javax.net.ssl.TrustManager, javax.net.ssl.X509TrustManager
-//    {
-//        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-//            return null;
-//        }
-//
-//        public boolean isServerTrusted(java.security.cert.X509Certificate[] certs) {
-//            return true;
-//        }
-//         
-//        public boolean isClientTrusted(java.security.cert.X509Certificate[] certs) {
-//            return true;
-//        }
-//         
-//        public void checkServerTrusted(java.security.cert.X509Certificate[] certs, String authType) throws java.security.cert.CertificateException {
-//            return;
-//        }
-//
-//        public void checkClientTrusted(java.security.cert.X509Certificate[] certs, String authType) throws java.security.cert.CertificateException {
-//            return;
-//        }
-//    }
-
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		logger.info("ejbServiceLocator injected with " + ejbServiceLocator.getClass().getName());

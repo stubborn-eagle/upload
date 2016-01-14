@@ -52,10 +52,10 @@ public class RequestConverter implements Converter {
 //		try {
 
 			writer.startNode("Index");
-			writer.addAttribute("name", (request.getIndex().getName() != null && request.getIndex().getName().length() > 0) ? request.getIndex().getName() : "");
-			writer.addAttribute("search", (request.getIndex().getSearch() != null && request.getIndex().getSearch().length() > 0 ) ? request.getIndex().getSearch() : "");
+			writer.addAttribute("name", request.getIndex().getName() != null && request.getIndex().getName().length() > 0 ? request.getIndex().getName() : "");
+			writer.addAttribute("search", request.getIndex().getSearch() != null && request.getIndex().getSearch().length() > 0  ? request.getIndex().getSearch() : "");
 			writer.startNode("Value");
-			writer.setValue((request.getIndex().getValue().getValue() != null && request.getIndex().getValue().getValue() .length() > 0)?request.getIndex().getValue().getValue() : "");
+			writer.setValue(request.getIndex().getValue().getValue() != null && request.getIndex().getValue().getValue() .length() > 0?request.getIndex().getValue().getValue() : "");
 			writer.endNode();
 			writer.endNode();
 //		} catch (Exception e) {
@@ -146,8 +146,8 @@ public class RequestConverter implements Converter {
 		// }
 		try {
 			writer.startNode("DocContent");
-			writer.addAttribute("filename", (request.getDocContent().getFileName() != null && request.getDocContent().getFileName().length()> 0)? request.getDocContent().getFileName() : "");
-			writer.addAttribute("mimetype", (request.getDocContent().getMimetype() != null && request.getDocContent().getMimetype().length() > 0 ) ? request.getDocContent().getMimetype() : "");
+			writer.addAttribute("filename", request.getDocContent().getFileName() != null && request.getDocContent().getFileName().length()> 0 ? request.getDocContent().getFileName() : "");
+			writer.addAttribute("mimetype", request.getDocContent().getMimetype() != null && request.getDocContent().getMimetype().length() > 0  ? request.getDocContent().getMimetype() : "");
 			writer.setValue(request.getDocContent().getFilecod());
 			writer.endNode();
 		} catch (Exception e) {

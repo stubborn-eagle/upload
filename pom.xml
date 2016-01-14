@@ -29,6 +29,6 @@
 		<bmed.check.skip-findbugs>false</bmed.check.skip-findbugs>
 		<bmed.check.skip-enforcer>false</bmed.check.skip-enforcer>
 		<bmed.check.skip-dependency-version-check>false</bmed.check.skip-dependency-version-check>
-		<bmed.check.skip-pmd>true</bmed.check.skip-pmd>
+		<bmed.check.skip-pmd>false</bmed.check.skip-pmd>
 	</properties>
 </project>

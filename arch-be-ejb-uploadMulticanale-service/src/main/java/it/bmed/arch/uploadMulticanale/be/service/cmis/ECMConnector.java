@@ -63,5 +63,5 @@ public interface ECMConnector {
 	 * @throws RemoteException
 	 * @throws Exception
 	 */
-	public String getECMToken(String request) throws AsiaException;
+	String getECMToken(String request) throws AsiaException;
 }

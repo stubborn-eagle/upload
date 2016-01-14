@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 //@XmlType(name="value")
 public class SignDocumentAndMoveToFilenetIndexValue implements Serializable{
