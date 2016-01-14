@@ -29,14 +29,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-<!-- 	<dependencies>
-		<dependency>
-			<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
-			<artifactId>arch-be-ejb-uploadMulticanale-deps</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency>
-	</dependencies> -->
-
-
 </project>

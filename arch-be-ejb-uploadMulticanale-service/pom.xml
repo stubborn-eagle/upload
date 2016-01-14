@@ -28,12 +28,6 @@
 					<artifactId>saaj-impl</artifactId>
 					<groupId>com.sun.xml.messaging.saaj</groupId>
 				</exclusion>
-				<!-- 
-				<exclusion>
-					<artifactId>jaxws-rt</artifactId>
-					<groupId>com.sun.xml.ws</groupId>
-				</exclusion>
-				 -->
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -47,11 +41,6 @@
 			<artifactId>arch-be-ejb-mediabus-wsclient</artifactId>
 			<version>1.0.0.CR-SNAPSHOT</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>arch.bmed.mediabus.be</groupId>
-			<artifactId>arch-be-ejb-mediabus-service</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency> -->
 		<dependency>
 			<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 			<artifactId>arch-be-ejb-uploadMulticanale-livecycle-wsclient</artifactId>
@@ -104,11 +93,5 @@
             <version>11.1.1.7</version>
             <scope>provided</scope>
         </dependency>
-        <!-- <dependency>
-            <groupId>com.oracle.wls</groupId>
-		    <artifactId>wls-api</artifactId>
-		    <version>11.1.1.7</version>
-            <scope>provided</scope>
-        </dependency> -->
 	</dependencies>
 </project>

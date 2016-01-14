@@ -44,12 +44,12 @@ import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 
 import org.apache.commons.codec.binary.Base64;
@@ -57,6 +57,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+@HandlerChain(file = "handlers.xml")
 @Stateless(name = "UploadMulticanaleServiceWS", mappedName = "ejb/", description = "")
 @WebService(serviceName = APIParams.SERVICE_NAME,  portName = APIParams.PORT_NAME, targetNamespace=APIParams.DEFINITION_NAMESPACE, endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote")
 @Remote(UploadMulticanaleRemote.class)

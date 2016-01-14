@@ -8,7 +8,4 @@
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>arch-be-ejb-uploadMulticanale-api</artifactId>
-	<properties>
-		<asia.arch.version>1.3.3</asia.arch.version>
-	</properties>
 </project>
