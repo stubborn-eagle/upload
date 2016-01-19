@@ -106,7 +106,7 @@ public class NASServiceImpl implements NASService {
 			String destinationPathname="";
 			
 			destinationPathname = getDestinationPathFromSource(source);
-			logger.debug("Destination PATH From Source ", destinationPathname);
+			logger.debug("Destination PATH From Source "+destinationPathname);
 			if ( destinationPathname != null && destinationPathname.length() == 0) {
 				throw new DevelopmentException("Path di upload non configurato");
 			}else{
@@ -120,6 +120,7 @@ public class NASServiceImpl implements NASService {
 			int fileLength = 0;
 			
 			sourcePathname = destinationPathname + "/"+ filename;
+			logger.debug("loadFile sourcePathname:"+sourcePathname);
 			
 			file = new File(sourcePathname);
 			fileLength = (int) file.length();
@@ -160,7 +161,8 @@ public class NASServiceImpl implements NASService {
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "settingsBean is null");
 		} 		
 		destinationPath = getDestinationPathFromSource(source);
-		
+		logger.debug("saveFile-destinationPath:"+destinationPath);
+		logger.debug("saveFile-sourcePath:"+sourcePath);
 		if ( destinationPath != null && destinationPath.length() == 0) {
             throw new DevelopmentException("Path di upload non configurato");
 	      }else{
@@ -271,6 +273,7 @@ public class NASServiceImpl implements NASService {
 	private String getDestinationPathFromSource(ECMSource source) throws TechnicalException {
 		String destinationPathname = null;
 		logger.debug("Settings Bean TO STRING", settingsBean.toString());
+		logger.debug("getDestinationPathFromSource source:"+ source);
 		try {
 			switch (source) {
 			case INTERNET_BANKING:
