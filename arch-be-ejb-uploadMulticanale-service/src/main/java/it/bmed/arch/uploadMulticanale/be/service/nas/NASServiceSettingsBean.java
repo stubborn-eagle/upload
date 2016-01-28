@@ -221,6 +221,10 @@ public class NASServiceSettingsBean {
 				+ nasInternetBankingDeletedPath
 				+ ", nasReteDiVenditaDeletedPath="
 				+ nasReteDiVenditaDeletedPath
+				+ ", generatedPdfFilePath="
+				+ generatedPdfFilePath
+				+ ", generatedDynamicPdfFilePath="
+				+ generatedDynamicPdfFilePath
 				+ ", nasPortaleDiSedeDeletedPath="
 				+ nasPortaleDiSedeDeletedPath + "]";
 	}

@@ -244,7 +244,8 @@ public class Util {
 					ruolo.setValue(prop.getValue());
 				}else if ("Filiale".equalsIgnoreCase(prop.getName())) {
 					filiale.setValue(prop.getValue());
-				}else if(!"SearchAction".equalsIgnoreCase(prop.getName())){
+				}
+				else if(!"SearchAction".equalsIgnoreCase(prop.getName())){
 					Index index = new Index();
 					index.setName(prop.getName());
 					index.setSearch("false");
@@ -269,13 +270,13 @@ public class Util {
 			
 			searchAction.setValue("AddVersion");
 
-			Index indexCodiceDoc = new Index();
-			indexCodiceDoc.setName("CODICEDOC");
-			indexCodiceDoc.setSearch("false");
-			Value value = new Value();
-			value.setValue("");
-			indexCodiceDoc.setValue(value);
-			indexes.add(indexCodiceDoc);
+//			Index indexCodiceDoc = new Index();
+//			indexCodiceDoc.setName("CODICEDOC");
+//			indexCodiceDoc.setSearch("false");
+//			Value value = new Value();
+//			value.setValue("");
+//			indexCodiceDoc.setValue(value);
+//			indexes.add(indexCodiceDoc);
 			request.setIndexes(indexes);
 
 			// istituto.setValue("");
