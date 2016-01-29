@@ -67,11 +67,5 @@
 			<artifactId>${project.parent.artifactId}-service</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>it.bmed.arch</groupId>
-			<artifactId>bmed-asia-exception-ext</artifactId>
-			<version>1.0.1</version>
-			<scope>provided</scope>
-		</dependency>	
 	</dependencies>
 </project>
