@@ -12,6 +12,7 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
+import it.bmed.arch.uploadMulticanale.be.api.ExceptionToFaultConversionUtility;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
@@ -136,10 +137,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(true);
 
 			throw fault;
 
@@ -149,7 +149,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
 			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+ "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
 			fault.getFaultInfo().setLayer(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+ "_"+ UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false);
 			/*
 			 * log.error("Errore e.getMessage() "+
 			 * runtimeException.getMessage());
@@ -168,10 +167,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
+			SystemFault fault = ExceptionToFaultConversionUtil.toSystemFault(applicationException);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(false);
 		
 			
 			throw fault; 
@@ -202,10 +200,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(true);
 
 			throw fault;
 
@@ -227,8 +224,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 							+ "_"
 							+ UploadMulticanaleErrorCodeEnums.valueOf(
 									"TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false);
-
 			throw fault;
 
 		} catch (Exception app) {
@@ -237,15 +232,40 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 					.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
 			SystemFault fault = ExceptionToFaultConversionUtil
-					.toFault(applicationException);
+					.toSystemFault(applicationException);
 			fault.getFaultInfo().setMessaggio(
 					fault.getFaultInfo().getCodice() + "_"
 							+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(false);
 			
 			throw fault;
 
+		}
+		return resp;
+	}
+	
+	public ECMResponse selectMedia(String refId) throws SystemFault, RemoteException, Exception {
+		ECMResponse resp = null;
+		try {
+			resp = uploadMulticanaleService.selectMedia(Integer.parseInt(refId));
+		} catch (ApplicationException e) {
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			throw fault;
+		} catch (RuntimeException runtimeException) {
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
+			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
+			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode() + "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setLayer(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode() + "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
+			throw fault;
+		} catch (Exception app) {
+			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
+			TechnicalException applicationException = new TechnicalException(er);
+			SystemFault fault = ExceptionToFaultConversionUtil.toSystemFault(applicationException);
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			throw fault;
 		}
 		return resp;
 	}
@@ -261,7 +281,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(
 					fault.getFaultInfo().getCodice() + "_"
 							+ fault.getFaultInfo().getMessaggio());
@@ -282,7 +302,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 							+ "_"
 							+ UploadMulticanaleErrorCodeEnums.valueOf(
 									"TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false);
 
 			throw fault;
 
@@ -290,10 +309,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
+			SystemFault fault = ExceptionToFaultConversionUtil.toSystemFault(applicationException);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(false);
 			log.error("ERRORE IN UPDATEMEDIA: "+e.getMessage());
 			throw fault;
 		}
@@ -671,7 +689,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	private void technicalError(UploadMulticanaleErrorCodeEnums errorCode, String error) throws SystemFault {
 		log.error(error);
 		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
-		SystemFault systemFault = ExceptionToFaultConversionUtil.toFault(technicalException);
+		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
 		systemFault.getFaultInfo().setLayer("BKE");
 		throw systemFault;
 	}
@@ -743,6 +761,69 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
         return result;
 //        return refId+"generatePDF"+(isDynamic?"Dynamic":"");
 	}
+	
+	@Override
+	public String generatePDFAsynch(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDFAsynch(xml, false);
+    }
+	
+	@Override
+	public String generatePDFDynamicAsynch(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDFAsynch(xml, true);
+    }
+	
+	@Override
+	public String generatePDFAsynchStatus(String refId) throws SystemFault, RemoteException, Exception {
+		String result = GeneratePdfAsynchStatusEnum.NOT_FOUND.getValue();
+		
+		ECMResponse ecmResponse = selectMedia(refId);
+		
+		if(ecmResponse!=null && ecmResponse.getResult()!=null){
+			ECMFile ecmFile = ecmResponse.getResult();
+			ECMState ecmState = ecmFile.getState();
+			
+			switch (ecmState) {
+			case INSERTED:		
+				result = GeneratePdfAsynchStatusEnum.COMPLETED.getValue();
+				break;
+			case PENDING:
+				result = GeneratePdfAsynchStatusEnum.PENDING.getValue();
+				break;
+			case ERROR:
+				result = GeneratePdfAsynchStatusEnum.ERROR.getValue();
+				break;
+			default:
+				result = GeneratePdfAsynchStatusEnum.ERROR.getValue();
+			}
+		}
+		
+		return result;
+    }
+	
+	private String generateLiveCyclePDFAsynch(String xml, boolean isDynamic) throws SystemFault, RemoteException, Exception {
+		String result = null;
+		
+		try{
+			ECMRequest ecmRequestReg = new ECMRequest();
+			String fileName = UUID.randomUUID().toString();
+			ECMFile ecmFile = nasService.getEcmFileLiveCyclePdf(fileName, isDynamic);
+			ecmFile.setState(ECMState.PENDING);
+			ecmRequestReg.setEcmFile(ecmFile);
+			
+			
+			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());
+			result = ecmResponse.getResult().getIdFile().toString();
+			
+			Thread generatePdfThread = new Thread(new GeneratePdfThread(isDynamic, generatePDFServiceClient, xml, nasService, fileName, uploadMulticanaleService, ecmFile.getNameApp(), ecmResponse.getResult().getIdFile()));
+			generatePdfThread.start();
+
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF"+(isDynamic?"Dynamic":" ")+"Asynch " + e.getMessage());
+		}
+		
+        return result;
+//        return refId+"generatePDF"+(isDynamic?"Dynamic":"");
+	}
 
 	@Override
 	public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException {
@@ -773,9 +854,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			
 			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
 			
-			String xmlFirmatariOsbCades = SignHelper.getXmlFirmatariOsbCades(request, getFileHash(buffer));
-			String xmlFirmatariOsbCadesCustom = SignHelper.getXmlFirmatariOsbCadesCustom(xmlFirmatariOsbCades, nasService.getSignatureData());
-			String xmlFirmatariPades = nasService.firmaCades(xmlFirmatariOsbCadesCustom, nasService.getSignatureData().getSignFirmatariDominio(), nasService.getSignatureData().getSignFirmatariAlias(), nasService.getSignatureData().getSignFirmatariPin(), nasService.getSignatureData().getSignFirmatariOtp());
+			String xmlFirmatariOsbCadesBase64 = SignHelper.getXmlFirmatariOsbCades(request, getFileHash(buffer));
+//			String xmlFirmatariOsbCadesCustom = SignHelper.getXmlFirmatariOsbCadesCustom(xmlFirmatariOsbCades, nasService.getSignatureData());
+			String xmlFirmatariPades = nasService.firmaCades(xmlFirmatariOsbCadesBase64, nasService.getSignatureData().getSignFirmatariDominio(), nasService.getSignatureData().getSignFirmatariAlias(), nasService.getSignatureData().getSignFirmatariPin(), nasService.getSignatureData().getSignFirmatariOtp());
 			String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatariPades);
 			
 			ECMParam ecmParam = new ECMParam();

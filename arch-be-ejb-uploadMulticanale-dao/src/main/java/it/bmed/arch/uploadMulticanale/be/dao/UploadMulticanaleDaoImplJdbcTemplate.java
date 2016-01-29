@@ -493,4 +493,123 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		return response == 0 ? false : true;
 	}
 
+	@Override
+	public ECMResponse selectMedia(Integer refId) throws ApplicationException, Exception {
+
+		ECMResponse response = new ECMResponse();
+		log.debug("selectMedia refId: " + refId);
+		
+		String campo1 = " COD_UPLD_FILE_INTERN = " + Integer.toString(refId);
+		
+		String query = "SELECT * FROM qpush_be.ECM_FILE WHERE WHERE " + campo1;
+		log.debug("SELECT MEDIA QUERY: ", query);
+
+		try {
+
+			@SuppressWarnings({ "rawtypes", "unchecked" })
+			ECMFile ret = getJdbcTemplate().queryForObject(query, new RowMapper() {
+						@Override
+						public Object mapRow(java.sql.ResultSet rs, int row) throws SQLException {
+							// MAP YOUR FIELDS HERE							
+							ECMFile ecmFile = new ECMFile();
+							
+							ECMSource ecmSource = null;
+							switch (rs.getInt("COD_TIPO_PROVNZ_FILE")) {
+							case 1:
+								ecmSource = ECMSource.INTERNET_BANKING;
+								break;
+							case 2:
+								ecmSource = ECMSource.PORTALE_DI_SEDE;
+								break;
+							case 3:
+								ecmSource = ECMSource.RETE_DI_VENDITA;
+								break;
+							case 4:
+								ecmSource = ECMSource.LIVE_CYCLE;
+								break;
+							case 5:
+								ecmSource = ECMSource.LIVE_CYCLE;
+								break;
+							default:
+								log.error("mapRow: illegal mapping for COD_TIPO_PROVNZ_FILE.");
+								throw new AsiaException("illegal mapping");
+							}
+							
+							ECMType ecmType = null;
+							switch (rs.getInt("COD_TIPO_ECM")) {
+							case 1:
+								ecmType = ECMType.IBM_FILENET;
+								break;
+							case 2:
+								ecmType = ECMType.ALFRESCO;
+								break;
+							case 3:
+								ecmType = ECMType.AZURE;
+								break;
+							}
+							
+							ECMState ecmState = null;
+							switch (rs.getInt("COD_STATO_ECM")) {
+							case 1:		
+								ecmState = ECMState.INSERTED;
+								break;
+							case 2:
+								ecmState = ECMState.PENDING;
+								break;
+							case 3:
+								ecmState = ECMState.MOVED;
+								break;
+							case 4:
+								ecmState = ECMState.DELETED;
+								break;
+							case 5:
+								ecmState = ECMState.ERROR;
+								break;
+							default:
+								log.error("mapRow: illegal mapping for COD_STATO_ECM.");
+								throw new AsiaException("illegal mapping");
+							}
+
+							ecmFile.setIdFile(rs.getInt("COD_UPLD_FILE_INTERN"));
+							ecmFile.setChannel(rs.getString("COD_TIPO_CANA"));
+							ecmFile.setContainerType(rs.getString("DEN_CNTR"));
+							ecmFile.setDestinationPath(rs.getString("DES_DEST_PATH"));
+							ecmFile.setSource(ecmSource);
+							ecmFile.setEcmType(ecmType);
+							ecmFile.setIdFileECM(rs.getString("COD_UPLD_FILE_ECM"));
+							ecmFile.setUserId(rs.getString("GSTD_X_USER"));
+							ecmFile.setNameApp(rs.getString("DES_APPLICNE"));
+							ecmFile.setNameFile(rs.getString("DEN_FILE"));
+							ecmFile.setSourcePath(rs.getString("DES_SORG_PATH"));
+							ecmFile.setState(ecmState);
+							ecmFile.setType(rs.getString("DEN_ESTNS_FILE"));
+							ecmFile.setUserType(rs.getString("COD_TIPO_UTE"));
+							if(rs.getDate("GSTD_D_INS_RECORD")!=null){
+								ecmFile.setDataInserimento(rs.getDate("GSTD_D_INS_RECORD").getTime());
+							}	
+							
+							if(rs.getDate("GSTD_D_ULT_MODF_RECORD")!=null){
+								ecmFile.setDataModifica(rs.getDate("GSTD_D_ULT_MODF_RECORD").getTime());
+							}
+							
+							return ecmFile;
+						}
+					});
+			response.setResult(ret);		
+			return response;
+
+		} catch (RuntimeException e) {
+			log.error("Errore DAO  RuntimeException");
+			TechnicalException tec = new TechnicalException(
+					UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			throw tec;
+
+		} catch (Exception e) {
+			log.error("Errore DAO  Exception ");
+			TechnicalException tec = new TechnicalException(
+					UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
+			throw tec;
+
+		}
+	}
 }

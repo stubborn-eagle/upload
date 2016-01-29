@@ -13,13 +13,12 @@ import it.bmed.asia.exception.ApplicationException;
  */
 public interface UploadMulticanaleDaoJdbcTemplate {
 
-	ECMResponse insertMedia(ECMRequest request)
-			throws ApplicationException, Exception;
+	ECMResponse insertMedia(ECMRequest request) throws ApplicationException, Exception;
 
-	ECMResponse listMedia(ECMRequest request)
-			throws ApplicationException, Exception;
+	ECMResponse listMedia(ECMRequest request) throws ApplicationException, Exception;
 
-	boolean updateMedia(UpdateECMRequest request)
-			throws ApplicationException, Exception;
+	boolean updateMedia(UpdateECMRequest request) throws ApplicationException, Exception;
+
+	ECMResponse selectMedia(Integer refId) throws ApplicationException, Exception;
 
 }
