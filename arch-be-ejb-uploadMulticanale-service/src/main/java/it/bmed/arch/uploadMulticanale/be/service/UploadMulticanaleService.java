@@ -17,4 +17,6 @@ public interface UploadMulticanaleService {
 
 	boolean updateMedia(UpdateECMRequest request) throws TechnicalException, Exception;
 
+	ECMResponse selectMedia(Integer refId) throws TechnicalException, Exception;
+
 }

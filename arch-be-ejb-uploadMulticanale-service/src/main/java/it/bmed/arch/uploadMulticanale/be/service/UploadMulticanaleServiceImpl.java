@@ -267,6 +267,20 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 	}
 	
 	/**
+	 * Check where required parameters are null and throws TechnicalException
+	 * @param request as <b>String</b>
+	 * @throws TechnicalException
+	 */
+	private void checkRequiredParametersSelectMedia(Integer refId) throws TechnicalException {
+		final String method = "checkRequiredParametersSelectMedia";
+		final String cause = "Parameter cannot be null.";
+		
+		if(refId == null) {
+			parameterError(method, "refId", cause);
+		}		
+	}
+	
+	/**
 	 * Check where required parameters exceed max length and throws TechnicalException 
 	 * @param request
 	 * @throws TechnicalException
@@ -327,4 +341,26 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 		throw tec;
 	}
 
+	@Override
+	public ECMResponse selectMedia(Integer refId) throws TechnicalException, Exception {
+		try {
+			
+			checkRequiredParametersSelectMedia(refId);
+						
+			ECMResponse response = new ECMResponse();
+			response = uploadMulticanaleDaoJdbcTemplate.selectMedia(refId);
+
+			return response;
+
+		} catch (ApplicationException e) {
+			log.error("Errore  selectMedia getErrorCode {}_getErrorDescription {}  "
+					+ e.getErrorCode() + "_" + e.getErrorDescription());
+			throw e;
+
+		} catch (RuntimeException e) {
+			log.error("Errore selectMedia in Servizio");
+			throw e;
+		}
+
+	}
 }
