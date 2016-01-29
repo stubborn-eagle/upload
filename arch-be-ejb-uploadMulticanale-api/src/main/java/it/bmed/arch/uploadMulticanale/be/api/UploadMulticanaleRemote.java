@@ -95,4 +95,13 @@ public interface UploadMulticanaleRemote extends Remote {
 		
 		@WebMethod(operationName = "moveFileWithMetadata")		
 		MoveResponse moveFileWithMetadata(MoveRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
+
+		@WebMethod(operationName = "generatePDFAsynch")
+		String generatePDFAsynch(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
+		
+		@WebMethod(operationName = "generatePDFDynamicAsynch")
+		String generatePDFDynamicAsynch(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
+
+		@WebMethod(operationName = "generatePDFAsynchStatus")
+		String generatePDFAsynchStatus(String refId) throws SystemFault, RemoteException, Exception;
 }
