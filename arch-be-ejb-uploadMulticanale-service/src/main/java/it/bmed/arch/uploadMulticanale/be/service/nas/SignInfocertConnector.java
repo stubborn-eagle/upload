@@ -55,11 +55,7 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaCADES(documentoDaFirmare, dominio, alias, pin, otp);
 		} catch (Exception e) {
-			logger.error("firmaCades " + e.getMessage());
-			e.printStackTrace();
-			for(int i=0; i < e.getStackTrace().length; i++){
-				logger.error("STACK"+e.getStackTrace()[i]);
-			}
+			logger.error("firmaCades " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaCades error", e);
 		}
 		return result;
@@ -73,11 +69,7 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari);
 		} catch (Exception e) {
-			logger.error("firmaPades " + e.getMessage());
-			e.printStackTrace();
-			for(int i=0; i < e.getStackTrace().length; i++){
-				logger.error("STACK"+e.getStackTrace()[i]);
-			}
+			logger.error("firmaPades " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaPades error", e);
 		}
 		return result;
@@ -94,16 +86,12 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 15000); // inserire altre due variabili nel web.xml
 		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 5000);  //
 		
-		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "med-lookup.users");
-        if (credentials!= null){
-        	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
-			bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword());
-        } 
-        else{
+//		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "med-lookup.users");
+//        	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
+//			bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword());
 //        	throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "credentials error");
         	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "JVJRAO2");   
-			bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "anno2012");
-        }
+	        bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "anno2012");
 		
 		return port;
 	}
