@@ -13,16 +13,10 @@
 
 	<properties>
 		<!-- NOME DEL WSDL -->
-		<wsdl.name>infocerta.wsdl</wsdl.name>
+		<wsdl.name>infocert.wsdl</wsdl.name>
 		<!-- PATH RELATIVO DA CARTELLA RESOURCES -->
 		<wsdl.sourcedir>/wsdl</wsdl.sourcedir>
 	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>com.sun.xml.ws</groupId>
-			<artifactId>jaxws-rt</artifactId>
-		</dependency>
-	</dependencies>
 	<build>
 		<plugins>
 			<plugin>

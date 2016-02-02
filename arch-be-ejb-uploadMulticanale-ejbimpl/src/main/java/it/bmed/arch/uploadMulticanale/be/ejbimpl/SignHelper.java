@@ -45,7 +45,7 @@ result.append("		</firmatario>");
 result.append("	</lista_firmatari>");
 result.append("</datifirma>");
 		
-		return result.toString();
+		return new String(Base64.encodeBase64(result.toString().getBytes()));
 	}
 
 	public static String getXmlFirmatariOsbCadesCustom(String xmlFirmatariOsbCades, SignatureData signatureData) {

@@ -184,7 +184,7 @@
 	<env-entry>
 		<env-entry-name>SIGN_FIRMATARI_ALIAS</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>DSRAO-BMDFRM80A01F205J-2</env-entry-value>
+		<env-entry-value>RAO</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>SIGN_FIRMATARI_PIN</env-entry-name>

@@ -51,11 +51,9 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 			result = serviceLiveCycle.generatePDF(xml);
 			logger.debug("generatePDF invoked");
 		} catch (Throwable e) {
-			logger.error("custom result", e);
-			result = "RmlsZSBkaSB0ZXN0IQ==".getBytes();
 			logger.error("generatePDF " + e.getMessage(), e);
 			e.printStackTrace();
-//			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "generatePDF error", e);
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "generatePDF error", e);
 		}
 		return result;
 	}
