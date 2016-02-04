@@ -1,102 +1,109 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<WL5G3N0:definitions name="firmaWSService" targetNamespace="http://firma.webservice.ncfr.infocert.it/" xmlns:WL5G3N0="http://schemas.xmlsoap.org/wsdl/" xmlns:WL5G3N1="http://firma.webservice.ncfr.infocert.it/" xmlns:WL5G3N2="http://schemas.xmlsoap.org/wsdl/soap/">
-  <WL5G3N0:types>
-    <xsd:schema targetNamespace="http://firma.webservice.ncfr.infocert.it/" version="1.0" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://firma.webservice.ncfr.infocert.it/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-      <xsd:element name="FirmaWSException" type="tns:FirmaWSException"/>
-      <xsd:element name="firmaCADES" type="tns:firmaCADES"/>
-      <xsd:element name="firmaCADESResponse" type="tns:firmaCADESResponse"/>
-      <xsd:element name="firmaPADES" type="tns:firmaPADES"/>
-      <xsd:element name="firmaPADESResponse" type="tns:firmaPADESResponse"/>
-      <xsd:complexType name="firmaCADES">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="documentoDaFirmare" type="xs:string"/>
-          <xsd:element minOccurs="0" name="dominio" type="xs:string"/>
-          <xsd:element minOccurs="0" name="alias" type="xs:string"/>
-          <xsd:element minOccurs="0" name="pin" type="xs:string"/>
-          <xsd:element minOccurs="0" name="otp" type="xs:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:complexType name="firmaCADESResponse">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="return" type="xs:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:complexType name="FirmaWSException">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="code" type="xs:string"/>
-          <xsd:element minOccurs="0" name="message" type="xs:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:complexType name="firmaPADES">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="documentoDaFirmare" type="xs:string"/>
-          <xsd:element minOccurs="0" name="firmatari" type="xs:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:complexType name="firmaPADESResponse">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="return" type="xs:string"/>
-        </xsd:sequence>
-      </xsd:complexType>
-    </xsd:schema>
-  </WL5G3N0:types>
-  <WL5G3N0:message name="firmaWS_firmaPADESResponse">
-    <WL5G3N0:part element="WL5G3N1:firmaPADESResponse" name="firmaPADESResponse"/>
-  </WL5G3N0:message>
-  <WL5G3N0:message name="FirmaWSException">
-    <WL5G3N0:part element="WL5G3N1:FirmaWSException" name="FirmaWSException"/>
-  </WL5G3N0:message>
-  <WL5G3N0:message name="firmaWS_firmaCADESResponse">
-    <WL5G3N0:part element="WL5G3N1:firmaCADESResponse" name="firmaCADESResponse"/>
-  </WL5G3N0:message>
-  <WL5G3N0:message name="firmaWS_firmaCADES">
-    <WL5G3N0:part element="WL5G3N1:firmaCADES" name="firmaCADES"/>
-  </WL5G3N0:message>
-  <WL5G3N0:message name="firmaWS_firmaPADES">
-    <WL5G3N0:part element="WL5G3N1:firmaPADES" name="firmaPADES"/>
-  </WL5G3N0:message>
-  <WL5G3N0:portType name="firmaWS">
-    <WL5G3N0:operation name="firmaCADES" parameterOrder="firmaCADES">
-      <WL5G3N0:input message="WL5G3N1:firmaWS_firmaCADES"/>
-      <WL5G3N0:output message="WL5G3N1:firmaWS_firmaCADESResponse"/>
-      <WL5G3N0:fault message="WL5G3N1:FirmaWSException" name="FirmaWSException"/>
-    </WL5G3N0:operation>
-    <WL5G3N0:operation name="firmaPADES" parameterOrder="firmaPADES">
-      <WL5G3N0:input message="WL5G3N1:firmaWS_firmaPADES"/>
-      <WL5G3N0:output message="WL5G3N1:firmaWS_firmaPADESResponse"/>
-      <WL5G3N0:fault message="WL5G3N1:FirmaWSException" name="FirmaWSException"/>
-    </WL5G3N0:operation>
-  </WL5G3N0:portType>
-  <WL5G3N0:binding name="firmaWSBinding" type="WL5G3N1:firmaWS">
-    <WL5G3N2:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
-    <WL5G3N0:operation name="firmaCADES">
-      <WL5G3N2:operation/>
-      <WL5G3N0:input>
-        <WL5G3N2:body use="literal"/>
-      </WL5G3N0:input>
-      <WL5G3N0:output>
-        <WL5G3N2:body use="literal"/>
-      </WL5G3N0:output>
-      <WL5G3N0:fault name="FirmaWSException">
-        <WL5G3N2:fault name="FirmaWSException" use="literal"/>
-      </WL5G3N0:fault>
-    </WL5G3N0:operation>
-    <WL5G3N0:operation name="firmaPADES">
-      <WL5G3N2:operation/>
-      <WL5G3N0:input>
-        <WL5G3N2:body use="literal"/>
-      </WL5G3N0:input>
-      <WL5G3N0:output>
-        <WL5G3N2:body use="literal"/>
-      </WL5G3N0:output>
-      <WL5G3N0:fault name="FirmaWSException">
-        <WL5G3N2:fault name="FirmaWSException" use="literal"/>
-      </WL5G3N0:fault>
-    </WL5G3N0:operation>
-  </WL5G3N0:binding>
-  <WL5G3N0:service name="firmaWSService">
-    <WL5G3N0:port binding="WL5G3N1:firmaWSBinding" name="firmaWSPort">
-      <WL5G3N2:address location="https://lxosb701.gbm.lan:8002/FirmaDigitale/SignatureService_RDV"/>
-    </WL5G3N0:port>
-  </WL5G3N0:service>
-</WL5G3N0:definitions>
+<definitions name="firmaWSService" targetNamespace="http://firma.webservice.ncfr.infocert.it/" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://firma.webservice.ncfr.infocert.it/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <types>
+    <xs:schema targetNamespace="http://firma.webservice.ncfr.infocert.it/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="FirmaWSException" type="tns:FirmaWSException"/>
+      <xs:element name="firmaCADES" type="tns:firmaCADES"/>
+      <xs:element name="firmaCADESResponse" type="tns:firmaCADESResponse"/>
+      <xs:element name="firmaPADES" type="tns:firmaPADES"/>
+      <xs:element name="firmaPADESResponse" type="tns:firmaPADESResponse"/>
+      <xs:complexType name="firmaCADES">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="documentoDaFirmare" type="xs:string"/>
+          <xs:element minOccurs="0" name="dominio" type="xs:string"/>
+          <xs:element minOccurs="0" name="alias" type="xs:string"/>
+          <xs:element minOccurs="0" name="pin" type="xs:string"/>
+          <xs:element minOccurs="0" name="otp" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name='firmaCADESResponse'>
+		<xs:sequence>
+		 <xs:element minOccurs='0' name='return' type='tns:esitoFirma'/>
+		</xs:sequence>
+	   </xs:complexType>
+	   <xs:complexType name='esitoFirma'>
+		<xs:sequence>
+		 <xs:element minOccurs='0' name='code' type='xs:string'/>
+		 <xs:element minOccurs='0' name='documentoFirmato' type='xs:string'/>
+		 <xs:element minOccurs='0' name='message' type='xs:string'/>
+		</xs:sequence>
+	   </xs:complexType>
+      <xs:complexType name="FirmaWSException">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="code" type="xs:string"/>
+          <xs:element minOccurs="0" name="message" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="firmaPADES">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="documentoDaFirmare" type="xs:string"/>
+          <xs:element minOccurs="0" name="firmatari" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="firmaPADESResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="tns:esitoFirma"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </types>
+  <message name="firmaWS_firmaPADESResponse">
+    <part element="tns:firmaPADESResponse" name="firmaPADESResponse"/>
+  </message>
+  <message name="FirmaWSException">
+    <part element="tns:FirmaWSException" name="FirmaWSException"/>
+  </message>
+  <message name="firmaWS_firmaCADESResponse">
+    <part element="tns:firmaCADESResponse" name="firmaCADESResponse"/>
+  </message>
+  <message name="firmaWS_firmaCADES">
+    <part element="tns:firmaCADES" name="firmaCADES"/>
+  </message>
+  <message name="firmaWS_firmaPADES">
+    <part element="tns:firmaPADES" name="firmaPADES"/>
+  </message>
+  <portType name="firmaWS">
+    <operation name="firmaCADES" parameterOrder="firmaCADES">
+      <input message="tns:firmaWS_firmaCADES"/>
+      <output message="tns:firmaWS_firmaCADESResponse"/>
+      <fault message="tns:FirmaWSException" name="FirmaWSException"/>
+    </operation>
+    <operation name="firmaPADES" parameterOrder="firmaPADES">
+      <input message="tns:firmaWS_firmaPADES"/>
+      <output message="tns:firmaWS_firmaPADESResponse"/>
+      <fault message="tns:FirmaWSException" name="FirmaWSException"/>
+    </operation>
+  </portType>
+  <binding name="firmaWSBinding" type="tns:firmaWS">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="firmaCADES">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="FirmaWSException">
+        <soap:fault name="FirmaWSException" use="literal"/>
+      </fault>
+    </operation>
+    <operation name="firmaPADES">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+      <fault name="FirmaWSException">
+        <soap:fault name="FirmaWSException" use="literal"/>
+      </fault>
+    </operation>
+  </binding>
+  <service name="firmaWSService">
+    <port binding="tns:firmaWSBinding" name="firmaWSPort">
+      <soap:address location="http://ncfrcl.infocert.it:52500/ncfr-webservice/FirmaWS"/>
+    </port>
+  </service>
+</definitions>
