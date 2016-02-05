@@ -46,7 +46,7 @@ public interface NASService {
 	
 	String firmaCadesInfocert(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException;
 	
-	String firmaPadesInfocert(String documentoDaFirmare, String firmatari) throws TechnicalException;
+	String firmaPadesInfocert(String documentoDaFirmare, String firmatari, String idDocumento) throws TechnicalException;
 
 	SignatureData getSignatureData() throws TechnicalException;
 }

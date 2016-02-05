@@ -6,6 +6,7 @@ import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
+import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.EsitoFirma;
 import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.FirmaWS;
 import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.FirmaWSService;
 
@@ -42,7 +43,7 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 	@Override
 	public String firmaCades(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws AsiaException {
 		logger.info("firmaCades call.");
-		String result = null;
+		EsitoFirma result = null;
 		try {
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignFactory.class);
 			result = serviceSign.firmaCADES(documentoDaFirmare, dominio, alias, pin, otp);
@@ -51,13 +52,13 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 			logger.debug("firmaCades stacktrace ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaCades error", e);
 		}
-		return result;
+		return result.getDocumentoFirmato();
 	}
 	
 	@Override
 	public String firmaPades(String documentoDaFirmare, String firmatari) throws AsiaException {
 		logger.info("firmaPades call.");
-		String result = null;
+		EsitoFirma result = null;
 		try {
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignFactory.class);
 			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari);
@@ -66,7 +67,7 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 			logger.debug("firmaPades stacktrace ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaPades error", e);
 		}
-		return result;
+		return result.getDocumentoFirmato();
 	}
 	
 	

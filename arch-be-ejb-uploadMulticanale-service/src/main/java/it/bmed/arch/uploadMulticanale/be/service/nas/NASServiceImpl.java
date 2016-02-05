@@ -359,11 +359,11 @@ public class NASServiceImpl implements NASService {
 	}
 	
 	@Override
-	public String firmaPadesInfocert(String documentoDaFirmare, String firmatari) throws TechnicalException {
+	public String firmaPadesInfocert(String documentoDaFirmare, String firmatari, String idDocumento) throws TechnicalException {
 		logger.info("firmaPadesInfocert call.");
 		String result = null;
 		try {
-			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari);
+			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari, idDocumento);
 		} catch (Exception e) {
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}

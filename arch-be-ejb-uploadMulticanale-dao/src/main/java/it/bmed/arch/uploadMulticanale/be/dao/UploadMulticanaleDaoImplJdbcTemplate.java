@@ -507,7 +507,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		try {
 
 			@SuppressWarnings({ "rawtypes", "unchecked" })
-			ECMFile ret = getJdbcTemplate().queryForObject(query, new RowMapper() {
+			ECMFile ret = (ECMFile)getJdbcTemplate().queryForObject(query, new RowMapper() {
 						@Override
 						public Object mapRow(java.sql.ResultSet rs, int row) throws SQLException {
 							// MAP YOUR FIELDS HERE							
