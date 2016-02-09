@@ -98,6 +98,51 @@ public class NASServiceImpl implements NASService {
 		return result;
 	}
 	
+	/* (non-Javadoc)
+	 * @see it.bmed.arch.uploadMulticanale.be.service.nas.NASService#deleteFilePhisical(String, String, ECMSource)
+	 */
+	@Override
+	public boolean deleteFilePhisical(String sourcePath, String filename, ECMSource source) throws TechnicalException, Exception {
+		boolean result = false;
+		String destinationPathname = null; // used by copyFile as recovery path
+		
+		// Init destinationPathname from settings
+		destinationPathname = getDestinationPathFromSource(source);		
+				
+		// check uninitialized variables
+		if(filename == null || filename.isEmpty()) {
+			logger.error("deleteFile: IllegalArgument.");
+			IErrorCode iErrorCode = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
+			TechnicalException  technicalException = new TechnicalException( iErrorCode );	
+			throw technicalException;
+		}
+		
+		String sourcePathname;
+		
+	 			
+		if ( destinationPathname != null && destinationPathname.length() == 0) {
+                   throw new DevelopmentException("Path di upload non configurato");
+             }else{
+                   if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
+                    	  destinationPathname += "/"+sourcePath;
+              }
+        }
+		
+				
+		sourcePathname = destinationPathname + "/"+ filename;
+			
+		File file = new File(sourcePathname);
+		
+		try {
+			result = file.delete();
+		} catch (Exception e) {
+			logger.error("deleteFile: " + e.getMessage());
+		} finally {
+			file = null;
+		}
+		return result;
+	}
+	
 	@Override
 		public byte[] loadFile(String sourcePath, String filename, ECMSource source) throws TechnicalException {	
 		
@@ -359,11 +404,11 @@ public class NASServiceImpl implements NASService {
 	}
 	
 	@Override
-	public String firmaPadesInfocert(String documentoDaFirmare, String firmatari) throws TechnicalException {
+	public String firmaPadesInfocert(String documentoDaFirmare, String firmatari, String idDocumento) throws TechnicalException {
 		logger.info("firmaPadesInfocert call.");
 		String result = null;
 		try {
-			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari);
+			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari, idDocumento);
 		} catch (Exception e) {
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}

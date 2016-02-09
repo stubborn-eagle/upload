@@ -1,12 +1,12 @@
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
-import it.bmed.arch.uploadMulticanale.be.service.nas.util.CredentialMappingHandler;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
+import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.infocert.EsitoFirma;
 import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.infocert.FirmaWS;
 import it.bmed.ib.uploadmulticanale.file.be.wsclient.sign.infocert.FirmaWSService;
 
@@ -50,7 +50,7 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 	@Override
 	public String firmaCades(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws AsiaException {
 		logger.info("firmaCades call.");
-		String result = null;
+		EsitoFirma result = null;
 		try {
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaCADES(documentoDaFirmare, dominio, alias, pin, otp);
@@ -58,21 +58,21 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 			logger.error("firmaCades " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaCades error", e);
 		}
-		return result;
+		return result.getDocumentoFirmato();
 	}
 	
 	@Override
-	public String firmaPades(String documentoDaFirmare, String firmatari) throws AsiaException {
+	public String firmaPades(String documentoDaFirmare, String firmatari, String idDocumento) throws AsiaException {
 		logger.info("firmaPades call.");
-		String result = null;
+		EsitoFirma result = null;
 		try {
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
-			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari);
+			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari, idDocumento);
 		} catch (Exception e) {
 			logger.error("firmaPades " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaPades error", e);
 		}
-		return result;
+		return result.getDocumentoFirmato();
 	}
 	
 	
