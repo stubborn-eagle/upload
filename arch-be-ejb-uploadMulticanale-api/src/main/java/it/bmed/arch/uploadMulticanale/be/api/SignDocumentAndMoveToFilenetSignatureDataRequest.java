@@ -8,6 +8,8 @@ import javax.xml.bind.annotation.XmlElement;
 public class SignDocumentAndMoveToFilenetSignatureDataRequest implements Serializable{
 	private static final long serialVersionUID = 6309405016747178298L;
 
+	private String alias = null;
+	private String pin = null;
 	private String ndg1 = null;
 	private String ndg2 = null;
 	private String ndg3 = null;
@@ -16,6 +18,25 @@ public class SignDocumentAndMoveToFilenetSignatureDataRequest implements Seriali
 	private String referenceDate = null;
 	
 	private SignDocumentAndMoveToFilenetSignatureDataSigners signers = null;
+
+	
+	@XmlElement(required=true)
+	public String getPin() {
+	    return pin;
+	}
+
+	public void setPin(String pin) {
+	    this.pin = pin;
+	}
+
+	@XmlElement(required=true)
+	public String getAlias() {
+	    return alias;
+	}
+
+	public void setAlias(String alias) {
+	    this.alias = alias;
+	}
 
 	@XmlElement(required=false)
 	public String getNdg1() {

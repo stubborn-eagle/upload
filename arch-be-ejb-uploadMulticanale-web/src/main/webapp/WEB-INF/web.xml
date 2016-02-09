@@ -169,7 +169,7 @@
 	<env-entry>
 		<env-entry-name>SIGN_WSDL_URL</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>http://lxosb701.gbm.lan:8002/FirmaDigitale/SignatureService_RDV</env-entry-value>
+		<env-entry-value>http://lxosb701.gbm.lan:8001/FirmaDigitale/SignatureService_RDV</env-entry-value>
 	</env-entry>
 	<env-entry>
 		<env-entry-name>SIGN_INFOCERT_WSDL_URL</env-entry-name>

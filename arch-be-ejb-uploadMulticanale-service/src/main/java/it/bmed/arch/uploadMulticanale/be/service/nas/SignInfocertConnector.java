@@ -86,12 +86,13 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 15000); // inserire altre due variabili nel web.xml
 		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 5000);  //
 		
-//		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "med-lookup.users");
-//        	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
-//			bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword());
-//        	throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "credentials error");
-        	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "JVJRAO2");   
-	        bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "anno2012");
+		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "infocert-lookup.users");
+        	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
+		bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword());
+		
+        	//throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "credentials error");
+        	//bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "JVJRAO2");   
+	        //bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "anno2012");
 		
 		return port;
 	}

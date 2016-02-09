@@ -5,7 +5,7 @@ import it.bmed.asia.exception.AsiaException;
 public interface SignInfocertConnectorInterface {
 	String firmaCades(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws AsiaException;
 	
-	String firmaPades(String documentoDaFirmare, String firmatari) throws AsiaException;
+	String firmaPades(String documentoDaFirmare, String firmatari, String idDocumento) throws AsiaException;
 	
 	String getSignInfocertUrl();
 	void setSignInfocertUrl(String signInfocertUrl);
