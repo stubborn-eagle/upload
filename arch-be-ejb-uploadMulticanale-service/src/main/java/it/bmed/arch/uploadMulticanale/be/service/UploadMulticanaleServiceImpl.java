@@ -363,4 +363,24 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 		}
 
 	}
+	
+	@Override
+	public ECMResponse listOlderMedia(int monthsAmount) throws TechnicalException, Exception {
+		try {						
+			ECMResponse response = new ECMResponse();
+			response = uploadMulticanaleDaoJdbcTemplate.listOlderMedia(monthsAmount);
+
+			return response;
+
+		} catch (ApplicationException e) {
+			log.error("Errore  listOlderMedia getErrorCode {}_getErrorDescription {}  "
+					+ e.getErrorCode() + "_" + e.getErrorDescription());
+			throw e;
+
+		} catch (RuntimeException e) {
+			log.error("Errore listOlderMedia in Servizio");
+			throw e;
+		}
+
+	}
 }

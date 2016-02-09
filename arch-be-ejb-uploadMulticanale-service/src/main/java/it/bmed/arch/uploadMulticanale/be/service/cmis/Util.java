@@ -413,6 +413,12 @@ public class Util {
 		return encodedString;
 
 	}
+	
+	public static byte[] decodeBase64ToFile(String base64) throws Exception {
+
+		return Base64.decodeBase64(base64);
+
+	}
 
 	public static byte[] readFile(File file) throws IOException, Exception {
 
