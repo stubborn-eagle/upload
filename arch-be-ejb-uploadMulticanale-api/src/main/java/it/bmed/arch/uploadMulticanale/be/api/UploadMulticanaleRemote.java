@@ -104,4 +104,10 @@ public interface UploadMulticanaleRemote extends Remote {
 
 		@WebMethod(operationName = "generatePDFAsynchStatus")
 		String generatePDFAsynchStatus(String refId) throws SystemFault, RemoteException, Exception;
+
+		@WebMethod(operationName = "deleteOlderFilesNAS")
+		boolean deleteOlderFilesNAS() throws SystemFault, RemoteException, Exception;
+
+		@WebMethod(operationName = "moveAlfrescoToFilenet")
+		MoveResponse moveAlfrescoToFilenet(MoveRequest request, HeaderInputType string) throws SystemFault, RemoteException, Exception;
 }

@@ -19,4 +19,6 @@ public interface UploadMulticanaleService {
 
 	ECMResponse selectMedia(Integer refId) throws TechnicalException, Exception;
 
+	ECMResponse listOlderMedia(int monthsAmount) throws TechnicalException, Exception;
+
 }

@@ -21,4 +21,6 @@ public interface UploadMulticanaleDaoJdbcTemplate {
 
 	ECMResponse selectMedia(Integer refId) throws ApplicationException, Exception;
 
+	ECMResponse listOlderMedia(int monthsAmount) throws ApplicationException, Exception;
+
 }

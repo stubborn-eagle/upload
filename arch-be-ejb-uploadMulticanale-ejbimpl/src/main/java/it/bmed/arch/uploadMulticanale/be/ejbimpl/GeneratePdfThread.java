@@ -6,7 +6,6 @@ import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClient;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
-import it.bmed.asia.exception.TechnicalException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 

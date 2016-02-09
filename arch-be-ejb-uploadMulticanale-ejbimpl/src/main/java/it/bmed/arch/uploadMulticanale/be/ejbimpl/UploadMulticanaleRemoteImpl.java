@@ -357,6 +357,57 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			}
 		}
 
+		@Override
+		public boolean deleteOlderFilesNAS() throws SystemFault, RemoteException, Exception {
+			boolean result = true;
+			ECMResponse ecmResponse = null;
+	
+			try {
+				ecmResponse = uploadMulticanaleService.listOlderMedia(6);
+				if(ecmResponse.getResult()==null){
+					if(!deleteFileNASPhisical(ecmResponse.getResult())){
+						result = false;
+					}
+				}else if(ecmResponse.getResults()==null){
+					for(ECMFile ecmFile : ecmResponse.getResults()){
+						if(!deleteFileNASPhisical(ecmFile)){
+							result = false;
+						}
+					}
+				}
+			} catch (TechnicalException e) {
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteOlderFilesNAS: " + e.getMessage());
+			}
+			return result;
+		}
+		
+		private boolean deleteFileNASPhisical(ECMFile ecmFile) throws Exception{
+			boolean response = false;
+			boolean isDeletedOnDB = false;
+			try {
+				String nameFile =  ecmFile.getNameFile() + "." + ecmFile.getType().toLowerCase(); 
+				log.debug("NOME FILE SUL NAS", nameFile);
+				response = nasService.deleteFilePhisical(ecmFile.getSourcePath(), nameFile, ecmFile.getSource());
+				log.debug("deleteFileNASPhisical: operation succesfully returned.");
+			} catch (TechnicalException e) {
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
+			}
+			
+			if (response){
+				UpdateECMRequest upRequest = new UpdateECMRequest();
+				upRequest.setIdFile(ecmFile.getIdFile());
+				upRequest.setState(ECMState.DELETED);
+				upRequest.setNameApp(ecmFile.getNameApp());
+				isDeletedOnDB = updateMedia(upRequest, new HeaderInputType());
+			}
+			
+			if(response && isDeletedOnDB){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
 	/**
 	 * @author donatello.boccaforno
 	 */
@@ -519,6 +570,57 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		}
 		response.setResult(moveDTO);
 		log.debug("moveFileWithMetadata: Exit");
+		return response;
+	}
+	
+	@Override
+	public MoveResponse moveAlfrescoToFilenet(MoveRequest request, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		log.debug("moveAlfrescoToFilenet: Entering");
+		MoveResponse response = new MoveResponse();
+		ECMResponse ecmResponse = null;
+		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
+		ECMFile ecmFile = null;
+		String idFileECM = null;
+		MoveDTO moveDTO = new MoveDTO();
+		
+		ECMRequest ecmRequest = new ECMRequest();
+		ecmFile = new ECMFile();
+		ecmFile.setIdFile(request.getEcmParam().getIdFile());
+		ecmRequest.setEcmFile(ecmFile);
+		
+		try {
+			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
+			
+			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_TYPE="+ ecmResponse.getResult().getEcmType());
+			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_FILE_ID"+ ecmResponse.getResult().getIdFileECM());
+			String fileContentBase64 = ecmService.downloadFile(ecmResponse.getResult().getEcmType(), ecmResponse.getResult().getIdFileECM());
+			ecmFile = ecmResponse.getResult();
+			
+			log.debug("CHIAMATA A CREATEFILE - INIZIO");
+			idFileECM = ecmService.createFileWithMetadata(Util.decodeBase64ToFile(fileContentBase64), ecmFile, request.getEcmParam());
+			log.debug("CHIAMATA A CREATEFILE - FINE");
+			updateECMRequest.setContainerType(request.getEcmParam().getContainerType());
+			updateECMRequest.setDestinationPath(request.getEcmParam().getDestinationPath());
+			updateECMRequest.setEcmType(request.getEcmParam().getEcmType());
+			updateECMRequest.setIdFile(ecmFile.getIdFile());
+			updateECMRequest.setIdFileECM(idFileECM);
+			updateECMRequest.setNameApp(request.getEcmParam().getNameApp());
+			updateECMRequest.setState(ECMState.MOVED);
+			log.debug("CHIAMATA A UPDATEMEDIA - INIZIO - DATI REQUEST", updateECMRequest.toString());
+			updateMedia(updateECMRequest, new HeaderInputType());
+			log.debug("CHIAMATA A UPDATEMEDIA - FINE");
+			
+			// Remove file from NAS
+			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
+				ecmService.removeFile(ecmResponse.getResult().getEcmType(), ecmResponse.getResult().getIdFileECM(), ecmResponse.getResult().getContainerType());
+			}
+			moveDTO.setEcmFileId(idFileECM);
+			moveDTO.setFileId(ecmFile.getIdFile());
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
+		}
+		response.setResult(moveDTO);
+		log.debug("moveAlfrescoToFilenet: Exit");
 		return response;
 	}
 
@@ -827,7 +929,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 	@Override
 	public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException {
-//MarcoTest		String result = request.getSignatureData().getSigners().getSigner().get(0).getAlias()+"aaa";
 
 		byte[] buffer = null;
 		ECMFile ecmFile = null;
@@ -850,7 +951,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE", ecmResponse.getResult().getSource());
 			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
-//MarcoTest			buffer = getBytesFromFile(new java.io.File("/home/oracle/Desktop/Screenshot.png"));
 			
 			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
 			
@@ -873,16 +973,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		return result;
 	}
-	
-	public static byte[] getBytesFromFile(java.io.File file) throws java.io.IOException {
-		java.io.FileInputStream fis = new java.io.FileInputStream(file);
-	    int x = fis.available();
-	    byte b[] = new byte[x];
-	    fis.read(b);
-	    fis.close();
-
-	    return b;
-	  }
 	
 	private String getFileHash(byte[] content) throws NoSuchAlgorithmException{
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
