@@ -89,7 +89,7 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 		
 		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "infocert-lookup.users");
         	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
-		bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword());
+		bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, credentials.getPassword().toString());
 		
         	//throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "credentials error");
         	//bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "JVJRAO2");   
