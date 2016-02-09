@@ -1,6 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
+import it.bmed.arch.uploadMulticanale.be.service.nas.util.CredentialMappingHandler;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
