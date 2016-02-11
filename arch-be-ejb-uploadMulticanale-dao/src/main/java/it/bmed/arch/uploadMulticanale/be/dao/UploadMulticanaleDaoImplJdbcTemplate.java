@@ -501,7 +501,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 		
 		String campo1 = " COD_UPLD_FILE_INTERN = " + Integer.toString(refId);
 		
-		String query = "SELECT * FROM qpush_be.ECM_FILE WHERE WHERE " + campo1;
+		String query = "SELECT * FROM qpush_be.ECM_FILE WHERE " + campo1;
 		log.debug("SELECT MEDIA QUERY: ", query);
 
 		try {
