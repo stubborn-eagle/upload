@@ -348,7 +348,7 @@ public class NASServiceImpl implements NASService {
 	@Override
 	public ECMFile getEcmFileLiveCyclePdf(String fileName, boolean isDynamic) throws TechnicalException {
 		String destinationPath = getDestinationPathFromSource(ECMSource.LIVE_CYCLE);	
-		String sourcePath = destinationPath + "/"+ fileName;
+//		String sourcePath = destinationPath + "/"+ fileName;
 		
 		ECMFile ecmFile = new ECMFile();
 		
