@@ -60,6 +60,7 @@ public class TestAzureServiceGeneration {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testUploadTokenOneHour() {
 		AzureRequest parameters = new AzureRequest();
@@ -87,6 +88,7 @@ public class TestAzureServiceGeneration {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testMultipleUploadTokenOneHour() throws InterruptedException {
 		AzureRequest parameters = new AzureRequest();
