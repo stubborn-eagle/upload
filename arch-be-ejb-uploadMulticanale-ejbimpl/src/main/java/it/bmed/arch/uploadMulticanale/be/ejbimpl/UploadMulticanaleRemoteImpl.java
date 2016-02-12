@@ -540,7 +540,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE"+ nameFile);
 			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH"+ ecmResponse.getResult().getSourcePath());
 			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE"+ ecmResponse.getResult().getSource());
-			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
+			buffer = nasService.loadFileWithMetadata(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
 			
 			// Create file on ECM
