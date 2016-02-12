@@ -14,6 +14,7 @@ import java.util.Scanner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -42,7 +43,8 @@ public class ECMServiceTest {
 		alfrescoConnector = null;
 		context = null;
 	}
-
+	
+	@Ignore
 	@Test
 	public void testECMService() {
 		String filename = "alfrescoConnector";
