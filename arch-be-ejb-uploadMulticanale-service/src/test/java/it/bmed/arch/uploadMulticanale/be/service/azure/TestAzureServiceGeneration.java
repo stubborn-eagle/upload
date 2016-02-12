@@ -122,6 +122,7 @@ public class TestAzureServiceGeneration {
 
 	}
 
+	@Ignore
 	@Test
 	public void testMaximumTimeFail() throws InterruptedException {
 		AzureRequest parameters = new AzureRequest();
@@ -155,6 +156,7 @@ public class TestAzureServiceGeneration {
 
 	}
 	
+	@Ignore
 	@Test
 	public void testReadOnlyTokenOneHourSingleBlob() {
 		AzureRequest parameters = new AzureRequest();
