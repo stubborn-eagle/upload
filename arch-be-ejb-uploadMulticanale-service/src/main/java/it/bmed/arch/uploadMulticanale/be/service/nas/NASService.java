@@ -40,8 +40,6 @@ public interface NASService {
 	 */
 	byte[] loadFile(String path, String filename, ECMSource source) throws TechnicalException, Exception;
 	
-	byte[] loadFileWithMetadata(String path, String filename, ECMSource source) throws TechnicalException, Exception;
-	
 	/**
 	 * Save the InputStream into the NAS filesystem root, with respsective filename and appended extension 
 	 * @param resultStream

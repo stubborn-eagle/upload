@@ -198,49 +198,6 @@ public class NASServiceImpl implements NASService {
 	}
 	
 	@Override
-	public byte[] loadFileWithMetadata(String sourcePath, String filename, ECMSource source) throws TechnicalException {	
-	
-		
-		String sourcePathname="";
-					
-		InputStream inputStream = null;
-		File file = null;
-		int fileLength = 0;
-		
-		sourcePathname = sourcePath + "/"+ filename;
-		logger.debug("loadFile sourcePathname:"+sourcePathname);
-		
-		file = new File(sourcePathname);
-		fileLength = (int) file.length();
-
-		// The higher bound is checked in the caller's side
-		if (fileLength >= Integer.MAX_VALUE) { 
-			throw new AsiaException("Illegal file size.");
-		}
-		
-		byte[] buffer = new byte[fileLength];
-		try {
-			inputStream = new FileInputStream(file);
-			if (inputStream.read(buffer) == -1) {
-				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: BOF equals to EOF.");
-			}
-		} catch (FileNotFoundException e) {
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: file not found.", e);
-		} catch (IOException e) {
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: can't read from file.", e);
-		} finally {
-			if(inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (Exception e) {
-					logger.error("loadFile " + UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode() + " - " + e.getMessage());
-				}
-			}
-		}
-		return buffer;
-	}
-
-	@Override
 	public void saveFile(InputStream fileStream, String nameFile, ECMSource source, String sourcePath) throws TechnicalException, Exception {
 		logger.debug("saveFile called. ");
 		String destinationPath = null;
@@ -402,7 +359,7 @@ public class NASServiceImpl implements NASService {
 		ecmFile.setNameApp(settingsBean.getPdfLiveCycleNameApp());
 		ecmFile.setNameFile(fileName);
 		ecmFile.setSource(ECMSource.LIVE_CYCLE);
-		ecmFile.setSourcePath(sourcePath);
+//		ecmFile.setSourcePath(sourcePath);
 		ecmFile.setState(ECMState.INSERTED);
 		ecmFile.setType("PDF");
 		ecmFile.setUserId(settingsBean.getPdfLiveCycleUserId());
