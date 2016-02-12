@@ -14,6 +14,7 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestAzureServiceGeneration {
@@ -31,6 +32,7 @@ public class TestAzureServiceGeneration {
 		azureService =  new AzureServiceImpl();
 	}
 	
+	@Ignore
 	@Test
 	public void testReadOnlyTokenOneHour() {
 		AzureRequest parameters = new AzureRequest();
