@@ -793,6 +793,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
 		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
 		systemFault.getFaultInfo().setLayer("BKE");
+		systemFault.getFaultInfo().setMessaggio(error);
 		throw systemFault;
 	}
 	
