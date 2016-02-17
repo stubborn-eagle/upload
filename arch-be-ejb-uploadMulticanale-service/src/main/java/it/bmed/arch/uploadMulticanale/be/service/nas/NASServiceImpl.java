@@ -317,7 +317,7 @@ public class NASServiceImpl implements NASService {
 	
 	private String getDestinationPathFromSource(ECMSource source) throws TechnicalException {
 		String destinationPathname = null;
-		logger.debug("Settings Bean TO STRING", settingsBean.toString());
+		logger.debug("Settings Bean TO STRING: " + settingsBean.toString());
 		logger.debug("getDestinationPathFromSource source:"+ source);
 		try {
 			switch (source) {

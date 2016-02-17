@@ -479,9 +479,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			
 			// Load file from NAS
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE", nameFile);
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH", ecmResponse.getResult().getSourcePath());
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE", ecmResponse.getResult().getSource());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE:" + nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" +  ecmResponse.getResult().getSource());
 			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
 			
@@ -537,9 +537,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			
 			// Load file from NAS
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE"+ nameFile);
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH"+ ecmResponse.getResult().getSourcePath());
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE"+ ecmResponse.getResult().getSource());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE:" + nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" + ecmResponse.getResult().getSource());
 			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
 			
@@ -592,7 +592,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
 			
 			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_TYPE="+ ecmResponse.getResult().getEcmType());
-			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_FILE_ID"+ ecmResponse.getResult().getIdFileECM());
+			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_FILE_ID="+ ecmResponse.getResult().getIdFileECM());
 			String fileContentBase64 = ecmService.downloadFile(ecmResponse.getResult().getEcmType(), ecmResponse.getResult().getIdFileECM());
 			ecmFile = ecmResponse.getResult();
 			
@@ -793,6 +793,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
 		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
 		systemFault.getFaultInfo().setLayer("BKE");
+		systemFault.getFaultInfo().setMessaggio(error);
 		throw systemFault;
 	}
 	
@@ -946,9 +947,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			
 			// Load file from NAS
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE", nameFile);
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH", ecmResponse.getResult().getSourcePath());
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE", ecmResponse.getResult().getSource());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE:" + nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" + ecmResponse.getResult().getSource());
 			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
 			
