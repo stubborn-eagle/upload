@@ -108,6 +108,6 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebMethod(operationName = "deleteOlderFilesNAS")
 		boolean deleteOlderFilesNAS() throws SystemFault, RemoteException, Exception;
 
-		@WebMethod(operationName = "moveAlfrescoToFilenet")
-		MoveResponse moveAlfrescoToFilenet(MoveRequest request, @WebParam(header=true) HeaderInputType stringa) throws SystemFault, RemoteException, Exception;
+		@WebMethod(operationName = "moveAlfrescoToECM")
+		MoveResponse moveAlfrescoToECM(MoveRequest request, @WebParam(header=true) HeaderInputType stringa) throws SystemFault, RemoteException, Exception;
 }

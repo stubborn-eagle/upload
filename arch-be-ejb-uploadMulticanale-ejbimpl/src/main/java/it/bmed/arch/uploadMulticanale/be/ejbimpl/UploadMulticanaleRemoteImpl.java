@@ -574,8 +574,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 	
 	@Override
-	public MoveResponse moveAlfrescoToFilenet(MoveRequest request, HeaderInputType string) throws SystemFault, RemoteException, Exception {
-		log.debug("moveAlfrescoToFilenet: Entering");
+	public MoveResponse moveAlfrescoToECM(MoveRequest request, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		log.debug("moveAlfrescoToECM: Entering");
 		MoveResponse response = new MoveResponse();
 		ECMResponse ecmResponse = null;
 		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
@@ -620,7 +620,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
 		response.setResult(moveDTO);
-		log.debug("moveAlfrescoToFilenet: Exit");
+		log.debug("moveAlfrescoToECM: Exit");
 		return response;
 	}
 
