@@ -186,7 +186,11 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 			document = (Document) session.getObject(ecmFileId);
 			stream = document.getContentStream().getStream();
 			logger.debug("downloadFile returned successfully");
-			return convertStreamToString(stream);			
+			String result = convertStreamToString(stream);
+			if(result!=null){
+				logger.debug("result size : "+result.length());
+			}
+			return result;			
 		} catch (Exception e) {
 			logger.error("downloadFile " + e.getMessage());
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());

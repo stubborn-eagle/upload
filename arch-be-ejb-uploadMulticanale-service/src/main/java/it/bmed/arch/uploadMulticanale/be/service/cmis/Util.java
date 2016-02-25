@@ -38,6 +38,17 @@ public class Util {
 			if (base64FileContent != null && base64FileContent.length() > 0 && ecmFile != null && ecmParam != null) {
 				xml = encodeXMLToCreateWithMetadata(base64FileContent, ecmFile, ecmParam);
 			} else {
+				if(base64FileContent==null){
+					logger.warn("base64FileContent is null");
+				}else if(base64FileContent.length() == 0){
+					logger.warn("base64FileContent is empty");
+				}
+				if(ecmFile==null){
+					logger.warn("ecmFile is null");
+				}
+				if(ecmParam==null){
+					logger.warn("ecmParam is null");
+				}
 				throw new IllegalArgumentException("Arguments cannot be null in Filenet create operation.");
 			}
 			break;
