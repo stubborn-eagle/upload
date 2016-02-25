@@ -591,6 +591,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
 			
+			if(!ecmResponse.getResult().getEcmType().equals(ECMType.ALFRESCO)){
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "moveAlfrescoToECM invalid input ECMType: "+ecmResponse.getResult().getEcmType());
+			}
+			
 			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_TYPE="+ ecmResponse.getResult().getEcmType());
 			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_FILE_ID="+ ecmResponse.getResult().getIdFileECM());
 			String fileContentBase64 = ecmService.downloadFile(ecmResponse.getResult().getEcmType(), ecmResponse.getResult().getIdFileECM());
@@ -617,7 +621,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			moveDTO.setEcmFileId(idFileECM);
 			moveDTO.setFileId(ecmFile.getIdFile());
 		} catch (Exception e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveAlfrescoToECM: " + e.getMessage());
 		}
 		response.setResult(moveDTO);
 		log.debug("moveAlfrescoToECM: Exit");
