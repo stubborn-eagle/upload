@@ -179,10 +179,26 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 	}
 	@Override
 	public String downloadFile(String ecmFileId) throws AsiaException {
+		// check connection
+		if (session == null) {
+			logger.warn("downloadFile: session timeout.");
+			try {
+				logger.warn("downloadFile: createConnection.");
+				createConnection();				
+			} catch (CmisConnectionException cce) {
+				logger.error("createFile - connection error.");
+				throw new AsiaException("TCH_ECM_ERROR", cce.getMessage());
+			} catch (Exception e) {
+				logger.error("createFile: " + e.getMessage());				
+				throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
+			}
+		}
+		
 		InputStream stream = null;
 		Document document = null;		
 		try {					
 			logger.debug("downloadFile " + ecmFileId);
+			logger.debug("session " + session);
 			document = (Document) session.getObject(ecmFileId);
 			stream = document.getContentStream().getStream();
 			logger.debug("downloadFile returned successfully");
@@ -192,7 +208,7 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 			}
 			return result;			
 		} catch (Exception e) {
-			logger.error("downloadFile " + e.getMessage());
+			logger.error("downloadFile", e);
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
 	}
