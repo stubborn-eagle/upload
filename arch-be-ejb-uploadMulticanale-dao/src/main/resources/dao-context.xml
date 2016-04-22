@@ -117,6 +117,20 @@
 		<property name="pdfLiveCycleUserId" ref="pdfLiveCycleUserId"/>
 	</bean>
 	
+	<bean id="onboardingConnectorService" class="it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingServiceImpl">
+		<property name="onBoardingServiceURL" ref="onboardingUrl"/>
+		<property name="requestTimeout" ref="onboardingRequestTimeout"/>
+		<property name="connectTimeout" ref="onboardingConnectionTimeout"/>
+		<property name="onBoardingServiceIstituto" ref="onBoardingParamIstituto"/>
+		<property name="onBoardingServiceMatricola" ref="onBoardingParamMatricola"/>
+		<property name="onBoardingServiceRuolo" ref="onBoardingParamRuolo"/>
+		<property name="onBoardingServiceFiliale" ref="onBoardingParamFiliale"/>
+		<property name="onBoardingServiceUserId" ref="onBoardingParamUserId"/>
+		<property name="onBoardingServiceChannel" ref="onBoardingParamChannel"/>
+		<property name="onBoardingServiceContainer" ref="onBoardingParamContainer"/>
+		<property name="onBoardingServiceCompanyId" ref="onBoardingParamCompanyId"/>
+	</bean>
+
 	<bean id="mimeTypeMapping" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="targetMapClass">
 			<value>java.util.LinkedHashMap</value>
@@ -168,5 +182,17 @@
 	<jee:jndi-lookup id="signFirmatariAlias" jndi-name="java:comp/env/SIGN_FIRMATARI_ALIAS" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="signFirmatariPin" jndi-name="java:comp/env/SIGN_FIRMATARI_PIN" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="signFirmatariOtp" jndi-name="java:comp/env/SIGN_FIRMATARI_OTP" expected-type="java.lang.String" />
+    <!-- ONBOARDING ENROLLMENT SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="onboardingUrl" jndi-name="java:comp/env/ONBOARDING_WSDL_URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onboardingRequestTimeout" jndi-name="java:comp/env/ONBOARDING_REQUEST_TIMEOUT" expected-type="java.lang.Integer" />
+	<jee:jndi-lookup id="onboardingConnectionTimeout" jndi-name="java:comp/env/ONBOARDING_CONNECTION_TIMEOUT" expected-type="java.lang.Integer" />
+	<jee:jndi-lookup id="onBoardingParamIstituto" jndi-name="java:comp/env/ONBOARDING_ISTITUTO" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamMatricola" jndi-name="java:comp/env/ONBOARDING_MATRICOLA" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamRuolo" jndi-name="java:comp/env/ONBOARDING_RUOLO" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamFiliale" jndi-name="java:comp/env/ONBOARDING_FILIALE" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamUserId" jndi-name="java:comp/env/ONBOARDING_USERID" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamChannel" jndi-name="java:comp/env/ONBOARDING_CHANNEL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamContainer" jndi-name="java:comp/env/ONBOARDING_CONTAINER" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamCompanyId" jndi-name="java:comp/env/ONBOARDING_COMPANYID" expected-type="java.lang.String" />
 	
 </beans>

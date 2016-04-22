@@ -23,12 +23,17 @@ import it.bmed.arch.uploadMulticanale.be.api.TokenResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.azure.AzureService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
 import it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClient;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
+import it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingServiceInterface;
 import it.bmed.asia.exception.ApplicationException;
 import it.bmed.asia.exception.AsiaApplicationException;
 import it.bmed.asia.exception.AsiaException;
@@ -82,6 +87,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	@Autowired
 	private GeneratePDFServiceClient generatePDFServiceClient = null;
 	
+	@Autowired
+	private OnBoardingServiceInterface onBoardingService;
+
 	// FIXME: To be replaced injecting the livecycle WSClient; pay attention this is just a stub. 
 //	private GeneratePDFServiceClient generatePDFServiceClient = new GeneratePDFServiceClientImpl();
 	
@@ -794,11 +802,18 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 	private void technicalError(UploadMulticanaleErrorCodeEnums errorCode, String error) throws SystemFault {
 		log.error(error);
+//		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
+//		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
+//		systemFault.getFaultInfo().setLayer("BKE");
+//		throw systemFault;
+		throw buildTechnicalError(errorCode, error);
+	}
+	
+	private SystemFault buildTechnicalError (UploadMulticanaleErrorCodeEnums errorCode, String error){
 		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
 		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
 		systemFault.getFaultInfo().setLayer("BKE");
-		systemFault.getFaultInfo().setMessaggio(error);
-		throw systemFault;
+		return systemFault;
 	}
 	
 	/**
@@ -979,6 +994,25 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		return result;
 	}
 	
+	/** A.Marini: aggiunto metodo per integrazione servizio On Boarding Service Enrollment */
+	@Override
+	public AddDocumentsResponse addDocuments(AddDocumentsRequest request) throws SystemFault, RemoteException, Exception {
+		try{
+			return onBoardingService.addDocuments(request);
+		} catch (Exception e){
+			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
+		}
+	}
+	
+	@Override
+	public MoveDossierIntoFilenetResponse moveDossierIntoFilenet(MoveDossierIntoFilenetRequest request) throws SystemFault, RemoteException, Exception {
+		try{
+			return onBoardingService.moveDossierIntoFilenet(request);
+		} catch (Exception e){
+			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
+		}
+	}
+
 	private String getFileHash(byte[] content) throws NoSuchAlgorithmException{
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		byte[] dataBytes = content;
