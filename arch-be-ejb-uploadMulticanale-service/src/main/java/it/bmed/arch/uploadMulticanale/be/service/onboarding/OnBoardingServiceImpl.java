@@ -1,19 +1,5 @@
 package it.bmed.arch.uploadMulticanale.be.service.onboarding;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.activation.DataSource;
-import javax.jws.HandlerChain;
-import javax.mail.util.ByteArrayDataSource;
-import javax.xml.namespace.QName;
-import javax.xml.ws.BindingProvider;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
@@ -41,6 +27,20 @@ import it.bmed.asia.exception.TechnicalException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.activation.DataSource;
+import javax.jws.HandlerChain;
+import javax.mail.util.ByteArrayDataSource;
+import javax.xml.namespace.QName;
+import javax.xml.ws.BindingProvider;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServiceInterface {

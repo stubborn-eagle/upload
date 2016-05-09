@@ -1,13 +1,5 @@
 package it.bmed.arch.uploadMulticanale.be.service.onboarding;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-
-import org.springframework.stereotype.Service;
-
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.ArchivingPolicy;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.Attribute;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.CompositionPolicy;
@@ -17,6 +9,14 @@ import it.bmed.arch.uploadMulticanale.be.api.onboarding.KeywordSignatureField;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.PositionSignatureField;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.SignatureField;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.SignaturePolicy;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
+
+import org.springframework.stereotype.Service;
 
 @Service
 public class OnBoardingMapperImpl implements OnBoardingMapper {
