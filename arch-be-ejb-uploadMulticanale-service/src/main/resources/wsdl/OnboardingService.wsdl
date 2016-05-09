@@ -1,0 +1,972 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="EnrollmentService" targetNamespace="http://www.infocert.it/legalbus/cop/onboarding" xmlns:ns1="http://www.infocert.it/legalbus/cop/onboarding/model" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.infocert.it/legalbus/cop/onboarding" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:ns1="http://www.infocert.it/legalbus/cop/onboarding/model" xmlns:tns="http://www.infocert.it/legalbus/cop/onboarding/model/identityassertion" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.infocert.it/legalbus/cop/onboarding/model/identityassertion" version="1.0">
+
+  <xs:import namespace="http://www.infocert.it/legalbus/cop/onboarding/model"/>
+
+  <xs:element name="identity-assertion" type="tns:identity-assertion"/>
+
+  <xs:complexType name="identity-assertion">
+    <xs:complexContent>
+      <xs:extension base="ns1:legal-id">
+        <xs:sequence>
+          <xs:element name="claimer" type="tns:claimer"/>
+          <xs:element ref="ns1:person"/>
+          <xs:element minOccurs="0" name="external-id" type="xs:string"/>
+          <xs:element minOccurs="0" name="statements">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="statement" type="tns:statement"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute ref="tns:identity-assertion-type" use="required"/>
+        <xs:attribute name="identified" type="xs:boolean" use="required"/>
+        <xs:attribute name="assertion-date" type="xs:dateTime" use="required"/>
+        <xs:attribute name="person-data-modified" type="xs:boolean" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="claimer">
+    <xs:complexContent>
+      <xs:extension base="ns1:legal-id">
+        <xs:sequence/>
+        <xs:attribute name="first-name" type="xs:string" use="required"/>
+        <xs:attribute name="last-name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="statement">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="id" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:attribute name="identity-assertion-type" type="ns1:modalita-riconoscimento"/>
+
+</xs:schema>
+<xs:schema xmlns:ns1="http://www.infocert.it/legalbus/cop/onboarding/model" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.infocert.it/legalbus/cop/onboarding/model/authorizationassertion" version="1.0">
+
+  <xs:import namespace="http://www.infocert.it/legalbus/cop/onboarding/model"/>
+
+  <xs:complexType name="subject">
+    <xs:complexContent>
+      <xs:extension base="ns1:legal-id">
+        <xs:sequence/>
+        <xs:attribute name="first-name" type="xs:string" use="required"/>
+        <xs:attribute name="last-name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+</xs:schema>
+<xs:schema xmlns:tns="http://www.infocert.it/legalbus/cop/onboarding/model" xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.infocert.it/legalbus/cop/onboarding/model">
+  <xs:import namespace="http://www.w3.org/2005/05/xmlmime"/>
+  <xs:element name="person" type="tns:person"/>
+  <xs:complexType name="error">
+    <xs:sequence/>
+    <xs:attribute name="cod" type="xs:string" use="required"/>
+    <xs:attribute name="msg" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="documents">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="document" type="tns:document"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="document">
+    <xs:sequence>
+      <xs:element name="policy" type="tns:document-policy"/>
+      <xs:element minOccurs="0" name="signer-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="content" type="tns:content"/>
+      <xs:element minOccurs="0" name="composition-policy" type="tns:composition-policy"/>
+      <xs:element minOccurs="0" name="signature-policy" type="tns:signature-policy"/>
+      <xs:element minOccurs="0" name="archiving-policy" type="tns:archiving-policy"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="document-policy">
+    <xs:sequence/>
+    <xs:attribute name="compose" type="xs:boolean" use="required"/>
+    <xs:attribute name="sign" type="xs:boolean" use="required"/>
+    <xs:attribute name="archive" type="xs:boolean" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="content">
+    <xs:sequence>
+      <xs:element name="mime-type" type="xs:string"/>
+      <xs:element name="data" type="xs:base64Binary" xmime:expectedContentTypes="application/octet-stream"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="composition-policy">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="parameters" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="template-name" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="signature-policy">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signature-fields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="signature-field" type="tns:signature-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="keyword-signature-fields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="keyword-signature-field" type="tns:keyword-signature-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="position-signature-fields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="position-signature-field" type="tns:position-signature-field"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signature-field">
+    <xs:sequence>
+      <xs:element name="reason" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="signer-id" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="keyword-signature-field">
+    <xs:sequence>
+      <xs:element name="reason" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="signer-id" type="xs:string" use="required"/>
+    <xs:attribute name="keyword" type="xs:string" use="required"/>
+    <xs:attribute name="offset-x" type="xs:int" use="required"/>
+    <xs:attribute name="offset-y" type="xs:int" use="required"/>
+    <xs:attribute name="width" type="xs:int" use="required"/>
+    <xs:attribute name="height" type="xs:int" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="position-signature-field">
+    <xs:sequence>
+      <xs:element name="reason" type="xs:string"/>
+      <xs:element minOccurs="0" name="location" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="signer-id" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="page" type="xs:int" use="required"/>
+    <xs:attribute name="x" type="xs:int" use="required"/>
+    <xs:attribute name="y" type="xs:int" use="required"/>
+    <xs:attribute name="width" type="xs:int" use="required"/>
+    <xs:attribute name="height" type="xs:int" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="archiving-policy">
+    <xs:sequence>
+      <xs:element name="document-class" type="xs:string"/>
+      <xs:element name="attributes">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="attribute" type="tns:attribute"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="attribute">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="documents-info">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="document" type="tns:document-info"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="document-info">
+    <xs:sequence>
+      <xs:element name="status" type="xs:string"/>
+      <xs:element minOccurs="0" name="keyword-signature-fields">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="keyword-signature-field" type="tns:signature-field-info"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" name="content" type="tns:content"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="type" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="signature-field-info">
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="keyword" type="xs:string"/>
+    <xs:attribute name="page" type="xs:string"/>
+    <xs:attribute name="x" type="xs:string"/>
+    <xs:attribute name="y" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="dossier-info">
+    <xs:complexContent>
+      <xs:extension base="tns:dossier-status">
+        <xs:sequence>
+          <xs:element name="signers">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="signers" nillable="true" type="tns:signer-info"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="documents">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="documents" nillable="true" type="tns:document-info"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="dossier-status">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="business-id" type="xs:string"/>
+      <xs:element name="status" type="xs:string"/>
+      <xs:element minOccurs="0" name="creation-date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="last-activity-date" type="xs:dateTime"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="action" type="tns:dossier-action-result"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="signer-info">
+    <xs:sequence>
+      <xs:element name="identified" type="xs:boolean"/>
+      <xs:element name="personal-data-updated" type="xs:boolean"/>
+      <xs:element name="address-updated" type="xs:boolean"/>
+      <xs:element name="identity-document-info-updated" type="xs:boolean"/>
+      <xs:element name="contact-info-updated" type="xs:boolean"/>
+      <xs:element name="person" type="tns:person"/>
+      <xs:element minOccurs="0" name="clauses">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="clause-result" type="tns:clause-result"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="signer-id" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="person">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="legal-id" type="tns:legal-id"/>
+      <xs:element name="personal-data" type="tns:personal-data"/>
+      <xs:element name="contact-details" type="tns:contact-details"/>
+      <xs:element name="address" type="tns:address"/>
+      <xs:element name="identity-document-info" type="tns:identity-document-data"/>
+    </xs:sequence>
+    <xs:attribute name="identified" type="xs:boolean" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="legal-id">
+    <xs:sequence/>
+    <xs:attribute name="country-code" type="xs:string" use="required"/>
+    <xs:attribute name="serial-number" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="personal-data">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="fiscal-code" type="xs:string"/>
+      <xs:element minOccurs="0" name="first-name" type="xs:string"/>
+      <xs:element minOccurs="0" name="last-name" type="xs:string"/>
+      <xs:element minOccurs="0" name="birth-date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="sex" type="xs:string"/>
+      <xs:element minOccurs="0" name="citizenship" type="xs:string"/>
+      <xs:element minOccurs="0" name="birth-place" type="xs:string"/>
+      <xs:element minOccurs="0" name="birth-province" type="xs:string"/>
+      <xs:element minOccurs="0" name="birth-country" type="xs:string"/>
+      <xs:element minOccurs="0" name="full-first-name" type="xs:string"/>
+      <xs:element minOccurs="0" name="full-last-name" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="contact-details">
+    <xs:sequence/>
+    <xs:attribute name="email" type="xs:string"/>
+    <xs:attribute name="mobile-number" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="address">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="street" type="xs:string"/>
+      <xs:element minOccurs="0" name="number" type="xs:string"/>
+      <xs:element minOccurs="0" name="zip" type="xs:string"/>
+      <xs:element minOccurs="0" name="hamlet" type="xs:string"/>
+      <xs:element minOccurs="0" name="city" type="xs:string"/>
+      <xs:element minOccurs="0" name="province" type="xs:string"/>
+      <xs:element minOccurs="0" name="country" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="identity-document-data">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="issuer" type="xs:string"/>
+      <xs:element minOccurs="0" name="issue-place" type="xs:string"/>
+      <xs:element minOccurs="0" name="issue-province" type="xs:string"/>
+      <xs:element minOccurs="0" name="issue-date" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="expiration-date" type="xs:dateTime"/>
+    </xs:sequence>
+    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="number" type="xs:string"/>
+  </xs:complexType>
+  <xs:complexType name="clause-result">
+    <xs:sequence/>
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="value" type="xs:boolean" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="dossier-action-result">
+    <xs:sequence>
+      <xs:element name="time-stamp" type="xs:dateTime"/>
+      <xs:element minOccurs="0" name="error" type="tns:error"/>
+    </xs:sequence>
+    <xs:attribute name="action" type="xs:string" use="required"/>
+    <xs:attribute name="service" type="xs:string" use="required"/>
+    <xs:attribute name="success" type="xs:boolean" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="dossier-record">
+    <xs:complexContent>
+      <xs:extension base="tns:dossier-status">
+        <xs:sequence>
+          <xs:element name="company-id" type="xs:string"/>
+          <xs:element name="dossier-id" type="xs:string"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="webid-service-info">
+    <xs:sequence>
+      <xs:element name="timestamp" type="xs:dateTime"/>
+      <xs:element name="busy-operators" type="xs:int"/>
+      <xs:element name="free-operators" type="xs:int"/>
+      <xs:element name="in-progress-users" type="xs:int"/>
+      <xs:element name="pending-users" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="certificate">
+    <xs:sequence/>
+    <xs:attribute name="domain" type="xs:string" use="required"/>
+    <xs:attribute name="alias" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="rao">
+    <xs:sequence>
+      <xs:element name="username" type="xs:string"/>
+      <xs:element name="password" type="xs:string"/>
+      <xs:element name="office" type="xs:string"/>
+      <xs:element name="certificate-domain" type="xs:string"/>
+      <xs:element name="certificate-alias" type="xs:string"/>
+      <xs:element name="certificate-pin" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="dossier">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="business-id" type="xs:string"/>
+      <xs:element name="signers">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="signer" type="tns:signer"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="documents">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="document" type="tns:document"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="company-id" type="xs:string" use="required"/>
+    <xs:attribute name="dossier-id" type="xs:string" use="required"/>
+    <xs:attribute name="dossier-type" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="signer">
+    <xs:sequence>
+      <xs:element name="person" type="tns:person"/>
+      <xs:element minOccurs="0" name="certificate" type="tns:certificate"/>
+      <xs:element name="default-redirect-url" type="xs:string"/>
+      <xs:element minOccurs="0" name="failure-redirect-url" type="xs:string"/>
+      <xs:element minOccurs="0" name="identity-assertion" type="tns:content"/>
+      <xs:element minOccurs="0" name="authorization-assertion" type="tns:content"/>
+    </xs:sequence>
+    <xs:attribute name="signer-id" type="xs:string" use="required"/>
+    <xs:attribute name="identity-assertion-policy" type="tns:identity-assertion-policy" use="required"/>
+    <xs:attribute name="role" type="xs:string" use="required"/>
+  </xs:complexType>
+  <xs:complexType name="dossier-creation-info">
+    <xs:sequence>
+      <xs:element name="tokens">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="tokens" nillable="true" type="tns:token"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="token">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="signer-id" type="xs:string" use="required"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="dossier-result-set">
+    <xs:complexContent>
+      <xs:extension base="tns:dossier-status">
+        <xs:sequence>
+          <xs:element name="dossiers">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="dossiers" nillable="true" type="tns:dossier-record"/>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:simpleType name="modalita-riconoscimento">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="1 - de visu"/>
+      <xs:enumeration value="2 - antiriciclaggio"/>
+      <xs:enumeration value="3 - firma digitale"/>
+      <xs:enumeration value="4 - CIE/CNS"/>
+      <xs:enumeration value="5 - webcam"/>
+      <xs:enumeration value="6 - riuso"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="identity-assertion-policy">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="inline"/>
+      <xs:enumeration value="wait"/>
+      <xs:enumeration value="attached"/>
+      <xs:enumeration value="existing"/>
+      <xs:enumeration value="none"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="onboarding-exception" nillable="true" type="tns:error"/>
+</xs:schema>
+<xs:schema xmlns:ns1="http://www.infocert.it/legalbus/cop/onboarding/model" xmlns:tns="http://www.infocert.it/legalbus/cop/onboarding" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://www.infocert.it/legalbus/cop/onboarding" version="1.0">
+
+  <xs:import namespace="http://www.infocert.it/legalbus/cop/onboarding/model"/>
+
+  <xs:element name="addDocuments" type="tns:addDocuments"/>
+
+  <xs:element name="addDocumentsEx" type="tns:addDocumentsEx"/>
+
+  <xs:element name="addDocumentsExResponse" type="tns:addDocumentsExResponse"/>
+
+  <xs:element name="addDocumentsResponse" type="tns:addDocumentsResponse"/>
+
+  <xs:element name="assertAuthorization" type="tns:assertAuthorization"/>
+
+  <xs:element name="assertAuthorizationResponse" type="tns:assertAuthorizationResponse"/>
+
+  <xs:element name="assertIdentity" type="tns:assertIdentity"/>
+
+  <xs:element name="assertIdentityResponse" type="tns:assertIdentityResponse"/>
+
+  <xs:element name="cadesSign" type="tns:cadesSign"/>
+
+  <xs:element name="cadesSignResponse" type="tns:cadesSignResponse"/>
+
+  <xs:element name="createDossier" type="tns:createDossier"/>
+
+  <xs:element name="createDossierResponse" type="tns:createDossierResponse"/>
+
+  <xs:element name="getDossier" type="tns:getDossier"/>
+
+  <xs:element name="getDossierResponse" type="tns:getDossierResponse"/>
+
+  <xs:element name="getDossierStatus" type="tns:getDossierStatus"/>
+
+  <xs:element name="getDossierStatusResponse" type="tns:getDossierStatusResponse"/>
+
+  <xs:element name="getDossiersByBusinessId" type="tns:getDossiersByBusinessId"/>
+
+  <xs:element name="getDossiersByBusinessIdResponse" type="tns:getDossiersByBusinessIdResponse"/>
+
+  <xs:element name="getNewToken" type="tns:getNewToken"/>
+
+  <xs:element name="getNewTokenResponse" type="tns:getNewTokenResponse"/>
+
+  <xs:element name="getWebidServiceInfo" type="tns:getWebidServiceInfo"/>
+
+  <xs:element name="getWebidServiceInfoResponse" type="tns:getWebidServiceInfoResponse"/>
+
+  <xs:complexType name="getNewToken">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="dossier-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="signer-id" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getNewTokenResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="token" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addDocumentsEx">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="dossier-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="documents" type="ns1:documents"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addDocumentsExResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="documents-info" type="ns1:documents-info"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addDocuments">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="dossier-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="documents" type="ns1:documents"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addDocumentsResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getDossier">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="dossier-id" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDossierResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dossier-info" type="ns1:dossier-info"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getWebidServiceInfo">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-group" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getWebidServiceInfoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="webid-service-info" type="ns1:webid-service-info"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cadesSign">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="certificate" type="ns1:certificate"/>
+      <xs:element minOccurs="0" name="pin" type="xs:string"/>
+      <xs:element minOccurs="0" name="data" type="ns1:content"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cadesSignResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="signed-content" type="ns1:content"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDossierStatus">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="dossier-id" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDossierStatusResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dossier-status" type="ns1:dossier-status"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createDossier">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rao" type="ns1:rao"/>
+      <xs:element minOccurs="0" name="dossier" type="ns1:dossier"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createDossierResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="dossier-creation-info" type="ns1:dossier-creation-info"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="assertIdentity">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="dossier-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="signer-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="assertion" type="ns1:content"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="assertIdentityResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getDossiersByBusinessId">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="business-id" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getDossiersByBusinessIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="result-set" type="ns1:dossier-result-set"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="assertAuthorization">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="company-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="dossier-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="signer-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="transaction-id" type="xs:string"/>
+      <xs:element minOccurs="0" name="assertion" type="ns1:content"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="assertAuthorizationResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getNewTokenResponse">
+    <wsdl:part name="parameters" element="tns:getNewTokenResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assertAuthorization">
+    <wsdl:part name="parameters" element="tns:assertAuthorization">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cadesSign">
+    <wsdl:part name="parameters" element="tns:cadesSign">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createDossierResponse">
+    <wsdl:part name="parameters" element="tns:createDossierResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDossierStatusResponse">
+    <wsdl:part name="parameters" element="tns:getDossierStatusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocumentsExResponse">
+    <wsdl:part name="parameters" element="tns:addDocumentsExResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocumentsResponse">
+    <wsdl:part name="parameters" element="tns:addDocumentsResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assertIdentity">
+    <wsdl:part name="parameters" element="tns:assertIdentity">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getWebidServiceInfo">
+    <wsdl:part name="parameters" element="tns:getWebidServiceInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocuments">
+    <wsdl:part name="parameters" element="tns:addDocuments">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDossierResponse">
+    <wsdl:part name="parameters" element="tns:getDossierResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDossierStatus">
+    <wsdl:part name="parameters" element="tns:getDossierStatus">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDossiersByBusinessIdResponse">
+    <wsdl:part name="parameters" element="tns:getDossiersByBusinessIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assertIdentityResponse">
+    <wsdl:part name="parameters" element="tns:assertIdentityResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getNewToken">
+    <wsdl:part name="parameters" element="tns:getNewToken">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createDossier">
+    <wsdl:part name="parameters" element="tns:createDossier">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDossier">
+    <wsdl:part name="parameters" element="tns:getDossier">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="assertAuthorizationResponse">
+    <wsdl:part name="parameters" element="tns:assertAuthorizationResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getDossiersByBusinessId">
+    <wsdl:part name="parameters" element="tns:getDossiersByBusinessId">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="addDocumentsEx">
+    <wsdl:part name="parameters" element="tns:addDocumentsEx">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getWebidServiceInfoResponse">
+    <wsdl:part name="parameters" element="tns:getWebidServiceInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="OnboardingException">
+    <wsdl:part name="OnboardingException" element="ns1:onboarding-exception">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cadesSignResponse">
+    <wsdl:part name="parameters" element="tns:cadesSignResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OnboardingService">
+    <wsdl:operation name="getNewToken">
+      <wsdl:input name="getNewToken" message="tns:getNewToken">
+    </wsdl:input>
+      <wsdl:output name="getNewTokenResponse" message="tns:getNewTokenResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addDocumentsEx">
+      <wsdl:input name="addDocumentsEx" message="tns:addDocumentsEx">
+    </wsdl:input>
+      <wsdl:output name="addDocumentsExResponse" message="tns:addDocumentsExResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addDocuments">
+      <wsdl:input name="addDocuments" message="tns:addDocuments">
+    </wsdl:input>
+      <wsdl:output name="addDocumentsResponse" message="tns:addDocumentsResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDossier">
+      <wsdl:input name="getDossier" message="tns:getDossier">
+    </wsdl:input>
+      <wsdl:output name="getDossierResponse" message="tns:getDossierResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getWebidServiceInfo">
+      <wsdl:input name="getWebidServiceInfo" message="tns:getWebidServiceInfo">
+    </wsdl:input>
+      <wsdl:output name="getWebidServiceInfoResponse" message="tns:getWebidServiceInfoResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cadesSign">
+      <wsdl:input name="cadesSign" message="tns:cadesSign">
+    </wsdl:input>
+      <wsdl:output name="cadesSignResponse" message="tns:cadesSignResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDossierStatus">
+      <wsdl:input name="getDossierStatus" message="tns:getDossierStatus">
+    </wsdl:input>
+      <wsdl:output name="getDossierStatusResponse" message="tns:getDossierStatusResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="createDossier">
+      <wsdl:input name="createDossier" message="tns:createDossier">
+    </wsdl:input>
+      <wsdl:output name="createDossierResponse" message="tns:createDossierResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="assertIdentity">
+      <wsdl:input name="assertIdentity" message="tns:assertIdentity">
+    </wsdl:input>
+      <wsdl:output name="assertIdentityResponse" message="tns:assertIdentityResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDossiersByBusinessId">
+      <wsdl:input name="getDossiersByBusinessId" message="tns:getDossiersByBusinessId">
+    </wsdl:input>
+      <wsdl:output name="getDossiersByBusinessIdResponse" message="tns:getDossiersByBusinessIdResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="assertAuthorization">
+      <wsdl:input name="assertAuthorization" message="tns:assertAuthorization">
+    </wsdl:input>
+      <wsdl:output name="assertAuthorizationResponse" message="tns:assertAuthorizationResponse">
+    </wsdl:output>
+      <wsdl:fault name="OnboardingException" message="tns:OnboardingException">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="EnrollmentServiceSoapBinding" type="tns:OnboardingService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="addDocumentsEx">
+      <soap:operation soapAction="addDocumentsEx" style="document"/>
+      <wsdl:input name="addDocumentsEx">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addDocumentsExResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getNewToken">
+      <soap:operation soapAction="getNewToken" style="document"/>
+      <wsdl:input name="getNewToken">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getNewTokenResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="addDocuments">
+      <soap:operation soapAction="addDocuments" style="document"/>
+      <wsdl:input name="addDocuments">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="addDocumentsResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDossier">
+      <soap:operation soapAction="getDossier" style="document"/>
+      <wsdl:input name="getDossier">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDossierResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getWebidServiceInfo">
+      <soap:operation soapAction="getWebidServiceInfo" style="document"/>
+      <wsdl:input name="getWebidServiceInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getWebidServiceInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDossierStatus">
+      <soap:operation soapAction="getDossierStatus" style="document"/>
+      <wsdl:input name="getDossierStatus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDossierStatusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cadesSign">
+      <soap:operation soapAction="cadesSign" style="document"/>
+      <wsdl:input name="cadesSign">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cadesSignResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createDossier">
+      <soap:operation soapAction="createDossier" style="document"/>
+      <wsdl:input name="createDossier">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createDossierResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="assertIdentity">
+      <soap:operation soapAction="assertIdentity" style="document"/>
+      <wsdl:input name="assertIdentity">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="assertIdentityResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="assertAuthorization">
+      <soap:operation soapAction="assertAuthorization" style="document"/>
+      <wsdl:input name="assertAuthorization">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="assertAuthorizationResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getDossiersByBusinessId">
+      <soap:operation soapAction="getDossiersByBusinessId" style="document"/>
+      <wsdl:input name="getDossiersByBusinessId">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDossiersByBusinessIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="OnboardingException">
+        <soap:fault name="OnboardingException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="EnrollmentService">
+    <wsdl:port name="OnboardingServicePort" binding="tns:EnrollmentServiceSoapBinding">
+      <soap:address location="http://localhost:9090/OnboardingServicePort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

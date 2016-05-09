@@ -11,5 +11,6 @@ public interface OnBoardingServiceInterface {
 	String WS_CONNECT_TIMEOUT ="com.sun.xml.internal.ws.connect.timeout";
 	AddDocumentsResponse addDocuments(AddDocumentsRequest request);
 	MoveDossierIntoFilenetResponse moveDossierIntoFilenet(MoveDossierIntoFilenetRequest getDossier);
+	String extractFileContent(Integer multicanaleReferenceId);
 	
 }

@@ -25,6 +25,8 @@ import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequest;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponse;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
@@ -90,7 +92,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	@Autowired
 	private OnBoardingServiceInterface onBoardingService;
 
-	// FIXME: To be replaced injecting the livecycle WSClient; pay attention this is just a stub. 
+// FIXME: To be replaced injecting the livecycle WSClient; pay attention this is just a stub. 
 //	private GeneratePDFServiceClient generatePDFServiceClient = new GeneratePDFServiceClientImpl();
 	
 	public UploadMulticanaleRemoteImpl() {
@@ -1013,6 +1015,14 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		}
 	}
 
+	@Override
+	public ExtractFileContentResponse extractFileContent (ExtractFileContentRequest request) throws SystemFault, RemoteException, Exception {
+		ExtractFileContentResponse response = new ExtractFileContentResponse();
+		String content = onBoardingService.extractFileContent(request.getMulticanaleReferenceId());
+		response.setFileContent(content);
+		return response;
+	}
+	
 	private String getFileHash(byte[] content) throws NoSuchAlgorithmException{
 		MessageDigest md = MessageDigest.getInstance("SHA-256");
 		byte[] dataBytes = content;

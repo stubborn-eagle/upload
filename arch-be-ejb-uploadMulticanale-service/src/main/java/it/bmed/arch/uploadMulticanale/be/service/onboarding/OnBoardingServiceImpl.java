@@ -28,13 +28,16 @@ import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.FilenetDossierMoveResult;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
+import it.bmed.arch.uploadMulticanale.be.dao.UploadMulticanaleDaoJdbcTemplate;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
+import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocuments;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.EnrollmentService;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingService;
 import it.bmed.asia.exception.AsiaException;
+import it.bmed.asia.exception.TechnicalException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
@@ -45,7 +48,10 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	private static final Logger logger = LoggerFactory.getLogger(OnBoardingServiceImpl.class);
 	
 	@Autowired
-	UploadMulticanaleService uploadMulticanaleService;
+	private UploadMulticanaleService uploadMulticanaleService;
+	
+	@Autowired
+	private UploadMulticanaleDaoJdbcTemplate uploadMulticanaleDaoJdbcTemplate;
 	
 	@Autowired
 	private NASService nasService;
@@ -85,7 +91,12 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 		}
 		@Override
 		public OnboardingService getPort() {
-			return this.getOnboardingServicePort();
+			try{
+				return this.getOnboardingServicePort();
+			} catch (Exception e){
+				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
+			}
+			
 		}
 	}
 
@@ -95,6 +106,11 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 		FACT realService = factoryClass.newInstance();
 		SERVICE port = (SERVICE) realService.getPort();
 		BindingProvider bp = (BindingProvider) port;
+		
+		/* BASIC AUTHENTICATION - START */
+		bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "mediolanum01");
+		bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "m3d10lanum01");
+		/* BASIC AUTHENTICATION - END */
 		
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, onBoardingServiceURL);
 		bp.getRequestContext().put(WS_REQUEST_TIMEOUT, requestTimeout);  //default: 15000
@@ -159,22 +175,73 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			//String fileContent = Util.encodeFileToBase64Binary(buffer);
 			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
 			OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
-			/* BASIC AUTHENTICATION - START */
-			BindingProvider prov = (BindingProvider) service;
-			prov.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "mediolanum01");
-			prov.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "m3d10lanum01");
-			/* BASIC AUTHENTICATION - END */
+			
 			AddDocuments parameters = new AddDocuments();
 			parameters.setCompanyId(request.getCompanyId());
 			parameters.setDossierId(request.getDossierId());
 			parameters.setDocuments(mapper.mapECMDocumentForWSRequest(request.getDocument(), fileContent));
-			/** it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse wsResponse = */
-			service.addDocuments(parameters);
+			it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse wsResponse = service.addDocuments(parameters);
 		} catch (Exception e) {
+			logger.error("OnBoardingServiceImpl addDocuments ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
 		return new AddDocumentsResponse();
 	}
+	
+	
+	
+	/* nuovo metodo per l'estrazione di un file a partire dal id del sistema multicanale */
+	@Override
+	public String extractFileContent(Integer multicanaleReferenceId){
+		try {
+			ECMResponse r1 = uploadMulticanaleDaoJdbcTemplate.selectMedia(multicanaleReferenceId);
+			String content = lookupFileToConvert(r1);
+			return content;
+		} catch (TechnicalException e) {
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
+		} catch (Exception e) {
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
+		}
+	}
+	
+	private String lookupFileToConvert(ECMResponse ecmResponse) {
+		//log.debug("lookupFileToConvert params: " + ecmResponse);
+		// File to looking for
+		String encodedFile = null;
+		
+		if (ecmResponse != null && ecmResponse.getResult() != null) {
+			// File found
+			if (ecmResponse.getResult().getDestinationPath() != null && ecmResponse.getResult().getDestinationPath().length() > 0) {
+				// the file is on the ECM
+				try {
+					ECMType ecmType = ecmResponse.getResult().getEcmType();
+					String ecmFileId = ecmResponse.getResult().getIdFileECM();
+					encodedFile = ecmService.downloadFile(ecmType, ecmFileId);
+				} catch (Exception e) {
+					//log.error("lookupFileToConvert: " + e.getMessage());
+					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), e.getMessage());
+				}
+			} else {
+				// the file is on the NAS
+				try {
+					String path = ecmResponse.getResult().getSourcePath();
+					String filename = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType();
+					ECMSource source = ecmResponse.getResult().getSource();
+					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename, source));
+				} catch (Exception e) {
+					//log.error("lookupFileToConvert: " + e.getMessage());
+					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());
+				}
+			}		 	
+		} else {
+			// File not found
+			//log.error("lookupFileToConvert: file not found.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
+		}
+		//log.debug("lookupFileToConvert returns: " + encodedFile);
+		return encodedFile;
+	}
+	
 	
 	/**
 	 * @return the onBoardingServiceURL

@@ -50,6 +50,9 @@ public class OnBoardingMapperImpl implements OnBoardingMapper {
 	}
 	
 	private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy mapArchivingPolicyToWS (ArchivingPolicy incomingObject) {
+		if (incomingObject == null){
+			return null;
+		}
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy();
 		wsObject.setDocumentClass(incomingObject.getDocumentClass());
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy.Attributes wsAttributes = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy.Attributes();
@@ -71,6 +74,10 @@ public class OnBoardingMapperImpl implements OnBoardingMapper {
 	}
 	
 	private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.CompositionPolicy mapCompositionPolicyToWS (CompositionPolicy incomingObject) {
+		if (incomingObject == null){
+			return null;
+		}
+		
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.CompositionPolicy wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.CompositionPolicy();
 		wsObject.setParameters(incomingObject.getParameters());
 		wsObject.setTemplateName(incomingObject.getTemplateName());
@@ -78,6 +85,10 @@ public class OnBoardingMapperImpl implements OnBoardingMapper {
 	}
 	
 	private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.DocumentPolicy mapDocumentPolicyToWS (DocumentPolicy incomingObject) {
+		if (incomingObject == null){
+			return null;
+		}
+		
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.DocumentPolicy wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.DocumentPolicy();
 		wsObject.setArchive(incomingObject.isArchive());
 		wsObject.setCompose(incomingObject.isCompose());
@@ -86,6 +97,10 @@ public class OnBoardingMapperImpl implements OnBoardingMapper {
 	}
 	
 	private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignaturePolicy mapSignaturePolicyToWS (SignaturePolicy incomingObject) {
+		if (incomingObject == null){
+			return null;
+		}
+		
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignaturePolicy wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignaturePolicy();
 
 		List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField> wsKeywordSignatureList = new ArrayList<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField>();
