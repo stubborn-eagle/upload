@@ -180,7 +180,8 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			parameters.setCompanyId(request.getCompanyId());
 			parameters.setDossierId(request.getDossierId());
 			parameters.setDocuments(mapper.mapECMDocumentForWSRequest(request.getDocument(), fileContent));
-			it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse wsResponse = service.addDocuments(parameters);
+			/* it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse wsResponse = */
+			service.addDocuments(parameters);
 		} catch (Exception e) {
 			logger.error("OnBoardingServiceImpl addDocuments ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
