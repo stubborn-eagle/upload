@@ -18,8 +18,8 @@
 	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
 
    	<!-- Datasource for Plain jdbc data access --> 
-  	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/rdv/ds/pushbe" resource-ref="true" />
-	<!-- <jee:jndi-lookup id="dataSource" jndi-name="jdbc/agente/ds/DOMAGE_AGENT" resource-ref="true" />-->
+<!--   	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/rdv/ds/pushbe" resource-ref="true" /> -->
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/agente/ds/DOMAGE_AGENT" resource-ref="true" />
 	
 	
 <!--  	<context:component-scan base-package="it.bmed.asia"/> -->
@@ -117,7 +117,7 @@
 		<property name="pdfLiveCycleUserId" ref="pdfLiveCycleUserId"/>
 	</bean>
 	
-	<bean id="onboardingConnectorService" class="it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingServiceImpl">
+	<bean id="onBoardingServiceImpl" class="it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingServiceImpl">
 		<property name="onBoardingServiceURL" ref="onboardingUrl"/>
 		<property name="requestTimeout" ref="onboardingRequestTimeout"/>
 		<property name="connectTimeout" ref="onboardingConnectionTimeout"/>
