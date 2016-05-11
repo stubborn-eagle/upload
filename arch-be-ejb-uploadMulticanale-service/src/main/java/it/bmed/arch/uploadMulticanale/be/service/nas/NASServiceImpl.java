@@ -347,7 +347,14 @@ public class NASServiceImpl implements NASService {
 
 	@Override
 	public ECMFile getEcmFileLiveCyclePdf(String fileName, boolean isDynamic) throws TechnicalException {
-		String destinationPath = getDestinationPathFromSource(ECMSource.LIVE_CYCLE);	
+		
+		String destinationPath = "";
+		
+		if (isDynamic)
+			destinationPath = getDestinationPathFromSource(ECMSource.LIVE_CYCLE_DYNAMIC);
+		else
+			destinationPath = getDestinationPathFromSource(ECMSource.LIVE_CYCLE);
+		
 //		String sourcePath = destinationPath + "/"+ fileName;
 		
 		ECMFile ecmFile = new ECMFile();
@@ -361,7 +368,7 @@ public class NASServiceImpl implements NASService {
 		ecmFile.setSource(ECMSource.LIVE_CYCLE);
 //		ecmFile.setSourcePath(sourcePath);
 		ecmFile.setState(ECMState.INSERTED);
-		ecmFile.setType("PDF");
+		ecmFile.setType("pdf");
 		ecmFile.setUserId(settingsBean.getPdfLiveCycleUserId());
 		
 		return ecmFile;
