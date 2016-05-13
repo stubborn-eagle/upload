@@ -50,6 +50,11 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 			logger.debug("getWsClient invoked");
 			result = serviceLiveCycle.generatePDF(xml);
 			logger.debug("generatePDF invoked");
+			
+			if (result == null || result.length == 0)
+				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "generatePDF error: RESPONSE LIFECYCLE VUOTA");
+
+				
 		} catch (Throwable e) {
 			logger.error("generatePDF " + e.getMessage(), e);
 			e.printStackTrace();
