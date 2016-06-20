@@ -95,6 +95,7 @@ public class BeInjectHandler implements SOAPHandler<SOAPMessageContext>, Initial
 			// out.println("\n \n "); // just to add a newline
 		} catch (Exception e) {
 			// out.println("Exception in handler: " + e);
+			log.info("skipped");
 		}
 		return output.toString();
 	}

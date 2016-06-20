@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 		<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.2.0</version>
 	</parent>
 	<artifactId>arch-be-ejb-uploadMulticanale-ear</artifactId>
 	<packaging>ear</packaging>
@@ -22,13 +22,6 @@
 			<artifactId>arch-be-ejb-uploadMulticanale-web</artifactId>
 			<version>${project.parent.version}</version>
 			<type>war</type>
-		</dependency>
-
-		<!-- EXTERNAL DEPENDENCIES -->
-		<dependency>
-			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>${project.parent.artifactId}-deps</artifactId>
-			<version>${project.parent.version}</version>
 		</dependency>
 	</dependencies>
 
@@ -64,6 +57,15 @@
 			</plugin>
 		</plugins>
 
+		<!-- Filtro sulle risorse aggiunto per valorizzare dinamicamente i valori -->
+		<!--delle librerie sul weblogic-application.xml con quelli definiti nel -->
+		<!-- master pom java -->
+		<resources>
+			<resource>
+				<directory>src/main/application/META-INF</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 	<properties>

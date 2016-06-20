@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
+		<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
+		<version>1.2.0</version>
+	</parent>
+
+
+	<artifactId>arch-be-ejb-uploadMulticanale-livecycle-wsclient</artifactId>
+
+	<properties>
+		<!-- NOME DEL WSDL -->
+		<wsdl.name>lc.wsdl</wsdl.name>
+		<!-- PATH RELATIVO DA CARTELLA RESOURCES -->
+		<wsdl.sourcedir>/wsdl</wsdl.sourcedir>
+
+		<bmed.check.skip-pmd>true</bmed.check.skip-pmd>
+		<bmed.check.skip-findbugs>true</bmed.check.skip-findbugs>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>jaxws-rt</artifactId>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jax-ws-commons</groupId>
+				<artifactId>jaxws-maven-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>wsimport</goal>
+						</goals>
+						<configuration>
+							<packageName>it.bmed.arch.uploadMulticanale.be.livecycle.ws.client</packageName>
+							<wsdlDirectory>src/main/resources/wsdl</wsdlDirectory>
+							<wsdlLocation>${wsdl.sourcedir}/${wsdl.name}</wsdlLocation>
+							<skip>true</skip>
+							<keep>true</keep>
+							<xnocompile>true</xnocompile>
+							<verbose>false</verbose>
+							<target>2.1</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<compilerArguments>
+						<endorseddirs>${project.build.directory}/endorsed</endorseddirs>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/endorsed</outputDirectory>
+							<silent>true</silent>
+							<artifactItems>
+								<artifactItem>
+									<groupId>javax.xml.bind</groupId>
+									<artifactId>jaxb-api</artifactId>
+									<version>2.2.4</version>
+									<type>jar</type>
+								</artifactItem>
+								<artifactItem>
+									<groupId>javax.xml.ws</groupId>
+									<artifactId>jaxws-api</artifactId>
+									<version>2.2.8</version>
+									<type>jar</type>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

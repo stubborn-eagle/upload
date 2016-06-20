@@ -74,6 +74,30 @@
         	<name>env</name>
             <value>test</value>
         </variable>
+        <variable>
+        	<name>generatedPdfFilePath</name>
+            <value>/UploadMulticanale/pdf/default</value>
+        </variable>
+        <variable>
+        	<name>generatedDynamicPdfFilePath</name>
+            <value>/UploadMulticanale/dynamicPdf/default</value>
+        </variable>
+        <variable>
+        	<name>pdfLiveCycleChannel</name>
+            <value>LCChannel</value>
+        </variable>
+        <variable>
+        	<name>pdfLiveCycleContainerType</name>
+            <value>LCContainerType</value>
+        </variable>
+        <variable>
+        	<name>pdfLiveCycleNameApp</name>
+            <value>LCNameApp</value>
+        </variable>
+        <variable>
+        	<name>pdfLiveCycleUserId</name>
+            <value>LCUserId</value>
+        </variable>
 	</variable-definition>
 	<module-override>
 		<module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
@@ -193,6 +217,79 @@
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;AZURE-SAFE-OFFESET-START-TIME-MINUTES&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
+            <variable-assignment>
+				<name>generatedPdfFilePath</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;GENERATED_PDF_FILE_PATH&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>generatedDynamicPdfFilePath</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;GENERATED_DYNAMIC_PDF_FILE_PATH&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleChannel</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_CHANNEL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleContainerType</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_CONTAINERTYPE&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleNameApp</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_NAMEAPP&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleUserId</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_USERID&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>LiveCycle URI comprensive of terminator '/'</description>
+				<name>liveCycleUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;LIVECYCLE_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign URI comprensive of terminator '/'</description>
+				<name>signUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Infocert URI comprensive of terminator '/'</description>
+				<name>signInfocertUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_INFOCERT_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			
+			<variable-assignment>
+				<description>Sign Firmatari Dominio comprensive of terminator '/'</description>
+				<name>signFirmatariDominio</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_DOMINIO&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Alias comprensive of terminator '/'</description>
+				<name>signFirmatariAlias</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_ALIAS&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Pin comprensive of terminator '/'</description>
+				<name>signFirmatariPin</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_PIN&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Otp comprensive of terminator '/'</description>
+				<name>signFirmatariOtp</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_OTP&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
 		</module-descriptor>
 	</module-override>
 </deployment-plan>

@@ -4,21 +4,15 @@
 	<parent>
 		<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 		<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.2.0</version>
 	</parent>
 	<artifactId>arch-be-ejb-uploadMulticanale-dao</artifactId>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.parent.groupId}</groupId>
-			<artifactId>${project.parent.artifactId}-deps</artifactId>
+			<artifactId>${project.parent.artifactId}-api</artifactId>
 			<version>${project.parent.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate.javax.persistence</groupId>
-			<artifactId>hibernate-jpa-2.0-api</artifactId>
-			<version>1.0.1.Final</version>
-			<scope>provided</scope>
 		</dependency>	
 	</dependencies>
 </project>

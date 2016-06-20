@@ -14,6 +14,7 @@ import it.bmed.asia.exception.TechnicalException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 public class NASServiceTest {
 	private NASService nasService = null;
@@ -28,7 +29,8 @@ public class NASServiceTest {
 	@After
 	public void tearDown() throws Exception {
 	}
-
+	
+	@Ignore
 	@Test
 	public void testDeleteFile() {
 		try {

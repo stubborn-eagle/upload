@@ -1,11 +1,10 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 import it.bmed.asia.api.BaseBeRequest;
 import it.bmed.asia.api.CommonUtils;
-import it.bmed.asia.api.RequestMetaData;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name="MediaRequestType")
 public class MediaRequest extends BaseBeRequest {

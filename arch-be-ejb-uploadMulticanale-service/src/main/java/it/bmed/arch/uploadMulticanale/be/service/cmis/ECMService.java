@@ -20,6 +20,9 @@ public interface ECMService {
 	String createFile(byte[] byteStream, ECMFile ecmFile, ECMParam ecmParam)
 			throws AsiaException, Exception;
 
+	String createFileWithMetadata(byte[] byteStream, ECMFile ecmFile, ECMParam ecmParam)
+			throws AsiaException, Exception;
+
 	/**
 	 * Delete a file from the ECM using it's respective file Id
 	 * 
@@ -54,6 +57,6 @@ public interface ECMService {
 	 * @throws Exception
 	 */
 	
-	public String getECMToken (ECMParam ecmParam) throws AsiaException, Exception;
+	String getECMToken (ECMParam ecmParam) throws AsiaException, Exception;
 	
 }

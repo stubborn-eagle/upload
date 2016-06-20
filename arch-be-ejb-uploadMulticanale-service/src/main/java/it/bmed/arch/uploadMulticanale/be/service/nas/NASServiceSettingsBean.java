@@ -7,6 +7,13 @@ public class NASServiceSettingsBean {
 	private String nasInternetBankingDeletedPath = null;
 	private String nasReteDiVenditaDeletedPath = null;
 	private String nasPortaleDiSedeDeletedPath = null;
+	private String generatedPdfFilePath = null;
+	private String generatedDynamicPdfFilePath = null;
+	private String pdfLiveCycleChannel = null;
+	private String pdfLiveCycleContainerType = null;
+	private String pdfLiveCycleNameApp = null;
+	private String pdfLiveCycleUserId = null;
+	
 	/**
 	 * @return the nasInternetBankingPath
 	 */
@@ -79,6 +86,48 @@ public class NASServiceSettingsBean {
 	 */
 	public void setNasPortaleDiSedeDeletedPath(String nasPortaleDiSedeDeletedPath) {
 		this.nasPortaleDiSedeDeletedPath = nasPortaleDiSedeDeletedPath;
+	}
+	/**
+	 * @return the generatedPdfFilePath
+	 */
+	public String getGeneratedPdfFilePath() {
+		return generatedPdfFilePath;
+	}
+	/**
+	 * @param generatedPdfFilePath the generatedPdfFilePath to set
+	 */
+	public void setGeneratedPdfFilePath(String generatedPdfFilePath) {
+		this.generatedPdfFilePath = generatedPdfFilePath;
+	}
+	public String getGeneratedDynamicPdfFilePath() {
+		return generatedDynamicPdfFilePath;
+	}
+	public void setGeneratedDynamicPdfFilePath(String generatedDynamicPdfFilePath) {
+		this.generatedDynamicPdfFilePath = generatedDynamicPdfFilePath;
+	}
+	public String getPdfLiveCycleChannel() {
+		return pdfLiveCycleChannel;
+	}
+	public void setPdfLiveCycleChannel(String pdfLiveCycleChannel) {
+		this.pdfLiveCycleChannel = pdfLiveCycleChannel;
+	}
+	public String getPdfLiveCycleContainerType() {
+		return pdfLiveCycleContainerType;
+	}
+	public void setPdfLiveCycleContainerType(String pdfLiveCycleContainerType) {
+		this.pdfLiveCycleContainerType = pdfLiveCycleContainerType;
+	}
+	public String getPdfLiveCycleNameApp() {
+		return pdfLiveCycleNameApp;
+	}
+	public void setPdfLiveCycleNameApp(String pdfLiveCycleNameApp) {
+		this.pdfLiveCycleNameApp = pdfLiveCycleNameApp;
+	}
+	public String getPdfLiveCycleUserId() {
+		return pdfLiveCycleUserId;
+	}
+	public void setPdfLiveCycleUserId(String pdfLiveCycleUserId) {
+		this.pdfLiveCycleUserId = pdfLiveCycleUserId;
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -172,6 +221,10 @@ public class NASServiceSettingsBean {
 				+ nasInternetBankingDeletedPath
 				+ ", nasReteDiVenditaDeletedPath="
 				+ nasReteDiVenditaDeletedPath
+				+ ", generatedPdfFilePath="
+				+ generatedPdfFilePath
+				+ ", generatedDynamicPdfFilePath="
+				+ generatedDynamicPdfFilePath
 				+ ", nasPortaleDiSedeDeletedPath="
 				+ nasPortaleDiSedeDeletedPath + "]";
 	}

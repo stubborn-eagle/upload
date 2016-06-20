@@ -3,7 +3,10 @@
  */
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
+import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
+import it.bmed.arch.uploadMulticanale.be.api.ECMState;
+import it.bmed.arch.uploadMulticanale.be.api.SignatureData;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.DevelopmentException;
@@ -29,13 +32,22 @@ public class NASServiceImpl implements NASService {
 	private static final Logger logger = LoggerFactory.getLogger(NASServiceImpl.class); 
 	private NASServiceSettingsBean settingsBean = null;
 	
-	
-	
+	private SignConnector signConnector;
+	private SignInfocertConnector signInfocertConnector;
+
 	/**
 	 * @param settingsBean the settingsBean to set
 	 */
 	public void setSettingsBean(NASServiceSettingsBean settingsBean) {
 		this.settingsBean = settingsBean;
+	}
+	
+	public void setSignConnector(SignConnector signConnector) {
+		this.signConnector = signConnector;
+	}
+
+	public void setSignInfocertConnector(SignInfocertConnector signInfocertConnector) {
+		this.signInfocertConnector = signInfocertConnector;
 	}
 
 	/* (non-Javadoc)
@@ -65,11 +77,8 @@ public class NASServiceImpl implements NASService {
 		if ( destinationPathname != null && destinationPathname.length() == 0) {
                    throw new DevelopmentException("Path di upload non configurato");
              }else{
-                   if(sourcePath != null && !sourcePath.contains("../")){
-                      if(!sourcePath.isEmpty()){
+                   if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
                     	  destinationPathname += "/"+sourcePath;
-                   }
-                        
               }
         }
 		
@@ -89,62 +98,105 @@ public class NASServiceImpl implements NASService {
 		return result;
 	}
 	
+	/* (non-Javadoc)
+	 * @see it.bmed.arch.uploadMulticanale.be.service.nas.NASService#deleteFilePhisical(String, String, ECMSource)
+	 */
 	@Override
-		public byte[] loadFile(String sourcePath, String filename, ECMSource source) throws TechnicalException {	
+	public boolean deleteFilePhisical(String sourcePath, String filename, ECMSource source) throws TechnicalException, Exception {
+		boolean result = false;
+		String destinationPathname = null; // used by copyFile as recovery path
 		
-			
-			String sourcePathname="";
-			String destinationPathname="";
-			
-			destinationPathname = getDestinationPathFromSource(source);
-			logger.debug("Destination PATH From Source ", destinationPathname);
-			if ( destinationPathname != null && destinationPathname.length() == 0) {
-				throw new DevelopmentException("Path di upload non configurato");
-			}else{
-				if(sourcePath != null && !sourcePath.contains("../")){
-					if(!sourcePath.isEmpty()){
-						destinationPathname += "/"+sourcePath;
-					}
-
-				}
-			}	
-						
-			InputStream inputStream = null;
-			File file = null;
-			int fileLength = 0;
-			
-			sourcePathname = destinationPathname + "/"+ filename;
-			
-			file = new File(sourcePathname);
-			fileLength = (int) file.length();
-
-			// The higher bound is checked in the caller's side
-			if (fileLength >= Integer.MAX_VALUE) { 
-				throw new AsiaException("Illegal file size.");
-			}
-			
-			byte[] buffer = new byte[fileLength];
-			try {
-				inputStream = new FileInputStream(file);
-				if (inputStream.read(buffer) == -1) {
-					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: BOF equals to EOF.");
-				}
-			} catch (FileNotFoundException e) {
-				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: file not found.", e);
-			} catch (IOException e) {
-				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: can't read from file.", e);
-			} finally {
-				if(inputStream != null) {
-					try {
-						inputStream.close();
-					} catch (Exception e) {
-						logger.error("loadFile " + UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode() + " - " + e.getMessage());
-					}
-				}
-			}
-			return buffer;
+		// Init destinationPathname from settings
+		destinationPathname = getDestinationPathFromSource(source);		
+				
+		// check uninitialized variables
+		if(filename == null || filename.isEmpty()) {
+			logger.error("deleteFile: IllegalArgument.");
+			IErrorCode iErrorCode = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
+			TechnicalException  technicalException = new TechnicalException( iErrorCode );	
+			throw technicalException;
 		}
+		
+		String sourcePathname;
+		
+	 			
+		if ( destinationPathname != null && destinationPathname.length() == 0) {
+                   throw new DevelopmentException("Path di upload non configurato");
+             }else{
+                   if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
+                    	  destinationPathname += "/"+sourcePath;
+              }
+        }
+		
+				
+		sourcePathname = destinationPathname + "/"+ filename;
+			
+		File file = new File(sourcePathname);
+		
+		try {
+			result = file.delete();
+		} catch (Exception e) {
+			logger.error("deleteFile: " + e.getMessage());
+		} finally {
+			file = null;
+		}
+		return result;
+	}
+	
+	@Override
+	public byte[] loadFile(String sourcePath, String filename, ECMSource source) throws TechnicalException {	
+	
+		
+		String sourcePathname="";
+		String destinationPathname="";
+		
+		destinationPathname = getDestinationPathFromSource(source);
+		logger.debug("Destination PATH From Source "+destinationPathname);
+		if ( destinationPathname != null && destinationPathname.length() == 0) {
+			throw new DevelopmentException("Path di upload non configurato");
+		}else{
+			if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
+					destinationPathname += "/"+sourcePath;
+			}
+		}	
+					
+		InputStream inputStream = null;
+		File file = null;
+		int fileLength = 0;
+		
+		sourcePathname = destinationPathname + "/"+ filename;
+		logger.debug("loadFile sourcePathname:"+sourcePathname);
+		
+		file = new File(sourcePathname);
+		fileLength = (int) file.length();
 
+		// The higher bound is checked in the caller's side
+		if (fileLength >= Integer.MAX_VALUE) { 
+			throw new AsiaException("Illegal file size.");
+		}
+		
+		byte[] buffer = new byte[fileLength];
+		try {
+			inputStream = new FileInputStream(file);
+			if (inputStream.read(buffer) == -1) {
+				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: BOF equals to EOF.");
+			}
+		} catch (FileNotFoundException e) {
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: file not found.", e);
+		} catch (IOException e) {
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: can't read from file.", e);
+		} finally {
+			if(inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (Exception e) {
+					logger.error("loadFile " + UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode() + " - " + e.getMessage());
+				}
+			}
+		}
+		return buffer;
+	}
+	
 	@Override
 	public void saveFile(InputStream fileStream, String nameFile, ECMSource source, String sourcePath) throws TechnicalException, Exception {
 		logger.debug("saveFile called. ");
@@ -154,15 +206,13 @@ public class NASServiceImpl implements NASService {
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "settingsBean is null");
 		} 		
 		destinationPath = getDestinationPathFromSource(source);
-		
+		logger.debug("saveFile-destinationPath:"+destinationPath);
+		logger.debug("saveFile-sourcePath:"+sourcePath);
 		if ( destinationPath != null && destinationPath.length() == 0) {
             throw new DevelopmentException("Path di upload non configurato");
 	      }else{
-	            if(sourcePath != null && !sourcePath.contains("../")){
-	               if(!sourcePath.isEmpty()){
+	            if(sourcePath != null && !sourcePath.contains("../") && !sourcePath.isEmpty()){
 	            	   destinationPath += "/"+sourcePath;
-	            }
-	                 
 	       }
 	 }
 	
@@ -186,7 +236,7 @@ public class NASServiceImpl implements NASService {
 			if (fileToBeSaved != null) {
 				try {
 					fileToBeSaved.close();
-				} catch (Exception e) {}	
+				} catch (Exception e) {logger.info("skipped");}	
 			}
 		}
 	}
@@ -267,7 +317,8 @@ public class NASServiceImpl implements NASService {
 	
 	private String getDestinationPathFromSource(ECMSource source) throws TechnicalException {
 		String destinationPathname = null;
-		logger.debug("Settings Bean TO STRING", settingsBean.toString());
+		logger.debug("Settings Bean TO STRING: " + settingsBean.toString());
+		logger.debug("getDestinationPathFromSource source:"+ source);
 		try {
 			switch (source) {
 			case INTERNET_BANKING:
@@ -279,6 +330,12 @@ public class NASServiceImpl implements NASService {
 			case RETE_DI_VENDITA:
 				destinationPathname = settingsBean.getNasReteDiVenditaPath();
 				break;
+			case LIVE_CYCLE:
+				destinationPathname = settingsBean.getGeneratedPdfFilePath();
+				break;
+			case LIVE_CYCLE_DYNAMIC:
+				destinationPathname = settingsBean.getGeneratedDynamicPdfFilePath();
+				break;
 			}
 
 		} catch (Exception e) {
@@ -287,6 +344,92 @@ public class NASServiceImpl implements NASService {
 		}
 		return destinationPathname;
 	}
+
+	@Override
+	public ECMFile getEcmFileLiveCyclePdf(String fileName, boolean isDynamic) throws TechnicalException {
+		
+		String destinationPath = "";
+		
+		if (isDynamic)
+			destinationPath = getDestinationPathFromSource(ECMSource.LIVE_CYCLE_DYNAMIC);
+		else
+			destinationPath = getDestinationPathFromSource(ECMSource.LIVE_CYCLE);
+		
+//		String sourcePath = destinationPath + "/"+ fileName;
+		
+		ECMFile ecmFile = new ECMFile();
+		
+		ecmFile.setIdFile(0);
+		ecmFile.setChannel(settingsBean.getPdfLiveCycleChannel());
+		ecmFile.setContainerType(settingsBean.getPdfLiveCycleContainerType());
+		ecmFile.setDestinationPath(destinationPath);
+		ecmFile.setNameApp(settingsBean.getPdfLiveCycleNameApp());
+		ecmFile.setNameFile(fileName);
+		ecmFile.setSource(ECMSource.LIVE_CYCLE);
+//		ecmFile.setSourcePath(sourcePath);
+		ecmFile.setState(ECMState.INSERTED);
+		ecmFile.setType("pdf");
+		ecmFile.setUserId(settingsBean.getPdfLiveCycleUserId());
+		
+		return ecmFile;
+	}
 	
+	@Override
+	public String firmaCades(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException {
+		logger.info("firmaCades call.");
+		String result = null;
+		try {
+			result = signConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
 	
+	@Override
+	public String firmaPades(String documentoDaFirmare, String firmatari) throws TechnicalException {
+		logger.info("firmaPades call.");
+		String result = null;
+		try {
+			result = signConnector.firmaPades(documentoDaFirmare, firmatari);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
+	
+	@Override
+	public String firmaCadesInfocert(String documentoDaFirmare, String dominio, String alias, String pin, String otp) throws TechnicalException {
+		logger.info("firmaCadesInfocert call.");
+		String result = null;
+		try {
+			result = signInfocertConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
+	
+	@Override
+	public String firmaPadesInfocert(String documentoDaFirmare, String firmatari, String idDocumento) throws TechnicalException {
+		logger.info("firmaPadesInfocert call.");
+		String result = null;
+		try {
+			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari, idDocumento);
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
+	
+	@Override
+	public SignatureData getSignatureData() throws TechnicalException {
+		SignatureData result = null;
+		try {
+			result = new SignatureData(signInfocertConnector.getSignFirmatariDominio(), signInfocertConnector.getSignFirmatariAlias(), signInfocertConnector.getSignFirmatariPin(), signInfocertConnector.getSignFirmatariOtp());
+		} catch (Exception e) {
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return result;
+	}
 }

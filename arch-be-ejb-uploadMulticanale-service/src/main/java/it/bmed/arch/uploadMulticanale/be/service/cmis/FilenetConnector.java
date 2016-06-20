@@ -1,6 +1,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
 import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.CREATE_REQUEST;
+import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.CREATE_REQUEST_WITH_METADATA;
 import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.DELETE_REQUEST;
 import static it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetRequestType.DOWNLOAD_REQUEST;
 import filenet.ws.client.WSGDIImpl;
@@ -11,7 +12,6 @@ import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
-import it.bmed.asia.utility.AsiaWsClientBuilder;
 import it.bmed.asia.utility.AsiaWsClientFactory;
 import it.bmed.asia.utility.CommandServiceLocator;
 
@@ -67,7 +67,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 		try {
 			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 			// Encoding file in base64 preparing the xml transformation
-			String encodeFile = (Util.encodeFileToBase64Binary(buffer));
+			String encodeFile = Util.encodeFileToBase64Binary(buffer);
 			String xml = Util.encodeXML(CREATE_REQUEST, encodeFile, ecmFile, ecmParam);
 			logger.debug("createFile xml"+xml);
 			String response = serviceFileNet.addObject(xml);
@@ -84,6 +84,29 @@ public class FilenetConnector extends AbstractECMConnector implements
 		return idFilenet;
 	}
 	
+	@Override
+	public String createFileWithMetadata(byte[] buffer, ECMFile ecmFile, ECMParam ecmParam) {
+		String idFilenet = null;
+		logger.info("createFile call.");
+		try {
+			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
+			// Encoding file in base64 preparing the xml transformation
+			String encodeFile = Util.encodeFileToBase64Binary(buffer);
+			String xml = Util.encodeXML(CREATE_REQUEST_WITH_METADATA, encodeFile, ecmFile, ecmParam);
+			logger.debug("createFile xml"+xml);
+			String response = serviceFileNet.addObject(xml);
+			idFilenet = getIdFilenet(response);
+		} catch (Exception e) {
+			logger.error("createFile " + e.getMessage());
+			e.printStackTrace();
+			for(int i=0; i < e.getStackTrace().length; i++){
+				logger.error("STACK"+e.getStackTrace()[i]);
+			}
+			
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "createFile error", e);
+		}
+		return idFilenet;
+	}
 	
 	public <SERVICE,FACT extends AsiaWsClientFactory<SERVICE>> SERVICE getWsClient(Class<FACT> factoryClass)  throws Exception {
 		
@@ -103,7 +126,6 @@ public class FilenetConnector extends AbstractECMConnector implements
 	public boolean removeFile(String ecmFileId) {		
 		logger.info("removeFile call.");
 		ECMFile ecmFile = new ECMFile();
-		ECMParam ecmParam = new ECMParam();
 		try {
 			WSGDIImpl serviceFileNet = (WSGDIImpl) getWsClient(FileNetFactory.class);
 

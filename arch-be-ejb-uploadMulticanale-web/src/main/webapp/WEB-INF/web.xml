@@ -11,7 +11,7 @@
 		<param-name>locatorFactorySelector</param-name>
 		<param-value>beanRefContext.xml</param-value>
 	</context-param>
-
+	
 	<context-param>
 		<param-name>parentContextKey</param-name>
 		<param-value>ear.context</param-value>
@@ -25,7 +25,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
 	
 	<env-entry>
 		<env-entry-name>LOGBACK-CONFIG</env-entry-name>
@@ -124,4 +123,134 @@
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>SVIL</env-entry-value>
 	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>GENERATED_PDF_FILE_PATH</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil/generated</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>GENERATED_DYNAMIC_PDF_FILE_PATH</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil/generated</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_CHANNEL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCChannel</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_CONTAINERTYPE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCContainerType</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_NAMEAPP</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCNameApp</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_USERID</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCUserId</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>LIVECYCLE_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://ab03ac2c.ced.it:8443/Dispatcher/Dispatcher</env-entry-value>
+	</env-entry>
+	<!--<env-entry>
+		<env-entry-name>LIVECYCLE_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>http://lxosb701.gbm.lan:8001/LiveCycle/px/LiveCycle_http</env-entry-value>
+	</env-entry>-->
+	
+	<env-entry>
+		<env-entry-name>SIGN_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>http://lxosb701.gbm.lan:8001/FirmaDigitale/SignatureService_RDV</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_INFOCERT_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://ncfrcl.infocert.it/ncfr-webservice/FirmaWS</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_DOMINIO</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>BMED</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_ALIAS</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>RAO</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_PIN</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>00051168</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_OTP</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value></env-entry-value>
+	</env-entry>
+	<!-- ONBOARDING ENROLLMENT SERVICE CONFIGURATION - START -->
+	<env-entry>
+		<env-entry-name>ONBOARDING_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://copcl.infocert.it/services/nomtom/OnboardingService</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_REQUEST_TIMEOUT</env-entry-name>
+		<env-entry-type>java.lang.Integer</env-entry-type>
+		<env-entry-value>15000</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_CONNECTION_TIMEOUT</env-entry-name>
+		<env-entry-type>java.lang.Integer</env-entry-type>
+		<env-entry-value>5000</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_ISTITUTO</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>istituto</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_MATRICOLA</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>matricola</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_RUOLO</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>ruolo</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_FILIALE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>filiale</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_USERID</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>userid</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_CHANNEL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>channel</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_CONTAINER</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>container</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_COMPANYID</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>companyid</env-entry-value>
+	</env-entry>
+	<!-- ONBOARDING ENROLLMENT SERVICE CONFIGURATION - END -->
 </web-app>

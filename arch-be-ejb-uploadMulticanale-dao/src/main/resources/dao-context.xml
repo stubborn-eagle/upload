@@ -14,7 +14,185 @@
 
    	<context:component-scan base-package="it.bmed" />
 	<context:component-scan base-package="arch.bmed" />
+	
+	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
 
-   <!-- Datasource for Plain jdbc data access --> 
-   <jee:jndi-lookup id="dataSource" jndi-name="jdbc/rdv/ds/pushbe" resource-ref="true" />   											   
+   	<!-- Datasource for Plain jdbc data access --> 
+  	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/rdv/ds/pushbe" resource-ref="true" />
+<!-- 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/agente/ds/DOMAGE_AGENT" resource-ref="true" /> -->
+	
+	
+<!--  	<context:component-scan base-package="it.bmed.asia"/> -->
+ 	
+ 	<bean id="ecmService" class="it.bmed.arch.uploadMulticanale.be.service.cmis.ECMServiceImpl">
+ 		<property name="alfrescoConnector" ref="alfrescoConnector"/>
+ 		<property name="filenetConnector" ref="filenetConnector"/>
+ 	</bean>
+ 	
+ 	<bean id="nasService" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceImpl">
+ 		<property name="settingsBean" ref="settingsBean"/>
+ 		<property name="signConnector" ref="signConnector"/>
+ 		<property name="signInfocertConnector" ref="signInfocertConnector"/>
+ 	</bean>
+
+	<bean id="azureService" class="it.bmed.arch.uploadMulticanale.be.service.azure.AzureServiceImpl">
+		<property name="connectionString" ref="azureConnectionString"/>
+		<property name="azureMaxExpirationTime" ref="azureMaxExpirationTimeMinutes"/>
+		<property name="safeOffestMinutes" ref="azureSafeOffsetStartTimeMinutes"/>
+	</bean>
+	
+	<bean id="generatePDFServiceClient" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClientImpl">
+		<property name="liveCycleConnector" ref="liveCycleConnector"/>
+	</bean>
+	
+	<bean id="liveCycleConnector" class="it.bmed.arch.uploadMulticanale.be.service.livecycle.LiveCycleConnector">
+		<property name="liveCycleUrl" ref="liveCycleUrl" />
+	</bean>
+	<bean id="signConnector" class="it.bmed.arch.uploadMulticanale.be.service.nas.SignConnector">
+		<property name="signUrl" ref="signUrl" />
+	</bean>
+	<bean id="signInfocertConnector" class="it.bmed.arch.uploadMulticanale.be.service.nas.SignInfocertConnector">
+		<property name="signInfocertUrl" ref="signInfocertUrl" />
+		<property name="signFirmatariDominio" ref="signFirmatariDominio" />
+		<property name="signFirmatariAlias" ref="signFirmatariAlias" />
+		<property name="signFirmatariPin" ref="signFirmatariPin" />
+		<property name="signFirmatariOtp" ref="signFirmatariOtp" />
+	</bean>
+ 	
+	<!-- ALFRESCO ECM CONNECTOR -->
+	<bean id="alfrescoConnector" class="it.bmed.arch.uploadMulticanale.be.service.cmis.AlfrescoConnector">
+		<!-- User credentials -->
+		<property name="user" ref="alfrescoUser" />
+		<property name="password" ref="alfrescoPassword" />
+		<property name="alfrescoUrl" ref="alfrescoUrl" />
+		<!-- Binding Settings -->
+		<property name="bindingSPIType" value="org.apache.chemistry.opencmis.client.bindings.spi.webservices.CmisWebServicesSpi" />
+		<!-- CMIS WebService Connection Settings -->
+		<property name="repositoryServiceUrl" ref="alfrescoUrl" />
+		<property name="navigationServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="objectServiceWsdlUrl" ref="alfrescoUrl" />
+		<property name="versioningServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="discoveryServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="relationshipServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="multiFilingServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="policyServiceWsdlUrl" ref="alfrescoUrl"/>
+		<property name="aclServiceWsdlUrl" ref="alfrescoUrl"/>
+	</bean>
+
+	<!-- FILENET ECM CONNECTOR -->
+	<bean id="filenetConnector"
+		class="it.bmed.arch.uploadMulticanale.be.service.cmis.FilenetConnector">
+		<!-- User credentials -->
+		<property name="user" value="" />
+		<property name="password" value="" />
+
+		<!-- CMIS WebService Connection Settings -->
+		<property name="repositoryServiceUrl" value="" />
+		<property name="navigationServiceWsdlUrl" value="" />
+		<property name="objectServiceWsdlUrl" value="" />
+		<property name="versioningServiceWsdlUrl" value="" />
+		<property name="discoveryServiceWsdlUrl" value="" />
+		<property name="relationshipServiceWsdlUrl" value="" />
+		<property name="multiFilingServiceWsdlUrl" value="" />
+		<property name="policyServiceWsdlUrl" value="" />
+		<property name="aclServiceWsdlUrl" value="" />
+		
+		<!-- FILENET CONNECTION SETTINGS -->
+		<property name="filenetUrl" ref="filenetUrl" />
+	
+	</bean>
+	
+	<bean id="settingsBean" class="it.bmed.arch.uploadMulticanale.be.service.nas.NASServiceSettingsBean">
+		<property name="nasInternetBankingPath" ref="nasIBPath"/>
+		<property name="nasReteDiVenditaPath" ref="nasRVPath"/>
+		<property name="nasPortaleDiSedePath" ref="nasPSPath"/>
+		<property name="nasInternetBankingDeletedPath" ref="nasIBDeletedPath"/>
+		<property name="nasReteDiVenditaDeletedPath" ref="nasRVDeletedPath"/>
+		<property name="nasPortaleDiSedeDeletedPath" ref="nasPSDeletedPath"/>
+		<property name="generatedPdfFilePath" ref="generatedPdfFilePath"/>
+		<property name="generatedDynamicPdfFilePath" ref="generatedDynamicPdfFilePath"/>
+		<property name="pdfLiveCycleChannel" ref="pdfLiveCycleChannel"/>
+		<property name="pdfLiveCycleContainerType" ref="pdfLiveCycleContainerType"/>
+		<property name="pdfLiveCycleNameApp" ref="pdfLiveCycleNameApp"/>
+		<property name="pdfLiveCycleUserId" ref="pdfLiveCycleUserId"/>
+	</bean>
+	
+	<bean id="onBoardingServiceImpl" class="it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingServiceImpl">
+		<property name="onBoardingServiceURL" ref="onboardingUrl"/>
+		<property name="requestTimeout" ref="onboardingRequestTimeout"/>
+		<property name="connectTimeout" ref="onboardingConnectionTimeout"/>
+		<property name="onBoardingServiceIstituto" ref="onBoardingParamIstituto"/>
+		<property name="onBoardingServiceMatricola" ref="onBoardingParamMatricola"/>
+		<property name="onBoardingServiceRuolo" ref="onBoardingParamRuolo"/>
+		<property name="onBoardingServiceFiliale" ref="onBoardingParamFiliale"/>
+		<property name="onBoardingServiceUserId" ref="onBoardingParamUserId"/>
+		<property name="onBoardingServiceChannel" ref="onBoardingParamChannel"/>
+		<property name="onBoardingServiceContainer" ref="onBoardingParamContainer"/>
+		<property name="onBoardingServiceCompanyId" ref="onBoardingParamCompanyId"/>
+	</bean>
+
+	<bean id="mimeTypeMapping" class="org.springframework.beans.factory.config.MapFactoryBean">
+		<property name="targetMapClass">
+			<value>java.util.LinkedHashMap</value>
+		</property>
+		<property name="sourceMap">
+			<map>
+				<entry key="pdf" value="application/pdf" />
+				<entry key="png" value="image/png" />
+				<entry key="jpeg" value="image/jpeg" />
+				<entry key="jpg" value="image/jpeg" />
+				<entry key="gif" value="image/gif" />
+				<entry key="bmp" value="image/bmp" />
+				<entry key="tif" value="image/tiff" />
+				<entry key="tiff" value="image/tiff" />
+			</map>
+		</property>
+	</bean>
+	
+	<!-- ALFRESCO SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="alfrescoUrl" jndi-name="java:comp/env/ALFRESCO-URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="alfrescoUser" jndi-name="java:comp/env/ALFRESCO-USER" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="alfrescoPassword" jndi-name="java:comp/env/ALFRESCO-PW" expected-type="java.lang.String" />
+	<!-- NAS SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="nasIBPath" jndi-name="java:comp/env/PATH-NAS-IB" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasPSPath" jndi-name="java:comp/env/PATH-NAS-PS" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasRVPath" jndi-name="java:comp/env/PATH-NAS-RV" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasIBDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-IB" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasPSDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-PS" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasRVDeletedPath" jndi-name="java:comp/env/DELETED-PATH-NAS-RV" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="generatedPdfFilePath" jndi-name="java:comp/env/GENERATED_PDF_FILE_PATH" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="generatedDynamicPdfFilePath" jndi-name="java:comp/env/GENERATED_DYNAMIC_PDF_FILE_PATH" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleChannel" jndi-name="java:comp/env/PDF_LIVECYCLE_CHANNEL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleContainerType" jndi-name="java:comp/env/PDF_LIVECYCLE_CONTAINERTYPE" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleNameApp" jndi-name="java:comp/env/PDF_LIVECYCLE_NAMEAPP" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="pdfLiveCycleUserId" jndi-name="java:comp/env/PDF_LIVECYCLE_USERID" expected-type="java.lang.String" />
+	<!-- FILENET SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="filenetUrl" jndi-name="java:comp/env/FILENET-URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="filenetUser" jndi-name="java:comp/env/FILENET-USER" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="filenetPassword" jndi-name="java:comp/env/FILENET-PW" expected-type="java.lang.String" />
+	<!-- AZURE SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="azureConnectionString" jndi-name="java:comp/env/AZURE-CONNECTION-STRING" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="azureMaxExpirationTimeMinutes" jndi-name="java:comp/env/AZURE-MAX-EXPIRATION-TIME-MINUTES" expected-type="java.lang.Integer" />
+	<jee:jndi-lookup id="azureSafeOffsetStartTimeMinutes" jndi-name="java:comp/env/AZURE-SAFE-OFFESET-START-TIME-MINUTES" expected-type="java.lang.Integer" />
+	<!-- AZURE SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="liveCycleUrl" jndi-name="java:comp/env/LIVECYCLE_WSDL_URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signUrl" jndi-name="java:comp/env/SIGN_WSDL_URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signInfocertUrl" jndi-name="java:comp/env/SIGN_INFOCERT_WSDL_URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariDominio" jndi-name="java:comp/env/SIGN_FIRMATARI_DOMINIO" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariAlias" jndi-name="java:comp/env/SIGN_FIRMATARI_ALIAS" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariPin" jndi-name="java:comp/env/SIGN_FIRMATARI_PIN" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="signFirmatariOtp" jndi-name="java:comp/env/SIGN_FIRMATARI_OTP" expected-type="java.lang.String" />
+    <!-- ONBOARDING ENROLLMENT SETTINGS LOOKUP -->
+	<jee:jndi-lookup id="onboardingUrl" jndi-name="java:comp/env/ONBOARDING_WSDL_URL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onboardingRequestTimeout" jndi-name="java:comp/env/ONBOARDING_REQUEST_TIMEOUT" expected-type="java.lang.Integer" />
+	<jee:jndi-lookup id="onboardingConnectionTimeout" jndi-name="java:comp/env/ONBOARDING_CONNECTION_TIMEOUT" expected-type="java.lang.Integer" />
+	<jee:jndi-lookup id="onBoardingParamIstituto" jndi-name="java:comp/env/ONBOARDING_ISTITUTO" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamMatricola" jndi-name="java:comp/env/ONBOARDING_MATRICOLA" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamRuolo" jndi-name="java:comp/env/ONBOARDING_RUOLO" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamFiliale" jndi-name="java:comp/env/ONBOARDING_FILIALE" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamUserId" jndi-name="java:comp/env/ONBOARDING_USERID" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamChannel" jndi-name="java:comp/env/ONBOARDING_CHANNEL" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamContainer" jndi-name="java:comp/env/ONBOARDING_CONTAINER" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="onBoardingParamCompanyId" jndi-name="java:comp/env/ONBOARDING_COMPANYID" expected-type="java.lang.String" />
+	
 </beans>

@@ -1,10 +1,9 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
+import it.bmed.asia.api.BaseBeRequest;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import it.bmed.asia.api.BaseBeRequest;
-import it.bmed.asia.api.RequestMetaData;
 @XmlType(name="MoveRequestType")
 public class MoveRequest extends BaseBeRequest {
 	private static final long serialVersionUID = 4525337067809641516L;

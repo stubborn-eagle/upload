@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 		<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.2.0</version>
 	</parent>
 	<artifactId>arch-be-ejb-uploadMulticanale-service</artifactId>
 
@@ -13,12 +13,23 @@
 			<groupId>${project.parent.groupId}</groupId>
 			<artifactId>${project.parent.artifactId}-dao</artifactId>
 			<version>${project.parent.version}</version>
+		</dependency>	
+		<dependency>
+			<groupId>org.apache.chemistry.opencmis</groupId>
+			<artifactId>chemistry-opencmis-commons-api</artifactId>
+			<version>0.10.0</version>
 		</dependency>
 		<dependency>
-			<groupId>it.bmed.arch</groupId>
-			<artifactId>bmed-asia-exception-ext</artifactId>
-			<version>1.0.1</version>
-		</dependency>		
+			<groupId>org.apache.chemistry.opencmis</groupId>
+			<artifactId>chemistry-opencmis-client-impl</artifactId>
+			<version>0.10.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>saaj-impl</artifactId>
+					<groupId>com.sun.xml.messaging.saaj</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -28,12 +39,59 @@
 		<dependency>
 			<groupId>arch.bmed.mediabus.be</groupId>
 			<artifactId>arch-be-ejb-mediabus-wsclient</artifactId>
-			<version>1.0.0.CR-SNAPSHOT</version>
+			<version>1.0.4</version>
 		</dependency>
-		<!-- <dependency>
-			<groupId>arch.bmed.mediabus.be</groupId>
-			<artifactId>arch-be-ejb-mediabus-service</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
-		</dependency> -->
+		<dependency>
+			<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
+			<artifactId>arch-be-ejb-uploadMulticanale-livecycle-wsclient</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
+			<artifactId>arch-be-ejb-uploadMulticanale-sign-wsclient</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
+			<artifactId>arch-be-ejb-uploadMulticanale-sign-infocert-wsclient</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.windowsazure</groupId>
+			<artifactId>microsoft-windowsazure-api</artifactId>
+			<version>0.4.6</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-core-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jackson-mapper-asl</artifactId>
+					<groupId>org.codehaus.jackson</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.5</version>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.oracle.security</groupId>
+            <artifactId>jps-api</artifactId>
+            <version>11.1.1.7</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.oracle.security</groupId>
+            <artifactId>jps-unsupported-api</artifactId>
+            <version>11.1.1.7</version>
+            <scope>provided</scope>
+        </dependency>
 	</dependencies>
 </project>

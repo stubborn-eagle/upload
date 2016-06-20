@@ -8,16 +8,11 @@
 		<wls:param-name>webapp.encoding.default</wls:param-name>
 		<wls:param-value>UTF-8</wls:param-value>
 	</wls:application-param>
-	<wls:prefer-application-packages>
-		<wls:package-name>org.aspectj.*</wls:package-name>
-		<wls:package-name>org.apache.common.*</wls:package-name>
-		<wls:package-name>org.apache.xmlbeans.*</wls:package-name>
-		<wls:package-name>org.springframework.*</wls:package-name>
-		<wls:package-name>org.apache.log4j.*</wls:package-name>
-		<wls:package-name>antlr.*</wls:package-name>
-		<wls:package-name>org.hibernate.*</wls:package-name>
-
-
-	</wls:prefer-application-packages>
+	<wls:library-ref>
+		<wls:library-name>arch-be-asia-shared-lib-ear-${dep.bmed.weblogic-be-shared.version}</wls:library-name>
+		<wls:specification-version>${dep.bmed.weblogic-be-shared.version}</wls:specification-version>
+		<wls:implementation-version>${dep.bmed.weblogic-be-shared.impl.version}</wls:implementation-version>
+		<wls:exact-match>false</wls:exact-match>
+	</wls:library-ref>
 
 </wls:weblogic-application>

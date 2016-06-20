@@ -29,7 +29,6 @@
 		<variable>
 			<name>pathNasPs</name>
 			<value>/mediabustest/Promotoritest</value>
-
 		</variable>
 		<variable>
 			<name>pathNasRv</name>
@@ -58,7 +57,7 @@
 		<variable>
 			<name>filenetPw</name>
 			<value>uploadmulti001!</value>
-		</variable>
+		</variable>        
         <variable>
         	<name>azureConnectionString</name>
             <value>DefaultEndpointsProtocol=https;AccountName=uploadmulticanale;AccountKey=DxJFBJHS20WdzuaL7uJ1EXwOYrl93N3rc2nBcCRe3keo7iJWQDKo4BNGXIdkdfHHWZ8CoEeTeFzGKSB8LRJ+tg==</value>
@@ -70,7 +69,7 @@
         <variable>
         	<name>azureSafeOffsetStartTimeMinutes</name>
             <value>15</value>
-        </variable>		
+        </variable>
         <variable>
         	<name>env</name>
             <value>test</value>
@@ -78,10 +77,30 @@
 	</variable-definition>
 	<module-override>
 		<module-name>arch-be-ejb-uploadMulticanale-web.war</module-name>
-		<module-type>war</module-type>
+        <module-type>war</module-type>
 		<module-descriptor external="false">
 			<root-element>web-app</root-element>
 			<uri>WEB-INF/web.xml</uri>
+			<variable-assignment>
+				<name>myhost</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-HOST&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>myport</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-PORT&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>myusername</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-USERNAME&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>mypassword</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;BACKEND-PASSWORD&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
 			<variable-assignment>
 				<name>mylogback</name>
 				<xpath>/web-app/env-entry/[env-entry-name=&quot;LOGBACK-CONFIG&quot;]/env-entry-value</xpath>
@@ -104,21 +123,37 @@
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>pathNasIb</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-IB&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
+                <name>pathNasPs</name>
+                <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-PS&quot;]/env-entry-value</xpath>
+                <operation>replace</operation>
+            </variable-assignment>
+            <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>pathNasRv</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;PATH-NAS-RV&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>deletedPathNasIb</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-IB&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
             </variable-assignment>
             <variable-assignment>
+                <description>filesystem path terminated</description>
+                <name>deletedPathNasPs</name>
+                <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-PS&quot;]/env-entry-value</xpath>
+                <operation>replace</operation>
+            </variable-assignment>
+            <variable-assignment>
+                <description>filesystem path terminated</description>
                 <name>deletedPathNasRv</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;DELETED-PATH-NAS-RV&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
@@ -157,9 +192,80 @@
                 <name>azureSafeOffsetStartTimeMinutes</name>
                 <xpath>/web-app/env-entry/[env-entry-name=&quot;AZURE-SAFE-OFFESET-START-TIME-MINUTES&quot;]/env-entry-value</xpath>
                 <operation>replace</operation>
-            </variable-assignment>			
+            </variable-assignment>
+            <variable-assignment>
+				<name>generatedPdfFilePath</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;GENERATED_PDF_FILE_PATH&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>generatedDynamicPdfFilePath</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;GENERATED_DYNAMIC_PDF_FILE_PATH&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleChannel</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_CHANNEL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleContainerType</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_CONTAINERTYPE&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleNameApp</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_NAMEAPP&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<name>pdfLiveCycleUserId</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;PDF_LIVECYCLE_USERID&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+            <variable-assignment>
+				<description>LiveCycle URI comprensive of terminator '/'</description>
+				<name>liveCycleUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;LIVECYCLE_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign URI comprensive of terminator '/'</description>
+				<name>signUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Infocert URI comprensive of terminator '/'</description>
+				<name>signInfocertUrl</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_INFOCERT_WSDL_URL&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			
+			<variable-assignment>
+				<description>Sign Firmatari Dominio comprensive of terminator '/'</description>
+				<name>signFirmatariDominio</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_DOMINIO&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Alias comprensive of terminator '/'</description>
+				<name>signFirmatariAlias</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_ALIAS&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Pin comprensive of terminator '/'</description>
+				<name>signFirmatariPin</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_PIN&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
+			<variable-assignment>
+				<description>Sign Firmatari Otp comprensive of terminator '/'</description>
+				<name>signFirmatariOtp</name>
+				<xpath>/web-app/env-entry/[env-entry-name=&quot;SIGN_FIRMATARI_OTP&quot;]/env-entry-value</xpath>
+				<operation>replace</operation>
+			</variable-assignment>
 		</module-descriptor>
 	</module-override>
-
 </deployment-plan>
-

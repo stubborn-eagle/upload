@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
 	<parent>
 		<groupId>it.bmed.arch</groupId>
-		<artifactId>bmed-master-pom</artifactId>
-		<version>1.0.0</version>
+		<artifactId>bmed-be-ejb-master-pom</artifactId>
+		<version>RELEASE</version>
 	</parent>
 
 	<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
@@ -13,18 +12,17 @@
 	<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 	<packaging>pom</packaging>
 	<name>arch-be-ejb-uploadMulticanale</name>
-	<version>1.0.1</version>
+	<version>1.2.0</version>
 
   <modules>
-    <module>arch-be-ejb-uploadMulticanale-deps</module>
     <module>arch-be-ejb-uploadMulticanale-api</module>
     <module>arch-be-ejb-uploadMulticanale-dao</module>
     <module>arch-be-ejb-uploadMulticanale-service</module>
     <module>arch-be-ejb-uploadMulticanale-ejbimpl</module>
     <module>arch-be-ejb-uploadMulticanale-web</module>
     <module>arch-be-ejb-uploadMulticanale-ear</module>
-    <!-- 
-    <module>arch-be-ejb-uploadMulticanale-wsclient</module>
-     -->
+    <module>arch-be-ejb-uploadMulticanale-livecycle-wsclient</module>
+    <module>arch-be-ejb-uploadMulticanale-sign-infocert-wsclient</module>
+    <module>arch-be-ejb-uploadMulticanale-sign-wsclient</module>
   </modules>
 </project>

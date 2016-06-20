@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -29,6 +31,24 @@ public class Util {
 			if (base64FileContent != null && base64FileContent.length() > 0 && ecmFile != null && ecmParam != null) {
 				xml = encodeXMLToCreate(base64FileContent, ecmFile, ecmParam);
 			} else {
+				throw new IllegalArgumentException("Arguments cannot be null in Filenet create operation.");
+			}
+			break;
+		case CREATE_REQUEST_WITH_METADATA:
+			if (base64FileContent != null && base64FileContent.length() > 0 && ecmFile != null && ecmParam != null) {
+				xml = encodeXMLToCreateWithMetadata(base64FileContent, ecmFile, ecmParam);
+			} else {
+				if(base64FileContent==null){
+					logger.warn("base64FileContent is null");
+				}else if(base64FileContent.length() == 0){
+					logger.warn("base64FileContent is empty");
+				}
+				if(ecmFile==null){
+					logger.warn("ecmFile is null");
+				}
+				if(ecmParam==null){
+					logger.warn("ecmParam is null");
+				}
 				throw new IllegalArgumentException("Arguments cannot be null in Filenet create operation.");
 			}
 			break;
@@ -211,6 +231,154 @@ public class Util {
 		// System.out.println(requestFromXML);
 
 	}
+	
+	private static String encodeXMLToCreateWithMetadata(String fileCodificato, ECMFile ecmFile, ECMParam ecmParam) throws Exception {
+		logger.info("encodeXML call.");
+		RequestWithMetadata request = new RequestWithMetadata();
+		String fileToXML;
+		// DICHIARATI TUTTI QUI PER GESTIRE SETTAGGIO DEL VALUE
+		ObjectStore objectStore = new ObjectStore();
+		ObjectClass objectClass = new ObjectClass();
+		Istituto istituto = new Istituto();
+		Matricola matricola = new Matricola();
+		Ruolo ruolo = new Ruolo();
+		Filiale filiale = new Filiale();
+		SearchAction searchAction = new SearchAction();
+		DocContent docContent = new DocContent();
+		// °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
+		try {
+			List<Index> indexes = new ArrayList<Index>();
+			for (FileProperty prop : ecmParam.getProperty()) {
+				// if("ObjectStore".equalsIgnoreCase(prop.getName())){
+				// // objectStore.setValue(prop.getValue());
+				// //DEVE ESSERE IL SEGUENTE??
+				// objectStore.setValue("CED088");
+				// }
+				if ("Istituto".equalsIgnoreCase(prop.getName())) {
+					istituto.setValue(prop.getValue());
+				}else if ("Matricola".equalsIgnoreCase(prop.getName())) {
+					matricola.setValue(prop.getValue());
+				}else if ("Ruolo".equalsIgnoreCase(prop.getName())) {
+					ruolo.setValue(prop.getValue());
+				}else if ("Filiale".equalsIgnoreCase(prop.getName())) {
+					filiale.setValue(prop.getValue());
+				}
+				else if(!"SearchAction".equalsIgnoreCase(prop.getName())){
+					Index index = new Index();
+					index.setName(prop.getName());
+					index.setSearch("false");
+					Value value = new Value();
+					value.setValue(prop.getValue());
+					index.setValue(value);
+					indexes.add(index);
+				}
+				// if("SearchAction".equalsIgnoreCase(prop.getName())){
+				// // searchAction.setValue(prop.getValue());
+				// //DEVE ESSERE IL SEGUENTE??
+				// searchAction.setValue("AddVersion");
+				// }
+			}
+
+			objectStore.setValue("CED088");
+			request.setObjectStore(objectStore);
+			
+			
+			objectClass.setValue(ecmParam.getContainerType());
+			request.setObjectClass(objectClass);
+			
+			searchAction.setValue("AddVersion");
+
+//			Index indexCodiceDoc = new Index();
+//			indexCodiceDoc.setName("CODICEDOC");
+//			indexCodiceDoc.setSearch("false");
+//			Value value = new Value();
+//			value.setValue("");
+//			indexCodiceDoc.setValue(value);
+//			indexes.add(indexCodiceDoc);
+			request.setIndexes(indexes);
+
+			// istituto.setValue("");
+			request.setIstituto(istituto);
+
+			// matricola.setValue("");
+			request.setMatricola(matricola);
+
+			// ruolo.setValue("");
+			request.setRuolo(ruolo);
+
+			// filiale.setValue("");
+			request.setFiliale(filiale);
+
+			// searchAction.setValue("AddVersion");
+			request.setSearchAction(searchAction);
+
+			docContent.setFileName(ecmFile.getIdFile().toString());
+			docContent.setMimetype(ecmFile.getType());
+			// SETTO IL FILECODIFICATO IN BASE64 PER CREARE XML
+			docContent.setFilecod(fileCodificato);
+			request.setDocContent(docContent);
+
+			XStream xStream = new XStream(new DomDriver());
+			xStream.registerConverter(new RequestConverterWithMetadata());
+			xStream.alias("Request", RequestWithMetadata.class);
+			logger.debug("Request filenet {} ",
+					CommonUtils.bean2string(request));
+			// System.out.println("TOXML: ");
+			fileToXML = xStream.toXML(request);
+			// log.debug("XML {} ",fileToXML);
+
+			return fileToXML;
+		} catch (Exception e) {
+			logger.error("encodeXML " + e.getMessage());
+			throw e;
+		}
+		// Request requestFromXML = (Request)
+		// xStream.fromXML(xStream.toXML(request));
+		// System.out.println(requestFromXML);
+
+	}
+	
+	public static void main(String[] args) throws Exception{
+		String fileCodificato = "aaaContentaaa";
+		ECMFile ecmFile = new ECMFile();
+		ecmFile.setIdFile(111);
+		ecmFile.setType("typePDF");
+		ECMParam ecmParam = new ECMParam();
+		ecmParam.setContainerType("containerTypePDF");
+		ArrayList<FileProperty> property = new ArrayList<FileProperty>();
+		FileProperty propertyIstituto = new FileProperty();
+		propertyIstituto.setName("Istituto");
+		propertyIstituto.setValue("IstitutoPDF");
+		property.add(propertyIstituto);
+		FileProperty propertyMatricola = new FileProperty();
+		propertyMatricola.setName("Matricola");
+		propertyMatricola.setValue("MatricolaPDF");
+		property.add(propertyMatricola);
+		FileProperty propertyRuolo = new FileProperty();
+		propertyRuolo.setName("Ruolo");
+		propertyRuolo.setValue("RuoloPDF");
+		property.add(propertyRuolo);
+		FileProperty propertyFiliale = new FileProperty();
+		propertyFiliale.setName("Filiale");
+		propertyFiliale.setValue("FilialePDF");
+		property.add(propertyFiliale);
+		ecmParam.setProperty(property);
+		
+		FileProperty property1 = new FileProperty();
+		property1.setName("property1");
+		property1.setValue("property1Value");
+		property.add(property1);
+		FileProperty property2 = new FileProperty();
+		property2.setName("property2");
+		property2.setValue("property2Value");
+		property.add(property2);
+		FileProperty property3 = new FileProperty();
+		property3.setName("property3");
+		property3.setValue("property3Value");
+		property.add(property3);
+		
+		System.out.println("encodeXMLToCreate:"+encodeXMLToCreateWithMetadata(fileCodificato, ecmFile, ecmParam));
+	}
 
 	/**
 	 * encodeXML method for deleteObject
@@ -263,6 +431,12 @@ public class Util {
 		return encodedString;
 
 	}
+	
+	public static byte[] decodeBase64ToFile(String base64) throws Exception {
+
+		return Base64.decodeBase64(base64);
+
+	}
 
 	public static byte[] readFile(File file) throws IOException, Exception {
 
@@ -282,13 +456,13 @@ public class Util {
 
 			is = new FileInputStream(file);
 			long length = file.length();
-			if (length > Integer.MAX_VALUE) {
-
-				// File is too large
-
-				// TODO
-
-			}
+//			if (length > Integer.MAX_VALUE) {
+//
+//				// File is too large
+//
+//				// TODO
+//
+//			}
 
 			bytes = new byte[(int) length];
 

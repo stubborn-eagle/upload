@@ -5,11 +5,7 @@ import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Scanner;
 
 public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
@@ -19,6 +15,16 @@ public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 	private static final String PATTERN = "<div id=\"image\">";
 	private static final String IMG_TAG_START = "<img src=\"data:image/png;base64,";
 	private static final String IMG_TAG_END = "\">";
+	private LiveCycleConnector liveCycleConnector;
+
+	public LiveCycleConnector getLiveCycleConnector() {
+		return liveCycleConnector;
+	}
+
+	public void setLiveCycleConnector(LiveCycleConnector liveCycleConnector) {
+		this.liveCycleConnector = liveCycleConnector;
+	}
+
 	@Override
 	public InputStream htmlToPDF2(String inputUrl) {
 		logger.debug("htmltoPDF2 params: " + inputUrl);
@@ -75,4 +81,13 @@ public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 		return outputSB.toString();
 	}
 
+	@Override
+	public byte[] generatePDF(String xml) throws AsiaException {
+		return liveCycleConnector.generatePDF(xml);
+	}
+
+	@Override
+	public byte[] generatePDFDynamic(String xml) throws AsiaException {
+		return liveCycleConnector.generatePDFDynamic(xml);
+	}
 }

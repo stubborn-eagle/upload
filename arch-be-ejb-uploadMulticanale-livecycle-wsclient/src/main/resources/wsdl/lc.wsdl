@@ -1,0 +1,414 @@
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions name="Dispatcher.3.09.19f" targetNamespace="http://www.springframework.org/schema/beans" xmlns:ns1="http://dispatcher.cedacrinternational.md/" xmlns:ns2="http://cxf.apache.org/bindings/xformat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.springframework.org/schema/beans" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <wsdl:import location="imported/Dispatcher.wsdl" namespace="http://dispatcher.cedacrinternational.md/">
+    </wsdl:import>
+  <wsdl:binding name="Dispatcher.3.09.19fSoapBinding" type="ns1:Dispatcher">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="LookupAnagraficaCedacri">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="LookupAnagraficaCedacri">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="LookupAnagraficaCedacriResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="IOException">
+        <soap:fault name="IOException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GeneratePDF">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GeneratePDF">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GeneratePDFResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentDeliveryFlag">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentDeliveryFlag">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentDeliveryFlagResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GenerateDocumentPreview">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GenerateDocumentPreview">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GenerateDocumentPreviewResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueIDByDepartment">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetQueueIDByDepartment">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetQueueIDByDepartmentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateOrderAttachments">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="UpdateOrderAttachments">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpdateOrderAttachmentsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RejectDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="RejectDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RejectDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentAddAttachment">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="DocumentAddAttachment">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="DocumentAddAttachmentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updatePDFDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="updatePDFDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updatePDFDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ApproveDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="ApproveDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ApproveDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GeneratePDFDynamic">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GeneratePDFDynamic">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GeneratePDFDynamicResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDepartmentFormList">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetDepartmentFormList">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetDepartmentFormListResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+      <wsdl:fault name="RepositoryException">
+        <soap:fault name="RepositoryException" use="literal" />
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueDocuments">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetQueueDocuments">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetQueueDocumentsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="LookupCanaliAnagrafe">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="LookupCanaliAnagrafe">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="LookupCanaliAnagrafeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SendDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="SendDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="SendDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddDocumentHistoryEntry">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="AddDocumentHistoryEntry">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="AddDocumentHistoryEntryResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getQueuesByDepartment">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getQueuesByDepartment">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getQueuesByDepartmentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllModels">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getAllModels">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getAllModelsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateDocumentBatchId">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="updateDocumentBatchId">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="updateDocumentBatchIdResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CleanApprove">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="CleanApprove">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CleanApproveResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDocumentStatus">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getDocumentStatus">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getDocumentStatusResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentUIM">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetDocumentUIM">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetDocumentUIMResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DocumentRemoveAttachment">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="DocumentRemoveAttachment">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="DocumentRemoveAttachmentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="lockDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="lockDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="lockDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubmitXml">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="SubmitXml">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="SubmitXmlResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="attachmentConversion">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="attachmentConversion">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="attachmentConversionResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RestoreDocumentFromBin">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="RestoreDocumentFromBin">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RestoreDocumentFromBinResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDocumentToQueueType">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="MoveDocumentToQueueType">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="MoveDocumentToQueueTypeResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EmptyRecycleBinByUser">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="EmptyRecycleBinByUser">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="EmptyRecycleBinByUserResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Authenticate">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="Authenticate">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="AuthenticateResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentPDF">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetDocumentPDF">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetDocumentPDFResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllDepartments">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getAllDepartments">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getAllDepartmentsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="unlockDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="unlockDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="unlockDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentAttachments">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetDocumentAttachments">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetDocumentAttachmentsResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MoveDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="MoveDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="MoveDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="addDocumentDeliveryFlag">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="addDocumentDeliveryFlag">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="addDocumentDeliveryFlagResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ricercaDocumenti">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="ricercaDocumenti">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="ricercaDocumentiResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RenderForm">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="RenderForm">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="RenderFormResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getUsersByDepartment">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="getUsersByDepartment">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="getUsersByDepartmentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateNewDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="CreateNewDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="CreateNewDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkPdf">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="checkPdf">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="checkPdfResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetDocumentHistory">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetDocumentHistory">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetDocumentHistoryResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetQueueDocumentsM2SC">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="GetQueueDocumentsM2SC">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="GetQueueDocumentsM2SCResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateDocument">
+      <soap:operation soapAction="" style="document" />
+      <wsdl:input name="UpdateDocument">
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output name="UpdateDocumentResponse">
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Dispatcher.3.09.19f">
+    <wsdl:port binding="tns:Dispatcher.3.09.19fSoapBinding" name="DispatcherImplPort">
+      <soap:address location="https://ab03ac2c.ced.it:8443/Dispatcher/Dispatcher" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

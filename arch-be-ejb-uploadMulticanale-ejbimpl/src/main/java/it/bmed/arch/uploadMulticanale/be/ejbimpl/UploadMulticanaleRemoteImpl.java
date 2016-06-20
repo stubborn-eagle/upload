@@ -6,49 +6,66 @@ import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMConvertRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
+import it.bmed.arch.uploadMulticanale.be.api.ExceptionToFaultConversionUtility;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
+import it.bmed.arch.uploadMulticanale.be.api.SignDocumentAndMoveToFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequest;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.azure.AzureService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
 import it.bmed.arch.uploadMulticanale.be.service.livecycle.GeneratePDFServiceClient;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
+import it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingServiceInterface;
 import it.bmed.asia.exception.ApplicationException;
 import it.bmed.asia.exception.AsiaApplicationException;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.ExceptionToFaultConversionUtil;
 import it.bmed.asia.exception.IErrorCode;
 import it.bmed.asia.exception.TechnicalException;
-import it.bmed.asia.exception.jaxws.HeaderInputType;
 import it.bmed.asia.exception.jaxws.SystemFault;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
+import it.bmed.schema.common.v1.HeaderInputType;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.rmi.RemoteException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
 
+@HandlerChain(file = "handlers.xml")
 @Stateless(name = "UploadMulticanaleServiceWS", mappedName = "ejb/", description = "")
 @WebService(serviceName = APIParams.SERVICE_NAME,  portName = APIParams.PORT_NAME, targetNamespace=APIParams.DEFINITION_NAMESPACE, endpointInterface = "it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote")
 @Remote(UploadMulticanaleRemote.class)
@@ -72,7 +89,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	@Autowired
 	private GeneratePDFServiceClient generatePDFServiceClient = null;
 	
-	// FIXME: To be replaced injecting the livecycle WSClient; pay attention this is just a stub. 
+	@Autowired
+	private OnBoardingServiceInterface onBoardingService;
+
+// FIXME: To be replaced injecting the livecycle WSClient; pay attention this is just a stub. 
 //	private GeneratePDFServiceClient generatePDFServiceClient = new GeneratePDFServiceClientImpl();
 	
 	public UploadMulticanaleRemoteImpl() {
@@ -127,10 +147,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(true);
 
 			throw fault;
 
@@ -140,7 +159,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
 			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+ "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
 			fault.getFaultInfo().setLayer(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+ "_"+ UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false);
 			/*
 			 * log.error("Errore e.getMessage() "+
 			 * runtimeException.getMessage());
@@ -159,10 +177,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
+			SystemFault fault = ExceptionToFaultConversionUtil.toSystemFault(applicationException);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(false);
 		
 			
 			throw fault; 
@@ -193,10 +210,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(true);
 
 			throw fault;
 
@@ -218,8 +234,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 							+ "_"
 							+ UploadMulticanaleErrorCodeEnums.valueOf(
 									"TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false);
-
 			throw fault;
 
 		} catch (Exception app) {
@@ -228,15 +242,40 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 					.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
 			SystemFault fault = ExceptionToFaultConversionUtil
-					.toFault(applicationException);
+					.toSystemFault(applicationException);
 			fault.getFaultInfo().setMessaggio(
 					fault.getFaultInfo().getCodice() + "_"
 							+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(false);
 			
 			throw fault;
 
+		}
+		return resp;
+	}
+	
+	public ECMResponse selectMedia(String refId) throws SystemFault, RemoteException, Exception {
+		ECMResponse resp = null;
+		try {
+			resp = uploadMulticanaleService.selectMedia(Integer.parseInt(refId));
+		} catch (ApplicationException e) {
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			throw fault;
+		} catch (RuntimeException runtimeException) {
+			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
+			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
+			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode() + "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
+			fault.getFaultInfo().setLayer(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode() + "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
+			throw fault;
+		} catch (Exception app) {
+			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
+			TechnicalException applicationException = new TechnicalException(er);
+			SystemFault fault = ExceptionToFaultConversionUtil.toSystemFault(applicationException);
+			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
+			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
+			throw fault;
 		}
 		return resp;
 	}
@@ -252,7 +291,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (ApplicationException e) {
 
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(e);
+			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(
 					fault.getFaultInfo().getCodice() + "_"
 							+ fault.getFaultInfo().getMessaggio());
@@ -273,7 +312,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 							+ "_"
 							+ UploadMulticanaleErrorCodeEnums.valueOf(
 									"TCH_GENERIC_ERROR").getDescription());
-			fault.getFaultInfo().setTechnical(false);
 
 			throw fault;
 
@@ -281,10 +319,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
-			SystemFault fault = ExceptionToFaultConversionUtil.toFault(applicationException);
+			SystemFault fault = ExceptionToFaultConversionUtil.toSystemFault(applicationException);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
-			fault.getFaultInfo().setTechnical(false);
 			log.error("ERRORE IN UPDATEMEDIA: "+e.getMessage());
 			throw fault;
 		}
@@ -330,6 +367,57 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			}
 		}
 
+		@Override
+		public boolean deleteOlderFilesNAS() throws SystemFault, RemoteException, Exception {
+			boolean result = true;
+			ECMResponse ecmResponse = null;
+	
+			try {
+				ecmResponse = uploadMulticanaleService.listOlderMedia(6);
+				if(ecmResponse.getResult()==null){
+					if(!deleteFileNASPhisical(ecmResponse.getResult())){
+						result = false;
+					}
+				}else if(ecmResponse.getResults()==null){
+					for(ECMFile ecmFile : ecmResponse.getResults()){
+						if(!deleteFileNASPhisical(ecmFile)){
+							result = false;
+						}
+					}
+				}
+			} catch (TechnicalException e) {
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteOlderFilesNAS: " + e.getMessage());
+			}
+			return result;
+		}
+		
+		private boolean deleteFileNASPhisical(ECMFile ecmFile) throws Exception{
+			boolean response = false;
+			boolean isDeletedOnDB = false;
+			try {
+				String nameFile =  ecmFile.getNameFile() + "." + ecmFile.getType().toLowerCase(); 
+				log.debug("NOME FILE SUL NAS", nameFile);
+				response = nasService.deleteFilePhisical(ecmFile.getSourcePath(), nameFile, ecmFile.getSource());
+				log.debug("deleteFileNASPhisical: operation succesfully returned.");
+			} catch (TechnicalException e) {
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
+			}
+			
+			if (response){
+				UpdateECMRequest upRequest = new UpdateECMRequest();
+				upRequest.setIdFile(ecmFile.getIdFile());
+				upRequest.setState(ECMState.DELETED);
+				upRequest.setNameApp(ecmFile.getNameApp());
+				isDeletedOnDB = updateMedia(upRequest, new HeaderInputType());
+			}
+			
+			if(response && isDeletedOnDB){
+				return true;
+			}else{
+				return false;
+			}
+		}
+		
 	/**
 	 * @author donatello.boccaforno
 	 */
@@ -401,9 +489,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			
 			// Load file from NAS
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE", nameFile);
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH", ecmResponse.getResult().getSourcePath());
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE", ecmResponse.getResult().getSource());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE:" + nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" +  ecmResponse.getResult().getSource());
 			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			ecmFile = ecmResponse.getResult();
 			
@@ -436,6 +524,119 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		log.debug("moveFile: Entering");
 		return response;
 	}
+	
+	@Override
+	public MoveResponse moveFileWithMetadata(MoveRequest request, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		log.debug("moveFileWithMetadata: Entering");
+		MoveResponse response = new MoveResponse();
+		ECMResponse ecmResponse = null;
+		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
+		byte[] buffer = null;
+		ECMFile ecmFile = null;
+		String idFileECM = null;
+		MoveDTO moveDTO = new MoveDTO();
+		
+		ECMRequest ecmRequest = new ECMRequest();
+		ecmFile = new ECMFile();
+		ecmFile.setIdFile(request.getEcmParam().getIdFile());
+		ecmRequest.setEcmFile(ecmFile);
+		
+		try {
+			
+			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
+			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
+			
+			// Load file from NAS
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE:" + nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" + ecmResponse.getResult().getSource());
+			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
+			ecmFile = ecmResponse.getResult();
+			
+			// Create file on ECM
+//			idFileECM = ecmService.createFile(ecmFile.getEcmType(), buffer, ecmFile.getContainerType(), ecmFile.getNameFile(), ecmFile.getType(), ecmFile.getNameApp(), ecmFile.getDestinationPath(), ecmFile);
+			log.debug("CHIAMATA A CREATEFILE - INIZIO");
+			idFileECM = ecmService.createFileWithMetadata(buffer, ecmFile, request.getEcmParam());
+			log.debug("CHIAMATA A CREATEFILE - FINE");
+			updateECMRequest.setContainerType(request.getEcmParam().getContainerType());
+			updateECMRequest.setDestinationPath(request.getEcmParam().getDestinationPath());
+			updateECMRequest.setEcmType(request.getEcmParam().getEcmType());
+			updateECMRequest.setIdFile(ecmFile.getIdFile());
+			updateECMRequest.setIdFileECM(idFileECM);
+			updateECMRequest.setNameApp(request.getEcmParam().getNameApp());
+			updateECMRequest.setState(ECMState.MOVED);
+			log.debug("CHIAMATA A UPDATEMEDIA - INIZIO - DATI REQUEST", updateECMRequest.toString());
+			updateMedia(updateECMRequest, new HeaderInputType());
+			log.debug("CHIAMATA A UPDATEMEDIA - FINE");
+			
+			// Remove file from NAS
+			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
+				nasService.deleteFile(ecmFile.getSourcePath(), ecmFile.getNameFile(), ecmFile.getSource());
+			}
+			moveDTO.setEcmFileId(idFileECM);
+			moveDTO.setFileId(ecmFile.getIdFile());
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
+		}
+		response.setResult(moveDTO);
+		log.debug("moveFileWithMetadata: Exit");
+		return response;
+	}
+	
+	@Override
+	public MoveResponse moveAlfrescoToECM(MoveRequest request, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		log.debug("moveAlfrescoToECM: Entering");
+		MoveResponse response = new MoveResponse();
+		ECMResponse ecmResponse = null;
+		UpdateECMRequest updateECMRequest = new UpdateECMRequest();
+		ECMFile ecmFile = null;
+		String idFileECM = null;
+		MoveDTO moveDTO = new MoveDTO();
+		
+		ECMRequest ecmRequest = new ECMRequest();
+		ecmFile = new ECMFile();
+		ecmFile.setIdFile(request.getEcmParam().getIdFile());
+		ecmRequest.setEcmFile(ecmFile);
+		
+		try {
+			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
+			
+			if(!ecmResponse.getResult().getEcmType().equals(ECMType.ALFRESCO)){
+				technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "moveAlfrescoToECM invalid input ECMType: "+ecmResponse.getResult().getEcmType());
+			}
+			
+			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_TYPE="+ ecmResponse.getResult().getEcmType());
+			log.debug("CHIAMATA A DOWNLOAD FILE DI ECM SERVICE PRE - ECM_FILE_ID="+ ecmResponse.getResult().getIdFileECM());
+			String fileContentBase64 = ecmService.downloadFile(ecmResponse.getResult().getEcmType(), ecmResponse.getResult().getIdFileECM());
+			ecmFile = ecmResponse.getResult();
+			
+			log.debug("CHIAMATA A CREATEFILE - INIZIO");
+			idFileECM = ecmService.createFileWithMetadata(Util.decodeBase64ToFile(fileContentBase64), ecmFile, request.getEcmParam());
+			log.debug("CHIAMATA A CREATEFILE - FINE");
+			updateECMRequest.setContainerType(request.getEcmParam().getContainerType());
+			updateECMRequest.setDestinationPath(request.getEcmParam().getDestinationPath());
+			updateECMRequest.setEcmType(request.getEcmParam().getEcmType());
+			updateECMRequest.setIdFile(ecmFile.getIdFile());
+			updateECMRequest.setIdFileECM(idFileECM);
+			updateECMRequest.setNameApp(request.getEcmParam().getNameApp());
+			updateECMRequest.setState(ECMState.MOVED);
+			log.debug("CHIAMATA A UPDATEMEDIA - INIZIO - DATI REQUEST", updateECMRequest.toString());
+			updateMedia(updateECMRequest, new HeaderInputType());
+			log.debug("CHIAMATA A UPDATEMEDIA - FINE");
+			
+			// Remove file from NAS
+			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
+				ecmService.removeFile(ecmResponse.getResult().getEcmType(), ecmResponse.getResult().getIdFileECM(), ecmResponse.getResult().getContainerType());
+			}
+			moveDTO.setEcmFileId(idFileECM);
+			moveDTO.setFileId(ecmFile.getIdFile());
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveAlfrescoToECM: " + e.getMessage());
+		}
+		response.setResult(moveDTO);
+		log.debug("moveAlfrescoToECM: Exit");
+		return response;
+	}
 
 	/**
 	 * Lookup a file from NAS or ECM, and convert it into a pdf
@@ -446,8 +647,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		log.debug("convertToPDF: Entering");
 		ECMRequest ecmRequest = new ECMRequest();
 		ECMResponse ecmResponse = new ECMResponse();
-		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
-		final String CLOSE_IMGTAG = "\">"; 
+//		final String OPEN_IMGTAG = "<img src=\"data:image/png;base64,";
+//		final String CLOSE_IMGTAG = "\">"; 
 		log.debug("ECMConvertRequest: "+ request);
 		log.debug("ECMConvertRequest idFile: "+ request.getIdFile());
 		log.debug("ECMConvertRequest ECMFile idFile: "+ request.getEcmFile().getIdFile());
@@ -473,10 +674,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "convertToPDF " + e.getMessage());		
 		}
 		
-		String htmlDocument = null;
 		// generate the html doc from template, using encoded file as IMG data attribute value
 		try {
-			htmlDocument = createHTMLDocument(encodedFile);
+			createHTMLDocument(encodedFile);
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "convertToPDF " + e.getMessage());
 		}
@@ -604,10 +804,18 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 	private void technicalError(UploadMulticanaleErrorCodeEnums errorCode, String error) throws SystemFault {
 		log.error(error);
+//		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
+//		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
+//		systemFault.getFaultInfo().setLayer("BKE");
+//		throw systemFault;
+		throw buildTechnicalError(errorCode, error);
+	}
+	
+	private SystemFault buildTechnicalError (UploadMulticanaleErrorCodeEnums errorCode, String error){
 		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
-		SystemFault systemFault = ExceptionToFaultConversionUtil.toFault(technicalException);
+		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
 		systemFault.getFaultInfo().setLayer("BKE");
-		throw systemFault;
+		return systemFault;
 	}
 	
 	/**
@@ -634,5 +842,192 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	public String getVersione () throws SystemFault, RemoteException, Exception {
         return APIParams.VERSION;
     }
+	
+	@Override
+	public String generatePDF(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDF(xml, false);
+    }
+	
+	@Override
+	public String generatePDFDynamic(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDF(xml, true);
+    }
+	
+	private String generateLiveCyclePDF(String xml, boolean isDynamic) throws SystemFault, RemoteException, Exception {
+		String result = null;
+		byte[] fileContent = null;
+		if(!isDynamic){
+			fileContent = generatePDFServiceClient.generatePDF(xml);
+		}else{
+			fileContent = generatePDFServiceClient.generatePDFDynamic(xml);
+		}
+		
+		ECMSource ecmSource =  ECMSource.LIVE_CYCLE;
+		if(isDynamic){
+			ecmSource =  ECMSource.LIVE_CYCLE_DYNAMIC;
+		}
+		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+		String fileName = UUID.randomUUID().toString();
+		try{
+			nasService.saveFile(resultStream, fileName, ecmSource, null);
+			
+			ECMRequest ecmRequestReg = new ECMRequest();
+			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(fileName, isDynamic));
+			
+			
+			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());
+			result = ecmResponse.getResult().getIdFile().toString();
 
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF"+(isDynamic?"Dynamic ":" ") + e.getMessage());
+		}
+		
+        return result;
+//        return refId+"generatePDF"+(isDynamic?"Dynamic":"");
+	}
+	
+	@Override
+	public String generatePDFAsynch(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDFAsynch(xml, false);
+    }
+	
+	@Override
+	public String generatePDFDynamicAsynch(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
+		return generateLiveCyclePDFAsynch(xml, true);
+    }
+	
+	@Override
+	public String generatePDFAsynchStatus(String refId) throws SystemFault, RemoteException, Exception {
+		String result = GeneratePdfAsynchStatusEnum.NOT_FOUND.getValue();
+		
+		ECMResponse ecmResponse = selectMedia(refId);
+		
+		if(ecmResponse!=null && ecmResponse.getResult()!=null){
+			ECMFile ecmFile = ecmResponse.getResult();
+			ECMState ecmState = ecmFile.getState();
+			
+			switch (ecmState) {
+			case INSERTED:		
+				result = GeneratePdfAsynchStatusEnum.COMPLETED.getValue();
+				break;
+			case PENDING:
+				result = GeneratePdfAsynchStatusEnum.PENDING.getValue();
+				break;
+			case ERROR:
+				result = GeneratePdfAsynchStatusEnum.ERROR.getValue();
+				break;
+			default:
+				result = GeneratePdfAsynchStatusEnum.ERROR.getValue();
+			}
+		}
+		
+		return result;
+    }
+	
+	private String generateLiveCyclePDFAsynch(String xml, boolean isDynamic) throws SystemFault, RemoteException, Exception {
+		String result = null;
+		
+		try{
+			ECMRequest ecmRequestReg = new ECMRequest();
+			String fileName = UUID.randomUUID().toString();
+			ECMFile ecmFile = nasService.getEcmFileLiveCyclePdf(fileName, isDynamic);
+			ecmFile.setState(ECMState.PENDING);
+			ecmRequestReg.setEcmFile(ecmFile);
+			
+			
+			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());
+			result = ecmResponse.getResult().getIdFile().toString();
+			
+			Thread generatePdfThread = new Thread(new GeneratePdfThread(isDynamic, generatePDFServiceClient, xml, nasService, fileName, uploadMulticanaleService, ecmFile.getNameApp(), ecmResponse.getResult().getIdFile()));
+			generatePdfThread.start();
+
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF"+(isDynamic?"Dynamic":" ")+"Asynch " + e.getMessage());
+		}
+		
+        return result;
+//        return refId+"generatePDF"+(isDynamic?"Dynamic":"");
+	}
+
+	@Override
+	public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException {
+
+		byte[] buffer = null;
+		ECMFile ecmFile = null;
+		String result = null;
+		
+		ECMResponse ecmResponse = null;
+		ECMRequest ecmRequest = new ECMRequest();
+		ecmFile = new ECMFile();
+		ecmFile.setIdFile(request.getEcmParams().getIdFile());
+		ecmRequest.setEcmFile(ecmFile);
+		
+		try {
+			
+			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
+			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
+			
+			// Load file from NAS
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE:" + nameFile);
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + ecmResponse.getResult().getSourcePath());
+			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" + ecmResponse.getResult().getSource());
+			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
+			ecmFile = ecmResponse.getResult();
+			
+			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
+			
+			String xmlFirmatariOsbCadesBase64 = SignHelper.getXmlFirmatariOsbCades(request, getFileHash(buffer));
+//			String xmlFirmatariOsbCadesCustom = SignHelper.getXmlFirmatariOsbCadesCustom(xmlFirmatariOsbCades, nasService.getSignatureData());
+			String xmlFirmatariPades = nasService.firmaCades(xmlFirmatariOsbCadesBase64, nasService.getSignatureData().getSignFirmatariDominio(), request.getSignatureData().getAlias(), request.getSignatureData().getPin(), nasService.getSignatureData().getSignFirmatariOtp());
+			String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatariPades, null);
+			
+			ECMParam ecmParam = new ECMParam();
+			ecmParam.setEcmType(ECMType.IBM_FILENET);
+			ecmParam.setIdFile(ecmResponse.getResult().getIdFile());
+			ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS()!=null&&(request.getEcmParams().getRemoveFromNAS().equals("true")||request.getEcmParams().getRemoveFromNAS().equals("REMOVE"))?RemoveFromNAS.REMOVE:RemoveFromNAS.NOT_REMOVE);
+			
+			result = ecmService.createFile(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
+			
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
+		}
+		log.debug("signFilenetDocument: exit");
+
+		return result;
+	}
+	
+	/** A.Marini: aggiunto metodo per integrazione servizio On Boarding Service Enrollment */
+	@Override
+	public AddDocumentsResponse addDocuments(AddDocumentsRequest request) throws SystemFault, RemoteException, Exception {
+		try{
+			return onBoardingService.addDocuments(request);
+		} catch (Exception e){
+			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
+		}
+	}
+	
+	@Override
+	public MoveDossierIntoFilenetResponse moveDossierIntoFilenet(MoveDossierIntoFilenetRequest request) throws SystemFault, RemoteException, Exception {
+		try{
+			return onBoardingService.moveDossierIntoFilenet(request);
+		} catch (Exception e){
+			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
+		}
+	}
+
+	@Override
+	public ExtractFileContentResponse extractFileContent (ExtractFileContentRequest request) throws SystemFault, RemoteException, Exception {
+		ExtractFileContentResponse response = new ExtractFileContentResponse();
+		String content = onBoardingService.extractFileContent(request.getMulticanaleReferenceId());
+		response.setFileContent(content);
+		return response;
+	}
+	
+	private String getFileHash(byte[] content) throws NoSuchAlgorithmException{
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		byte[] dataBytes = content;
+		md.update(dataBytes);
+		byte[] mdbytes = md.digest();
+		return new String(Base64.encodeBase64(mdbytes));
+	}
 }

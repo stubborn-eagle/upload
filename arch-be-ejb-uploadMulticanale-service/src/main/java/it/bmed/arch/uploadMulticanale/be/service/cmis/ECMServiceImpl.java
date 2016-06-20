@@ -38,20 +38,21 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-
-		if (alfrescoConnector == null) {
-			throw new Exception("ERROR: alfrescoConnector not injected");
-		} else {
-			try {
-				 alfrescoConnector.createConnection();
-			} catch (Exception e) {				
-				logger.error("afterPropertiesSet: alfrescoConnector cannot create connection. " + e.getMessage());
-				logger.error("afterPropertiesSet: alfrescoConnector " + alfrescoConnector);
-				throw e;
-			}
-		}
-		/*
-		if (filenetConnector == null) {
+		//TODO:Marco test
+//		if (alfrescoConnector == null) {
+//			throw new Exception("ERROR: alfrescoConnector not injected");
+//		} else {
+//			try {
+//				 alfrescoConnector.createConnection();
+//			} catch (Exception e) {				
+//				logger.error("afterPropertiesSet: alfrescoConnector cannot create connection. " + e.getMessage());
+//				logger.error("afterPropertiesSet: alfrescoConnector " + alfrescoConnector);
+//				throw e;
+//			}
+//		}
+		//TODO:Marco test
+		
+		/*if (filenetConnector == null) {
 			throw new Exception("ERROR: filenetConnector not injected");
 		}  
 		else {
@@ -72,6 +73,19 @@ public class ECMServiceImpl implements ECMService, InitializingBean {
 			return filenetConnector.createFile(byteStream, ecmFile, ecmParam);
 		} else if( ecmParam.getEcmType() == ECMType.ALFRESCO) {
 			return alfrescoConnector.createFile(byteStream, ecmFile, ecmParam);
+		} else {			
+			throw new AsiaException("error code", "ECM_TYPE not reconized.");			
+		}
+	}
+	
+	@Override
+	public String createFileWithMetadata(byte[] byteStream, ECMFile ecmFile, ECMParam ecmParam)
+			throws AsiaException, Exception {
+		
+		if( ecmParam.getEcmType() == ECMType.IBM_FILENET ) {		
+			return filenetConnector.createFileWithMetadata(byteStream, ecmFile, ecmParam);
+		} else if( ecmParam.getEcmType() == ECMType.ALFRESCO) {
+			return alfrescoConnector.createFileWithMetadata(byteStream, ecmFile, ecmParam);
 		} else {			
 			throw new AsiaException("error code", "ECM_TYPE not reconized.");			
 		}
