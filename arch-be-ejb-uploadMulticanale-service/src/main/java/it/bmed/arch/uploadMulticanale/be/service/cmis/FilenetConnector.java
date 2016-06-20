@@ -183,6 +183,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 		// String response =
 		// "<Response><ReturnCode>0</ReturnCode><ReturnValue><Object id=\"{1178EC68-BBD5-4469-8DFA-929DF8C66B8E}\" objectstore=\"CED088\" class=\"DISPOSIZIONIANOMALE\" basetype=\"Document\"><Readers/><Link><Value>/WSGDI/View?sessionId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F9Gvl5D2SpeQIH%2FrF6AkfNZ3ZJgWdrEb10%3D&amp;docId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F8szEfv25KoIA%3D%3D&amp;os=tKgBgM2BPqg%3D</Value></Link></Object></ReturnValue></Response>";
 		try {
+			logger.debug("FILENET RESPONSE: "+response);
 			XPathFactory xpathFact = XPathFactory.newInstance();
 			XPath xpath = xpathFact.newXPath();
 			String pathId = "Response/ReturnValue/Object/@id";
