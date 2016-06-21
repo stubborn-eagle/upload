@@ -53,12 +53,14 @@ import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
+import javax.activation.DataSource;
 
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
@@ -1000,7 +1002,19 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	@Override
 	public AddDocumentsResponse addDocuments(AddDocumentsRequest request) throws SystemFault, RemoteException, Exception {
 		try{
-			return onBoardingService.addDocuments(request);
+                        ECMRequest ecmRequest = new ECMRequest();
+			ECMFile ecmFile = new ECMFile();
+			ecmFile.setIdFile(request.getEcmFileId());
+			ecmRequest.setEcmFile(ecmFile);
+			
+                        ECMResponse ecmResponse = uploadMulticanaleService.listMedia(ecmRequest);
+                        String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
+			byte[] buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
+			//String fileContent = Util.encodeFileToBase64Binary(buffer);
+			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
+                        
+			return onBoardingService.addDocuments(request, fileContent);
+                        
 		} catch (Exception e){
 			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
 		}

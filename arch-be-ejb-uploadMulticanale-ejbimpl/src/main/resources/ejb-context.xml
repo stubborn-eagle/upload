@@ -45,7 +45,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
    <bean id="ear.context" class="org.springframework.context.support.ClassPathXmlApplicationContext">
       <constructor-arg>
          <list>
-         	<value>services-context.xml</value>
+            <value>services-context.xml</value>
             <value>dao-context.xml</value>           
          </list>
       </constructor-arg>

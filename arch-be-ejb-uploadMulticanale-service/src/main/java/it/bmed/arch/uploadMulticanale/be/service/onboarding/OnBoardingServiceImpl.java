@@ -34,7 +34,6 @@ import java.util.List;
 
 import javax.activation.DataSource;
 import javax.jws.HandlerChain;
-import javax.mail.util.ByteArrayDataSource;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
@@ -58,9 +57,6 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	
 	@Autowired
 	private ECMService ecmService;
-	
-	@Autowired
-	private OnBoardingMapper mapper;
 	
 	/* PARAMETRI IN CONFIGURAZIONE - WEB.XML */
 	private String onBoardingServiceIstituto;
@@ -163,26 +159,14 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	}
 	
 	@Override
-	public AddDocumentsResponse addDocuments(AddDocumentsRequest request){
+	public AddDocumentsResponse addDocuments(AddDocumentsRequest request, DataSource fileContent){
 		try {
-			ECMRequest ecmRequest = new ECMRequest();
-			ECMFile ecmFile = new ECMFile();
-			ecmFile.setIdFile(request.getEcmFileId());
-			ecmRequest.setEcmFile(ecmFile);
-			ECMResponse ecmResponse = uploadMulticanaleService.listMedia(ecmRequest);
-			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
-			byte[] buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
-			//String fileContent = Util.encodeFileToBase64Binary(buffer);
-			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
-			OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
-			
-			AddDocuments parameters = new AddDocuments();
-			parameters.setCompanyId(request.getCompanyId());
-			parameters.setDossierId(request.getDossierId());
-			parameters.setDocuments(mapper.mapECMDocumentForWSRequest(request.getDocument(), fileContent));
-			/* it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse wsResponse = */
+                        AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(request, fileContent);
+                        
+                        OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
 			service.addDocuments(parameters);
-		} catch (Exception e) {
+		
+                } catch (Exception e) {
 			logger.error("OnBoardingServiceImpl addDocuments ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}

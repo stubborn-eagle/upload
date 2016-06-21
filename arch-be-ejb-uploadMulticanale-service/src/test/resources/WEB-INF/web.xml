@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+   http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	id="WebApp_ID" version="2.5">
+
+	<display-name>REST-WEB Application</display-name>
+
+	<context-param>
+		<param-name>locatorFactorySelector</param-name>
+		<param-value>beanRefContext.xml</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>parentContextKey</param-name>
+		<param-value>ear.context</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-empty.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<env-entry>
+		<env-entry-name>LOGBACK-CONFIG</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>apps-properties/arch-be-ejb-uploadMulticanale-be.xml</env-entry-value>
+	</env-entry>
+
+	<!-- Puntamenti ALFRESCO -->
+	<env-entry>
+		<env-entry-name>ALFRESCO-URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>http://172.23.138.34</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>ALFRESCO-USER</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>up-multi-dev</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>ALFRESCO-PW</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>uploadmulti001!</env-entry-value>
+	</env-entry>
+	
+	<!-- Puntamenti NAS -->
+	<env-entry>
+		<env-entry-name>PATH-NAS-IB</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Clientisvil</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PATH-NAS-PS</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PATH-NAS-RV</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil</env-entry-value>
+	</env-entry>
+	<!-- Puntamenti NAS Folder Deleted -->
+	<env-entry>
+		<env-entry-name>DELETED-PATH-NAS-IB</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Clientisvil/multichannel-upload-deleted/</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>DELETED-PATH-NAS-PS</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil/multichannel-upload-deleted/</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>DELETED-PATH-NAS-RV</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil/multichannel-upload-deleted/</env-entry-value>
+	</env-entry>
+
+	<!-- Puntamenti Filenet -->
+	<env-entry>
+		<env-entry-name>FILENET-URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>http://docm-med.ced.it:80/WSGDI/services/WSGDIImpl</env-entry-value>
+		
+	</env-entry>
+	<env-entry>
+		<env-entry-name>FILENET-USER</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>up-multi-dev</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>FILENET-PW</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>uploadmulti001!</env-entry-value>
+	</env-entry>
+	<!-- Azure settings -->
+	<env-entry>
+		<env-entry-name>AZURE-CONNECTION-STRING</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>DefaultEndpointsProtocol=https;AccountName=uploadmulticanale;AccountKey=DxJFBJHS20WdzuaL7uJ1EXwOYrl93N3rc2nBcCRe3keo7iJWQDKo4BNGXIdkdfHHWZ8CoEeTeFzGKSB8LRJ+tg==</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>AZURE-MAX-EXPIRATION-TIME-MINUTES</env-entry-name>
+		<env-entry-type>java.lang.Integer</env-entry-type>
+		<env-entry-value>45</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>AZURE-SAFE-OFFESET-START-TIME-MINUTES</env-entry-name>
+		<env-entry-type>java.lang.Integer</env-entry-type>
+		<env-entry-value>15</env-entry-value>
+	</env-entry>
+
+	<env-entry>
+		<env-entry-name>ENV</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>SVIL</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>GENERATED_PDF_FILE_PATH</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil/generated</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>GENERATED_DYNAMIC_PDF_FILE_PATH</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Promotorisvil/generated</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_CHANNEL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCChannel</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_CONTAINERTYPE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCContainerType</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_NAMEAPP</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCNameApp</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PDF_LIVECYCLE_USERID</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>LCUserId</env-entry-value>
+	</env-entry>
+	
+	<env-entry>
+		<env-entry-name>LIVECYCLE_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://ab03ac2c.ced.it:8443/Dispatcher/Dispatcher</env-entry-value>
+	</env-entry>
+	<!--<env-entry>
+		<env-entry-name>LIVECYCLE_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>http://lxosb701.gbm.lan:8001/LiveCycle/px/LiveCycle_http</env-entry-value>
+	</env-entry>-->
+	
+	<env-entry>
+		<env-entry-name>SIGN_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>http://lxosb701.gbm.lan:8001/FirmaDigitale/SignatureService_RDV</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_INFOCERT_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://ncfrcl.infocert.it/ncfr-webservice/FirmaWS</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_DOMINIO</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>BMED</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_ALIAS</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>RAO</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_PIN</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>00051168</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>SIGN_FIRMATARI_OTP</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value></env-entry-value>
+	</env-entry>
+	<!-- ONBOARDING ENROLLMENT SERVICE CONFIGURATION - START -->
+	<env-entry>
+		<env-entry-name>ONBOARDING_WSDL_URL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>https://copcl.infocert.it/services/nomtom/OnboardingService</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_REQUEST_TIMEOUT</env-entry-name>
+		<env-entry-type>java.lang.Integer</env-entry-type>
+		<env-entry-value>15000</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_CONNECTION_TIMEOUT</env-entry-name>
+		<env-entry-type>java.lang.Integer</env-entry-type>
+		<env-entry-value>5000</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_ISTITUTO</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>istituto</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_MATRICOLA</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>matricola</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_RUOLO</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>ruolo</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_FILIALE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>filiale</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_USERID</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>userid</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_CHANNEL</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>channel</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_CONTAINER</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>container</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>ONBOARDING_COMPANYID</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>companyid</env-entry-value>
+	</env-entry>
+	<!-- ONBOARDING ENROLLMENT SERVICE CONFIGURATION - END -->
+</web-app>
