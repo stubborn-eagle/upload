@@ -1,4 +1,4 @@
-Tue Jun 21 09:41:53 CEST 2016 Thread[Thread-2,5,main] Cleanup action starting
+Tue Jun 21 10:01:46 CEST 2016 Thread[Thread-2,5,main] Cleanup action starting
 java.sql.SQLException: Database 'memory:dataSource' not found.
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)
 	at org.apache.derby.impl.jdbc.SQLExceptionFactory.getSQLException(Unknown Source)

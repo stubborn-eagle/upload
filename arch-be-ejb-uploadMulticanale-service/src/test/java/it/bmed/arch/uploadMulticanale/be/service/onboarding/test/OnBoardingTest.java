@@ -5,31 +5,33 @@
  */
 package it.bmed.arch.uploadMulticanale.be.service.onboarding.test;
 
-import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.*;
-import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
+import it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingMapper;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocuments;
-import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingService;
 import it.bmed.arch.uploadMulticanale.be.service.test.AbstractUnitTest;
 import java.util.ArrayList;
 import java.util.List;
+import javax.activation.DataSource;
+import javax.mail.util.ByteArrayDataSource;
+import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author pierluigi
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"classpath:test-context.xml"})
 public class OnBoardingTest extends AbstractUnitTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractUnitTest.class);
+    
     AddDocumentsRequest addDocumentsRequest;
+    DataSource fileContent;
+    
     MoveDossierIntoFilenetRequest moveDossietIntoFilenetRequest;
     
     ECMResponse ecmResponse;
@@ -43,6 +45,8 @@ public class OnBoardingTest extends AbstractUnitTest {
         addDocumentsRequest.setCompanyId("companyId");
         addDocumentsRequest.setDossierId("dossierId");
         addDocumentsRequest.setEcmFileId(1);
+        byte[] buffer = "File di test".getBytes();
+        fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
         
         responseWS = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse();
         ecmResponse = new ECMResponse();
@@ -53,6 +57,7 @@ public class OnBoardingTest extends AbstractUnitTest {
 
     @Test
     public void fullRequestTest(){
+        LOG.debug("START - fullRequestTest() ...");
         
         Document document = new Document();
         document.setId("documentId");
@@ -105,7 +110,7 @@ public class OnBoardingTest extends AbstractUnitTest {
         signatureField.setSignerId("signatureId");
         
         signatureFields.add(signatureField);
-        signaturePolicy.setKeywordSignatureFieldList(keywordSignatureFields);
+        signaturePolicy.setSignatureFieldList(signatureFields);
         
         List <PositionSignatureField> positionSignatureFields = new ArrayList <PositionSignatureField>();
         PositionSignatureField positionSignatureField = new PositionSignatureField();
@@ -134,9 +139,12 @@ public class OnBoardingTest extends AbstractUnitTest {
         
         addDocumentsRequest.setDocument(document);
         
-        //AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(addDocumentsRequest, );
+        AddDocuments wsClientRequest = OnBoardingMapper.mapUMCRequestToWSRequest(addDocumentsRequest, fileContent);
         
         
+        Assert.assertEquals(addDocumentsRequest.getCompanyId(), wsClientRequest.getCompanyId());
+        
+        LOG.debug("FINISH - fullRequestTest() ...");
     }
     
     @Override
