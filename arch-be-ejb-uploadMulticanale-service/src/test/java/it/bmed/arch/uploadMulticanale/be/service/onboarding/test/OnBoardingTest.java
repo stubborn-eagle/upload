@@ -40,7 +40,7 @@ public class OnBoardingTest extends AbstractUnitTest {
     public void before() throws Exception {
         
         addDocumentsRequest = new AddDocumentToDossierInfocertRequestType();
-        addDocumentsRequest.setCompanyId("companyId");
+//        addDocumentsRequest.setCompanyId("companyId");
         addDocumentsRequest.setDossierId("dossierId");
         addDocumentsRequest.setEcmFileId(1);
         byte[] buffer = "File di test".getBytes();
@@ -135,10 +135,10 @@ public class OnBoardingTest extends AbstractUnitTest {
         
         addDocumentsRequest.setDocument(document);
         
-        AddDocuments wsClientRequest = OnBoardingMapper.mapUMCRequestToWSRequest(addDocumentsRequest, fileContent);
+        AddDocuments wsClientRequest = OnBoardingMapper.mapUMCRequestToWSRequest(addDocumentsRequest, fileContent, "companyId");
         
         
-        Assert.assertEquals(addDocumentsRequest.getCompanyId(), wsClientRequest.getCompanyId());
+       Assert.assertEquals("companyId", wsClientRequest.getCompanyId());
         
         LOG.debug("FINISH - fullRequestTest() ...");
     }

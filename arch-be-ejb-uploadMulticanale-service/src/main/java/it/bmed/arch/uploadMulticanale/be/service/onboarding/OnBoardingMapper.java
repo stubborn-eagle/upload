@@ -20,9 +20,9 @@ import javax.activation.DataSource;
 
 public class OnBoardingMapper {
 
-	static public AddDocuments mapUMCRequestToWSRequest (AddDocumentToDossierInfocertRequestType request, DataSource fileContent) {
+	static public AddDocuments mapUMCRequestToWSRequest (AddDocumentToDossierInfocertRequestType request, DataSource fileContent, String companyId) {
         AddDocuments parameters = new AddDocuments();
-		parameters.setCompanyId(request.getCompanyId());
+		parameters.setCompanyId(companyId);
 		parameters.setDossierId(request.getDossierId());
         DocumentType documentoECM = request.getDocument();
 		List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document> wsList = new ArrayList<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document>();

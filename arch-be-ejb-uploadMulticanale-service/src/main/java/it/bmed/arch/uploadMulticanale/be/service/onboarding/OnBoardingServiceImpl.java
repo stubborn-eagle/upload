@@ -156,7 +156,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	@Override
 	public AddDocumentToDossierInfocertResponseType addDocuments(AddDocumentToDossierInfocertRequestType request, DataSource fileContent){
 		try {
-            AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(request, fileContent);
+            AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(request, fileContent, onBoardingServiceCompanyId);
             OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
 			service.addDocuments(parameters);
 		
