@@ -1,7 +1,6 @@
 package it.bmed.arch.uploadMulticanale.be.service.cmis;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 

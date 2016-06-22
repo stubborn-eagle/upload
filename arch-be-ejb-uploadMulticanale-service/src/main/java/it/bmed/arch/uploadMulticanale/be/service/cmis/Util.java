@@ -134,8 +134,8 @@ public class Util {
 		// DICHIARATI TUTTI QUI PER GESTIRE SETTAGGIO DEL VALUE
 		ObjectStore objectStore = new ObjectStore();
 		ObjectClass objectClass = new ObjectClass();
-		Index index = new Index();
-		Value value = new Value();
+//		Index index = new Index();
+//		Value value = new Value();
 		Istituto istituto = new Istituto();
 		Matricola matricola = new Matricola();
 		Ruolo ruolo = new Ruolo();
