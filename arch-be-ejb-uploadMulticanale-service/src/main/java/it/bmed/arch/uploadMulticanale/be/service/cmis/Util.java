@@ -329,7 +329,7 @@ public class Util {
 
 			return fileToXML;
 		} catch (Exception e) {
-			logger.error("encodeXML " + e.getMessage());
+			logger.error("encodeXML " + e.getMessage(), e);
 			throw e;
 		}
 		// Request requestFromXML = (Request)
