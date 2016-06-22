@@ -1,11 +1,11 @@
 package it.bmed.arch.uploadMulticanale.be.api;
 
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertResponseType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponseType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponseType;
 import it.bmed.asia.exception.jaxws.SystemFault;
 import it.bmed.schema.common.v1.HeaderInputType;
 
@@ -117,13 +117,15 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebMethod(operationName = "moveAlfrescoToECM")
 		MoveResponse moveAlfrescoToECM(MoveRequest request, @WebParam(header=true) HeaderInputType stringa) throws SystemFault, RemoteException, Exception;
 
-		@WebMethod(operationName = "addDocuments")
-		AddDocumentsResponse addDocuments(AddDocumentsRequest request) throws SystemFault, RemoteException, Exception;
+		@WebMethod(operationName = "addDocumentToDossierInfocert")
+		AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert(AddDocumentToDossierInfocertRequestType request) throws SystemFault, RemoteException, Exception;
 
 		@WebMethod(operationName = "moveDossierIntoFilenet")
-		MoveDossierIntoFilenetResponse moveDossierIntoFilenet(MoveDossierIntoFilenetRequest request) throws SystemFault, RemoteException, Exception;
+		MoveDossierIntoFilenetResponseType moveDossierIntoFilenet(MoveDossierIntoFilenetRequestType request) throws SystemFault, RemoteException, Exception;
 
 		@WebMethod(operationName = "extractFileContent")
-		ExtractFileContentResponse extractFileContent(ExtractFileContentRequest request) throws SystemFault, RemoteException, Exception;
+		ExtractFileContentResponseType extractFileContent(ExtractFileContentRequestType request) throws SystemFault, RemoteException, Exception;
 
+
+		
 }
