@@ -3,11 +3,14 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 import java.io.Serializable;
 import java.util.List;
 
-public class ArchivingPolicy implements Serializable{
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name = "ArchivingPolicyType")
+public class ArchivingPolicyType implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String documentClass;
-	private List<Attribute> attributes;
+	private List<AttributeType> attributes;
 	/**
 	 * @return the documentClass
 	 */
@@ -23,13 +26,13 @@ public class ArchivingPolicy implements Serializable{
 	/**
 	 * @return the attributes
 	 */
-	public List<Attribute> getAttributes() {
+	public List<AttributeType> getAttributes() {
 		return attributes;
 	}
 	/**
 	 * @param attributes the attributes to set
 	 */
-	public void setAttributes(List<Attribute> attributes) {
+	public void setAttributes(List<AttributeType> attributes) {
 		this.attributes = attributes;
 	}
 }

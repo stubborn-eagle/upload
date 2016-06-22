@@ -2,16 +2,20 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 
 import java.io.Serializable;
 
-public class Document implements Serializable{
+import javax.xml.bind.annotation.XmlType;
+
+
+@XmlType(name = "DocumentType")
+public class DocumentType implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String signerId;
  	private String id;
  	private String type;
  	private DocumentPolicy policy;
- 	private CompositionPolicy compositionPolicy;
- 	private SignaturePolicy signaturePolicy;
- 	private ArchivingPolicy archivingPolicy;
+ 	private CompositionPolicyType compositionPolicy;
+ 	private SignaturePolicyType signaturePolicy;
+ 	private ArchivingPolicyType archivingPolicy;
 	/**
 	 * @return the signerId
 	 */
@@ -63,37 +67,37 @@ public class Document implements Serializable{
 	/**
 	 * @return the compositionPolicy
 	 */
-	public CompositionPolicy getCompositionPolicy() {
+	public CompositionPolicyType getCompositionPolicy() {
 		return compositionPolicy;
 	}
 	/**
 	 * @param compositionPolicy the compositionPolicy to set
 	 */
-	public void setCompositionPolicy(CompositionPolicy compositionPolicy) {
+	public void setCompositionPolicy(CompositionPolicyType compositionPolicy) {
 		this.compositionPolicy = compositionPolicy;
 	}
 	/**
 	 * @return the signaturePolicy
 	 */
-	public SignaturePolicy getSignaturePolicy() {
+	public SignaturePolicyType getSignaturePolicy() {
 		return signaturePolicy;
 	}
 	/**
 	 * @param signaturePolicy the signaturePolicy to set
 	 */
-	public void setSignaturePolicy(SignaturePolicy signaturePolicy) {
+	public void setSignaturePolicy(SignaturePolicyType signaturePolicy) {
 		this.signaturePolicy = signaturePolicy;
 	}
 	/**
 	 * @return the archivingPolicy
 	 */
-	public ArchivingPolicy getArchivingPolicy() {
+	public ArchivingPolicyType getArchivingPolicy() {
 		return archivingPolicy;
 	}
 	/**
 	 * @param archivingPolicy the archivingPolicy to set
 	 */
-	public void setArchivingPolicy(ArchivingPolicy archivingPolicy) {
+	public void setArchivingPolicy(ArchivingPolicyType archivingPolicy) {
 		this.archivingPolicy = archivingPolicy;
 	}
 

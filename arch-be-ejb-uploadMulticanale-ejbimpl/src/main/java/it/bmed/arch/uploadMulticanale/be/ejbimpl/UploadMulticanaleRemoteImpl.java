@@ -23,12 +23,12 @@ import it.bmed.arch.uploadMulticanale.be.api.TokenResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertResponseType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponseType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponseType;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.azure.AzureService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
@@ -53,8 +53,8 @@ import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
-import javax.activation.DataSource;
 
+import javax.activation.DataSource;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
@@ -1000,28 +1000,27 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	
 	/** A.Marini: aggiunto metodo per integrazione servizio On Boarding Service Enrollment */
 	@Override
-	public AddDocumentsResponse addDocuments(AddDocumentsRequest request) throws SystemFault, RemoteException, Exception {
+	public AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert (AddDocumentToDossierInfocertRequestType request) throws SystemFault, RemoteException, Exception {
 		try{
-                        ECMRequest ecmRequest = new ECMRequest();
+            ECMRequest ecmRequest = new ECMRequest();
 			ECMFile ecmFile = new ECMFile();
 			ecmFile.setIdFile(request.getEcmFileId());
 			ecmRequest.setEcmFile(ecmFile);
 			
-                        ECMResponse ecmResponse = uploadMulticanaleService.listMedia(ecmRequest);
-                        String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
+            ECMResponse ecmResponse = uploadMulticanaleService.listMedia(ecmRequest);
+            String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			byte[] buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
-			//String fileContent = Util.encodeFileToBase64Binary(buffer);
 			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
-                        
+
 			return onBoardingService.addDocuments(request, fileContent);
-                        
+
 		} catch (Exception e){
 			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
 		}
 	}
 	
 	@Override
-	public MoveDossierIntoFilenetResponse moveDossierIntoFilenet(MoveDossierIntoFilenetRequest request) throws SystemFault, RemoteException, Exception {
+	public MoveDossierIntoFilenetResponseType moveDossierIntoFilenet(MoveDossierIntoFilenetRequestType request) throws SystemFault, RemoteException, Exception {
 		try{
 			return onBoardingService.moveDossierIntoFilenet(request);
 		} catch (Exception e){
@@ -1030,8 +1029,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 
 	@Override
-	public ExtractFileContentResponse extractFileContent (ExtractFileContentRequest request) throws SystemFault, RemoteException, Exception {
-		ExtractFileContentResponse response = new ExtractFileContentResponse();
+	public ExtractFileContentResponseType extractFileContent (ExtractFileContentRequestType request) throws SystemFault, RemoteException, Exception {
+		ExtractFileContentResponseType response = new ExtractFileContentResponseType();
 		String content = onBoardingService.extractFileContent(request.getMulticanaleReferenceId());
 		response.setFileContent(content);
 		return response;

@@ -203,36 +203,6 @@
 		<env-entry-value>https://copcl.infocert.it/services/nomtom/OnboardingService</env-entry-value>
 	</env-entry>
 	<env-entry>
-		<env-entry-name>ONBOARDING_REQUEST_TIMEOUT</env-entry-name>
-		<env-entry-type>java.lang.Integer</env-entry-type>
-		<env-entry-value>15000</env-entry-value>
-	</env-entry>
-	<env-entry>
-		<env-entry-name>ONBOARDING_CONNECTION_TIMEOUT</env-entry-name>
-		<env-entry-type>java.lang.Integer</env-entry-type>
-		<env-entry-value>5000</env-entry-value>
-	</env-entry>
-	<env-entry>
-		<env-entry-name>ONBOARDING_ISTITUTO</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>istituto</env-entry-value>
-	</env-entry>
-	<env-entry>
-		<env-entry-name>ONBOARDING_MATRICOLA</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>matricola</env-entry-value>
-	</env-entry>
-	<env-entry>
-		<env-entry-name>ONBOARDING_RUOLO</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>ruolo</env-entry-value>
-	</env-entry>
-	<env-entry>
-		<env-entry-name>ONBOARDING_FILIALE</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>filiale</env-entry-value>
-	</env-entry>
-	<env-entry>
 		<env-entry-name>ONBOARDING_USERID</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>userid</env-entry-value>

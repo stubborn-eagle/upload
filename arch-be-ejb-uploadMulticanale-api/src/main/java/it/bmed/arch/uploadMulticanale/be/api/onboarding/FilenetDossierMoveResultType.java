@@ -2,7 +2,11 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 
 import java.io.Serializable;
 
-public class FilenetDossierMoveResult implements Serializable {
+import javax.xml.bind.annotation.XmlType;
+
+
+@XmlType(name = "FilenetDossierMoveResultType")
+public class FilenetDossierMoveResultType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	

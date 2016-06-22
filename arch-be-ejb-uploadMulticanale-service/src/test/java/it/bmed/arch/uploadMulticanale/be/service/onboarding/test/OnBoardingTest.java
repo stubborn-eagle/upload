@@ -6,8 +6,6 @@
 package it.bmed.arch.uploadMulticanale.be.service.onboarding.test;
 
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.*;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingMapper;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocuments;
@@ -29,10 +27,10 @@ public class OnBoardingTest extends AbstractUnitTest {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractUnitTest.class);
     
-    AddDocumentsRequest addDocumentsRequest;
+    AddDocumentToDossierInfocertRequestType addDocumentsRequest;
     DataSource fileContent;
     
-    MoveDossierIntoFilenetRequest moveDossietIntoFilenetRequest;
+    MoveDossierIntoFilenetRequestType moveDossietIntoFilenetRequest;
     
     ECMResponse ecmResponse;
     
@@ -41,17 +39,15 @@ public class OnBoardingTest extends AbstractUnitTest {
     @Override
     public void before() throws Exception {
         
-        addDocumentsRequest = new AddDocumentsRequest();
+        addDocumentsRequest = new AddDocumentToDossierInfocertRequestType();
         addDocumentsRequest.setCompanyId("companyId");
         addDocumentsRequest.setDossierId("dossierId");
         addDocumentsRequest.setEcmFileId(1);
         byte[] buffer = "File di test".getBytes();
         fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
-        
         responseWS = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse();
         ecmResponse = new ECMResponse();
-        
-        moveDossietIntoFilenetRequest = new MoveDossierIntoFilenetRequest();
+        moveDossietIntoFilenetRequest = new MoveDossierIntoFilenetRequestType();
         
     }
 
@@ -59,7 +55,7 @@ public class OnBoardingTest extends AbstractUnitTest {
     public void fullRequestTest(){
         LOG.debug("START - fullRequestTest() ...");
         
-        Document document = new Document();
+        DocumentType document = new DocumentType();
         document.setId("documentId");
         document.setSignerId("SignerId");
         document.setType("type");
@@ -72,11 +68,11 @@ public class OnBoardingTest extends AbstractUnitTest {
         // SET DOCUMENT POLICY
         document.setPolicy(documentPolicy);
         
-        ArchivingPolicy archivingPolicy = new ArchivingPolicy();
+        ArchivingPolicyType archivingPolicy = new ArchivingPolicyType();
         archivingPolicy.setDocumentClass("documentClass");
         
-        List <Attribute> attributes = new ArrayList <Attribute>();
-        Attribute attribute = new Attribute();
+        List <AttributeType> attributes = new ArrayList <AttributeType>();
+        AttributeType attribute = new AttributeType();
         attribute.setName("nomeAttributo");
         attribute.setValue("valoreAttributo");
         attributes.add(attribute);
@@ -86,10 +82,10 @@ public class OnBoardingTest extends AbstractUnitTest {
         // SET ARCHIVING POLICY
         document.setArchivingPolicy(archivingPolicy);
         
-        SignaturePolicy signaturePolicy = new SignaturePolicy();
+        SignaturePolicyType signaturePolicy = new SignaturePolicyType();
         
-        List <KeywordSignatureField> keywordSignatureFields = new ArrayList <KeywordSignatureField>();
-        KeywordSignatureField keywordSignatureField = new KeywordSignatureField();
+        List <KeywordSignatureFieldType> keywordSignatureFields = new ArrayList <KeywordSignatureFieldType>();
+        KeywordSignatureFieldType keywordSignatureField = new KeywordSignatureFieldType();
         keywordSignatureField.setHeight(10);
         keywordSignatureField.setKeyword("keyword");
         keywordSignatureField.setLocation("location");
@@ -102,8 +98,8 @@ public class OnBoardingTest extends AbstractUnitTest {
         keywordSignatureFields.add(keywordSignatureField);
         signaturePolicy.setKeywordSignatureFieldList(keywordSignatureFields);
         
-        List <SignatureField> signatureFields = new ArrayList <SignatureField>();
-        SignatureField signatureField = new SignatureField();
+        List <SignatureFieldType> signatureFields = new ArrayList <SignatureFieldType>();
+        SignatureFieldType signatureField = new SignatureFieldType();
         signatureField.setLocation("location");
         signatureField.setName("name");
         signatureField.setReason("reason");
@@ -112,8 +108,8 @@ public class OnBoardingTest extends AbstractUnitTest {
         signatureFields.add(signatureField);
         signaturePolicy.setSignatureFieldList(signatureFields);
         
-        List <PositionSignatureField> positionSignatureFields = new ArrayList <PositionSignatureField>();
-        PositionSignatureField positionSignatureField = new PositionSignatureField();
+        List <PositionSignatureFieldType> positionSignatureFields = new ArrayList <PositionSignatureFieldType>();
+        PositionSignatureFieldType positionSignatureField = new PositionSignatureFieldType();
         positionSignatureField.setHeight(10);
         positionSignatureField.setLocation("location");
         positionSignatureField.setName("name");
@@ -130,7 +126,7 @@ public class OnBoardingTest extends AbstractUnitTest {
         // SET SIGNATURE POLICY
         document.setSignaturePolicy(signaturePolicy);
         
-        CompositionPolicy compositionPolicy = new CompositionPolicy();
+        CompositionPolicyType compositionPolicy = new CompositionPolicyType();
         compositionPolicy.setParameters("parameter");
         compositionPolicy.setTemplateName("templateName");
         

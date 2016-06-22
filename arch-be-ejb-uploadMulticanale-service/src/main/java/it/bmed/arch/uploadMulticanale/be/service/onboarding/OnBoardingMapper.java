@@ -1,15 +1,15 @@
 package it.bmed.arch.uploadMulticanale.be.service.onboarding;
 
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.ArchivingPolicy;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.Attribute;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.CompositionPolicy;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.Document;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ArchivingPolicyType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AttributeType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.CompositionPolicyType;
 import it.bmed.arch.uploadMulticanale.be.api.onboarding.DocumentPolicy;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.KeywordSignatureField;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.PositionSignatureField;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.SignatureField;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.SignaturePolicy;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.DocumentType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.KeywordSignatureFieldType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.PositionSignatureFieldType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.SignatureFieldType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.SignaturePolicyType;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocuments;
 
 import java.util.ArrayList;
@@ -20,23 +20,21 @@ import javax.activation.DataSource;
 
 public class OnBoardingMapper {
 
-	static public AddDocuments mapUMCRequestToWSRequest (AddDocumentsRequest request, DataSource fileContent) {
-                AddDocuments parameters = new AddDocuments();
+	static public AddDocuments mapUMCRequestToWSRequest (AddDocumentToDossierInfocertRequestType request, DataSource fileContent) {
+        AddDocuments parameters = new AddDocuments();
 		parameters.setCompanyId(request.getCompanyId());
 		parameters.setDossierId(request.getDossierId());
-                Document documentoECM = request.getDocument();
+        DocumentType documentoECM = request.getDocument();
 		List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document> wsList = new ArrayList<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document>();
 		wsList.add(mapDocumentToWS(documentoECM, fileContent));
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Documents wsClientListObj = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Documents();
 		wsClientListObj.getDocument().addAll(wsList);
-                parameters.setDocuments(wsClientListObj);
+        parameters.setDocuments(wsClientListObj);
 		return parameters;
 	}
 	
-	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document mapDocumentToWS (Document document, DataSource fileContent) {
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document mapDocumentToWS (DocumentType document, DataSource fileContent) {
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Document();
-		
 		wsObject.setId(document.getId());
 		wsObject.setSignerId(document.getSignerId());
 		wsObject.setType(document.getType());
@@ -52,16 +50,16 @@ public class OnBoardingMapper {
 		return wsObject;
 	}
 	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy mapArchivingPolicyToWS (ArchivingPolicy incomingObject) {
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy mapArchivingPolicyToWS (ArchivingPolicyType incomingObject) {
 		if (incomingObject == null){
 			return null;
 		}
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy();
 		wsObject.setDocumentClass(incomingObject.getDocumentClass());
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy.Attributes wsAttributes = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.ArchivingPolicy.Attributes();
-		List<Attribute> incomingAttributes = incomingObject.getAttributes();
+		List<AttributeType> incomingAttributes = incomingObject.getAttributes();
 		List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Attribute> wsAttributeList = new ArrayList<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Attribute>();
-		for (Attribute incomingAttribute : incomingAttributes){
+		for (AttributeType incomingAttribute : incomingAttributes){
 			wsAttributeList.add(mapAttributeToWs(incomingAttribute));
 		}
 		wsAttributes.getAttribute().addAll(wsAttributeList);
@@ -69,14 +67,14 @@ public class OnBoardingMapper {
 		return wsObject;
 	}
 	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Attribute mapAttributeToWs (Attribute incomingObject){
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Attribute mapAttributeToWs (AttributeType incomingObject){
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Attribute wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.Attribute();
 		wsObject.setName(incomingObject.getName());
 		wsObject.setValue(incomingObject.getValue()); 
 		return wsObject;
 	}
 	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.CompositionPolicy mapCompositionPolicyToWS (CompositionPolicy incomingObject) {
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.CompositionPolicy mapCompositionPolicyToWS (CompositionPolicyType incomingObject) {
 		if (incomingObject == null){
 			return null;
 		}
@@ -99,7 +97,7 @@ public class OnBoardingMapper {
 		return wsObject;
 	}
 	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignaturePolicy mapSignaturePolicyToWS (SignaturePolicy incomingObject) {
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignaturePolicy mapSignaturePolicyToWS (SignaturePolicyType incomingObject) {
 		if (incomingObject == null){
 			return null;
 		}
@@ -107,20 +105,20 @@ public class OnBoardingMapper {
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignaturePolicy wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignaturePolicy();
 
 		List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField> wsKeywordSignatureList = new ArrayList<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField>();
-		List<KeywordSignatureField> aList = incomingObject.getKeywordSignatureFieldList();
-		for (KeywordSignatureField keywordSignatureField : aList){
+		List<KeywordSignatureFieldType> aList = incomingObject.getKeywordSignatureFieldList();
+		for (KeywordSignatureFieldType keywordSignatureField : aList){
 			wsKeywordSignatureList.add(mapKeywordSignatureFieldToWs(keywordSignatureField));
 		}
 		
 		List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.PositionSignatureField> wsPositionSignatureFieldList = new ArrayList<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.PositionSignatureField>();
-		List<PositionSignatureField> bList = incomingObject.getPositionSignatureFieldList();
-		for (PositionSignatureField positionSignatureField : bList){
+		List<PositionSignatureFieldType> bList = incomingObject.getPositionSignatureFieldList();
+		for (PositionSignatureFieldType positionSignatureField : bList){
 			wsPositionSignatureFieldList.add(mapPositionSignatureFieldToWs(positionSignatureField));
 		}
 		
 		List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignatureField> wsSignatureFieldList = new ArrayList<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignatureField>();
-		List<SignatureField> cList = incomingObject.getSignatureFieldList();
-		for (SignatureField signatureField : cList){
+		List<SignatureFieldType> cList = incomingObject.getSignatureFieldList();
+		for (SignatureFieldType signatureField : cList){
 			wsSignatureFieldList.add(mapSignatureFieldToWs(signatureField));
 		}
 		
@@ -137,7 +135,7 @@ public class OnBoardingMapper {
 		return wsObject;
 	}
 	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField mapKeywordSignatureFieldToWs (KeywordSignatureField incomingObject){
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField mapKeywordSignatureFieldToWs (KeywordSignatureFieldType incomingObject){
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.KeywordSignatureField();
 		wsObject.setHeight(incomingObject.getHeight());  
 		wsObject.setKeyword(incomingObject.getKeyword());  
@@ -150,7 +148,7 @@ public class OnBoardingMapper {
 		return wsObject;
 	}
 	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.PositionSignatureField mapPositionSignatureFieldToWs (PositionSignatureField incomingObject){
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.PositionSignatureField mapPositionSignatureFieldToWs (PositionSignatureFieldType incomingObject){
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.PositionSignatureField wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.PositionSignatureField();
 		wsObject.setHeight(incomingObject.getHeight());
 		wsObject.setLocation(incomingObject.getLocation());
@@ -164,7 +162,7 @@ public class OnBoardingMapper {
 		return wsObject;
 	}
 	
-	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignatureField mapSignatureFieldToWs (SignatureField incomingObject){
+	static private it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignatureField mapSignatureFieldToWs (SignatureFieldType incomingObject){
 		it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignatureField wsObject = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.SignatureField();
 		wsObject.setLocation(incomingObject.getLocation());
 		wsObject.setName(incomingObject.getName());

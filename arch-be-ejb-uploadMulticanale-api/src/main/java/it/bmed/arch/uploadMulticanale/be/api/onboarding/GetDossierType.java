@@ -2,10 +2,26 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 
 import java.io.Serializable;
 
-public class MoveDossierIntoFilenetRequest implements Serializable {
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name = "GetDossierType")
+public class GetDossierType implements Serializable{
 
 	private static final long serialVersionUID = 1L;
+	private String companyId;
     private String dossierId;
+	/**
+	 * @return the companyId
+	 */
+	public String getCompanyId() {
+		return companyId;
+	}
+	/**
+	 * @param companyId the companyId to set
+	 */
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
 	/**
 	 * @return the dossierId
 	 */
@@ -18,4 +34,5 @@ public class MoveDossierIntoFilenetRequest implements Serializable {
 	public void setDossierId(String dossierId) {
 		this.dossierId = dossierId;
 	}
+
 }

@@ -2,13 +2,16 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 
 import java.io.Serializable;
 
-public class AddDocumentsRequest implements Serializable {
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name = "AddDocumentToDossierInfocertRequestType")
+public class AddDocumentToDossierInfocertRequestType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer ecmFileId;
 	private String companyId;
     private String dossierId;
-    private Document document;
+    private DocumentType document;
     
 	/**
 	 * @return the companyId
@@ -50,13 +53,13 @@ public class AddDocumentsRequest implements Serializable {
 	/**
 	 * @return the document
 	 */
-	public Document getDocument() {
+	public DocumentType getDocument() {
 		return document;
 	}
 	/**
 	 * @param document the document to set
 	 */
-	public void setDocument(Document document) {
+	public void setDocument(DocumentType document) {
 		this.document = document;
 	}
 	
