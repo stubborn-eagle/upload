@@ -2,7 +2,6 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 
 import java.io.Serializable;
 
-import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name = "ExtractFileContentRequestType")
