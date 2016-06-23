@@ -126,111 +126,72 @@ public class Util {
 		return fileToXML;
 	}
 
-	private static String encodeXMLToCreate(String fileCodificato, ECMFile ecmFile,
-			ECMParam ecmParam) throws Exception {
-		logger.info("encodeXML call.");
-		Request request = new Request();
-		String fileToXML;
-		// DICHIARATI TUTTI QUI PER GESTIRE SETTAGGIO DEL VALUE
-		ObjectStore objectStore = new ObjectStore();
-		ObjectClass objectClass = new ObjectClass();
-//		Index index = new Index();
-//		Value value = new Value();
-		Istituto istituto = new Istituto();
-		Matricola matricola = new Matricola();
-		Ruolo ruolo = new Ruolo();
-		Filiale filiale = new Filiale();
-		SearchAction searchAction = new SearchAction();
-		DocContent docContent = new DocContent();
-		// °°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°
-		try {
-			for (FileProperty prop : ecmParam.getProperty()) {
-				// if("ObjectStore".equalsIgnoreCase(prop.getName())){
-				// // objectStore.setValue(prop.getValue());
-				// //DEVE ESSERE IL SEGUENTE??
-				// objectStore.setValue("CED088");
-				// }
-				logger.debug("PROP NAME: "+prop.getName());
-				logger.debug("PROP VALUE: "+prop.getValue());
-//				if ("Istituto".equalsIgnoreCase(prop.getName())) {
-//					istituto.setValue(prop.getValue());
-//				}
-//				if ("Matricola".equalsIgnoreCase(prop.getName())) {
-//					matricola.setValue(prop.getValue());
-//				}
-//				if ("Ruolo".equalsIgnoreCase(prop.getName())) {
-//					ruolo.setValue(prop.getValue());
-//				}
-//				if ("Filiale".equalsIgnoreCase(prop.getName())) {
-//					filiale.setValue(prop.getValue());
-//				}
-				// if("SearchAction".equalsIgnoreCase(prop.getName())){
-				// // searchAction.setValue(prop.getValue());
-				// //DEVE ESSERE IL SEGUENTE??
-				// searchAction.setValue("AddVersion");
-				// }
-			}
+	private static String encodeXMLToCreate(String fileCodificato, ECMFile ecmFile, ECMParam ecmParam)
+		    throws Exception
+		  {
+		    logger.info("encodeXML call.", new Object[0]);
+		    Request request = new Request();
+		    
+		    ObjectStore objectStore = new ObjectStore();
+		    ObjectClass objectClass = new ObjectClass();
+		    Istituto istituto = new Istituto();
+		    Matricola matricola = new Matricola();
+		    Ruolo ruolo = new Ruolo();
+		    Filiale filiale = new Filiale();
+		    SearchAction searchAction = new SearchAction();
+		    DocContent docContent = new DocContent();
+		    try
+		    {
+		      for (FileProperty prop : ecmParam.getProperty())
+		      {
+		        logger.debug("PROP NAME: " + prop.getName(), new Object[0]);
+		        logger.debug("PROP VALUE: " + prop.getValue(), new Object[0]);
+		      }
+		      objectStore.setValue("CED088");
+		      request.setObjectStore(objectStore);
+		      
+		      objectClass.setValue(ecmParam.getContainerType());
+		      request.setObjectClass(objectClass);
+		      
+		      searchAction.setValue("AddVersion");
 
-			objectStore.setValue("CED088");
-			request.setObjectStore(objectStore);
-			
-			
-			objectClass.setValue(ecmParam.getContainerType());
-			request.setObjectClass(objectClass);
-			
-			searchAction.setValue("AddVersion");
+		      istituto.setValue("");
+		      request.setIstituto(istituto);
+		      
+		      matricola.setValue("");
+		      request.setMatricola(matricola);
+		      
+		      ruolo.setValue("");
+		      request.setRuolo(ruolo);
+		      
+		      filiale.setValue("");
+		      request.setFiliale(filiale);
+		      
+		      request.setSearchAction(searchAction);
+		      
+		      docContent.setFileName(ecmFile.getIdFile().toString());
+		      if ("PDF".equalsIgnoreCase(ecmFile.getType())) {
+		        docContent.setMimetype("application/" + ecmFile.getType());
+		      } else {
+		        docContent.setMimetype("image/" + ecmFile.getType());
+		      }
+		      docContent.setFilecod(fileCodificato);
+		      request.setDocContent(docContent);
+		      request.setProperty(ecmParam.getProperty());
+		      
+		      XStream xStream = new XStream(new DomDriver());
+		      xStream.registerConverter(new RequestConverter());
+		      xStream.alias("Request", Request.class);
+		      logger.debug("Request filenet {} ", new Object[] { CommonUtils.bean2string(request) });
 
-//			index.setName("CODICEDOC");
-//			index.setSearch("false");
-//			value.setValue("");
-//			index.setValue(value);
-//			request.setIndex(index);
-
-			istituto.setValue("");
-			request.setIstituto(istituto);
-
-			matricola.setValue("");
-			request.setMatricola(matricola);
-
-			ruolo.setValue("");
-			request.setRuolo(ruolo);
-
-			filiale.setValue("");
-			request.setFiliale(filiale);
-
-			// searchAction.setValue("AddVersion");
-			request.setSearchAction(searchAction);
-
-			docContent.setFileName(ecmFile.getIdFile().toString());
-			if("PDF".equalsIgnoreCase(ecmFile.getType())){
-				docContent.setMimetype("application/"+ecmFile.getType());
-			}else{
-				docContent.setMimetype("image/"+ecmFile.getType());
-			}
-			// SETTO IL FILECODIFICATO IN BASE64 PER CREARE XML
-			docContent.setFilecod(fileCodificato);
-			request.setDocContent(docContent);
-			request.setProperty(ecmParam.getProperty());
-
-			XStream xStream = new XStream(new DomDriver());
-			xStream.registerConverter(new RequestConverter());
-			xStream.alias("Request", Request.class);
-			logger.debug("Request filenet {} ",
-					CommonUtils.bean2string(request));
-			// System.out.println("TOXML: ");
-			fileToXML = xStream.toXML(request);
-			// log.debug("XML {} ",fileToXML);
-
-			return fileToXML;
-		} catch (Exception e) {
-			logger.error("encodeXML " + e.getMessage());
-			throw e;
-		}
-		// Request requestFromXML = (Request)
-		// xStream.fromXML(xStream.toXML(request));
-		// System.out.println(requestFromXML);
-
-	}
+		      return xStream.toXML(request);
+		    }
+		    catch (Exception e)
+		    {
+		      logger.error("encodeXML " + e.getMessage(), e);
+		      throw e;
+		    }
+		  }
 	
 	private static String encodeXMLToCreateWithMetadata(String fileCodificato, ECMFile ecmFile, ECMParam ecmParam) throws Exception {
 		logger.info("encodeXML call.");
