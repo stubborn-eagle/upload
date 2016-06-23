@@ -134,8 +134,8 @@ public class Util {
 		// DICHIARATI TUTTI QUI PER GESTIRE SETTAGGIO DEL VALUE
 		ObjectStore objectStore = new ObjectStore();
 		ObjectClass objectClass = new ObjectClass();
-		//Index index = new Index();
-		//Value value = new Value();
+		Index index = new Index();
+		Value value = new Value();
 		Istituto istituto = new Istituto();
 		Matricola matricola = new Matricola();
 		Ruolo ruolo = new Ruolo();
@@ -180,11 +180,11 @@ public class Util {
 			
 			searchAction.setValue("AddVersion");
 
-//			index.setName("CODICEDOC");
-//			index.setSearch("false");
-//			value.setValue("");
-//			index.setValue(value);
-//			request.setIndex(index);
+			index.setName("CODICEDOC");
+			index.setSearch("false");
+			value.setValue("");
+			index.setValue(value);
+			request.setIndex(index);
 
 			istituto.setValue("");
 			request.setIstituto(istituto);
@@ -223,7 +223,7 @@ public class Util {
 
 			return fileToXML;
 		} catch (Exception e) {
-			logger.error("encodeXML " + e.getMessage());
+			logger.error("encodeXML " + e.getMessage(), e);
 			throw e;
 		}
 		// Request requestFromXML = (Request)
