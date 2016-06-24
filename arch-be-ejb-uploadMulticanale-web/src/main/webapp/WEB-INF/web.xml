@@ -220,7 +220,7 @@
 	<env-entry>
 		<env-entry-name>ONBOARDING_COMPANYID</env-entry-name>
 		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>companyid</env-entry-value>
+		<env-entry-value>BMED</env-entry-value>
 	</env-entry>
 	<!-- ONBOARDING ENROLLMENT SERVICE CONFIGURATION - END -->
 </web-app>

@@ -1012,9 +1012,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			byte[] buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
 
-			return onBoardingService.addDocuments(request, fileContent);
+			return onBoardingService.addDocumentToDossierInfocert(request, fileContent);
 
 		} catch (Exception e){
+			log.error("addDocumentToDossierInfocert: " + e.getMessage(), e);
 			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
 		}
 	}

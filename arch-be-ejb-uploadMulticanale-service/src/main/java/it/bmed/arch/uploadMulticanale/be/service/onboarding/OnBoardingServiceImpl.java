@@ -26,6 +26,7 @@ import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.EnrollmentS
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingService;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.TechnicalException;
+import it.bmed.asia.fe.headerhandlers.WSClientHeaderHandler;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
@@ -104,6 +105,9 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 		bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "m3d10lanum01");
 		/* BASIC AUTHENTICATION - END */
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, onBoardingServiceURL);
+
+		WSClientHeaderHandler.injectHeaderHandler((BindingProvider)port);
+		
 		return port;
 	}
 	
@@ -154,14 +158,14 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	}
 	
 	@Override
-	public AddDocumentToDossierInfocertResponseType addDocuments(AddDocumentToDossierInfocertRequestType request, DataSource fileContent){
+	public AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert(AddDocumentToDossierInfocertRequestType request, DataSource fileContent){
 		try {
             AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(request, fileContent, onBoardingServiceCompanyId);
             OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
 			service.addDocuments(parameters);
 		
-                } catch (Exception e) {
-			logger.error("OnBoardingServiceImpl addDocuments ", e);
+        } catch (Exception e) {
+			logger.error("OnBoardingServiceImpl addDocumentToDossierInfocert ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
 		return new AddDocumentToDossierInfocertResponseType();

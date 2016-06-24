@@ -13,6 +13,6 @@ public interface OnBoardingServiceInterface {
 //	String WS_CONNECT_TIMEOUT ="com.sun.xml.internal.ws.connect.timeout";
 	MoveDossierIntoFilenetResponseType moveDossierIntoFilenet(MoveDossierIntoFilenetRequestType getDossier);
 	String extractFileContent(Integer multicanaleReferenceId);
-	AddDocumentToDossierInfocertResponseType addDocuments(AddDocumentToDossierInfocertRequestType request,	DataSource fileContent);
+	AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert(AddDocumentToDossierInfocertRequestType request,	DataSource fileContent);
 	
 }
