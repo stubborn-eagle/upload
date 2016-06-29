@@ -953,7 +953,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 	@Override
 	public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException {
-
+		log.debug("#### inizio: UploadMulticanaleRemoteImpl.signFilenetDocument ###");
+		
 		byte[] buffer = null;
 		ECMFile ecmFile = null;
 		String result = null;
@@ -964,8 +965,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		ecmFile.setIdFile(request.getEcmParams().getIdFile());
 		ecmRequest.setEcmFile(ecmFile);
 		
-		try {
-			
+		try {			
 			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
 			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
 			
@@ -979,7 +979,6 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
 			
 			String xmlFirmatariOsbCadesBase64 = SignHelper.getXmlFirmatariOsbCades(request, getFileHash(buffer));
-//			String xmlFirmatariOsbCadesCustom = SignHelper.getXmlFirmatariOsbCadesCustom(xmlFirmatariOsbCades, nasService.getSignatureData());
 			String xmlFirmatariPades = nasService.firmaCades(xmlFirmatariOsbCadesBase64, nasService.getSignatureData().getSignFirmatariDominio(), request.getSignatureData().getAlias(), request.getSignatureData().getPin(), nasService.getSignatureData().getSignFirmatariOtp());
 			String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatariPades, null);
 			
@@ -987,13 +986,15 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			ecmParam.setEcmType(ECMType.IBM_FILENET);
 			ecmParam.setIdFile(ecmResponse.getResult().getIdFile());
 			ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS()!=null&&(request.getEcmParams().getRemoveFromNAS().equals("true")||request.getEcmParams().getRemoveFromNAS().equals("REMOVE"))?RemoveFromNAS.REMOVE:RemoveFromNAS.NOT_REMOVE);
-			
+			ecmParam.setContainerType(request.getFilenet().getObjectClass());
+						
 			result = ecmService.createFile(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
 			
 		} catch (Exception e) {
+			log.error("UploadMulticanaleRemoteImpl.signFilenetDocument : ", e);
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
-		log.debug("signFilenetDocument: exit");
+		log.debug("### fine: UploadMulticanaleRemoteImpl.signFilenetDocument ###");
 
 		return result;
 	}
