@@ -13,10 +13,12 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.ExceptionToFaultConversionUtility;
+import it.bmed.arch.uploadMulticanale.be.api.FileProperty;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
+import it.bmed.arch.uploadMulticanale.be.api.SignDocumentAndMoveToFilenetIndex;
 import it.bmed.arch.uploadMulticanale.be.api.SignDocumentAndMoveToFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenResponse;
@@ -52,6 +54,7 @@ import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.activation.DataSource;
@@ -66,6 +69,8 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @HandlerChain(file = "handlers.xml")
 @Stateless(name = "UploadMulticanaleServiceWS", mappedName = "ejb/", description = "")
@@ -987,8 +992,30 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			ecmParam.setIdFile(ecmResponse.getResult().getIdFile());
 			ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS()!=null&&(request.getEcmParams().getRemoveFromNAS().equals("true")||request.getEcmParams().getRemoveFromNAS().equals("REMOVE"))?RemoveFromNAS.REMOVE:RemoveFromNAS.NOT_REMOVE);
 			ecmParam.setContainerType(request.getFilenet().getObjectClass());
+			
+			// mapping della lista degli indici 
+			if(!StringUtils.isEmpty(request.getFilenet()) && !StringUtils.isEmpty(request.getFilenet().getIndices())){
+				if(!CollectionUtils.isEmpty(request.getFilenet().getIndices().getIndex())){
+					ArrayList<FileProperty> filePropertyList = new ArrayList<FileProperty>();
+					for(SignDocumentAndMoveToFilenetIndex signDocumentAndMoveToFilenetIndex: request.getFilenet().getIndices().getIndex()){
+						if(!StringUtils.isEmpty(signDocumentAndMoveToFilenetIndex.getName())){
+							FileProperty fileProperty = new FileProperty();
+							
+							fileProperty.setName(signDocumentAndMoveToFilenetIndex.getName());							
+							if(!StringUtils.isEmpty(signDocumentAndMoveToFilenetIndex.getValues()) &&
+							   !CollectionUtils.isEmpty(signDocumentAndMoveToFilenetIndex.getValues().getValue())){
+								// Attualmente è previsto che solo il primo valore dalla lista sia utilizzato
+								fileProperty.setValue(signDocumentAndMoveToFilenetIndex.getValues().getValue().get(0));
+							}
+							
+							filePropertyList.add(fileProperty);							
+						}
+					}
+					ecmParam.setProperty(filePropertyList);
+				}
+			}
 						
-			result = ecmService.createFile(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
+			result = ecmService.createFileWithMetadata(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
 			
 		} catch (Exception e) {
 			log.error("UploadMulticanaleRemoteImpl.signFilenetDocument : ", e);
@@ -1032,9 +1059,14 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 	@Override
 	public ExtractFileContentResponseType extractFileContent (ExtractFileContentRequestType request) throws SystemFault, RemoteException, Exception {
+		log.debug("### inizio UploadMulticanaleRemoteImpl.extractFileContent ###");
+		
 		ExtractFileContentResponseType response = new ExtractFileContentResponseType();
 		String content = onBoardingService.extractFileContent(request.getMulticanaleReferenceId());
+		
 		response.setFileContent(content);
+		
+		log.debug("### fine UploadMulticanaleRemoteImpl.extractFileContent ###");
 		return response;
 	}
 	

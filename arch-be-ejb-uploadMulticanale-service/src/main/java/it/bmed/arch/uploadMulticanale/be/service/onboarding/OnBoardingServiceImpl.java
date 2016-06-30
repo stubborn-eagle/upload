@@ -212,7 +212,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 					ECMSource source = ecmResponse.getResult().getSource();
 					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename, source));
 				} catch (Exception e) {
-					//log.error("lookupFileToConvert: " + e.getMessage());
+					logger.error("OnBoardingServiceImpl.lookupFileToConvert: " + e.getMessage(), e);
 					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());
 				}
 			}		 	
