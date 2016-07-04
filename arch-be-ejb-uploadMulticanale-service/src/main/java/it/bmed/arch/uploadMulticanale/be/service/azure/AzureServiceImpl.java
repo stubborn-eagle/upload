@@ -118,7 +118,7 @@ public class AzureServiceImpl implements AzureService {
 			return azureDTO;
 
 		} catch (Exception e) {
-			log.error("AZURE Token generation error", e.getMessage()); //$NON-NLS-1$
+			log.error("AZURE Token generation error", e.getMessage(), e); //$NON-NLS-1$
 			throw new AsiaException(
 					"AZURE001", "AZURE Token generation error:" + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		}

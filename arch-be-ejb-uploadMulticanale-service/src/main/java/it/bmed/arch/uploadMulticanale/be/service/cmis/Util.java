@@ -217,6 +217,13 @@ public class Util {
 				// }
 				if ("Istituto".equalsIgnoreCase(prop.getName())) {
 					istituto.setValue(prop.getValue());
+					Index index = new Index();
+					index.setName("ISTITUTO");
+					index.setSearch("false");
+					Value value = new Value();
+					value.setValue(prop.getValue());
+					index.setValue(value);
+					indexes.add(index);
 				}else if ("Matricola".equalsIgnoreCase(prop.getName())) {
 					matricola.setValue(prop.getValue());
 				}else if ("Ruolo".equalsIgnoreCase(prop.getName())) {
@@ -295,7 +302,7 @@ public class Util {
 
 			return fileToXML;
 		} catch (Exception e) {
-			logger.error("encodeXMLToCreateWithMetadata " + e.getMessage());
+			logger.error("encodeXMLToCreateWithMetadata " + e.getMessage(), e);
 			throw e;
 		}
 		// Request requestFromXML = (Request)

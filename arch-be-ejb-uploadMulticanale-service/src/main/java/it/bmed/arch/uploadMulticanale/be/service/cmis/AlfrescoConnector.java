@@ -71,10 +71,10 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 				// re-initialise session
 				createConnection();				
 			} catch (CmisConnectionException cce) {
-				logger.error("createFile - connection error.");
+				logger.error("createFile - connection error.", cce);
 				throw new AsiaException("TCH_ECM_ERROR", cce.getMessage());
 			} catch (Exception e) {
-				logger.error("createFile: " + e.getMessage());				
+				logger.error("createFile: " + e.getMessage(), e);				
 				throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 			}
 		}
@@ -90,9 +90,9 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 			logger.debug("createFile: created file with id " + fileId);
 			//System.out.println("Connection created: rootFolderId = " + folderId);
 		} catch (CmisContentAlreadyExistsException e) {
-			logger.debug("createFile: " + e.getMessage() + "'" + session.getObjectByPath(ecmFile.getDestinationPath() + "/" + ecmFile.getNameFile() + "." + ecmFile.getType()).getId() + "'");
+			logger.error("createFile: " + e.getMessage() + "'" + session.getObjectByPath(ecmFile.getDestinationPath() + "/" + ecmFile.getNameFile() + "." + ecmFile.getType()).getId() + "'", e);
 		} catch (Exception e) {
-			logger.error("createFile: " + e.getMessage());
+			logger.error("createFile: " + e.getMessage(), e);
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
 		return fileId;
@@ -129,10 +129,10 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 				// re-initialise session
 				createConnection();				
 			} catch (CmisConnectionException cce) {
-				logger.error("createFile - connection error.");
+				logger.error("createFile - connection error.", cce);
 				throw new AsiaException("TCH_ECM_ERROR", cce.getMessage());
 			} catch (Exception e) {
-				logger.error("createFile: " + e.getMessage());				
+				logger.error("createFile: " + e.getMessage(), e);				
 				throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 			}
 		}
@@ -148,9 +148,9 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 			logger.debug("createFile: created file with id " + fileId);
 			//System.out.println("Connection created: rootFolderId = " + folderId);
 		} catch (CmisContentAlreadyExistsException e) {
-			logger.debug("createFile: " + e.getMessage() + "'" + session.getObjectByPath(ecmFile.getDestinationPath() + "/" + ecmFile.getNameFile() + "." + ecmFile.getType()).getId() + "'");
+			logger.error("createFile: " + e.getMessage() + "'" + session.getObjectByPath(ecmFile.getDestinationPath() + "/" + ecmFile.getNameFile() + "." + ecmFile.getType()).getId() + "'", e);
 		} catch (Exception e) {
-			logger.error("createFile: " + e.getMessage());
+			logger.error("createFile: " + e.getMessage(), e);
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
 		return fileId;
@@ -170,7 +170,7 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 			doc.delete();
 			result = true;
 		} catch (Exception e) {
-			logger.error("removeFile - " + e.getMessage());
+			logger.error("removeFile - " + e.getMessage(), e);
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
 		logger.debug("removeFile - removed = " + result);
@@ -186,10 +186,10 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 				logger.warn("downloadFile: createConnection.");
 				createConnection();				
 			} catch (CmisConnectionException cce) {
-				logger.error("createFile - connection error.");
+				logger.error("createFile - connection error.", cce);
 				throw new AsiaException("TCH_ECM_ERROR", cce.getMessage());
 			} catch (Exception e) {
-				logger.error("createFile: " + e.getMessage());				
+				logger.error("createFile: " + e.getMessage(), e);				
 				throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 			}
 		}
@@ -240,15 +240,15 @@ public class AlfrescoConnector extends AbstractECMConnector implements Initializ
 		}
 		catch (MalformedURLException e)
 		{
-			logger.error("getECMToken " + e.getMessage());
+			logger.error("getECMToken " + e.getMessage(), e);
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
 		catch (IOException e)
 		{
-			logger.error("getECMToken " + e.getMessage());
+			logger.error("getECMToken " + e.getMessage(), e);
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		} catch (Exception e) {
-			logger.error("getECMToken " + e.getMessage());
+			logger.error("getECMToken " + e.getMessage(), e);
 			throw new AsiaException("TCH_ECM_ERROR", e.getMessage());
 		}
 		

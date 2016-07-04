@@ -89,6 +89,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			try{
 				return this.getOnboardingServicePort();
 			} catch (Exception e){
+				logger.error("getPort", e);
 				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 			}
 			
@@ -153,6 +154,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			response.setFilenetResults(filenetResults);
 			return response;
 		} catch (Exception e) {
+			logger.error("moveDossierIntoFilenet ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
 	}
@@ -181,8 +183,10 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			String content = lookupFileToConvert(r1);
 			return content;
 		} catch (TechnicalException e) {
+			logger.error("extractFileContent ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		} catch (Exception e) {
+			logger.error("extractFileContent ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
 	}
@@ -201,7 +205,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 					String ecmFileId = ecmResponse.getResult().getIdFileECM();
 					encodedFile = ecmService.downloadFile(ecmType, ecmFileId);
 				} catch (Exception e) {
-					//log.error("lookupFileToConvert: " + e.getMessage());
+					logger.error("lookupFileToConvert: " + e.getMessage(), e);
 					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), e.getMessage());
 				}
 			} else {

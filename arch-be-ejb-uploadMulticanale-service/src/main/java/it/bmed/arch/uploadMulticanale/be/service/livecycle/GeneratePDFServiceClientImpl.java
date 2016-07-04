@@ -72,7 +72,7 @@ public class GeneratePDFServiceClientImpl implements GeneratePDFServiceClient {
 			}
 			outputSB.append(builder.toString());
 		} catch (Exception e) {
-			logger.error("createHTMLDocument: cannot create HTML document. TemplatePDF not found." + e.getMessage());
+			logger.error("createHTMLDocument: cannot create HTML document. TemplatePDF not found." + e.getMessage(), e);
 			throw new AsiaException(
 					UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST
 							.getErrorCode(),

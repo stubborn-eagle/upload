@@ -163,7 +163,7 @@ public class RequestConverterWithMetadata implements Converter {
 			writer.setValue(request.getDocContent().getFilecod());
 			writer.endNode();
 		} catch (Exception e) {
-			log.warn("Errore nel creare il nodo {} ", "DocContent");
+			log.error("Errore nel creare il nodo {} ", "DocContent", e);
 		}
 
 	}

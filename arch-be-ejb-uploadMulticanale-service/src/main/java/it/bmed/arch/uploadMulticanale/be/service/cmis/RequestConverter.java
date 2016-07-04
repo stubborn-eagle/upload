@@ -233,7 +233,7 @@ public class RequestConverter
     }
     catch (Exception e)
     {
-      log.warn("Errore nel creare il nodo {} ", new Object[] { "Filiale" });
+      log.error("Errore nel creare il nodo {} ", new Object[] { "Filiale" }, e);
     }
     if (request.getSearchAction().getValue() != null && request.getSearchAction().getValue().length() > 0)
     {
