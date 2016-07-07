@@ -14,15 +14,10 @@
 
    	<context:component-scan base-package="it.bmed" />
 	<context:component-scan base-package="arch.bmed" />
-	
 	<context:component-scan base-package="it.bmed.arch.uploadMulticanale.be.service.cmis"/>
 
    	<!-- Datasource for Plain jdbc data access --> 
   	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/rdv/ds/pushbe" resource-ref="true" />
-<!-- 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/agente/ds/DOMAGE_AGENT" resource-ref="true" /> -->
-	
-	
-<!--  	<context:component-scan base-package="it.bmed.asia"/> -->
  	
  	<bean id="ecmService" class="it.bmed.arch.uploadMulticanale.be.service.cmis.ECMServiceImpl">
  		<property name="alfrescoConnector" ref="alfrescoConnector"/>
@@ -106,6 +101,10 @@
 		<property name="nasInternetBankingPath" ref="nasIBPath"/>
 		<property name="nasReteDiVenditaPath" ref="nasRVPath"/>
 		<property name="nasPortaleDiSedePath" ref="nasPSPath"/>
+		<property name="nasInternetBankingSharePath" ref="nasIBSharePath"/>
+		<property name="nasReteDiVenditaSharePath" ref="nasRVSharePath"/>
+		<property name="nasPortaleDiSedeSharePath" ref="nasPSSharePath"/>
+		<property name="nasOtherSharePath" ref="nasOTSharePath"/>
 		<property name="nasInternetBankingDeletedPath" ref="nasIBDeletedPath"/>
 		<property name="nasReteDiVenditaDeletedPath" ref="nasRVDeletedPath"/>
 		<property name="nasPortaleDiSedeDeletedPath" ref="nasPSDeletedPath"/>
@@ -160,6 +159,11 @@
 	<jee:jndi-lookup id="pdfLiveCycleContainerType" jndi-name="java:comp/env/PDF_LIVECYCLE_CONTAINERTYPE" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="pdfLiveCycleNameApp" jndi-name="java:comp/env/PDF_LIVECYCLE_NAMEAPP" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="pdfLiveCycleUserId" jndi-name="java:comp/env/PDF_LIVECYCLE_USERID" expected-type="java.lang.String" />
+	<!-- PARAMETRI PER VARIAZIONE SHARE IN BASE A APPLICAZIONE CHIAMANTE -->
+	<jee:jndi-lookup id="nasIBSharePath" jndi-name="java:comp/env/PATH-NAS-IB-SHARE" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasRVSharePath" jndi-name="java:comp/env/PATH-NAS-RV-SHARE" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasPSSharePath" jndi-name="java:comp/env/PATH-NAS-PS-SHARE" expected-type="java.lang.String" />
+	<jee:jndi-lookup id="nasOTSharePath" jndi-name="java:comp/env/PATH-NAS-OT-SHARE" expected-type="java.lang.String" />
 	<!-- FILENET SETTINGS LOOKUP -->
 	<jee:jndi-lookup id="filenetUrl" jndi-name="java:comp/env/FILENET-URL" expected-type="java.lang.String" />
 	<jee:jndi-lookup id="filenetUser" jndi-name="java:comp/env/FILENET-USER" expected-type="java.lang.String" />

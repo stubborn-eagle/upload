@@ -6,6 +6,7 @@ import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMConvertRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMOrigin;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
@@ -856,6 +857,25 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
         return APIParams.VERSION;
     }
 	
+	@Override
+	public String generatePDFWithSource(String xml, HeaderInputType string, ECMOrigin origin) throws SystemFault, RemoteException, Exception {
+		String result = null;
+		byte[] fileContent = generatePDFServiceClient.generatePDF(xml);
+		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+		String fileName = UUID.randomUUID().toString();
+		ECMSource ecmSource =  ECMSource.LIVE_CYCLE;
+		try{
+			nasService.saveFileWithSource(resultStream, fileName, ecmSource, origin);
+			ECMRequest ecmRequestReg = new ECMRequest();
+			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(fileName, false));
+			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());
+			result = ecmResponse.getResult().getIdFile().toString();
+		} catch (Exception e) {
+			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDFWithSource:" + e.getMessage());
+		}
+        	return result;
+    	}
+
 	@Override
 	public String generatePDF(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
 		return generateLiveCyclePDF(xml, false);

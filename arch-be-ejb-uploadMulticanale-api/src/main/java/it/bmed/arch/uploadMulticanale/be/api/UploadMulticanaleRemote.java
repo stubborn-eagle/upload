@@ -126,6 +126,8 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebMethod(operationName = "extractFileContent")
 		ExtractFileContentResponseType extractFileContent(ExtractFileContentRequestType request) throws SystemFault, RemoteException, Exception;
 
+		@WebMethod(operationName = "generatePDFWithSource")
+		String generatePDFWithSource(String xml, HeaderInputType string, ECMOrigin origin) throws SystemFault, RemoteException, Exception;
 
 		
 }

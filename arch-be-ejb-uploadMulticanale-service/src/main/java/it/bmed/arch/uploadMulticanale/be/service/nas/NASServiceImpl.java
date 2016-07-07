@@ -4,6 +4,7 @@
 package it.bmed.arch.uploadMulticanale.be.service.nas;
 
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
+import it.bmed.arch.uploadMulticanale.be.api.ECMOrigin;
 import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.SignatureData;
@@ -198,7 +199,45 @@ public class NASServiceImpl implements NASService {
 		}
 		return buffer;
 	}
-	
+
+	@Override
+	public void saveFileWithSource (InputStream fileStream, String nameFile, ECMSource source, ECMOrigin origin) throws TechnicalException, Exception {
+		logger.debug("saveFileWithSource called. ");
+		String destinationPath = null;
+		if (settingsBean == null) {
+			logger.error("saveFileWithSource: settingsBean is null.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "settingsBean is null");
+		} 		
+		
+		destinationPath = getDestinationPathFromOrigin(origin);
+		
+		logger.debug("saveFileWithSource-destinationPath:"+destinationPath);
+		if ( destinationPath != null && destinationPath.length() == 0) {
+			throw new DevelopmentException("Path di upload non configurato");
+		}
+		String sourcePathname = destinationPath + "/"+ nameFile + ".pdf";
+		FileOutputStream fileToBeSaved = null;
+		// pay attention destinationPath must be slash ended
+		try {
+			fileToBeSaved = new FileOutputStream(sourcePathname);
+			int read = 0;
+			byte[] buffer = new  byte[1024];
+			// copy inputstream to outputstream
+			while ( (read = fileStream.read(buffer) ) != -1) {
+				fileToBeSaved.write(buffer, 0, read);
+			}
+		} catch (Exception e) {
+			logger.error("saveFile: Cannot save. " + e.getMessage(), fileStream );
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "Cannot save " + fileStream);			
+		} finally {
+			if (fileToBeSaved != null) {
+				try {
+					fileToBeSaved.close();
+				} catch (Exception e) {logger.info("skipped");}	
+			}
+		}
+	}	
+
 	@Override
 	public void saveFile(InputStream fileStream, String nameFile, ECMSource source, String sourcePath) throws TechnicalException, Exception {
 		logger.debug("saveFile called. ");
@@ -289,6 +328,31 @@ public class NASServiceImpl implements NASService {
 			logger.error("copyFile: " + e.getMessage(), e);
 			throw e;
 		}
+	}
+
+	private String getDestinationPathFromOrigin(ECMOrigin origin) throws TechnicalException {
+		String destinationPathname = null;
+		logger.debug("getDestinationPathFromOrigin source:"+ origin);
+		try {
+			switch (origin) {
+			case INTERNET_BANKING:
+				destinationPathname = settingsBean.getNasInternetBankingSharePath();
+				break;
+			case PORTALE_DI_SEDE:
+				destinationPathname = settingsBean.getNasPortaleDiSedeSharePath();
+				break;
+			case RETE_DI_VENDITA:
+				destinationPathname = settingsBean.getNasReteDiVenditaSharePath();
+				break;
+			case OTHER_ORIGIN:
+				destinationPathname = settingsBean.getNasOtherSharePath();
+				break;
+			}
+		} catch (Exception e) {
+			logger.error("getDestinationPathFromOrigin: " + e.getMessage());
+			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
+		}
+		return destinationPathname;
 	}
 
 	private String getDestinationDeletedPathFromSource(ECMSource source) throws TechnicalException {
