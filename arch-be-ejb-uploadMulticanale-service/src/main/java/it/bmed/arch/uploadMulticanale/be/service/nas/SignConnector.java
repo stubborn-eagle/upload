@@ -76,8 +76,8 @@ public class SignConnector implements InitializingBean, SignConnectorInterface {
 		BindingProvider bp = (BindingProvider) port;
 		String url = getSignUrl(); 
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
-		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 15000); // inserire altre due variabili nel web.xml
-		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 5000);  //
+		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 120000); // inserire altre due variabili nel web.xml
+		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 120000);  //
 
 
 		return port;
