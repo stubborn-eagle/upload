@@ -64,6 +64,10 @@ public class NASServiceImpl implements NASService {
 		destinationDeletedPathname = getDestinationDeletedPathFromSource(source);	
 				
 		// check uninitialized variables
+		logger.debug("###### destinationPathname: " +destinationPathname +"  ###########");
+		logger.debug("###### destinationDeletedPathname: " +destinationDeletedPathname +"  ###########");
+		logger.debug("###### filename: " +filename +"  ###########");
+		
 		if(filename == null || filename.isEmpty() || destinationDeletedPathname == null || destinationDeletedPathname.isEmpty()) {
 			logger.error("deleteFile: IllegalArgument.");
 			IErrorCode iErrorCode = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
