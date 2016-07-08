@@ -102,6 +102,9 @@ public interface UploadMulticanaleRemote extends Remote {
 		@WebMethod(operationName = "moveFileWithMetadata")		
 		MoveResponse moveFileWithMetadata(MoveRequest request, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 
+		@WebMethod(operationName = "generatePDFWithSource")
+		String generatePDFWithSource(GeneratePDFWithSourceRequestType request, @WebParam(header=true) HeaderInputType  stringa ) throws SystemFault, RemoteException, Exception;
+		
 		@WebMethod(operationName = "generatePDFAsynch")
 		String generatePDFAsynch(java.lang.String arg0, @WebParam(header=true) HeaderInputType  stringa) throws SystemFault, RemoteException, Exception;
 		
@@ -125,9 +128,5 @@ public interface UploadMulticanaleRemote extends Remote {
 
 		@WebMethod(operationName = "extractFileContent")
 		ExtractFileContentResponseType extractFileContent(ExtractFileContentRequestType request) throws SystemFault, RemoteException, Exception;
-
-		@WebMethod(operationName = "generatePDFWithSource")
-		String generatePDFWithSource(String xml, HeaderInputType string, ECMOrigin origin) throws SystemFault, RemoteException, Exception;
-
 		
 }

@@ -15,6 +15,7 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.ExceptionToFaultConversionUtility;
 import it.bmed.arch.uploadMulticanale.be.api.FileProperty;
+import it.bmed.arch.uploadMulticanale.be.api.GeneratePDFWithSourceRequestType;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
@@ -65,6 +66,8 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.HandlerChain;
+import javax.jws.WebMethod;
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.mail.util.ByteArrayDataSource;
 
@@ -858,14 +861,14 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
     }
 	
 	@Override
-	public String generatePDFWithSource(String xml, HeaderInputType string, ECMOrigin origin) throws SystemFault, RemoteException, Exception {
+	public String generatePDFWithSource(GeneratePDFWithSourceRequestType request, @WebParam(header=true) HeaderInputType  stringa ) throws SystemFault, RemoteException, Exception {
 		String result = null;
-		byte[] fileContent = generatePDFServiceClient.generatePDF(xml);
+		byte[] fileContent = generatePDFServiceClient.generatePDF(request.getXml());
 		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
 		String fileName = UUID.randomUUID().toString();
 		ECMSource ecmSource =  ECMSource.LIVE_CYCLE;
 		try{
-			nasService.saveFileWithSource(resultStream, fileName, ecmSource, origin);
+			nasService.saveFileWithSource(resultStream, fileName, ecmSource, request.getOrigin());
 			ECMRequest ecmRequestReg = new ECMRequest();
 			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(fileName, false));
 			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());

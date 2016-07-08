@@ -67,6 +67,27 @@
 		<env-entry-type>java.lang.String</env-entry-type>
 		<env-entry-value>/mediabussvil/Promotorisvil</env-entry-value>
 	</env-entry>
+	<!-- Puntamenti NAS Share per ambienti origine generazione pdf -->
+	<env-entry>
+		<env-entry-name>PATH-NAS-IB-SHARE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Test-1</env-entry-value>
+	</env-entry>	
+	<env-entry>
+		<env-entry-name>PATH-NAS-RV-SHARE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Test-2</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PATH-NAS-PS-SHARE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Test-3</env-entry-value>
+	</env-entry>
+	<env-entry>
+		<env-entry-name>PATH-NAS-OT-SHARE</env-entry-name>
+		<env-entry-type>java.lang.String</env-entry-type>
+		<env-entry-value>/mediabussvil/Test-4</env-entry-value>
+	</env-entry>
 	<!-- Puntamenti NAS Folder Deleted -->
 	<env-entry>
 		<env-entry-name>DELETED-PATH-NAS-IB</env-entry-name>
