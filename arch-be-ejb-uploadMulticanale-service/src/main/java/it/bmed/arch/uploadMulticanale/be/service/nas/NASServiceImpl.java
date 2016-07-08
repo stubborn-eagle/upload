@@ -306,6 +306,12 @@ public class NASServiceImpl implements NASService {
 			case RETE_DI_VENDITA:
 				destinationDeletedPathname = settingsBean.getNasReteDiVenditaDeletedPath();
 				break;
+			case LIVE_CYCLE:
+				destinationDeletedPathname = settingsBean.getNasInternetBankingDeletedPath();
+				break;
+			case LIVE_CYCLE_DYNAMIC:
+				destinationDeletedPathname = settingsBean.getNasInternetBankingDeletedPath();
+				break;
 			}
 
 		} catch (Exception e) {
