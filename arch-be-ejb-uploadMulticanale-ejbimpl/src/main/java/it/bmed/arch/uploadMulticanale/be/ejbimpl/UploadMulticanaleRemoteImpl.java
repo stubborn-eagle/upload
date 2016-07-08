@@ -6,7 +6,6 @@ import it.bmed.arch.uploadMulticanale.be.api.AzureRequest;
 import it.bmed.arch.uploadMulticanale.be.api.AzureResponse;
 import it.bmed.arch.uploadMulticanale.be.api.ECMConvertRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMFile;
-import it.bmed.arch.uploadMulticanale.be.api.ECMOrigin;
 import it.bmed.arch.uploadMulticanale.be.api.ECMParam;
 import it.bmed.arch.uploadMulticanale.be.api.ECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.ECMResponse;
@@ -66,7 +65,6 @@ import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.HandlerChain;
-import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.mail.util.ByteArrayDataSource;
@@ -815,9 +813,9 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		return encodedFile;
 	}
 
-        /*
-        TODO Rivedere la gestione degli errori, uniformarsi alle linee guida
-        */
+    /*
+    TODO Rivedere la gestione degli errori, uniformarsi alle linee guida
+    */
         
 	private void technicalError(UploadMulticanaleErrorCodeEnums errorCode, String error) throws SystemFault {
 		log.error(error);
@@ -863,11 +861,11 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	@Override
 	public String generatePDFWithSource(GeneratePDFWithSourceRequestType request, @WebParam(header=true) HeaderInputType  stringa ) throws SystemFault, RemoteException, Exception {
 		String result = null;
-		byte[] fileContent = generatePDFServiceClient.generatePDF(request.getXml());
-		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
-		String fileName = UUID.randomUUID().toString();
-		ECMSource ecmSource =  ECMSource.LIVE_CYCLE;
 		try{
+			byte[] fileContent = generatePDFServiceClient.generatePDF(request.getXml());
+			ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
+			String fileName = UUID.randomUUID().toString();
+			ECMSource ecmSource =  ECMSource.LIVE_CYCLE;
 			nasService.saveFileWithSource(resultStream, fileName, ecmSource, request.getOrigin());
 			ECMRequest ecmRequestReg = new ECMRequest();
 			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(fileName, false));
@@ -1059,6 +1057,11 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
              */
             result = ecmService.createFileWithMetadata(Util.decodeBase64ToFile(padesBase64FileContent), ecmFile, ecmParam);
 
+            /* CANCELLAZIONE DEL FILE FISICO */
+            if (request.getEcmParams().getRemoveFromNAS()){
+            	nasService.deleteFilePhisical(ecmFile.getSourcePath(), filename, ecmFile.getSource());
+            }
+            
         } catch (BusinessException e) {
             log.error("Si e' verificata un'eccezione di business nell'invocazione dell'operation UploadMulticanaleRemoteImpl.signFilenetDocument : {}", e);
             throw ExceptionToFaultConversionUtil.toBusinessFault(e);
@@ -1098,21 +1101,24 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try{
 			return onBoardingService.moveDossierIntoFilenet(request);
 		} catch (Exception e){
-			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
+			log.error("moveDossierIntoFilenet: " + e.getMessage(), e);
+			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveDossierIntoFilenet error:" + e.getMessage());
 		}
 	}
 
 	@Override
 	public ExtractFileContentResponseType extractFileContent (ExtractFileContentRequestType request) throws SystemFault, RemoteException, Exception {
 		log.debug("### inizio UploadMulticanaleRemoteImpl.extractFileContent ###");
-		
-		ExtractFileContentResponseType response = new ExtractFileContentResponseType();
-		String content = onBoardingService.extractFileContent(request.getMulticanaleReferenceId());
-		
-		response.setFileContent(content);
-		
-		log.debug("### fine UploadMulticanaleRemoteImpl.extractFileContent ###");
-		return response;
+		try {
+			ExtractFileContentResponseType response = new ExtractFileContentResponseType();
+			String content = onBoardingService.extractFileContent(request.getMulticanaleReferenceId());
+			response.setFileContent(content);
+			log.debug("### fine UploadMulticanaleRemoteImpl.extractFileContent ###");
+			return response;
+		} catch (AsiaException e){
+			log.error("extractFileContent: " + e.getMessage(), e);
+			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "extractFileContent error:" + e.getMessage());
+		}
 	}
 	
 	private String getFileHash(byte[] content) throws NoSuchAlgorithmException{

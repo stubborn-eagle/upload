@@ -10,6 +10,7 @@ public enum UploadMulticanaleErrorCodeEnums implements IErrorCode {
 	BSN_CODICEDOC_ERROR_EXIST(UploadMulticanaleErrorCodeEnumsMessages.getString("BSN_CODICEDOC_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("BSN_CODICEDOC_ERROR_DESC") ), //$NON-NLS-1$ //$NON-NLS-2$
 	TCH_NAS_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_NAS_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_NAS_ERROR_DESC") ), //$NON-NLS-1$ //$NON-NLS-2$
 	TCH_ECM_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_ECM_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_ECM_ERROR_DESC")), //$NON-NLS-1$ //$NON-NLS-2$       
+	TCH_ONBOARDING_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_ONBOARDING_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_ONBOARDING_ERROR_DESC")), //$NON-NLS-1$ //$NON-NLS-2$       
 	TCH_SQL_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_SQL_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_SQL_ERROR_DESC") ); //$NON-NLS-1$ //$NON-NLS-2$
 
 
