@@ -1038,7 +1038,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
             /* A.Marini: AGGIUNTA CANCELLAZIONE DEL FILE FISICO - START */
             if (request.getEcmParams().getRemoveFromNAS()){
-            	ecmService.removeFile(ecmResponse.getResult().getEcmType(), ecmResponse.getResult().getIdFileECM(), ecmResponse.getResult().getContainerType());
+            	nasService.deleteFile(ecmFile.getSourcePath(), filename, ecmFile.getSource());
             }
             /* A.Marini: AGGIUNTA CANCELLAZIONE DEL FILE FISICO - END */
         } catch (BusinessException e) {
