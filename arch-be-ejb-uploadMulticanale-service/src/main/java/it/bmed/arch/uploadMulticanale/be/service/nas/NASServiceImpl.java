@@ -387,7 +387,9 @@ public class NASServiceImpl implements NASService {
 		logger.info("firmaCades call.");
 		String result = null;
 		try {
+			logger.info("before cades");
 			result = signConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
+			logger.info("after cades");
 		} catch (Exception e) {
 			logger.error("firmaCades", e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
