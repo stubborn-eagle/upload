@@ -85,8 +85,8 @@ public class LiveCycleConnector implements InitializingBean, LiveCycleConnectorI
 		SERVICE port = (SERVICE) realService.getPort();
 		BindingProvider bp = (BindingProvider) port;
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
-		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 90000); // inserire altre due variabili nel web.xml
-		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 90000);  //
+		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 180000); // inserire altre due variabili nel web.xml
+		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 180000);  //
 
 		return port;
 	}

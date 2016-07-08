@@ -115,8 +115,8 @@ public class FilenetConnector extends AbstractECMConnector implements
 		BindingProvider bp = (BindingProvider) port;
 		String url = getFilenetUrl(); 
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
-		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 120000); // inserire altre due variabili nel web.xml
-		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 120000);  //
+		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 180000); // inserire altre due variabili nel web.xml
+		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 180000);  //
 
 
 		return port;

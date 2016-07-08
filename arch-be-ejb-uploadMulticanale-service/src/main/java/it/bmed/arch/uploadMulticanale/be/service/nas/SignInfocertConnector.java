@@ -84,8 +84,8 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 		BindingProvider bp = (BindingProvider) port;
 		String url = getSignInfocertUrl(); 
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
-		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 120000); // inserire altre due variabili nel web.xml
-		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 120000);  //
+		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 180000); // inserire altre due variabili nel web.xml
+		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 180000);  //
 		
 		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "infocert-lookup.users");
         	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
