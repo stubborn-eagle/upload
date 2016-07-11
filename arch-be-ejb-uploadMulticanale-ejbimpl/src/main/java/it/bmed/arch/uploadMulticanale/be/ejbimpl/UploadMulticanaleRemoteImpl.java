@@ -13,22 +13,24 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMSource;
 import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.ExceptionToFaultConversionUtility;
+import it.bmed.arch.uploadMulticanale.be.api.FileProperty;
 import it.bmed.arch.uploadMulticanale.be.api.MoveDTO;
 import it.bmed.arch.uploadMulticanale.be.api.MoveRequest;
 import it.bmed.arch.uploadMulticanale.be.api.MoveResponse;
 import it.bmed.arch.uploadMulticanale.be.api.RemoveFromNAS;
+import it.bmed.arch.uploadMulticanale.be.api.SignDocumentAndMoveToFilenetIndex;
 import it.bmed.arch.uploadMulticanale.be.api.SignDocumentAndMoveToFilenetRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenRequest;
 import it.bmed.arch.uploadMulticanale.be.api.TokenResponse;
 import it.bmed.arch.uploadMulticanale.be.api.UpdateECMRequest;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleRemote;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertResponseType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.ExtractFileContentResponseType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponseType;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.azure.AzureService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
@@ -39,9 +41,11 @@ import it.bmed.arch.uploadMulticanale.be.service.onboarding.OnBoardingServiceInt
 import it.bmed.asia.exception.ApplicationException;
 import it.bmed.asia.exception.AsiaApplicationException;
 import it.bmed.asia.exception.AsiaException;
+import it.bmed.asia.exception.BusinessException;
 import it.bmed.asia.exception.ExceptionToFaultConversionUtil;
 import it.bmed.asia.exception.IErrorCode;
 import it.bmed.asia.exception.TechnicalException;
+import it.bmed.asia.exception.jaxws.BusinessFault;
 import it.bmed.asia.exception.jaxws.SystemFault;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
@@ -52,18 +56,23 @@ import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.UUID;
 
+import javax.activation.DataSource;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
 import javax.interceptor.Interceptors;
 import javax.jws.HandlerChain;
 import javax.jws.WebService;
+import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ejb.interceptor.SpringBeanAutowiringInterceptor;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @HandlerChain(file = "handlers.xml")
 @Stateless(name = "UploadMulticanaleServiceWS", mappedName = "ejb/", description = "")
@@ -513,7 +522,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			
 			// Remove file from NAS
 			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
-				nasService.deleteFile(ecmFile.getSourcePath(), ecmFile.getNameFile(), ecmFile.getSource());
+				nasService.deleteFile(ecmFile.getSourcePath(), nameFile, ecmFile.getSource());
 			}
 			moveDTO.setEcmFileId(idFileECM);
 			moveDTO.setFileId(ecmFile.getIdFile());
@@ -571,7 +580,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			
 			// Remove file from NAS
 			if(request.getEcmParam().getRemoveFromNAS() == RemoveFromNAS.REMOVE) {
-				nasService.deleteFile(ecmFile.getSourcePath(), ecmFile.getNameFile(), ecmFile.getSource());
+				nasService.deleteFile(ecmFile.getSourcePath(), nameFile, ecmFile.getSource());
 			}
 			moveDTO.setEcmFileId(idFileECM);
 			moveDTO.setFileId(ecmFile.getIdFile());
@@ -802,6 +811,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		return encodedFile;
 	}
 
+        /*
+        TODO Rivedere la gestione degli errori, uniformarsi alle linee guida
+        */
+        
 	private void technicalError(UploadMulticanaleErrorCodeEnums errorCode, String error) throws SystemFault {
 		log.error(error);
 //		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
@@ -812,7 +825,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 	
 	private SystemFault buildTechnicalError (UploadMulticanaleErrorCodeEnums errorCode, String error){
-		TechnicalException technicalException = new TechnicalException(errorCode, new NullPointerException(error));			
+		TechnicalException technicalException = new TechnicalException(errorCode, new Exception(error));			
 		SystemFault systemFault = ExceptionToFaultConversionUtil.toSystemFault(technicalException);
 		systemFault.getFaultInfo().setLayer("BKE");
 		return systemFault;
@@ -949,65 +962,121 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 //        return refId+"generatePDF"+(isDynamic?"Dynamic":"");
 	}
 
-	@Override
-	public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException {
+    
+    @Override
+    public String signFilenetDocument(SignDocumentAndMoveToFilenetRequest request, HeaderInputType string) throws SystemFault, RemoteException, BusinessFault {
 
-		byte[] buffer = null;
-		ECMFile ecmFile = null;
-		String result = null;
-		
-		ECMResponse ecmResponse = null;
-		ECMRequest ecmRequest = new ECMRequest();
-		ecmFile = new ECMFile();
-		ecmFile.setIdFile(request.getEcmParams().getIdFile());
-		ecmRequest.setEcmFile(ecmFile);
-		
-		try {
-			
-			ecmResponse = listMedia(ecmRequest, new HeaderInputType());
-			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
-			
-			// Load file from NAS
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - NAME FILE:" + nameFile);
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + ecmResponse.getResult().getSourcePath());
-			log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" + ecmResponse.getResult().getSource());
-			buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
-			ecmFile = ecmResponse.getResult();
-			
-			String documentoDaFirmare = new String(Base64.encodeBase64(buffer));
-			
-			String xmlFirmatariOsbCadesBase64 = SignHelper.getXmlFirmatariOsbCades(request, getFileHash(buffer));
-//			String xmlFirmatariOsbCadesCustom = SignHelper.getXmlFirmatariOsbCadesCustom(xmlFirmatariOsbCades, nasService.getSignatureData());
-			String xmlFirmatariPades = nasService.firmaCades(xmlFirmatariOsbCadesBase64, nasService.getSignatureData().getSignFirmatariDominio(), request.getSignatureData().getAlias(), request.getSignatureData().getPin(), nasService.getSignatureData().getSignFirmatariOtp());
-			String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatariPades, null);
-			
-			ECMParam ecmParam = new ECMParam();
-			ecmParam.setEcmType(ECMType.IBM_FILENET);
-			ecmParam.setIdFile(ecmResponse.getResult().getIdFile());
-			ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS()!=null&&(request.getEcmParams().getRemoveFromNAS().equals("true")||request.getEcmParams().getRemoveFromNAS().equals("REMOVE"))?RemoveFromNAS.REMOVE:RemoveFromNAS.NOT_REMOVE);
-			
-			result = ecmService.createFile(padesBase64FileContent.getBytes(), ecmFile, ecmParam);
-			
-		} catch (Exception e) {
-			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
-		}
-		log.debug("signFilenetDocument: exit");
+        log.debug("#### inizio: UploadMulticanaleRemoteImpl.signFilenetDocument ###");
 
-		return result;
-	}
+        byte[] fileByteArray = null;
+        ECMFile ecmFile = null;
+        String result = null;
+        ECMResponse ecmResponse = null;
+        ECMRequest ecmRequest = new ECMRequest();
+        ecmFile = new ECMFile();
+        ecmFile.setIdFile(request.getEcmParams().getIdFile());
+        ecmRequest.setEcmFile(ecmFile);
+
+        try {
+            checkSignFilenetDocumentRequest(request);
+
+            // Lettura metadati relativi al file sul NAS
+            ecmResponse = listMedia(ecmRequest, new HeaderInputType());
+            ecmFile = ecmResponse.getResult();
+
+            // Recupero file dal NAS
+            String filename = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
+            String sourcePath = ecmResponse.getResult().getSourcePath();
+            ECMSource source = ecmResponse.getResult().getSource();
+            log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - FILE NAME:" + filename);
+            log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE PATH:" + sourcePath);
+            log.debug("CHIAMATA A LOAD FILE DI NAS SERVICE PRE - SOURCE:" + source);
+            fileByteArray = nasService.loadFile(sourcePath, filename, source);
+
+            // Eseguo la firma del file
+            String documentoDaFirmare = new String(Base64.encodeBase64(fileByteArray));
+            String xmlFirmatariOsbCadesBase64 = SignHelper.getXmlFirmatariOsbCades(request, getFileHash(fileByteArray));
+            String xmlFirmatariPades = nasService.firmaCades(xmlFirmatariOsbCadesBase64, nasService.getSignatureData().getSignFirmatariDominio(), request.getSignatureData().getAlias(), request.getSignatureData().getPin(), nasService.getSignatureData().getSignFirmatariOtp());
+            String padesBase64FileContent = nasService.firmaPadesInfocert(documentoDaFirmare, xmlFirmatariPades, null);
+
+            // Eseguo il caricamento del file su Filenet
+            /*
+                        TODO Da eliminare il mapping sull'oggetto ECMParam, prevedere l'utilzzo dell'oggetto 
+                        SignDocumentAndMoveToFilenetFilenetRequest per invocare Filenet
+             */
+            ECMParam ecmParam = new ECMParam();
+            ecmParam.setEcmType(ECMType.IBM_FILENET);
+            ecmParam.setIdFile(ecmResponse.getResult().getIdFile());
+            ecmParam.setRemoveFromNAS(request.getEcmParams().getRemoveFromNAS() != null && (request.getEcmParams().getRemoveFromNAS().equals("true") || request.getEcmParams().getRemoveFromNAS().equals("REMOVE")) ? RemoveFromNAS.REMOVE : RemoveFromNAS.NOT_REMOVE);
+            ecmParam.setContainerType(request.getFilenet().getObjectClass());
+
+            // mapping della lista degli indici 
+            if (null != request.getFilenet() && null != request.getFilenet().getIndices() && 
+                    !CollectionUtils.isEmpty(request.getFilenet().getIndices().getIndex())) {
+                    ArrayList<FileProperty> filePropertyList = new ArrayList<FileProperty>();
+                    for (SignDocumentAndMoveToFilenetIndex signDocumentAndMoveToFilenetIndex : request.getFilenet().getIndices().getIndex()) {
+                        if (!StringUtils.isEmpty(signDocumentAndMoveToFilenetIndex.getName())) {
+                            FileProperty fileProperty = new FileProperty();
+                            fileProperty.setName(signDocumentAndMoveToFilenetIndex.getName());
+                            if (!StringUtils.isEmpty(signDocumentAndMoveToFilenetIndex.getValues())
+                                    && !CollectionUtils.isEmpty(signDocumentAndMoveToFilenetIndex.getValues().getValue())) {
+                                // Attualmente è previsto che solo il primo valore dalla lista sia utilizzato
+                                fileProperty.setValue(signDocumentAndMoveToFilenetIndex.getValues().getValue().get(0));
+                            }
+
+                            filePropertyList.add(fileProperty);
+                        }
+                    }
+                    ecmParam.setProperty(filePropertyList);
+            }
+
+            /*
+                        TODO prevedere un metodo createFile per cui non sia necessario effettuare il decodeBase64
+                        dal momento che Filenet richiede il documento in base64 
+             */
+            result = ecmService.createFileWithMetadata(Util.decodeBase64ToFile(padesBase64FileContent), ecmFile, ecmParam);
+
+            /* A.Marini: AGGIUNTA CANCELLAZIONE DEL FILE FISICO - START */
+            if (request.getEcmParams().getRemoveFromNAS()){
+            	nasService.deleteFile(ecmFile.getSourcePath(), filename, ecmFile.getSource());
+            }
+            /* A.Marini: AGGIUNTA CANCELLAZIONE DEL FILE FISICO - END */
+        } catch (BusinessException e) {
+            log.error("Si e' verificata un'eccezione di business nell'invocazione dell'operation UploadMulticanaleRemoteImpl.signFilenetDocument : {}", e);
+            throw ExceptionToFaultConversionUtil.toBusinessFault(e);
+        } catch (Exception e) {
+            log.error("Si e' verificata un'eccezione non gestita nell'invocazione dell'operation UploadMulticanaleRemoteImpl.signFilenetDocument : ", e);
+            technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
+        }
+        log.debug("### fine: UploadMulticanaleRemoteImpl.signFilenetDocument ###");
+
+        return result;
+    }
 	
 	/** A.Marini: aggiunto metodo per integrazione servizio On Boarding Service Enrollment */
 	@Override
-	public AddDocumentsResponse addDocuments(AddDocumentsRequest request) throws SystemFault, RemoteException, Exception {
+	public AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert (AddDocumentToDossierInfocertRequestType request) throws SystemFault, RemoteException, Exception {
 		try{
-			return onBoardingService.addDocuments(request);
+            ECMRequest ecmRequest = new ECMRequest();
+			ECMFile ecmFile = new ECMFile();
+			ecmFile.setIdFile(request.getEcmFileId());
+			ecmRequest.setEcmFile(ecmFile);
+			
+            ECMResponse ecmResponse = uploadMulticanaleService.listMedia(ecmRequest);
+            String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
+			byte[] buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
+			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
+
+			return onBoardingService.addDocumentToDossierInfocert(request, fileContent);
+
 		} catch (Exception e){
+			log.error("addDocumentToDossierInfocert: " + e.getMessage(), e);
 			throw buildTechnicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "On Boarding Service Enrollment addDocuments error:" + e.getMessage());
 		}
 	}
 	
 	@Override
-	public MoveDossierIntoFilenetResponse moveDossierIntoFilenet(MoveDossierIntoFilenetRequest request) throws SystemFault, RemoteException, Exception {
+	public MoveDossierIntoFilenetResponseType moveDossierIntoFilenet(MoveDossierIntoFilenetRequestType request) throws SystemFault, RemoteException, Exception {
 		try{
 			return onBoardingService.moveDossierIntoFilenet(request);
 		} catch (Exception e){
@@ -1016,10 +1085,15 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	}
 
 	@Override
-	public ExtractFileContentResponse extractFileContent (ExtractFileContentRequest request) throws SystemFault, RemoteException, Exception {
-		ExtractFileContentResponse response = new ExtractFileContentResponse();
+	public ExtractFileContentResponseType extractFileContent (ExtractFileContentRequestType request) throws SystemFault, RemoteException, Exception {
+		log.debug("### inizio UploadMulticanaleRemoteImpl.extractFileContent ###");
+		
+		ExtractFileContentResponseType response = new ExtractFileContentResponseType();
 		String content = onBoardingService.extractFileContent(request.getMulticanaleReferenceId());
+		
 		response.setFileContent(content);
+		
+		log.debug("### fine UploadMulticanaleRemoteImpl.extractFileContent ###");
 		return response;
 	}
 	
@@ -1030,4 +1104,22 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		byte[] mdbytes = md.digest();
 		return new String(Base64.encodeBase64(mdbytes));
 	}
+        
+    private void checkSignFilenetDocumentRequest(SignDocumentAndMoveToFilenetRequest request) throws BusinessException {
+        boolean isCodicedoc = false;
+        if (null != request.getFilenet() && null != request.getFilenet().getIndices() && 
+                !CollectionUtils.isEmpty(request.getFilenet().getIndices().getIndex())) {
+            for (SignDocumentAndMoveToFilenetIndex signDocumentAndMoveToFilenetIndex : request.getFilenet().getIndices().getIndex()) {
+                if (!StringUtils.isEmpty(signDocumentAndMoveToFilenetIndex.getName()) && 
+                        "CODICEDOC".equalsIgnoreCase(signDocumentAndMoveToFilenetIndex.getName())) {
+                        isCodicedoc = true;
+                }
+            }
+        }
+        // L'indice CODICEDOC è obbligatorio
+        if (!isCodicedoc) {
+            log.error("ERRORE: Indice \"CODICEDOC\" non presente");
+            throw new BusinessException(UploadMulticanaleErrorCodeEnums.BSN_CODICEDOC_ERROR_EXIST);
+        }
+    }
 }

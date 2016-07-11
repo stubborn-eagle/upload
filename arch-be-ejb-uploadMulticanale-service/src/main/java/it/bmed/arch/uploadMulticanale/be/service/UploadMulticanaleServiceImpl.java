@@ -131,8 +131,9 @@ public class UploadMulticanaleServiceImpl implements UploadMulticanaleService,
 			parameterError(methodName, "channel", cause);
 		}
 		
-		if (ecmFile.getUserId() == null) {
-			parameterError(methodName, "userId", cause);
+		if (ecmFile.getUserId() == null || ecmFile.getUserId().isEmpty()) {
+                        ecmFile.setUserId("public");
+//			parameterError(methodName, "userId", cause);
 		}
 		
 		if (ecmFile.getNameApp() == null) {

@@ -2,7 +2,10 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 
 import java.io.Serializable;
 
-public class ExtractFileContentResponse implements Serializable{
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name = "ExtractFileContentResponseType")
+public class ExtractFileContentResponseType implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private String fileContent;

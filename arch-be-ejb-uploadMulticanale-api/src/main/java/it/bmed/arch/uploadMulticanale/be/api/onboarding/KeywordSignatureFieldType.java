@@ -2,19 +2,20 @@ package it.bmed.arch.uploadMulticanale.be.api.onboarding;
 
 import java.io.Serializable;
 
-public class PositionSignatureField implements Serializable {
+import javax.xml.bind.annotation.XmlType;
+
+@XmlType(name = "KeywordSignatureFieldType")
+public class KeywordSignatureFieldType implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String reason;
 	private String location;
 	private String signerId;
-	private String name;
-	private int page;
-	private int x;
-	private int y;
+	private String keyword;
+	private int offsetX;
+	private int offsetY;
 	private int width;
 	private int height;
-	
 	/**
 	 * @return the reason
 	 */
@@ -52,52 +53,40 @@ public class PositionSignatureField implements Serializable {
 		this.signerId = signerId;
 	}
 	/**
-	 * @return the name
+	 * @return the keyword
 	 */
-	public String getName() {
-		return name;
+	public String getKeyword() {
+		return keyword;
 	}
 	/**
-	 * @param name the name to set
+	 * @param keyword the keyword to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 	/**
-	 * @return the page
+	 * @return the offsetX
 	 */
-	public int getPage() {
-		return page;
+	public int getOffsetX() {
+		return offsetX;
 	}
 	/**
-	 * @param page the page to set
+	 * @param offsetX the offsetX to set
 	 */
-	public void setPage(int page) {
-		this.page = page;
+	public void setOffsetX(int offsetX) {
+		this.offsetX = offsetX;
 	}
 	/**
-	 * @return the x
+	 * @return the offsetY
 	 */
-	public int getX() {
-		return x;
+	public int getOffsetY() {
+		return offsetY;
 	}
 	/**
-	 * @param x the x to set
+	 * @param offsetY the offsetY to set
 	 */
-	public void setX(int x) {
-		this.x = x;
-	}
-	/**
-	 * @return the y
-	 */
-	public int getY() {
-		return y;
-	}
-	/**
-	 * @param y the y to set
-	 */
-	public void setY(int y) {
-		this.y = y;
+	public void setOffsetY(int offsetY) {
+		this.offsetY = offsetY;
 	}
 	/**
 	 * @return the width

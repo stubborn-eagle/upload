@@ -194,7 +194,7 @@ public class Util {
 		  }
 	
 	private static String encodeXMLToCreateWithMetadata(String fileCodificato, ECMFile ecmFile, ECMParam ecmParam) throws Exception {
-		logger.info("encodeXML call.");
+		logger.info("encodeXMLToCreateWithMetadata call.");
 		RequestWithMetadata request = new RequestWithMetadata();
 		String fileToXML;
 		// DICHIARATI TUTTI QUI PER GESTIRE SETTAGGIO DEL VALUE
@@ -217,6 +217,13 @@ public class Util {
 				// }
 				if ("Istituto".equalsIgnoreCase(prop.getName())) {
 					istituto.setValue(prop.getValue());
+					Index index = new Index();
+					index.setName("ISTITUTO");
+					index.setSearch("false");
+					Value value = new Value();
+					value.setValue(prop.getValue());
+					index.setValue(value);
+					indexes.add(index);
 				}else if ("Matricola".equalsIgnoreCase(prop.getName())) {
 					matricola.setValue(prop.getValue());
 				}else if ("Ruolo".equalsIgnoreCase(prop.getName())) {
@@ -249,6 +256,7 @@ public class Util {
 			
 			searchAction.setValue("AddVersion");
 
+                        
 //			Index indexCodiceDoc = new Index();
 //			indexCodiceDoc.setName("CODICEDOC");
 //			indexCodiceDoc.setSearch("false");
@@ -256,8 +264,8 @@ public class Util {
 //			value.setValue("");
 //			indexCodiceDoc.setValue(value);
 //			indexes.add(indexCodiceDoc);
-			request.setIndexes(indexes);
-
+                        request.setIndexes(indexes);
+                        
 			// istituto.setValue("");
 			request.setIstituto(istituto);
 
@@ -274,7 +282,11 @@ public class Util {
 			request.setSearchAction(searchAction);
 
 			docContent.setFileName(ecmFile.getIdFile().toString());
-			docContent.setMimetype(ecmFile.getType());
+			if ("PDF".equalsIgnoreCase(ecmFile.getType())) {
+		        docContent.setMimetype("application/" + ecmFile.getType());
+                        } else {
+		        docContent.setMimetype("image/" + ecmFile.getType());
+                        }
 			// SETTO IL FILECODIFICATO IN BASE64 PER CREARE XML
 			docContent.setFilecod(fileCodificato);
 			request.setDocContent(docContent);
@@ -290,7 +302,7 @@ public class Util {
 
 			return fileToXML;
 		} catch (Exception e) {
-			logger.error("encodeXML " + e.getMessage(), e);
+			logger.error("encodeXMLToCreateWithMetadata " + e.getMessage(), e);
 			throw e;
 		}
 		// Request requestFromXML = (Request)

@@ -73,7 +73,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String response = serviceFileNet.addObject(xml);
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
-			logger.error("createFile " + e.getMessage());
+			logger.error("createFile " + e.getMessage(), e);
 			e.printStackTrace();
 			for(int i=0; i < e.getStackTrace().length; i++){
 				logger.error("STACK"+e.getStackTrace()[i]);
@@ -97,7 +97,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String response = serviceFileNet.addObject(xml);
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
-			logger.error("createFile " + e.getMessage());
+			logger.error("createFile " + e.getMessage(), e);
 			e.printStackTrace();
 			for(int i=0; i < e.getStackTrace().length; i++){
 				logger.error("STACK"+e.getStackTrace()[i]);
@@ -115,8 +115,8 @@ public class FilenetConnector extends AbstractECMConnector implements
 		BindingProvider bp = (BindingProvider) port;
 		String url = getFilenetUrl(); 
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, url);
-		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 15000); // inserire altre due variabili nel web.xml
-		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 5000);  //
+		bp.getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 180000); // inserire altre due variabili nel web.xml
+		bp.getRequestContext().put("com.sun.xml.internal.ws.connect.timeout", 180000);  //
 
 
 		return port;
@@ -133,7 +133,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 			serviceFileNet.deleteObject(xml);
 			return true;
 		} catch (Exception e) {
-			logger.error("removeFile " + e.getMessage());
+			logger.error("removeFile " + e.getMessage(), e);
 //			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "removeFile error", e);
 		}
 		return false;
@@ -152,7 +152,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 			serviceFileNet.deleteObject(xml);
 			return true;
 		} catch (Exception e) {
-			logger.error("removeFile " + e.getMessage());
+			logger.error("removeFile " + e.getMessage(), e);
 //			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "removeFile error", e);
 		}
 		return false;
@@ -168,7 +168,7 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String response = serviceFileNet.getDocumentContent(xml);
 			downloadedFile = getDocContentFromResponse(response);
 		} catch (Exception e) {
-			logger.error("downloadFile " + e.getMessage());
+			logger.error("downloadFile " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "downloadFile error", e);
 		}
 		return downloadedFile;
@@ -221,16 +221,16 @@ public class FilenetConnector extends AbstractECMConnector implements
 			Document document = documentBuilder.parse(new InputSource(new StringReader(response)));
 			documentContent = xPath.compile(expression).evaluate(document, XPathConstants.STRING).toString();
 		} catch (ParserConfigurationException e) {
-			logger.error("getDocContentFromResponse " + e.getMessage());
+			logger.error("getDocContentFromResponse " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse ParseConfigurationException", e);
 		} catch (SAXException e) {
-			logger.error("getDocContentFromResponse " + e.getMessage());
+			logger.error("getDocContentFromResponse " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse SAXException", e);
 		} catch (IOException e) {
-			logger.error("getDocContentFromResponse " + e.getMessage());
+			logger.error("getDocContentFromResponse " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse IOException", e);
 		} catch (XPathExpressionException e) {
-			logger.error("getDocContentFromResponse " + e.getMessage());
+			logger.error("getDocContentFromResponse " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "getDocContentFromResponse XPathExpressionException", e);
 		}
 		return documentContent;

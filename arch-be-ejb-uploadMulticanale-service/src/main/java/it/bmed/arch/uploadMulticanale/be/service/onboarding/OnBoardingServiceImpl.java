@@ -9,11 +9,13 @@ import it.bmed.arch.uploadMulticanale.be.api.ECMState;
 import it.bmed.arch.uploadMulticanale.be.api.ECMType;
 import it.bmed.arch.uploadMulticanale.be.api.FileProperty;
 import it.bmed.arch.uploadMulticanale.be.api.UploadMulticanaleErrorCodeEnums;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentsResponse;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.FilenetDossierMoveResult;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequest;
-import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponse;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.AddDocumentToDossierInfocertResponseType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.FilenetDossierMoveResultType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.IndexValueType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDocumentParamType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetRequestType;
+import it.bmed.arch.uploadMulticanale.be.api.onboarding.MoveDossierIntoFilenetResponseType;
 import it.bmed.arch.uploadMulticanale.be.dao.UploadMulticanaleDaoJdbcTemplate;
 import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
@@ -24,6 +26,7 @@ import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.EnrollmentS
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingService;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.TechnicalException;
+import it.bmed.asia.fe.headerhandlers.WSClientHeaderHandler;
 import it.bmed.asia.log.Logger;
 import it.bmed.asia.log.LoggerFactory;
 import it.bmed.asia.utility.AsiaWsClientFactory;
@@ -34,7 +37,6 @@ import java.util.List;
 
 import javax.activation.DataSource;
 import javax.jws.HandlerChain;
-import javax.mail.util.ByteArrayDataSource;
 import javax.xml.namespace.QName;
 import javax.xml.ws.BindingProvider;
 
@@ -59,14 +61,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	@Autowired
 	private ECMService ecmService;
 	
-	@Autowired
-	private OnBoardingMapper mapper;
-	
 	/* PARAMETRI IN CONFIGURAZIONE - WEB.XML */
-	private String onBoardingServiceIstituto;
-	private String onBoardingServiceMatricola; 
-	private String onBoardingServiceRuolo;
-	private String onBoardingServiceFiliale; 
 	private String onBoardingServiceUserId;
 	private String onBoardingServiceChannel; 
 	private String onBoardingServiceContainer;
@@ -94,6 +89,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			try{
 				return this.getOnboardingServicePort();
 			} catch (Exception e){
+				logger.error("getPort", e);
 				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 			}
 			
@@ -102,33 +98,27 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 
 	
 	public <SERVICE,FACT extends AsiaWsClientFactory<SERVICE>> SERVICE getWsClient(Class<FACT> factoryClass)  throws Exception {
-		
 		FACT realService = factoryClass.newInstance();
 		SERVICE port = (SERVICE) realService.getPort();
 		BindingProvider bp = (BindingProvider) port;
-		
 		/* BASIC AUTHENTICATION - START */
 		bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "mediolanum01");
 		bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "m3d10lanum01");
 		/* BASIC AUTHENTICATION - END */
-		
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, onBoardingServiceURL);
-		bp.getRequestContext().put(WS_REQUEST_TIMEOUT, requestTimeout);  //default: 15000
-		bp.getRequestContext().put(WS_CONNECT_TIMEOUT, connectTimeout);  //default: 5000
+
+		WSClientHeaderHandler.injectHeaderHandler((BindingProvider)port);
+		
 		return port;
 	}
 	
 	/** IMPLEMENTAZIONE METODI SERVIZIO ESTERNO */
 	@Override
-	public MoveDossierIntoFilenetResponse moveDossierIntoFilenet(MoveDossierIntoFilenetRequest request){
+	public MoveDossierIntoFilenetResponseType moveDossierIntoFilenet(MoveDossierIntoFilenetRequestType request){
 		try {
-			List<FilenetDossierMoveResult> filenetResults = new ArrayList<FilenetDossierMoveResult>();
+			List<FilenetDossierMoveResultType> filenetResults = new ArrayList<FilenetDossierMoveResultType>();
 			OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
-			/* BASIC AUTHENTICATION - START */
-			BindingProvider prov = (BindingProvider) service;
-			prov.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "mediolanum01");
-			prov.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "m3d10lanum01");
-			/* BASIC AUTHENTICATION - END */
+
 			it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.GetDossier wsRequest = new it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.GetDossier();
 			wsRequest.setCompanyId(onBoardingServiceCompanyId);
 			wsRequest.setDossierId(request.getDossierId());
@@ -136,57 +126,51 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			List<it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.DocumentInfo> listaDocumenti = wsResponse.getDossierInfo().getDocuments().getDocuments();
 			/* per ogni documento ottenuto nel dossier */
 			for (it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.DocumentInfo documentInfo : listaDocumenti){
-				ECMParam ecmParam = createEcmParam(onBoardingServiceIstituto, onBoardingServiceMatricola, onBoardingServiceRuolo, onBoardingServiceFiliale);
-				ECMFile ecmFile = createEcmFile(documentInfo.getContent().getMimeType(), documentInfo.getId(), onBoardingServiceUserId, onBoardingServiceChannel, onBoardingServiceContainer);
-				// ESECUZIONE SALVATAGGIO SUL DB
-				ECMResponse dbResponse = uploadMulticanaleService.insertMedia(createEcmRequest(ecmFile));
-				Integer idFile = dbResponse.getResult().getIdFile();
-				// IL CONTENUTO DELL'ATTACHMENT DA CODIFICARE IN BASE 64
-				ByteArrayOutputStream buffOS= new ByteArrayOutputStream();
-				documentInfo.getContent().getData().writeTo(buffOS);
-				byte[] byteStream = buffOS.toByteArray();
-				ecmFile.setIdFile(idFile);
-				// INSERIMENTO SU FILENET
-				String filenetId = ecmService.createFileWithMetadata(byteStream, ecmFile, ecmParam);
-				FilenetDossierMoveResult resRecord = new FilenetDossierMoveResult();
-				resRecord.setDossierFileId(documentInfo.getId());
-				resRecord.setDossierId(request.getDossierId());
-				resRecord.setFilenetId(filenetId);
-				filenetResults.add(resRecord);
+				String infocertDocumentId = documentInfo.getId();
+				List<MoveDocumentParamType> documentiRichiesti = request.getDocumentParamListType().getMoveDocumentParamType();
+				for (MoveDocumentParamType documentoRichiesto : documentiRichiesti){
+					if (documentoRichiesto.getInfocertDocumentId().equals(infocertDocumentId)){
+						ECMParam ecmParam = createEcmParam(request , documentoRichiesto);
+						ECMFile ecmFile = createEcmFile(documentInfo.getContent().getMimeType(), documentInfo.getId(), onBoardingServiceUserId, onBoardingServiceChannel, onBoardingServiceContainer);
+						// ESECUZIONE SALVATAGGIO SUL DB
+						ECMResponse dbResponse = uploadMulticanaleService.insertMedia(createEcmRequest(ecmFile));
+						Integer idFile = dbResponse.getResult().getIdFile();
+						// IL CONTENUTO DELL'ATTACHMENT DA CODIFICARE IN BASE 64
+						ByteArrayOutputStream buffOS= new ByteArrayOutputStream();
+						documentInfo.getContent().getData().writeTo(buffOS);
+						byte[] byteStream = buffOS.toByteArray();
+						ecmFile.setIdFile(idFile);
+						// INSERIMENTO SU FILENET
+						String filenetId = ecmService.createFileWithMetadata(byteStream, ecmFile, ecmParam);
+						FilenetDossierMoveResultType resRecord = new FilenetDossierMoveResultType();
+						resRecord.setDossierFileId(documentInfo.getId());
+						resRecord.setDossierId(request.getDossierId());
+						resRecord.setFilenetId(filenetId);
+						filenetResults.add(resRecord);
+					}
+				}
 			}
-			MoveDossierIntoFilenetResponse response = new MoveDossierIntoFilenetResponse();
+			MoveDossierIntoFilenetResponseType response = new MoveDossierIntoFilenetResponseType();
 			response.setFilenetResults(filenetResults);
 			return response;
 		} catch (Exception e) {
+			logger.error("moveDossierIntoFilenet ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
 	}
 	
 	@Override
-	public AddDocumentsResponse addDocuments(AddDocumentsRequest request){
+	public AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert(AddDocumentToDossierInfocertRequestType request, DataSource fileContent){
 		try {
-			ECMRequest ecmRequest = new ECMRequest();
-			ECMFile ecmFile = new ECMFile();
-			ecmFile.setIdFile(request.getEcmFileId());
-			ecmRequest.setEcmFile(ecmFile);
-			ECMResponse ecmResponse = uploadMulticanaleService.listMedia(ecmRequest);
-			String nameFile = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType().toLowerCase();
-			byte[] buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
-			//String fileContent = Util.encodeFileToBase64Binary(buffer);
-			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
-			OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
-			
-			AddDocuments parameters = new AddDocuments();
-			parameters.setCompanyId(request.getCompanyId());
-			parameters.setDossierId(request.getDossierId());
-			parameters.setDocuments(mapper.mapECMDocumentForWSRequest(request.getDocument(), fileContent));
-			/* it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse wsResponse = */
+            AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(request, fileContent, onBoardingServiceCompanyId);
+            OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
 			service.addDocuments(parameters);
-		} catch (Exception e) {
-			logger.error("OnBoardingServiceImpl addDocuments ", e);
+		
+        } catch (Exception e) {
+			logger.error("OnBoardingServiceImpl addDocumentToDossierInfocert ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
-		return new AddDocumentsResponse();
+		return new AddDocumentToDossierInfocertResponseType();
 	}
 	
 	
@@ -199,8 +183,10 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			String content = lookupFileToConvert(r1);
 			return content;
 		} catch (TechnicalException e) {
+			logger.error("extractFileContent ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		} catch (Exception e) {
+			logger.error("extractFileContent ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
 	}
@@ -219,7 +205,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 					String ecmFileId = ecmResponse.getResult().getIdFileECM();
 					encodedFile = ecmService.downloadFile(ecmType, ecmFileId);
 				} catch (Exception e) {
-					//log.error("lookupFileToConvert: " + e.getMessage());
+					logger.error("lookupFileToConvert: " + e.getMessage(), e);
 					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), e.getMessage());
 				}
 			} else {
@@ -230,7 +216,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 					ECMSource source = ecmResponse.getResult().getSource();
 					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename, source));
 				} catch (Exception e) {
-					//log.error("lookupFileToConvert: " + e.getMessage());
+					logger.error("OnBoardingServiceImpl.lookupFileToConvert: " + e.getMessage(), e);
 					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());
 				}
 			}		 	
@@ -306,7 +292,13 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 		return ecmFile;
 	}
 	
-	private ECMParam createEcmParam(String istituto, String matricola, String ruolo, String filiale){
+	private ECMParam createEcmParam(MoveDossierIntoFilenetRequestType request, MoveDocumentParamType documentoRichiesto){
+		
+		String istituto = request.getEcmIstituto(); 
+		String matricola =request.getEcmMatricola();
+		String ruolo = request.getEcmRuolo();	
+		String filiale = request.getEcmFiliale();
+		
 		ECMParam ecmParam = new ECMParam();
 		ecmParam.setEcmType(ECMType.IBM_FILENET);
 		ecmParam.setDestinationPath("-");
@@ -337,7 +329,14 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			fp4.setValue(filiale);
 			properties.add(fp4);
 		}
-
+		/* CICLO PER LA CREAZIONE DEGLI INDICI FILENET */
+		List<IndexValueType> indiciFilenet = documentoRichiesto.getIndexValueListType().getIndexValueType();
+		for (IndexValueType indiceFilenet : indiciFilenet) {
+			FileProperty fpidx = new FileProperty();
+			fpidx.setName(indiceFilenet.getName());
+			fpidx.setValue(indiceFilenet.getValue());
+			properties.add(fpidx);
+		}
 		ecmParam.setProperty(properties);
 
 		return ecmParam;
@@ -350,35 +349,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 		this.uploadMulticanaleService = uploadMulticanaleService;
 	}
 
-	/**
-	 * @param onBoardingServiceIstituto the onBoardingServiceIstituto to set
-	 */
-	public void setOnBoardingServiceIstituto(String onBoardingServiceIstituto) {
-		this.onBoardingServiceIstituto = onBoardingServiceIstituto;
-	}
-
-	/**
-	 * @param onBoardingServiceMatricola the onBoardingServiceMatricola to set
-	 */
-	public void setOnBoardingServiceMatricola(String onBoardingServiceMatricola) {
-		this.onBoardingServiceMatricola = onBoardingServiceMatricola;
-	}
-
-	/**
-	 * @param onBoardingServiceRuolo the onBoardingServiceRuolo to set
-	 */
-	public void setOnBoardingServiceRuolo(String onBoardingServiceRuolo) {
-		this.onBoardingServiceRuolo = onBoardingServiceRuolo;
-	}
-
-	/**
-	 * @param onBoardingServiceFiliale the onBoardingServiceFiliale to set
-	 */
-	public void setOnBoardingServiceFiliale(String onBoardingServiceFiliale) {
-		this.onBoardingServiceFiliale = onBoardingServiceFiliale;
-	}
-
-	/**
+		/**
 	 * @param onBoardingServiceUserId the onBoardingServiceUserId to set
 	 */
 	public void setOnBoardingServiceUserId(String onBoardingServiceUserId) {

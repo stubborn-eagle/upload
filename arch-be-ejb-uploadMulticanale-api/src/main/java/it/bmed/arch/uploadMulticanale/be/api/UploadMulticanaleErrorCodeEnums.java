@@ -7,6 +7,7 @@ public enum UploadMulticanaleErrorCodeEnums implements IErrorCode {
 	TCH_AZURE_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_AZURE_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_AZURE_ERROR_DESC") ),
 	TCH_GENERIC_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_GENERIC_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_GENERIC_ERROR_DESC") ),   //$NON-NLS-1$ //$NON-NLS-2$
 	BSN_FILE_NOT_EXIST(UploadMulticanaleErrorCodeEnumsMessages.getString("BSN_FILE_NOT_EXIST_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("BSN_FILE_NOT_EXIST_DESC") ), //$NON-NLS-1$ //$NON-NLS-2$
+	BSN_CODICEDOC_ERROR_EXIST(UploadMulticanaleErrorCodeEnumsMessages.getString("BSN_CODICEDOC_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("BSN_CODICEDOC_ERROR_DESC") ), //$NON-NLS-1$ //$NON-NLS-2$
 	TCH_NAS_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_NAS_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_NAS_ERROR_DESC") ), //$NON-NLS-1$ //$NON-NLS-2$
 	TCH_ECM_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_ECM_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_ECM_ERROR_DESC")), //$NON-NLS-1$ //$NON-NLS-2$       
 	TCH_SQL_ERROR(UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_SQL_ERROR_CODE"), UploadMulticanaleErrorCodeEnumsMessages.getString("TCH_SQL_ERROR_DESC") ); //$NON-NLS-1$ //$NON-NLS-2$

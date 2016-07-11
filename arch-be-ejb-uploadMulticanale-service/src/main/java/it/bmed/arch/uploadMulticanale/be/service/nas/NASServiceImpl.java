@@ -64,6 +64,10 @@ public class NASServiceImpl implements NASService {
 		destinationDeletedPathname = getDestinationDeletedPathFromSource(source);	
 				
 		// check uninitialized variables
+		logger.debug("###### destinationPathname: " +destinationPathname +"  ###########");
+		logger.debug("###### destinationDeletedPathname: " +destinationDeletedPathname +"  ###########");
+		logger.debug("###### filename: " +filename +"  ###########");
+		
 		if(filename == null || filename.isEmpty() || destinationDeletedPathname == null || destinationDeletedPathname.isEmpty()) {
 			logger.error("deleteFile: IllegalArgument.");
 			IErrorCode iErrorCode = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
@@ -91,7 +95,7 @@ public class NASServiceImpl implements NASService {
 			copyFile(sourcePathname, destinationDeletedPathname, filename);
 			result = file.delete();
 		} catch (Exception e) {
-			logger.error("deleteFile: " + e.getMessage());
+			logger.error("deleteFile: " + e.getMessage(), e);
 		} finally {
 			file = null;
 		}
@@ -136,7 +140,7 @@ public class NASServiceImpl implements NASService {
 		try {
 			result = file.delete();
 		} catch (Exception e) {
-			logger.error("deleteFile: " + e.getMessage());
+			logger.error("deleteFile: " + e.getMessage(), e);
 		} finally {
 			file = null;
 		}
@@ -182,15 +186,17 @@ public class NASServiceImpl implements NASService {
 				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: BOF equals to EOF.");
 			}
 		} catch (FileNotFoundException e) {
+			logger.error("loadFile", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: file not found.", e);
 		} catch (IOException e) {
+			logger.error("loadFile", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "loadFile error: can't read from file.", e);
 		} finally {
 			if(inputStream != null) {
 				try {
 					inputStream.close();
 				} catch (Exception e) {
-					logger.error("loadFile " + UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode() + " - " + e.getMessage());
+					logger.error("loadFile " + UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR.getErrorCode() + " - " + e.getMessage(), e);
 				}
 			}
 		}
@@ -230,7 +236,7 @@ public class NASServiceImpl implements NASService {
 				fileToBeSaved.write(buffer, 0, read);
 			}
 		} catch (Exception e) {
-			logger.error("saveFile: Cannot save. " + e.getMessage(), fileStream );
+			logger.error("saveFile: Cannot save. " + e.getMessage(), fileStream, e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), "Cannot save " + fileStream);			
 		} finally {
 			if (fileToBeSaved != null) {
@@ -261,14 +267,14 @@ public class NASServiceImpl implements NASService {
 					outputStream.write(buffer, 0, bytes);
 				}
 			} catch (IOException e) {
-				logger.error("copyFile: " + e.getMessage());
+				logger.error("copyFile: " + e.getMessage(), e);
 				throw e;
 			} finally {
 				if(inputStream != null) {
 					try {
 						inputStream.close();
 					} catch (IOException e) {
-						logger.error("copyFile: " + e.getMessage());
+						logger.error("copyFile: " + e.getMessage(), e);
 						throw e;
 					}
 				}
@@ -276,7 +282,7 @@ public class NASServiceImpl implements NASService {
 					try {
 						outputStream.close();
 					} catch (IOException e) {
-						logger.error("copyFile: " + e.getMessage());
+						logger.error("copyFile: " + e.getMessage(), e);
 						throw e;
 					}
 				}
@@ -284,7 +290,7 @@ public class NASServiceImpl implements NASService {
 				destFile = null;
 			}
 		} catch (FileNotFoundException e) {
-			logger.error("copyFile: " + e.getMessage());
+			logger.error("copyFile: " + e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -304,10 +310,16 @@ public class NASServiceImpl implements NASService {
 			case RETE_DI_VENDITA:
 				destinationDeletedPathname = settingsBean.getNasReteDiVenditaDeletedPath();
 				break;
+			case LIVE_CYCLE:
+				destinationDeletedPathname = settingsBean.getNasInternetBankingDeletedPath();
+				break;
+			case LIVE_CYCLE_DYNAMIC:
+				destinationDeletedPathname = settingsBean.getNasInternetBankingDeletedPath();
+				break;
 			}
 
 		} catch (Exception e) {
-			logger.error("deleteFile: " + e.getMessage());
+			logger.error("deleteFile: " + e.getMessage(), e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		logger.debug("getDestinationDeletedPathFromSource: Exting");
@@ -339,7 +351,7 @@ public class NASServiceImpl implements NASService {
 			}
 
 		} catch (Exception e) {
-			logger.error("deleteFile: " + e.getMessage());
+			logger.error("deleteFile: " + e.getMessage(), e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		return destinationPathname;
@@ -379,8 +391,11 @@ public class NASServiceImpl implements NASService {
 		logger.info("firmaCades call.");
 		String result = null;
 		try {
+			logger.info("before cades");
 			result = signConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
+			logger.info("after cades");
 		} catch (Exception e) {
+			logger.error("firmaCades", e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		return result;
@@ -393,6 +408,7 @@ public class NASServiceImpl implements NASService {
 		try {
 			result = signConnector.firmaPades(documentoDaFirmare, firmatari);
 		} catch (Exception e) {
+			logger.error("firmaPades", e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		return result;
@@ -405,6 +421,7 @@ public class NASServiceImpl implements NASService {
 		try {
 			result = signInfocertConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
 		} catch (Exception e) {
+			logger.error("firmaCadesInfocert", e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		return result;
@@ -417,6 +434,7 @@ public class NASServiceImpl implements NASService {
 		try {
 			result = signInfocertConnector.firmaPades(documentoDaFirmare, firmatari, idDocumento);
 		} catch (Exception e) {
+			logger.error("firmaPadesInfocert", e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		return result;
@@ -428,6 +446,7 @@ public class NASServiceImpl implements NASService {
 		try {
 			result = new SignatureData(signInfocertConnector.getSignFirmatariDominio(), signInfocertConnector.getSignFirmatariAlias(), signInfocertConnector.getSignFirmatariPin(), signInfocertConnector.getSignFirmatariOtp());
 		} catch (Exception e) {
+			logger.error("getSignatureData", e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
 		}
 		return result;
