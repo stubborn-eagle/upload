@@ -23,6 +23,7 @@ import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocuments;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.EnrollmentService;
+import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingException;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingService;
 import it.bmed.asia.exception.AsiaException;
 import it.bmed.asia.exception.TechnicalException;
@@ -131,7 +132,7 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 				for (MoveDocumentParamType documentoRichiesto : documentiRichiesti){
 					if (documentoRichiesto.getInfocertDocumentId().equals(infocertDocumentId)){
 						ECMParam ecmParam = createEcmParam(request , documentoRichiesto);
-						ECMFile ecmFile = createEcmFile(documentInfo.getContent().getMimeType(), documentInfo.getId(), onBoardingServiceUserId, onBoardingServiceChannel, onBoardingServiceContainer);
+						ECMFile ecmFile = createEcmFile("pdf", documentInfo.getId(), onBoardingServiceUserId, onBoardingServiceChannel, onBoardingServiceContainer);
 						// ESECUZIONE SALVATAGGIO SUL DB
 						ECMResponse dbResponse = uploadMulticanaleService.insertMedia(createEcmRequest(ecmFile));
 						Integer idFile = dbResponse.getResult().getIdFile();
@@ -153,7 +154,10 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			MoveDossierIntoFilenetResponseType response = new MoveDossierIntoFilenetResponseType();
 			response.setFilenetResults(filenetResults);
 			return response;
-		} catch (Exception e) {
+		} catch (OnboardingException e){
+        	logger.error("OnBoardingServiceImpl moveDossierIntoFilenet ", e);
+  			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ONBOARDING_ERROR.getErrorCode(), e.getFaultInfo() + " " + e.getMessage() , e);
+        } catch (Exception e) {
 			logger.error("moveDossierIntoFilenet ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
@@ -165,14 +169,15 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
             AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(request, fileContent, onBoardingServiceCompanyId);
             OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
 			service.addDocuments(parameters);
-		
+        } catch (OnboardingException e){
+        	logger.error("OnBoardingServiceImpl addDocumentToDossierInfocert ", e);
+  			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ONBOARDING_ERROR.getErrorCode(), e.getFaultInfo() + " " + e.getMessage() , e);
         } catch (Exception e) {
 			logger.error("OnBoardingServiceImpl addDocumentToDossierInfocert ", e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "On Boarding Services error", e);
 		}
 		return new AddDocumentToDossierInfocertResponseType();
 	}
-	
 	
 	
 	/* nuovo metodo per l'estrazione di un file a partire dal id del sistema multicanale */
@@ -192,38 +197,22 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	}
 	
 	private String lookupFileToConvert(ECMResponse ecmResponse) {
-		//log.debug("lookupFileToConvert params: " + ecmResponse);
-		// File to looking for
 		String encodedFile = null;
 		
 		if (ecmResponse != null && ecmResponse.getResult() != null) {
-			// File found
-			if (ecmResponse.getResult().getDestinationPath() != null && ecmResponse.getResult().getDestinationPath().length() > 0) {
-				// the file is on the ECM
-				try {
-					ECMType ecmType = ecmResponse.getResult().getEcmType();
-					String ecmFileId = ecmResponse.getResult().getIdFileECM();
-					encodedFile = ecmService.downloadFile(ecmType, ecmFileId);
-				} catch (Exception e) {
-					logger.error("lookupFileToConvert: " + e.getMessage(), e);
-					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), e.getMessage());
-				}
-			} else {
-				// the file is on the NAS
-				try {
-					String path = ecmResponse.getResult().getSourcePath();
-					String filename = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType();
-					ECMSource source = ecmResponse.getResult().getSource();
-					encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename, source));
-				} catch (Exception e) {
-					logger.error("OnBoardingServiceImpl.lookupFileToConvert: " + e.getMessage(), e);
-					throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());
-				}
-			}		 	
+			try {
+				String path = ecmResponse.getResult().getSourcePath();
+				String filename = ecmResponse.getResult().getNameFile() + "." + ecmResponse.getResult().getType();
+				ECMSource source = ecmResponse.getResult().getSource();
+				encodedFile = Util.encodeFileToBase64Binary(nasService.loadFile(path, filename, source));
+			} catch (Exception e) {
+				logger.error("OnBoardingServiceImpl.lookupFileToConvert: " + e.getMessage(), e);
+				throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR.getErrorCode(), e.getMessage());
+			}
 		} else {
 			// File not found
-			//log.error("lookupFileToConvert: file not found.");
-			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "convertToPDF error: file not found.");
+			logger.error("lookupFileToConvert: file not found.");
+			throw new AsiaException(UploadMulticanaleErrorCodeEnums.BSN_FILE_NOT_EXIST.getErrorCode(), "extractFileContent error: file not found.");
 		}
 		//log.debug("lookupFileToConvert returns: " + encodedFile);
 		return encodedFile;

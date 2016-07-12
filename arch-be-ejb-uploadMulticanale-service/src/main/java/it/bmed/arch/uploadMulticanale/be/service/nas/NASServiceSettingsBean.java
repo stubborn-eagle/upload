@@ -13,6 +13,11 @@ public class NASServiceSettingsBean {
 	private String pdfLiveCycleContainerType = null;
 	private String pdfLiveCycleNameApp = null;
 	private String pdfLiveCycleUserId = null;
+
+	private String nasInternetBankingSharePath = null;
+	private String nasReteDiVenditaSharePath = null;
+	private String nasPortaleDiSedeSharePath = null;
+	private String nasOtherSharePath = null;
 	
 	/**
 	 * @return the nasInternetBankingPath
@@ -129,6 +134,58 @@ public class NASServiceSettingsBean {
 	public void setPdfLiveCycleUserId(String pdfLiveCycleUserId) {
 		this.pdfLiveCycleUserId = pdfLiveCycleUserId;
 	}
+
+
+	/**
+	 * @return the nasInternetBankingSharePath
+	 */
+	public String getNasInternetBankingSharePath() {
+		return nasInternetBankingSharePath;
+	}
+	/**
+	 * @param nasInternetBankingSharePath the nasInternetBankingSharePath to set
+	 */
+	public void setNasInternetBankingSharePath(String nasInternetBankingSharePath) {
+		this.nasInternetBankingSharePath = nasInternetBankingSharePath;
+	}
+	/**
+	 * @return the nasReteDiVenditaSharePath
+	 */
+	public String getNasReteDiVenditaSharePath() {
+		return nasReteDiVenditaSharePath;
+	}
+	/**
+	 * @param nasReteDiVenditaSharePath the nasReteDiVenditaSharePath to set
+	 */
+	public void setNasReteDiVenditaSharePath(String nasReteDiVenditaSharePath) {
+		this.nasReteDiVenditaSharePath = nasReteDiVenditaSharePath;
+	}
+	/**
+	 * @return the nasPortaleDiSedeSharePath
+	 */
+	public String getNasPortaleDiSedeSharePath() {
+		return nasPortaleDiSedeSharePath;
+	}
+	/**
+	 * @param nasPortaleDiSedeSharePath the nasPortaleDiSedeSharePath to set
+	 */
+	public void setNasPortaleDiSedeSharePath(String nasPortaleDiSedeSharePath) {
+		this.nasPortaleDiSedeSharePath = nasPortaleDiSedeSharePath;
+	}
+	/**
+	 * @return the nasOtherSharePath
+	 */
+	public String getNasOtherSharePath() {
+		return nasOtherSharePath;
+	}
+	/**
+	 * @param nasOtherSharePath the nasOtherSharePath to set
+	 */
+	public void setNasOtherSharePath(String nasOtherSharePath) {
+		this.nasOtherSharePath = nasOtherSharePath;
+	}
+
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
