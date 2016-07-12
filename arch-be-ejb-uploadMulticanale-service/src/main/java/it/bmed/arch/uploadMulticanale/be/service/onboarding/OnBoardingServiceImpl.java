@@ -22,7 +22,6 @@ import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocuments;
-import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocumentsResponse;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.EnrollmentService;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingException;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingService;
