@@ -6,6 +6,7 @@
 		<artifactId>arch-be-ejb-uploadMulticanale</artifactId>
 		<version>1.2.2-SNAPSHOT</version>
 	</parent>	
+	
 	<artifactId>arch-be-ejb-uploadMulticanale-ejbimpl</artifactId>
 	<packaging>ejb</packaging>
 	<properties>

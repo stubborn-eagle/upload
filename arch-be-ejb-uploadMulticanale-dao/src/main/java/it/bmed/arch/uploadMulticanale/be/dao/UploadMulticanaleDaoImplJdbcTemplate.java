@@ -194,7 +194,7 @@ public class UploadMulticanaleDaoImplJdbcTemplate implements UploadMulticanaleDa
 			throw e;
 
 		} catch (RuntimeException e) {
-			log.error("Errore DAO  RuntimeException");
+			log.error("Errore DAO  RuntimeException", e);
 			TechnicalException tec = new TechnicalException(
 					UploadMulticanaleErrorCodeEnums.valueOf("TCH_SQL_ERROR"));
 			e.printStackTrace();

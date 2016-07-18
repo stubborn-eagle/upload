@@ -14,6 +14,7 @@
 	<name>arch-be-ejb-uploadMulticanale</name>
 	<version>1.2.2-SNAPSHOT</version>
 
+
   <modules>
     <module>arch-be-ejb-uploadMulticanale-api</module>
     <module>arch-be-ejb-uploadMulticanale-dao</module>

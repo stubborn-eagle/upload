@@ -1057,11 +1057,12 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
              */
             result = ecmService.createFileWithMetadata(Util.decodeBase64ToFile(padesBase64FileContent), ecmFile, ecmParam);
 
-            /* CANCELLAZIONE DEL FILE FISICO */
+
+            /* A.Marini: AGGIUNTA CANCELLAZIONE DEL FILE FISICO - START */
             if (request.getEcmParams().getRemoveFromNAS()){
-            	nasService.deleteFilePhisical(ecmFile.getSourcePath(), filename, ecmFile.getSource());
+            	nasService.deleteFile(ecmFile.getSourcePath(), filename, ecmFile.getSource());
             }
-            
+            /* A.Marini: AGGIUNTA CANCELLAZIONE DEL FILE FISICO - END */
         } catch (BusinessException e) {
             log.error("Si e' verificata un'eccezione di business nell'invocazione dell'operation UploadMulticanaleRemoteImpl.signFilenetDocument : {}", e);
             throw ExceptionToFaultConversionUtil.toBusinessFault(e);

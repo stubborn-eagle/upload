@@ -65,6 +65,10 @@ public class NASServiceImpl implements NASService {
 		destinationDeletedPathname = getDestinationDeletedPathFromSource(source);	
 				
 		// check uninitialized variables
+		logger.debug("###### destinationPathname: " +destinationPathname +"  ###########");
+		logger.debug("###### destinationDeletedPathname: " +destinationDeletedPathname +"  ###########");
+		logger.debug("###### filename: " +filename +"  ###########");
+		
 		if(filename == null || filename.isEmpty() || destinationDeletedPathname == null || destinationDeletedPathname.isEmpty()) {
 			logger.error("deleteFile: IllegalArgument.");
 			IErrorCode iErrorCode = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
@@ -370,6 +374,12 @@ public class NASServiceImpl implements NASService {
 			case RETE_DI_VENDITA:
 				destinationDeletedPathname = settingsBean.getNasReteDiVenditaDeletedPath();
 				break;
+			case LIVE_CYCLE:
+				destinationDeletedPathname = settingsBean.getNasInternetBankingDeletedPath();
+				break;
+			case LIVE_CYCLE_DYNAMIC:
+				destinationDeletedPathname = settingsBean.getNasInternetBankingDeletedPath();
+				break;
 			}
 
 		} catch (Exception e) {
@@ -445,7 +455,9 @@ public class NASServiceImpl implements NASService {
 		logger.info("firmaCades call.");
 		String result = null;
 		try {
+			logger.info("before cades");
 			result = signConnector.firmaCades(documentoDaFirmare, dominio, alias, pin, otp);
+			logger.info("after cades");
 		} catch (Exception e) {
 			logger.error("firmaCades", e);
 			throw new TechnicalException(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, e);
