@@ -21,6 +21,7 @@ import it.bmed.arch.uploadMulticanale.be.service.UploadMulticanaleService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.ECMService;
 import it.bmed.arch.uploadMulticanale.be.service.cmis.Util;
 import it.bmed.arch.uploadMulticanale.be.service.nas.NASService;
+import it.bmed.arch.uploadMulticanale.be.service.nas.util.CredentialMappingHandler;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.AddDocuments;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.EnrollmentService;
 import it.bmed.arch.uploadMulticanale.be.service.onboarding.wsclient.OnboardingException;
@@ -103,9 +104,11 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 		SERVICE port = (SERVICE) realService.getPort();
 		BindingProvider bp = (BindingProvider) port;
 		/* BASIC AUTHENTICATION - START */
-		bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, "mediolanum01");
-		bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, "m3d10lanum01");
-		/* BASIC AUTHENTICATION - END */
+		oracle.security.jps.service.credstore.PasswordCredential credentials = CredentialMappingHandler.getCredentialsFromCSF("bmed.auth.users", "infocert-cop-lookup.users");
+    	bp.getRequestContext().put(BindingProvider.USERNAME_PROPERTY, credentials.getName());   
+    	bp.getRequestContext().put(BindingProvider.PASSWORD_PROPERTY, String.valueOf(credentials.getPassword()));
+		/* BASIC AUTHENTICATION - END */		
+		
 		bp.getRequestContext().put(BindingProvider.ENDPOINT_ADDRESS_PROPERTY, onBoardingServiceURL);
 
 		WSClientHeaderHandler.injectHeaderHandler((BindingProvider)port);
