@@ -117,6 +117,8 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	@Override
 	public MoveDossierIntoFilenetResponseType moveDossierIntoFilenet(MoveDossierIntoFilenetRequestType request){
 		try {
+			logger.debug("#########	inizio OnBoardingServiceImpl.moveDossierIntoFilenet  ##########");
+
 			List<FilenetDossierMoveResultType> filenetResults = new ArrayList<FilenetDossierMoveResultType>();
 			OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
 
@@ -153,6 +155,9 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			}
 			MoveDossierIntoFilenetResponseType response = new MoveDossierIntoFilenetResponseType();
 			response.setFilenetResults(filenetResults);
+			
+			logger.debug("#########	fine OnBoardingServiceImpl.moveDossierIntoFilenet  ##########");
+
 			return response;
 		} catch (OnboardingException e){
         	logger.error("OnBoardingServiceImpl moveDossierIntoFilenet ", e);
@@ -282,7 +287,8 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	}
 	
 	private ECMParam createEcmParam(MoveDossierIntoFilenetRequestType request, MoveDocumentParamType documentoRichiesto){
-		
+		logger.debug("#########	inizio OnBoardingServiceImpl.createEcmParam  ##########");
+
 		String istituto = request.getEcmIstituto(); 
 		String matricola =request.getEcmMatricola();
 		String ruolo = request.getEcmRuolo();	
@@ -327,7 +333,10 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 			properties.add(fpidx);
 		}
 		ecmParam.setProperty(properties);
+        ecmParam.setContainerType(documentoRichiesto.getFilenetObjectClass());
 
+        logger.debug("#########	fine OnBoardingServiceImpl.createEcmParam  ##########");
+        
 		return ecmParam;
 	}
 
