@@ -29,6 +29,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
@@ -70,19 +71,10 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String encodeFile = Util.encodeFileToBase64Binary(buffer);
 			String xml = Util.encodeXML(CREATE_REQUEST, encodeFile, ecmFile, ecmParam);
 			logger.debug("createFile xml"+xml);
-			String response = serviceFileNet.addObject(xml);
-			
-			if(!"0".equals(getResponseCodeFilenet(response)))
-				throw new Exception("Errore nella Chiamata FILENET: createFile ");
-			
+			String response = serviceFileNet.addObject(xml);			
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
 			logger.error("createFile " + e.getMessage(), e);
-			e.printStackTrace();
-			for(int i=0; i < e.getStackTrace().length; i++){
-				logger.error("STACK"+e.getStackTrace()[i]);
-			}
-			
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "createFile error", e);
 		}
 		return idFilenet;
@@ -99,18 +91,9 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String xml = Util.encodeXML(CREATE_REQUEST_WITH_METADATA, encodeFile, ecmFile, ecmParam);
 			logger.debug("createFile xml"+xml);
 			String response = serviceFileNet.addObject(xml);
-			
-			if(!"0".equals(getResponseCodeFilenet(response)))
-				throw new Exception("Errore nella Chiamata FILENET: createFile ");
-			
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
 			logger.error("createFile " + e.getMessage(), e);
-			e.printStackTrace();
-			for(int i=0; i < e.getStackTrace().length; i++){
-				logger.error("STACK"+e.getStackTrace()[i]);
-			}
-			
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "createFile error", e);
 		}
 		return idFilenet;
@@ -187,10 +170,9 @@ public class FilenetConnector extends AbstractECMConnector implements
 		logger.info("ejbServiceLocator injected with " + ejbServiceLocator.getClass().getName());
 	}
 
-	private String getIdFilenet(String response) {
+	private String getIdFilenet(String response) throws Exception{
 		// String response =
 		// "<Response><ReturnCode>0</ReturnCode><ReturnValue><Object id=\"{1178EC68-BBD5-4469-8DFA-929DF8C66B8E}\" objectstore=\"CED088\" class=\"DISPOSIZIONIANOMALE\" basetype=\"Document\"><Readers/><Link><Value>/WSGDI/View?sessionId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F9Gvl5D2SpeQIH%2FrF6AkfNZ3ZJgWdrEb10%3D&amp;docId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F8szEfv25KoIA%3D%3D&amp;os=tKgBgM2BPqg%3D</Value></Link></Object></ReturnValue></Response>";
-		try {
 			logger.debug("FILENET RESPONSE: "+response);
 			XPathFactory xpathFact = XPathFactory.newInstance();
 			XPath xpath = xpathFact.newXPath();
@@ -203,39 +185,14 @@ public class FilenetConnector extends AbstractECMConnector implements
 					response)));
 			String id = xpath.compile(pathId)
 					.evaluate(doc, XPathConstants.STRING).toString();
+			
+			if(StringUtils.isEmpty(id))
+				throw new Exception("Errore nella Chiamata FILENET: createFile");
+			
 			return id;
-		} catch (Exception e) {
-			logger.error("Errore nel recuperare l'id", e);
-			return "";
-		}
+
 	}
 		
-	private String getResponseCodeFilenet(String response) {
-		// String response =
-		// "<Response><ReturnCode>0</ReturnCode><ReturnValue><Object id=\"{1178EC68-BBD5-4469-8DFA-929DF8C66B8E}\" objectstore=\"CED088\" class=\"DISPOSIZIONIANOMALE\" basetype=\"Document\"><Readers/><Link><Value>/WSGDI/View?sessionId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F9Gvl5D2SpeQIH%2FrF6AkfNZ3ZJgWdrEb10%3D&amp;docId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F8szEfv25KoIA%3D%3D&amp;os=tKgBgM2BPqg%3D</Value></Link></Object></ReturnValue></Response>";
-		try {
-			logger.debug("FILENET RESPONSE: "+ response);
-			XPathFactory xpathFact = XPathFactory.newInstance();
-			XPath xpath = xpathFact.newXPath();
-			String pathId = "Response/ReturnCode";
-			DocumentBuilderFactory xmlFact = DocumentBuilderFactory
-					.newInstance();
-			xmlFact.setNamespaceAware(false);
-			DocumentBuilder builder = xmlFact.newDocumentBuilder();
-			Document doc = builder.parse(new InputSource(new StringReader(
-					response)));
-			String responseCode = xpath.compile(pathId)
-					.evaluate(doc, XPathConstants.STRING).toString();
-			return responseCode;
-		} catch (Exception e) {
-			logger.error("Errore nel recuperare il response code della chiamata FILENET", e);
-			return "";
-		}
-	}
-	
-	
-	
-	
 	/**
 	 * Retrieve the document content from the xml response
 	 * @author donatello.boccaforno
