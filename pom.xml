@@ -12,7 +12,7 @@
 	<groupId>it.bmed.arch.uploadMulticanale.be</groupId>
 	<packaging>pom</packaging>
 	<name>arch-be-ejb-uploadMulticanale</name>
-	<version>1.2.1</version>
+	<version>1.2.2-SNAPSHOT</version>
 
 
   <modules>
