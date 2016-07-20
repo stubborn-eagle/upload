@@ -71,6 +71,10 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String xml = Util.encodeXML(CREATE_REQUEST, encodeFile, ecmFile, ecmParam);
 			logger.debug("createFile xml"+xml);
 			String response = serviceFileNet.addObject(xml);
+			
+			if(!"0".equals(getResponseCodeFilenet(response)))
+				throw new Exception("Errore nella Chiamata FILENET: createFile ");
+			
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
 			logger.error("createFile " + e.getMessage(), e);
@@ -95,6 +99,10 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String xml = Util.encodeXML(CREATE_REQUEST_WITH_METADATA, encodeFile, ecmFile, ecmParam);
 			logger.debug("createFile xml"+xml);
 			String response = serviceFileNet.addObject(xml);
+			
+			if(!"0".equals(getResponseCodeFilenet(response)))
+				throw new Exception("Errore nella Chiamata FILENET: createFile ");
+			
 			idFilenet = getIdFilenet(response);
 		} catch (Exception e) {
 			logger.error("createFile " + e.getMessage(), e);
@@ -201,6 +209,32 @@ public class FilenetConnector extends AbstractECMConnector implements
 			return "";
 		}
 	}
+		
+	private String getResponseCodeFilenet(String response) {
+		// String response =
+		// "<Response><ReturnCode>0</ReturnCode><ReturnValue><Object id=\"{1178EC68-BBD5-4469-8DFA-929DF8C66B8E}\" objectstore=\"CED088\" class=\"DISPOSIZIONIANOMALE\" basetype=\"Document\"><Readers/><Link><Value>/WSGDI/View?sessionId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F9Gvl5D2SpeQIH%2FrF6AkfNZ3ZJgWdrEb10%3D&amp;docId=j%2BGXDzZ4g7Yw1YvezbEmk55YsG4VroSKKVCZRuM9I%2F8szEfv25KoIA%3D%3D&amp;os=tKgBgM2BPqg%3D</Value></Link></Object></ReturnValue></Response>";
+		try {
+			logger.debug("FILENET RESPONSE: "+ response);
+			XPathFactory xpathFact = XPathFactory.newInstance();
+			XPath xpath = xpathFact.newXPath();
+			String pathId = "Response/ReturnCode";
+			DocumentBuilderFactory xmlFact = DocumentBuilderFactory
+					.newInstance();
+			xmlFact.setNamespaceAware(false);
+			DocumentBuilder builder = xmlFact.newDocumentBuilder();
+			Document doc = builder.parse(new InputSource(new StringReader(
+					response)));
+			String responseCode = xpath.compile(pathId)
+					.evaluate(doc, XPathConstants.STRING).toString();
+			return responseCode;
+		} catch (Exception e) {
+			logger.error("Errore nel recuperare il response code della chiamata FILENET", e);
+			return "";
+		}
+	}
+	
+	
+	
 	
 	/**
 	 * Retrieve the document content from the xml response
