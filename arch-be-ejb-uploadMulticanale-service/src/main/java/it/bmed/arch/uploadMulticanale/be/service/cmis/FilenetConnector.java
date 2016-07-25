@@ -186,8 +186,10 @@ public class FilenetConnector extends AbstractECMConnector implements
 			String id = xpath.compile(pathId)
 					.evaluate(doc, XPathConstants.STRING).toString();
 			
-			if(StringUtils.isEmpty(id))
+			if(StringUtils.isEmpty(id)) {
+				logger.error("not valid filenet response: {}", response);
 				throw new Exception("Errore nella Chiamata FILENET: createFile");
+			}
 			
 			return id;
 

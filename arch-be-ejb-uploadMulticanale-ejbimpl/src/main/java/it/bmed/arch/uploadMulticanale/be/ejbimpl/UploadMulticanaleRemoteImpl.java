@@ -157,7 +157,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			resp = uploadMulticanaleService.insertMedia(r);
 
 		} catch (ApplicationException e) {
-
+			log.error("insertMedia", e);
 			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_" + fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
@@ -165,7 +165,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			throw fault;
 
 		} catch (RuntimeException runtimeException) {
-
+			log.error("insertMedia", runtimeException);
 			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
 			fault.getFaultInfo().setCodice(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode());
 			fault.getFaultInfo().setMessaggio(UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getErrorCode()+ "_" + UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR").getDescription());
@@ -184,7 +184,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 
 		} catch (Exception app) {
 			
-	
+			log.error("insertMedia", app);
 
 			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
@@ -220,7 +220,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			resp = uploadMulticanaleService.listMedia(request);
 
 		} catch (ApplicationException e) {
-
+			log.error("listMedia", e);
 			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(fault.getFaultInfo().getCodice() + "_"+ fault.getFaultInfo().getMessaggio());
 			fault.getFaultInfo().setLayer(fault.getFaultInfo().getMessaggio());
@@ -228,7 +228,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			throw fault;
 
 		} catch (RuntimeException runtimeException) {
-
+			log.error("listMedia", runtimeException);
 			SystemFault fault = ExceptionToFaultConversionUtil.toFault(runtimeException);
 			fault.getFaultInfo().setCodice(
 					UploadMulticanaleErrorCodeEnums
@@ -248,7 +248,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			throw fault;
 
 		} catch (Exception app) {
-
+			log.error("listMedia", app);
 			IErrorCode er = UploadMulticanaleErrorCodeEnums
 					.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
@@ -301,7 +301,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			resp = uploadMulticanaleService.updateMedia(request);
 
 		} catch (ApplicationException e) {
-
+			log.error("updateMedia", e);
 			SystemFault fault = ExceptionToFaultConversionUtility.toSystemFault(e);
 			fault.getFaultInfo().setMessaggio(
 					fault.getFaultInfo().getCodice() + "_"
@@ -311,7 +311,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			throw fault;
 
 		} catch (RuntimeException runtimeException) {
-
+			log.error("updateMedia", runtimeException);
 			SystemFault fault = ExceptionToFaultConversionUtil
 					.toFault(runtimeException);
 			fault.getFaultInfo().setCodice(
@@ -327,7 +327,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			throw fault;
 
 		} catch (Exception e) {
-
+			log.error("updateMedia", e);
 			IErrorCode er = UploadMulticanaleErrorCodeEnums.valueOf("TCH_GENERIC_ERROR");
 			TechnicalException applicationException = new TechnicalException(er);
 			SystemFault fault = ExceptionToFaultConversionUtil.toSystemFault(applicationException);
@@ -360,6 +360,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 				response = nasService.deleteFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 				log.debug("deleteFileNAS: operation succesfully returned.");
 			} catch (TechnicalException e) {
+				log.error("deleteFileNAS", e);
 				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
 			}
 			
@@ -397,6 +398,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 					}
 				}
 			} catch (TechnicalException e) {
+				log.error("deleteOlderFilesNAS", e);
 				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteOlderFilesNAS: " + e.getMessage());
 			}
 			return result;
@@ -411,6 +413,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 				response = nasService.deleteFilePhisical(ecmFile.getSourcePath(), nameFile, ecmFile.getSource());
 				log.debug("deleteFileNASPhisical: operation succesfully returned.");
 			} catch (TechnicalException e) {
+				log.error("deleteFileNASPhisical", e);
 				technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "deleteFileNAS: " + e.getMessage());
 			}
 			
@@ -451,6 +454,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			log.debug("ECM TYPE RECUPERATO DA LISTMEDIA: "+response.getResult().getEcmType());
 			result = ecmService.removeFile(response.getResult().getEcmType(), response.getResult().getIdFileECM(), response.getResult().getContainerType());
 		} catch (Exception e) {
+			log.error("deleteFileECM", e);
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR, "deleteFileECM " + e.getMessage());
 		}
 		log.debug("deleteFileECM returns: " + result);
@@ -469,6 +473,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		try {
 			azureDTO = azureService.generateToken(request);
 		} catch (Exception e) {
+			log.error("getAzureToken", e);
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_AZURE_ERROR, "getAzureToken: " + e.getMessage());
 		}
 		azureResponse.setResult(azureDTO);
@@ -529,6 +534,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			moveDTO.setEcmFileId(idFileECM);
 			moveDTO.setFileId(ecmFile.getIdFile());
 		} catch (Exception e) {
+			log.error("moveFile", e);
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
 		response.setResult(moveDTO);
@@ -587,6 +593,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			moveDTO.setEcmFileId(idFileECM);
 			moveDTO.setFileId(ecmFile.getIdFile());
 		} catch (Exception e) {
+			log.error("moveFileWithMetadata", e);
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_GENERIC_ERROR, "moveFile: " + e.getMessage());
 		}
 		response.setResult(moveDTO);
