@@ -44,18 +44,30 @@
         <dependency>
             <groupId>it.bmed.arch.uploadMulticanale.be</groupId>
             <artifactId>arch-be-ejb-uploadMulticanale-livecycle-wsclient</artifactId>
+<<<<<<< HEAD
             <version>1.2.3-SNAPSHOT</version>
+=======
+            <version>1.2.2-RC-SNAPSHOT</version>
+>>>>>>> origin/release/1.2.2
 
         </dependency>
         <dependency>
             <groupId>it.bmed.arch.uploadMulticanale.be</groupId>
             <artifactId>arch-be-ejb-uploadMulticanale-sign-wsclient</artifactId>
+<<<<<<< HEAD
             <version>1.2.3-SNAPSHOT</version>
+=======
+            <version>1.2.2-RC-SNAPSHOT</version>
+>>>>>>> origin/release/1.2.2
         </dependency>
         <dependency>
             <groupId>it.bmed.arch.uploadMulticanale.be</groupId>
             <artifactId>arch-be-ejb-uploadMulticanale-sign-infocert-wsclient</artifactId>
+<<<<<<< HEAD
             <version>1.2.3-SNAPSHOT</version>
+=======
+            <version>1.2.2-RC-SNAPSHOT</version>
+>>>>>>> origin/release/1.2.2
         </dependency>
         <dependency>
             <groupId>com.microsoft.windowsazure</groupId>
