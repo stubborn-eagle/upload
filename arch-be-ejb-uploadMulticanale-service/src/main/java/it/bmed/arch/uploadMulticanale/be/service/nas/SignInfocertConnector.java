@@ -69,6 +69,11 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 		try {
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari, idDocumento);
+			if (!result.getCode().equals("0")) {
+				//<code>PKB-00001</code><documentoFirmato/><message>PKBoxException per firma11esima</message>
+				logger.error("firma Pades error: OUTPUT, code: " + result.getCode() + ",  message: " + result.getMessage());
+				throw new Exception("Firma Pades error");
+			}
 		} catch (Exception e) {
 			logger.error("firmaPades " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaPades error", e);
