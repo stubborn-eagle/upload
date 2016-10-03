@@ -55,6 +55,13 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 		try {
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaCADES(documentoDaFirmare, dominio, alias, pin, otp);
+			if (result == null) {
+				throw new Exception("Firma Cades null");
+			} else if (!result.getCode().equals("0")) {
+				//<code>PKB-00001</code><documentoFirmato/><message>PKBoxException per firma11esima</message> 
+				logger.error("firma Pades error: OUTPUT, code: " + result.getCode() + ",  message: " + result.getMessage());
+				throw new Exception("Firma Pades error");
+			}
 		} catch (Exception e) {
 			logger.error("firmaCades " + e.getMessage(), e);
 			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ECM_ERROR.getErrorCode(), "firmaCades error", e);
@@ -69,7 +76,9 @@ public class SignInfocertConnector implements InitializingBean, SignInfocertConn
 		try {
 			FirmaWS serviceSign = (FirmaWS) getWsClient(SignInfocertFactory.class);
 			result = serviceSign.firmaPADES(documentoDaFirmare, firmatari, idDocumento);
-			if (!result.getCode().equals("0")) {
+			if (result == null) {
+				throw new Exception("Firma Pades null");
+			} else if (!result.getCode().equals("0")) {
 				//<code>PKB-00001</code><documentoFirmato/><message>PKBoxException per firma11esima</message> 
 				logger.error("firma Pades error: OUTPUT, code: " + result.getCode() + ",  message: " + result.getMessage());
 				throw new Exception("Firma Pades error");
