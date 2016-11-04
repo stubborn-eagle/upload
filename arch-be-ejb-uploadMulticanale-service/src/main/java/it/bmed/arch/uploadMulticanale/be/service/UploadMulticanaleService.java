@@ -8,7 +8,7 @@ import it.bmed.asia.exception.TechnicalException;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 public interface UploadMulticanaleService {
 
 	ECMResponse insertMedia(ECMRequest r) throws TechnicalException, Exception;

@@ -174,9 +174,13 @@ public class OnBoardingServiceImpl implements InitializingBean, OnBoardingServic
 	@Override
 	public AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert(AddDocumentToDossierInfocertRequestType request, DataSource fileContent){
 		try {
+			logger.debug("#########	inizio OnBoardingServiceImpl.addDocumentToDossierInfocert  ##########");
+
             AddDocuments parameters = OnBoardingMapper.mapUMCRequestToWSRequest(request, fileContent, onBoardingServiceCompanyId);
             OnboardingService service = (OnboardingService) getWsClient(OnboardingServiceFactory.class);
 			service.addDocuments(parameters);
+			
+			logger.debug("#########	fine OnBoardingServiceImpl.addDocumentToDossierInfocert  ##########");
         } catch (OnboardingException e){
         	logger.error("OnBoardingServiceImpl addDocumentToDossierInfocert ", e);
   			throw new AsiaException(UploadMulticanaleErrorCodeEnums.TCH_ONBOARDING_ERROR.getErrorCode(), e.getFaultInfo() + " " + e.getMessage() , e);

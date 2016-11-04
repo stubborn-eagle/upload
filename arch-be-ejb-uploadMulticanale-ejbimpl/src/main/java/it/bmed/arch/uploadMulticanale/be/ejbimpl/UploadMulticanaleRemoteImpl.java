@@ -63,6 +63,8 @@ import java.util.UUID;
 import javax.activation.DataSource;
 import javax.ejb.Remote;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.interceptor.Interceptors;
 import javax.jws.HandlerChain;
 import javax.jws.WebParam;
@@ -885,6 +887,7 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
     	}
 
 	@Override
+	@TransactionAttribute(TransactionAttributeType.NEVER)
 	public String generatePDF(String xml, HeaderInputType string) throws SystemFault, RemoteException, Exception {
 		return generateLiveCyclePDF(xml, false);
     }
@@ -895,6 +898,8 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
     }
 	
 	private String generateLiveCyclePDF(String xml, boolean isDynamic) throws SystemFault, RemoteException, Exception {
+		log.debug("########## Inizio generateLiveCyclePDF");		
+		
 		String result = null;
 		byte[] fileContent = null;
 		if(!isDynamic){
@@ -909,22 +914,21 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 		}
 		ByteArrayInputStream resultStream = new ByteArrayInputStream(fileContent);
 		String fileName = UUID.randomUUID().toString();
-		try{
+		try{	
 			nasService.saveFile(resultStream, fileName, ecmSource, null);
 			
 			ECMRequest ecmRequestReg = new ECMRequest();
 			ecmRequestReg.setEcmFile(nasService.getEcmFileLiveCyclePdf(fileName, isDynamic));
 			
-			
 			ECMResponse ecmResponse = insertMedia(ecmRequestReg, new HeaderInputType());
 			result = ecmResponse.getResult().getIdFile().toString();
-
 		} catch (Exception e) {
 			technicalError(UploadMulticanaleErrorCodeEnums.TCH_NAS_ERROR, "generatePDF"+(isDynamic?"Dynamic ":" ") + e.getMessage());
 		}
+
+		log.debug("########## Fine generateLiveCyclePDF" );
 		
         return result;
-//        return refId+"generatePDF"+(isDynamic?"Dynamic":"");
 	}
 	
 	@Override
@@ -1086,6 +1090,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 	@Override
 	public AddDocumentToDossierInfocertResponseType addDocumentToDossierInfocert (AddDocumentToDossierInfocertRequestType request) throws SystemFault, RemoteException, Exception {
 		try{
+	        log.debug("### inizio: UploadMulticanaleRemoteImpl.addDocumentToDossierInfocert ###");
+			
+			log.debug("#####  document-class: ", request.getDocument().getArchivingPolicy().getDocumentClass());
+
             ECMRequest ecmRequest = new ECMRequest();
 			ECMFile ecmFile = new ECMFile();
 			ecmFile.setIdFile(request.getEcmFileId());
@@ -1096,7 +1104,10 @@ public class UploadMulticanaleRemoteImpl implements UploadMulticanaleRemote, Ini
 			byte[] buffer = nasService.loadFile(ecmResponse.getResult().getSourcePath(), nameFile, ecmResponse.getResult().getSource());
 			DataSource fileContent = new ByteArrayDataSource(buffer, "application/octet-stream");
 
-			return onBoardingService.addDocumentToDossierInfocert(request, fileContent);
+			AddDocumentToDossierInfocertResponseType response = onBoardingService.addDocumentToDossierInfocert(request, fileContent);
+			
+	        log.debug("### fine: UploadMulticanaleRemoteImpl.addDocumentToDossierInfocert ###");
+			return response;
 
 		} catch (Exception e){
 			log.error("addDocumentToDossierInfocert: " + e.getMessage(), e);
